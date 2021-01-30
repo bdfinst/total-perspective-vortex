@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ReactFlow, {
   Controls,
   ReactFlowProvider,
@@ -8,7 +8,7 @@ import ReactFlow, {
 
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
-import initialElements from './initial-elements'
+import initialElements from '../initial-elements'
 
 const nodeTypes = {
   stepNode: StepNode,
