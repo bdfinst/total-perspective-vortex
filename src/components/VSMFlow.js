@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import ReactFlow, {
   Controls,
+  MiniMap,
   ReactFlowProvider,
   addEdge,
   removeElements,
@@ -44,7 +45,8 @@ const VSMFlow = () => {
       id: getId(),
       type,
       position,
-      data: { label: `${type} node` },
+      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
+      style: { border: '1px solid #777', padding: 10 },
     }
 
     setElements((es) => es.concat(newNode))
@@ -64,6 +66,20 @@ const VSMFlow = () => {
             nodeTypes={nodeTypes}
           >
             <Controls />
+            <MiniMap
+              nodeColor={(node) => {
+                switch (node.type) {
+                  case 'input':
+                    return 'red'
+                  case 'default':
+                    return '#00ff00'
+                  case 'output':
+                    return 'rgb(0,0,255)'
+                  default:
+                    return '#eee'
+                }
+              }}
+            />
           </ReactFlow>
         </div>
         <Sidebar />

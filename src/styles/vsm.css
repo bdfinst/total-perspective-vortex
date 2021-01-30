@@ -1,7 +1,8 @@
 .vsmflow {
   flex-direction: column;
   display: flex;
-  height: 100%;
+  height: 600px;
+  background: rgb(163, 171, 230);
 }
 
 .vsmflow aside {
