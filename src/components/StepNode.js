@@ -28,12 +28,12 @@ export default memo(({ data }) => {
         style={{ background: '#555' }}
         onConnect={(params) => console.log('handle onConnect', params)}
       />
-      <div class="node-container">
-        <div class="row">
-          <div class="col-25">
+      <div className="node-container">
+        <div className="row">
+          <div className="col-25">
             <label>Process Time:</label>
           </div>
-          <div class="col-75">
+          <div className="col-75">
             <input
               type="number"
               min="0"
@@ -43,11 +43,11 @@ export default memo(({ data }) => {
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-25">
+        <div className="row">
+          <div className="col-25">
             <label>Total Time:</label>
           </div>
-          <div class="col-75">
+          <div className="col-75">
             <input
               type="number"
               min="0"
@@ -57,11 +57,11 @@ export default memo(({ data }) => {
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-25">
+        <div className="row">
+          <div className="col-25">
             <label>% C/A:</label>
           </div>
-          <div class="col-75">
+          <div className="col-75">
             <input
               type="number"
               min="0"

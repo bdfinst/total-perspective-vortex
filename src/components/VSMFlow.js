@@ -15,13 +15,28 @@ const nodeTypes = {
   stepNode: StepNode,
 }
 
-let id = 0
-const getId = () => `vsmnode_${id++}`
+let maxNodeId = 0
+let maxEdgeId = 0
+const getNodeId = () => `vsmnode_${maxNodeId++}`
+const getEdgeId = () => `vsmedge_${maxEdgeId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(initialElements)
-  const onConnect = (params) => setElements((els) => addEdge(params, els))
+
+  const onConnect = (params) => {
+    const found = elements.find((element) => {
+      return (
+        element.source === params.source && element.target === params.target
+      )
+    })
+    if (!found) {
+      console.log(params)
+
+      setElements((els) => addEdge(params, els))
+    }
+  }
+
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els))
 
@@ -33,6 +48,21 @@ const VSMFlow = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
+  const autoConnect = (newNode) => {
+    const nodes = elements.filter(
+      (el) => el.hasOwnProperty('type') && el.type === 'stepNode',
+    )
+    const source = nodes[nodes.length - 1].id
+
+    const newEdge = {
+      id: getEdgeId(),
+      source,
+      target: newNode.id,
+      animated: true,
+    }
+    setElements((element) => element.concat(newEdge))
+  }
+
   const onDrop = (event) => {
     event.preventDefault()
 
@@ -42,14 +72,18 @@ const VSMFlow = () => {
       y: event.clientY - 40,
     })
     const newNode = {
-      id: getId(),
+      id: getNodeId(),
       type,
       position,
       data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
       style: { border: '1px solid #777', padding: 10 },
     }
 
-    setElements((es) => es.concat(newNode))
+    setElements((element) => element.concat(newNode))
+    autoConnect(newNode)
+
+    console.log(elements)
+    console.log(elements.length)
   }
 
   return (

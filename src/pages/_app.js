@@ -4,7 +4,7 @@ import AppContext from '../components/AppContext'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AppContext.Provider>
+    <AppContext.Provider value={{}}>
       <Component {...pageProps} />
     </AppContext.Provider>
   )
