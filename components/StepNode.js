@@ -1,5 +1,4 @@
 import React, { memo, useState } from 'react'
-
 import { Handle } from 'react-flow-renderer'
 
 export default memo(({ data }) => {
@@ -17,33 +16,9 @@ export default memo(({ data }) => {
     return [value, input]
   }
 
-  const [actorCount, actorCountInput] = useInput({
-    type: 'number',
-    data: data.processTime,
-    min: '0',
-    max: '9999',
-  })
-
-  const [processTime, processTimeInput] = useInput({
-    type: 'number',
-    data: data.processTime,
-    min: '0',
-    max: '9999',
-  })
-
-  const [cycleTime, cycleTimeInput] = useInput({
-    type: 'number',
-    data: data.cycleTime,
-    min: '0',
-    max: '9999',
-  })
-
-  const [pctCompleteAccurate, pctCompleteAccurateInput] = useInput({
-    type: 'number',
-    data: data.pctCompleteAccurate,
-    min: '0',
-    max: '100',
-  })
+  const [processTime, setProcessTime] = useState(0)
+  const [cycleTime, setCycleTime] = useState(0)
+  const [pctCA, setPctCA] = useState(100)
 
   return (
     <>
@@ -53,31 +28,52 @@ export default memo(({ data }) => {
         style={{ background: '#555' }}
         onConnect={(params) => console.log('handle onConnect', params)}
       />
-      <table>
-        <tr>
-          <td>Actors:</td>
-          <td>{actorCountInput}</td>
-        </tr>
-        <tr>
-          <td>Process Time:</td>
-          <td>{processTimeInput}</td>
-        </tr>
-        <tr>
-          <td>Total Time:</td>
-          <td>{cycleTimeInput}</td>
-        </tr>
-        <tr>
-          <td>%C/A:</td>
-          <td>{pctCompleteAccurateInput}%</td>
-        </tr>
-      </table>
+      <div class="node-container">
+        <div class="row">
+          <div class="col-25">
+            <label>Process Time:</label>
+          </div>
+          <div class="col-75">
+            <input
+              type="number"
+              min="0"
+              max="9999"
+              value={processTime}
+              onChange={(e) => setProcessTime(e.target.value)}
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label>Total Time:</label>
+          </div>
+          <div class="col-75">
+            <input
+              type="number"
+              min="0"
+              max="9999"
+              value={cycleTime}
+              onChange={(e) => setCycleTime(e.target.value)}
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label>% C/A:</label>
+          </div>
+          <div class="col-75">
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={pctCA}
+              onChange={(e) => setPctCA(e.target.value)}
+            />
+            %
+          </div>
+        </div>
+      </div>
 
-      {/* <input
-        className="nodrag"
-        type="color"
-        onChange={data.onChange}
-        defaultValue={data.color}
-      /> */}
       <Handle
         type="source"
         position="right"
