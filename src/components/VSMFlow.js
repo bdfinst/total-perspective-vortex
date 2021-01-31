@@ -8,6 +8,7 @@ import ReactFlow, {
 } from 'react-flow-renderer'
 
 import { buildNode } from '../utils/elementFactory'
+import { useVSMDispatch, useVSMState } from '../components/AppContext'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
 import initialElements from '../initial-elements'
@@ -22,16 +23,17 @@ const getNodeId = () => `node_${maxNodeId++}`
 const getEdgeId = () => `edge_${maxEdgeId++}`
 
 const VSMFlow = () => {
+  const { elements } = useVSMState()
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [elements, setElements] = useState(initialElements)
+  const [localElements, setElements] = useState(elements)
 
   useEffect(() => {
     console.log(`Elements: `)
-    console.log(elements)
+    console.log(localElements)
   })
 
   const onConnect = (params) => {
-    const found = elements.find((element) => {
+    const found = localElements.find((element) => {
       return (
         element.source === params.source && element.target === params.target
       )
@@ -53,7 +55,7 @@ const VSMFlow = () => {
   }
 
   const autoConnect = (newNode) => {
-    const nodes = elements.filter(
+    const nodes = localElements.filter(
       (el) => el.hasOwnProperty('type') && el.type === 'stepNode',
     )
     const source = nodes[nodes.length - 1].id
@@ -88,7 +90,7 @@ const VSMFlow = () => {
       <ReactFlowProvider>
         <div className="reactflow-wrapper">
           <ReactFlow
-            elements={elements}
+            elements={localElements}
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}

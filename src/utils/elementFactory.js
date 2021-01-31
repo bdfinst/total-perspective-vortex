@@ -6,7 +6,7 @@ export const buildNode = (id, type, position) => {
   }
   const defaultStyle = { border: '1px solid #777', padding: 10 }
 
-  if (id === undefined || type === undefined || position === undefined) {
+  if (type === undefined || position === undefined) {
     throw new Error(
       `Required property undefined in buildNode: id: ${id}, type: ${type}, position: ${position}`,
     )
@@ -15,6 +15,7 @@ export const buildNode = (id, type, position) => {
     id,
     type,
     position,
+    elType: 'node',
     data: defaultValues,
     style: defaultStyle,
   }

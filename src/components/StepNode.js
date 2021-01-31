@@ -22,10 +22,8 @@ const StepNode = (props) => {
 
     setNode((prevNode) => ({
       ...prevNode,
-      data: { ...prevNode.data, [name]: value },
+      data: { ...prevNode.data, [name]: Number(value) },
     }))
-    console.log('NODE')
-    console.log(`${node.id} : ${name} : ${value}`)
   }
 
   return (
@@ -52,7 +50,7 @@ const StepNode = (props) => {
               name="processTime"
               onChange={handleChange}
               onBlur={(e) => {
-                dispatch({ type: 'UPDATE', node: node })
+                dispatch({ type: 'UPDATE_NODE', node: node })
               }}
             />
           </div>
@@ -70,7 +68,7 @@ const StepNode = (props) => {
               name="cycleTime"
               onChange={handleCycleTimeChange}
               onBlur={(e) => {
-                dispatch({ type: 'UPDATE', node: node })
+                dispatch({ type: 'UPDATE_NODE', node: node })
               }}
             />
           </div>
@@ -88,7 +86,7 @@ const StepNode = (props) => {
               name="pctCompleteAccurate"
               onChange={handleChange}
               onBlur={(e) => {
-                dispatch({ type: 'UPDATE', node: node })
+                dispatch({ type: 'UPDATE_NODE', node: node })
               }}
             />
             %

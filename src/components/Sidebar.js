@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useVSMState } from '../components/AppContext'
+import { isNode, useVSMState } from '../components/AppContext'
 
 const flowEfficiency = (processTime, cycleTime) => {
   if (cycleTime === 0 || isNaN(cycleTime)) {
@@ -15,20 +15,22 @@ const flowEfficiency = (processTime, cycleTime) => {
 }
 const Totals = (input) => {
   const elements = input.data || []
+  let totals = {
+    processTime: 0,
+    cycleTime: 0,
+    pctCompleteAccurate: 0,
+  }
 
-  const totals = elements
-    .filter((el) => el.data)
-    .reduce((a, b) => ({
-      processTime: Number(a.data.processTime) + Number(b.data.processTime),
-      cycleTime: Number(a.data.cycleTime) + Number(b.data.cycleTime),
-      pctCompleteAccurate:
-        (Number(a.data.pctCompleteAccurate) +
-          Number(b.data.pctCompleteAccurate)) /
-        2,
-    }))
-
-  console.log(elements)
-  console.log(totals)
+  if (elements.length > 0) {
+    totals = elements
+      .filter((el) => isNode(el))
+      .reduce((a, b) => ({
+        processTime: a.data.processTime + b.data.processTime,
+        cycleTime: a.data.cycleTime + b.data.cycleTime,
+        pctCompleteAccurate:
+          (a.data.pctCompleteAccurate + b.data.pctCompleteAccurate) / 2,
+      }))
+  }
 
   return (
     <>
@@ -44,8 +46,6 @@ const Totals = (input) => {
 
 const Sidebar = () => {
   const { elements } = useVSMState()
-
-  console.log(elements)
 
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType)
