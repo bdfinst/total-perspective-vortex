@@ -9,17 +9,7 @@
       "prettier"
     ],
     "rules": {
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".js",
-            ".jsx"
-          ]
-        }
-      ],
-      "react/prop-types": 0,
-      "no-underscore-dangle": 0,
+      "func-style": ["error", "expression"],
       "import/imports-first": [
         "error",
         "absolute-first"
@@ -30,7 +20,19 @@
         {
           "devDependencies": true
         }
-      ]
+      ],
+      "no-underscore-dangle": 0,
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ],
+      "react/prop-types": 0
+
     },
     "globals": {
       "window": true,

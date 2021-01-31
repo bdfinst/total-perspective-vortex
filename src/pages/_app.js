@@ -1,12 +1,12 @@
 import '../styles/globals.css'
 import '../styles/vsm.css'
-import AppContext from '../components/AppContext'
+import { VSMProvider } from '../components/AppContext'
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
   return (
-    <AppContext.Provider value={{}}>
+    <VSMProvider>
       <Component {...pageProps} />
-    </AppContext.Provider>
+    </VSMProvider>
   )
 }
 

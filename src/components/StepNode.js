@@ -1,24 +1,22 @@
 import React, { memo, useState } from 'react'
 import { Handle } from 'react-flow-renderer'
 
-export default memo(({ data }) => {
-  const useInput = ({ type, data, min, max }) => {
-    const [value, setValue] = useState(data)
-    const input = (
-      <input
-        value={value}
-        min={min}
-        max={max}
-        onChange={(e) => setValue(e.target.value)}
-        type={type}
-      />
-    )
-    return [value, input]
-  }
+import { useVSMDispatch, useVSMState } from '../components/AppContext'
 
-  const [processTime, setProcessTime] = useState(0)
-  const [cycleTime, setCycleTime] = useState(0)
-  const [pctCA, setPctCA] = useState(100)
+const StepNode = (props) => {
+  const dispatch = useVSMDispatch()
+  const [node, setNode] = useState(props)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+
+    setNode((prevNode) => ({
+      ...prevNode,
+      data: { ...prevNode.data, [name]: value },
+    }))
+    console.log('NODE')
+    console.log(`${node.id} : ${name} : ${value}`)
+  }
 
   return (
     <>
@@ -26,7 +24,9 @@ export default memo(({ data }) => {
         type="target"
         position="left"
         style={{ background: '#555' }}
-        onConnect={(params) => console.log('handle onConnect', params)}
+        onConnect={(params) => {
+          console.log('handle onConnect', params)
+        }}
       />
       <div className="node-container">
         <div className="row">
@@ -38,8 +38,12 @@ export default memo(({ data }) => {
               type="number"
               min="0"
               max="9999"
-              value={processTime}
-              onChange={(e) => setProcessTime(e.target.value)}
+              value={node.data.processTime}
+              name="processTime"
+              onChange={handleChange}
+              onBlur={(e) => {
+                dispatch({ type: 'UPDATE', node: node })
+              }}
             />
           </div>
         </div>
@@ -52,8 +56,8 @@ export default memo(({ data }) => {
               type="number"
               min="0"
               max="9999"
-              value={cycleTime}
-              onChange={(e) => setCycleTime(e.target.value)}
+              value={node.data.cycleTime || 0}
+              onChange={(e) => console.log(e.target.value)}
             />
           </div>
         </div>
@@ -66,8 +70,8 @@ export default memo(({ data }) => {
               type="number"
               min="0"
               max="100"
-              value={pctCA}
-              onChange={(e) => setPctCA(e.target.value)}
+              value={node.data.pctCompleteAccurate || 100}
+              onChange={(e) => console.log(e.target.value)}
             />
             %
           </div>
@@ -82,4 +86,6 @@ export default memo(({ data }) => {
       />
     </>
   )
-})
+}
+
+export default StepNode

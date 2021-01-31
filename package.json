@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "format:check": "prettier --list-different './pages/**/*.js*' './styles/**/*.css'",
-    "format:fix": "prettier --write './pages/**/*.js*' './styles/**/*.css'",
-    "lint:check": "eslint pages",
-    "lint:fix": "eslint pages --fix",
+    "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
+    "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
+    "lint:check": "eslint src",
+    "lint:fix": "eslint src --fix",
     "lint": "npm run format:fix && npm run lint:fix"
   },
   "dependencies": {
