@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
+    "flow": "flow",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
     "lint:check": "eslint src",
@@ -20,7 +21,10 @@
     "react-flow-renderer": "^8.7.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
@@ -39,6 +43,7 @@
     "eslint-plugin-react": "^7.18.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-coverage-report": "^1.1.0",
+    "flow-bin": "^0.143.1",
     "husky": "^4.2.0",
     "identity-obj-proxy": "^3.0.0",
     "import-sort-style-absolute": "^1.0.1",
@@ -53,7 +58,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && git add . && npm run lint:check && npm run format:check"
+      "pre-commit": "npm run lint && git add . && npm run lint:check && npm run format:check && npm run flow && npm test"
     }
   },
   "importSort": {

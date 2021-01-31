@@ -10,6 +10,7 @@ export const MapStateContext = createContext()
 export const MapDispatchContext = createContext()
 
 const initState = {
+  lastElementId: 0,
   elements: [
     {
       id: '1',
@@ -34,12 +35,32 @@ const update = (state, node) => {
   console.log(node)
   console.log(state)
 
+  const replaceData = (elements, node) => {
+    return elements.map((el) => {
+      return el.id === node.id ? { ...el, data: node.data } : el
+    })
+  }
+
   const newState = {
     ...state,
-    elements: state.elements.map((el) => {
-      return el.id === node.id ? { ...el, data: node.data } : el
-    }),
+    elements: replaceData(state.elements, node),
   }
+
+  // const newState = {
+  //   ...state,
+  //   elements: state.elements.map((el) => {
+  //     return el.id === node.id ? { ...el, data: node.data } : el
+  //   }),
+  // }
+  console.log(newState)
+
+  return newState
+}
+
+const create = (state, node) => {
+  state.lastElementId++
+  const newState = state.elements.concat({ ...node, id: state.lastElementId })
+
   console.log(newState)
 
   return newState
@@ -48,7 +69,7 @@ const update = (state, node) => {
 const vsmReducer = (state, action) => {
   switch (action.type) {
     case 'CREATE': {
-      return state.elements.concat(action.node)
+      return create(state, action.node)
     }
     case 'DELETE': {
       return state.elements.filter((el) => el.id !== action.node.id)

@@ -7,6 +7,7 @@ import ReactFlow, {
   removeElements,
 } from 'react-flow-renderer'
 
+import { buildNode } from '../utils/elementFactory'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
 import initialElements from '../initial-elements'
@@ -74,13 +75,9 @@ const VSMFlow = () => {
       x: event.clientX,
       y: event.clientY - 40,
     })
-    const newNode = {
-      id: getNodeId(),
-      type,
-      position,
-      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-      style: { border: '1px solid #777', padding: 10 },
-    }
+    buildNode(getNodeId(), type, position)
+
+    const newNode = buildNode(getNodeId(), type, position)
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)
