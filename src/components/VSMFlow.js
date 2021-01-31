@@ -7,7 +7,6 @@ import ReactFlow, {
   removeElements,
 } from 'react-flow-renderer'
 
-import { useVSMDispatch, useVSMState } from '../components/AppContext'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
 import initialElements from '../initial-elements'

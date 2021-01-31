@@ -1,7 +1,7 @@
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import { Handle } from 'react-flow-renderer'
 
-import { useVSMDispatch, useVSMState } from '../components/AppContext'
+import { useVSMDispatch } from '../components/AppContext'
 
 const StepNode = (props) => {
   const dispatch = useVSMDispatch()
