@@ -4,10 +4,10 @@
  * https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/#usecontext
  */
 
-import React from 'react'
+import React, { createContext, useContext, useReducer } from 'react'
 
-export const MapStateContext = React.createContext()
-export const MapDispatchContext = React.createContext()
+export const MapStateContext = createContext()
+export const MapDispatchContext = createContext()
 
 const initState = {
   elements: [
@@ -63,7 +63,7 @@ const vsmReducer = (state, action) => {
 }
 
 const VSMProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(vsmReducer, initState)
+  const [state, dispatch] = useReducer(vsmReducer, initState)
   return (
     <MapStateContext.Provider value={state}>
       <MapDispatchContext.Provider value={dispatch}>
@@ -74,7 +74,7 @@ const VSMProvider = ({ children }) => {
 }
 
 const useVSMState = () => {
-  const context = React.useContext(MapStateContext)
+  const context = useContext(MapStateContext)
   if (context === undefined) {
     throw new Error('useCountState must be used within a CountProvider')
   }
@@ -82,7 +82,7 @@ const useVSMState = () => {
 }
 
 const useVSMDispatch = () => {
-  const context = React.useContext(MapDispatchContext)
+  const context = useContext(MapDispatchContext)
   if (context === undefined) {
     throw new Error('useCountDispatch must be used within a CountProvider')
   }

@@ -7,6 +7,16 @@ const StepNode = (props) => {
   const dispatch = useVSMDispatch()
   const [node, setNode] = useState(props)
 
+  const handleCycleTimeChange = (e) => {
+    const { value } = e.target
+
+    if (value < node.data.processTime) {
+      e.target.value = node.data.processTime
+    }
+
+    handleChange(e)
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
 
@@ -56,8 +66,12 @@ const StepNode = (props) => {
               type="number"
               min="0"
               max="9999"
-              value={node.data.cycleTime || 0}
-              onChange={(e) => console.log(e.target.value)}
+              value={node.data.cycleTime}
+              name="cycleTime"
+              onChange={handleCycleTimeChange}
+              onBlur={(e) => {
+                dispatch({ type: 'UPDATE', node: node })
+              }}
             />
           </div>
         </div>
@@ -70,8 +84,12 @@ const StepNode = (props) => {
               type="number"
               min="0"
               max="100"
-              value={node.data.pctCompleteAccurate || 100}
-              onChange={(e) => console.log(e.target.value)}
+              value={node.data.pctCompleteAccurate}
+              name="pctCompleteAccurate"
+              onChange={handleChange}
+              onBlur={(e) => {
+                dispatch({ type: 'UPDATE', node: node })
+              }}
             />
             %
           </div>
