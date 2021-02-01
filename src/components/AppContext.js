@@ -10,6 +10,7 @@ export const MapStateContext = createContext()
 export const MapDispatchContext = createContext()
 
 const initState = {
+  lastId: 0,
   elements: [
     {
       id: '1',
@@ -58,6 +59,9 @@ const vsmReducer = (state, action) => {
     }
     case 'SYNC': {
       return { ...state, elements: action.elements }
+    }
+    case 'INC': {
+      return { ...state, lastId: state.lastId + 1 }
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
