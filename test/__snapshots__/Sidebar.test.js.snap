@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sidebar should take a snapshot 1`] = `
+<DocumentFragment>
+  <aside>
+    <div
+      class="description"
+    >
+      Drag nodes to the pane on the right.
+    </div>
+    <div
+      class="vsmnode input"
+      draggable="true"
+    >
+      Step Node
+    </div>
+    <div
+      data-testid="processTime"
+    >
+      Process Time: 0
+    </div>
+    <div
+      data-testid="totalTime"
+    >
+      Total Time: 0
+    </div>
+    <div
+      data-testid="pctca"
+    >
+      Average C/A: 100%
+    </div>
+    <div
+      data-testid="flow"
+    >
+      Flow Efficiency:0%
+    </div>
+  </aside>
+</DocumentFragment>
+`;

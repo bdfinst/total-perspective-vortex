@@ -80,7 +80,7 @@ const VSMProvider = ({ children }) => {
 const useVSMState = () => {
   const context = useContext(MapStateContext)
   if (context === undefined) {
-    throw new Error('useCountState must be used within a CountProvider')
+    throw new Error('useVSMState must be used within a VSMProvider')
   }
   return context
 }
@@ -88,8 +88,13 @@ const useVSMState = () => {
 const useVSMDispatch = () => {
   const context = useContext(MapDispatchContext)
   if (context === undefined) {
-    throw new Error('useCountDispatch must be used within a CountProvider')
+    throw new Error('useVSMDispatch must be used within a VSMProvider')
   }
   return context
 }
-export { VSMProvider, useVSMState, useVSMDispatch }
+
+const useValueStream = () => {
+  return [useVSMState(), useVSMDispatch()]
+}
+
+export { VSMProvider, useVSMState, useVSMDispatch, useValueStream }

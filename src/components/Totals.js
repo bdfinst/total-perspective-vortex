@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { flowEfficiency } from '../utils/utilities'
-import { useVSMState } from './AppContext'
+import { useVSMState } from '../reactContext'
 
 const addValues = (a, b) => Number(a) + Number(b)
 
@@ -22,10 +22,12 @@ const Totals = () => {
 
   return (
     <>
-      <div>Process Time: {totals.processTime}</div>
-      <div>Total Time: {totals.cycleTime}</div>
-      <div>Average C/A: {Math.round(totals.pctCompleteAccurate)}%</div>
-      <div>
+      <div data-testid="processTime">Process Time: {totals.processTime}</div>
+      <div data-testid="totalTime">Total Time: {totals.cycleTime}</div>
+      <div data-testid="pctca">
+        Average C/A: {Math.round(totals.pctCompleteAccurate)}%
+      </div>
+      <div data-testid="flow">
         Flow Efficiency:{flowEfficiency(totals.processTime, totals.cycleTime)}%
       </div>
     </>
