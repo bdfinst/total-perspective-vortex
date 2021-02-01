@@ -14,6 +14,7 @@ const buildNode = (id, position) => {
   return {
     id,
     type: 'stepNode',
+    elType: 'NODE',
     data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
     style: { border: '1px solid #777', padding: 8 },
     position,
@@ -25,6 +26,7 @@ const buildEdge = (id, source, target) => {
     id,
     source,
     target,
+    elType: 'EDGE',
     animated: true,
     style: { stroke: 'red' },
     arrowHeadType: 'arrowclosed',

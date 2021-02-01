@@ -8,8 +8,7 @@ import ReactFlow, {
 } from 'react-flow-renderer'
 
 import { buildEdge, buildNode } from '../utils/utilities'
-import { initialElements } from '../initial-elements'
-import { useVSMDispatch } from '../components/AppContext'
+import { useValueStream } from '../reactContext'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
 
@@ -17,21 +16,25 @@ const nodeTypes = {
   stepNode: StepNode,
 }
 
-let maxNodeId = 0
 let maxEdgeId = 0
-const getNodeId = () => `node_${maxNodeId++}`
 const getEdgeId = () => `edge_${maxEdgeId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [elements, setElements] = useState(initialElements)
-  const dispatch = useVSMDispatch()
+  const { state, dispatch, increment, addNode } = useValueStream()
+
+  const [elements, setElements] = useState(state.elements)
+  const [elementId, setElementId] = useState(0)
+
+  const getNodeId = () => {
+    setElementId(elementId + 1)
+
+    return `node_${elementId}`
+  }
 
   useEffect(() => {
-    // console.log(`Elements: `)
-    // console.log(elements)
     dispatch({ type: 'SYNC', elements: elements })
-  })
+  }, [dispatch, elements])
 
   const onConnect = (params) => {
     const found = elements.find((element) => {
@@ -74,7 +77,12 @@ const VSMFlow = () => {
       x: event.clientX,
       y: event.clientY - 40,
     })
-    const newNode = buildNode(getNodeId(), position)
+
+    const id = getNodeId()
+    console.log(`ID: ${id}`)
+
+    const newNode = buildNode(id, position)
+    addNode(newNode)
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)

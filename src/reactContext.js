@@ -27,11 +27,19 @@ const valueStream = {
 }
 
 const create = (state, newNode) => {
+  console.log('CREATE')
+  console.log(newNode)
   return { ...valueStream, elements: state.elements.concat(newNode) }
 }
 
 const updateNode = (state, nodeId, data) => {
   const rule = { $and: ['processTime', 'cycleTime', 'pctCompleteAccurate'] }
+
+  console.log('updateNode')
+  console.log(state)
+  console.log(nodeId)
+  console.log(data)
+
   if (validateKeys(rule, data)) {
     return {
       ...state,
