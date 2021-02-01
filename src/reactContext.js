@@ -2,99 +2,111 @@
  * https://kentcdodds.com/blog/how-to-use-react-context-effectively
  * https://kentcdodds.com/blog/how-to-optimize-your-context-value
  * https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/#usecontext
+ * https://kentcdodds.com/blog/application-state-management-with-react
  */
 
-import React, { createContext, useContext, useReducer } from 'react'
+import React from 'react'
+import validateKeys from 'object-key-validator'
 
-export const MapStateContext = createContext()
-export const MapDispatchContext = createContext()
+import { buildEdge, buildNode } from './utils/utilities'
 
-const initState = {
-  lastId: 0,
-  elements: [
-    {
-      id: '1',
-      type: 'stepNode',
-      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-      style: { border: '1px solid #777', padding: 10 },
-      position: { x: 100, y: 150 },
-    },
-    {
-      id: '2',
-      type: 'stepNode',
-      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-      style: { border: '1px solid #777', padding: 10 },
-      position: { x: 450, y: 150 },
-    },
-
-    { id: 'e1-2', source: '1', target: '2', animated: true },
-  ],
+const init = () => {
+  const elements = [
+    buildNode('1', { x: 100, y: 150 }),
+    buildNode('2', { x: 350, y: 150 }),
+    buildEdge('e1', '1', '2'),
+  ]
+  return elements
 }
 
-const update = (state, node) => {
-  const newState = {
-    ...state,
-    elements: state.elements.map((el) => {
-      return el.id === node.id ? { ...el, data: node.data } : el
-    }),
+const CountContext = React.createContext()
+
+const valueStream = {
+  lastElementId: 0,
+  elements: init(),
+}
+
+const create = (state, newNode) => {
+  return { ...valueStream, elements: state.elements.concat(newNode) }
+}
+
+const updateNode = (state, nodeId, data) => {
+  const rule = { $and: ['processTime', 'cycleTime', 'pctCompleteAccurate'] }
+  if (validateKeys(rule, data)) {
+    return {
+      ...state,
+      elements: state.elements.map((el) => {
+        return el.id === nodeId ? { ...el, data: data } : el
+      }),
+    }
+  } else {
+    throw new Error(
+      `Invalid object sent to updateNode: ${JSON.stringify(data)}`,
+    )
   }
-
-  return newState
 }
 
-const vsmReducer = (state, action) => {
+const updateEdge = (state, data) => {
+  console.log(data)
+}
+
+const valueStreamReducer = (state, action) => {
   switch (action.type) {
+    case 'INCREMENT': {
+      return { ...valueStream, lastElementId: state.lastElementId + 1 }
+    }
     case 'CREATE': {
-      return state.elements.concat(action.node)
+      return create(state, action.data)
     }
-    case 'DELETE': {
-      return state.elements.filter((el) => el.id !== action.node.id)
+    case 'UPDATE_NODE': {
+      return updateNode(state, action.nodeId, action.data)
     }
-    case 'UPDATE': {
-      return update(state, action.node)
+    case 'UPDATE_EDGE': {
+      return updateEdge(state, action.data)
     }
     case 'SYNC': {
-      return { ...state, elements: action.elements }
-    }
-    case 'INC': {
-      return { ...state, lastId: state.lastId + 1 }
+      return { ...valueStream, elements: action.elements }
     }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
+      throw new Error(`Unsupported action type: ${action.type}`)
     }
   }
 }
 
-const VSMProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(vsmReducer, initState)
+const ValueStreamProvider = (props) => {
+  const [state, dispatch] = React.useReducer(valueStreamReducer, valueStream)
 
-  return (
-    <MapStateContext.Provider value={state}>
-      <MapDispatchContext.Provider value={dispatch}>
-        {children}
-      </MapDispatchContext.Provider>
-    </MapStateContext.Provider>
-  )
-}
+  const value = React.useMemo(() => [state, dispatch], [state])
 
-const useVSMState = () => {
-  const context = useContext(MapStateContext)
-  if (context === undefined) {
-    throw new Error('useVSMState must be used within a VSMProvider')
-  }
-  return context
-}
-
-const useVSMDispatch = () => {
-  const context = useContext(MapDispatchContext)
-  if (context === undefined) {
-    throw new Error('useVSMDispatch must be used within a VSMProvider')
-  }
-  return context
+  return <CountContext.Provider value={value} {...props} />
 }
 
 const useValueStream = () => {
-  return [useVSMState(), useVSMDispatch()]
+  const context = React.useContext(CountContext)
+  if (!context) {
+    throw new Error(`useValueStream must be used within a ValueStreamProvider`)
+  }
+  const [state, dispatch] = context
+
+  const increment = () => dispatch({ type: 'INCREMENT' })
+  const addNode = (data) => dispatch({ type: 'CREATE', data })
+  const changeNodeValues = (
+    nodeId,
+    { processTime, cycleTime, pctCompleteAccurate },
+  ) =>
+    dispatch({
+      type: 'UPDATE_NODE',
+      nodeId,
+      data: { processTime, cycleTime, pctCompleteAccurate },
+    })
+
+  return {
+    state,
+    dispatch,
+    increment,
+    addNode,
+    changeNodeValues,
+  }
 }
 
-export { VSMProvider, useVSMState, useVSMDispatch, useValueStream }
+export { ValueStreamProvider, useValueStream }

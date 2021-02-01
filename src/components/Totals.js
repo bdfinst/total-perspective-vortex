@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { flowEfficiency } from '../utils/utilities'
-import { useVSMState } from '../reactContext'
+import { useValueStream } from '../reactContext'
 
 const addValues = (a, b) => Number(a) + Number(b)
 
 const Totals = () => {
-  const { elements } = useVSMState()
+  const { state } = useValueStream()
 
-  const totals = elements
+  const totals = state.elements
     .filter((el) => el.hasOwnProperty('data'))
     .map((el) => el.data)
     .reduce((acc, val) => {
