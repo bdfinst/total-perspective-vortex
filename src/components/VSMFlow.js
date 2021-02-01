@@ -7,7 +7,6 @@ import ReactFlow, {
   removeElements,
 } from 'react-flow-renderer'
 
-import { buildNode } from '../utils/elementFactory'
 import { useVSMDispatch, useVSMState } from '../components/AppContext'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
@@ -23,17 +22,16 @@ const getNodeId = () => `node_${maxNodeId++}`
 const getEdgeId = () => `edge_${maxEdgeId++}`
 
 const VSMFlow = () => {
-  const { elements } = useVSMState()
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [localElements, setElements] = useState(elements)
+  const [elements, setElements] = useState(initialElements)
 
   useEffect(() => {
     console.log(`Elements: `)
-    console.log(localElements)
+    console.log(elements)
   })
 
   const onConnect = (params) => {
-    const found = localElements.find((element) => {
+    const found = elements.find((element) => {
       return (
         element.source === params.source && element.target === params.target
       )
@@ -55,7 +53,7 @@ const VSMFlow = () => {
   }
 
   const autoConnect = (newNode) => {
-    const nodes = localElements.filter(
+    const nodes = elements.filter(
       (el) => el.hasOwnProperty('type') && el.type === 'stepNode',
     )
     const source = nodes[nodes.length - 1].id
@@ -77,9 +75,13 @@ const VSMFlow = () => {
       x: event.clientX,
       y: event.clientY - 40,
     })
-    buildNode(getNodeId(), type, position)
-
-    const newNode = buildNode(getNodeId(), type, position)
+    const newNode = {
+      id: getNodeId(),
+      type,
+      position,
+      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
+      style: { border: '1px solid #777', padding: 10 },
+    }
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)
@@ -90,7 +92,7 @@ const VSMFlow = () => {
       <ReactFlowProvider>
         <div className="reactflow-wrapper">
           <ReactFlow
-            elements={localElements}
+            elements={elements}
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onLoad={onLoad}
