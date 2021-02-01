@@ -8,29 +8,36 @@ const StepNode = (props) => {
   const dispatch = useVSMDispatch()
   const [node, setNode] = useState(props)
 
+  const updateNode = (id, value) => {
+    setNode((prevNode) => ({
+      ...prevNode,
+      data: { ...prevNode.data, [id]: value },
+    }))
+  }
   const handleCycleTimeChange = (e) => {
     const { value } = e.target
 
-    if (value < node.data.processTime) {
+    if (Number(value) < Number(node.data.processTime)) {
       e.target.value = node.data.processTime
     }
-
     handleChange(e)
   }
 
   const handleChange = (e) => {
     const { id, value } = e.target
 
-    console.log(e.target)
-    setNode((prevNode) => ({
-      ...prevNode,
-      data: { ...prevNode.data, [id]: value },
-    }))
-    console.log('NODE')
-    console.log(`${node.id} : ${id} : ${value}`)
+    // if (node.data.processTime > node.data.cycleTime) {
+    //   updateNode('cycleTime', node.data.processTime)
+    // }
+
+    updateNode(id, value)
   }
 
   const handleUpdate = (e) => {
+    console.log('NODE')
+    console.log(node)
+    console.log(node.data.processTime > node.data.cycleTime)
+
     dispatch({ type: 'UPDATE', node: node })
   }
 
@@ -69,7 +76,7 @@ const StepNode = (props) => {
             inputProps={{ min: 0, max: 9999 }}
             type="number"
             margin="dense"
-            onChange={handleChange}
+            onChange={handleCycleTimeChange}
             onBlur={handleUpdate}
           />
           {/* <div className="col-25">
