@@ -32,16 +32,12 @@ const initState = {
 }
 
 const update = (state, node) => {
-  console.log(node)
-  console.log(state)
-
   const newState = {
     ...state,
     elements: state.elements.map((el) => {
       return el.id === node.id ? { ...el, data: node.data } : el
     }),
   }
-  console.log(newState)
 
   return newState
 }
@@ -71,8 +67,7 @@ const vsmReducer = (state, action) => {
 
 const VSMProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vsmReducer, initState)
-  console.log('CTX')
-  console.log(state)
+
   return (
     <MapStateContext.Provider value={state}>
       <MapDispatchContext.Provider value={dispatch}>

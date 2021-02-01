@@ -27,8 +27,8 @@ const VSMFlow = () => {
   const dispatch = useVSMDispatch()
 
   useEffect(() => {
-    console.log(`Elements: `)
-    console.log(elements)
+    // console.log(`Elements: `)
+    // console.log(elements)
     dispatch({ type: 'SYNC', elements: elements })
   })
 

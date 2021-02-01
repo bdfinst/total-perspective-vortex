@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Handle } from 'react-flow-renderer'
+import { TextField } from '@material-ui/core'
 
 import { useVSMDispatch, useVSMState } from '../components/AppContext'
 
@@ -18,14 +19,19 @@ const StepNode = (props) => {
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { id, value } = e.target
 
+    console.log(e.target)
     setNode((prevNode) => ({
       ...prevNode,
-      data: { ...prevNode.data, [name]: value },
+      data: { ...prevNode.data, [id]: value },
     }))
     console.log('NODE')
-    console.log(`${node.id} : ${name} : ${value}`)
+    console.log(`${node.id} : ${id} : ${value}`)
+  }
+
+  const handleUpdate = (e) => {
+    dispatch({ type: 'UPDATE', node: node })
   }
 
   return (
@@ -40,25 +46,33 @@ const StepNode = (props) => {
       />
       <div className="node-container">
         <div className="row">
-          <div className="col-25">
-            <label>Process Time:</label>
-          </div>
-          <div className="col-75">
-            <input
-              type="number"
-              min="0"
-              max="9999"
-              value={node.data.processTime}
-              name="processTime"
-              onChange={handleChange}
-              onBlur={(e) => {
-                dispatch({ type: 'UPDATE', node: node })
-              }}
-            />
-          </div>
+          <TextField
+            label="Process Time"
+            id="processTime"
+            defaultValue={node.data.processTime}
+            variant="outlined"
+            size="small"
+            inputProps={{ min: 0, max: 9999 }}
+            type="number"
+            margin="dense"
+            onChange={handleChange}
+            onBlur={handleUpdate}
+          />
         </div>
         <div className="row">
-          <div className="col-25">
+          <TextField
+            label="Total Time"
+            id="cycleTime"
+            defaultValue={node.data.cycleTime}
+            variant="outlined"
+            size="small"
+            inputProps={{ min: 0, max: 9999 }}
+            type="number"
+            margin="dense"
+            onChange={handleChange}
+            onBlur={handleUpdate}
+          />
+          {/* <div className="col-25">
             <label>Total Time:</label>
           </div>
           <div className="col-75">
@@ -73,10 +87,23 @@ const StepNode = (props) => {
                 dispatch({ type: 'UPDATE', node: node })
               }}
             />
-          </div>
+          </div> */}
         </div>
         <div className="row">
-          <div className="col-25">
+          <TextField
+            label="% C/A"
+            id="pctCompleteAccurate"
+            defaultValue={node.data.pctCompleteAccurate}
+            variant="outlined"
+            size="small"
+            inputProps={{ min: 0, max: 100 }}
+            type="number"
+            margin="dense"
+            onChange={handleChange}
+            onBlur={handleUpdate}
+          />
+
+          {/* <div className="col-25">
             <label>% C/A:</label>
           </div>
           <div className="col-75">
@@ -92,7 +119,7 @@ const StepNode = (props) => {
               }}
             />
             %
-          </div>
+          </div> */}
         </div>
       </div>
 

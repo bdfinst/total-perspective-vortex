@@ -6,9 +6,9 @@
 }
 
 .main {
-  height: 400px;
+  height: 600px;
   width: 100%;
-  padding: 5rem 0;
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -84,7 +84,7 @@
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
-  width: 100px;
+  width: 75px;
 }
 
 .col-25 {
