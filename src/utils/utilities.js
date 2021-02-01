@@ -15,7 +15,7 @@ const buildNode = (id, position) => {
     id,
     type: 'stepNode',
     data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-    style: { border: '1px solid #777', padding: 5 },
+    style: { border: '1px solid #777', padding: 8 },
     position,
   }
 }

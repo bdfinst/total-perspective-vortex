@@ -7,6 +7,7 @@ import ReactFlow, {
   removeElements,
 } from 'react-flow-renderer'
 
+import { buildEdge, buildNode } from '../utils/utilities'
 import { initialElements } from '../initial-elements'
 import { useVSMDispatch, useVSMState } from '../components/AppContext'
 import Sidebar from './Sidebar'
@@ -60,13 +61,9 @@ const VSMFlow = () => {
     )
     const source = nodes[nodes.length - 1].id
 
-    const newEdge = {
-      id: getEdgeId(),
-      source,
-      target: newNode.id,
-      animated: true,
-    }
-    setElements((element) => element.concat(newEdge))
+    setElements((element) =>
+      element.concat(buildEdge(getEdgeId(), source, newNode.id)),
+    )
   }
 
   const onDrop = (event) => {
@@ -77,13 +74,7 @@ const VSMFlow = () => {
       x: event.clientX,
       y: event.clientY - 40,
     })
-    const newNode = {
-      id: getNodeId(),
-      type,
-      position,
-      data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-      style: { border: '1px solid #777', padding: 10 },
-    }
+    const newNode = buildNode(getNodeId(), position)
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)
