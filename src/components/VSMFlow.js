@@ -9,7 +9,7 @@ import ReactFlow, {
 
 import { buildEdge, buildNode } from '../utils/utilities'
 import { initialElements } from '../initial-elements'
-import { useVSMDispatch, useVSMState } from '../components/AppContext'
+import { useVSMDispatch } from '../components/AppContext'
 import Sidebar from './Sidebar'
 import StepNode from './StepNode'
 
