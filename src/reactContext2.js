@@ -14,10 +14,38 @@ const valueStream = {
   elements: [],
 }
 
+const create = (state, newNode) => {
+  return { ...valueStream, elements: state.elements.concat(newNode) }
+}
+
+const updateNode = (state, nodeId, data) => {
+  const newState = {
+    ...state,
+    elements: state.elements.map((el) => {
+      return el.id === nodeId ? { ...el, data: data } : el
+    }),
+  }
+
+  return newState
+}
+
+const updateEdge = (state, data) => {
+  console.log(data)
+}
+
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
     case 'INCREMENT': {
       return { ...valueStream, lastElementId: state.lastElementId + 1 }
+    }
+    case 'CREATE': {
+      return create(state, action.data)
+    }
+    case 'UPDATE_NODE': {
+      return updateNode(state, action.nodeId, action.data)
+    }
+    case 'UPDATE_EDGE': {
+      return updateEdge(state, action.data)
     }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
@@ -39,10 +67,23 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
+  const addNode = (data) => dispatch({ type: 'CREATE', data })
+  const changeNodeValues = (
+    nodeId,
+    { processTime, cycleTime, pctCompleteAccurate },
+  ) =>
+    dispatch({
+      type: 'UPDATE_NODE',
+      nodeId,
+      data: { processTime, cycleTime, pctCompleteAccurate },
+    })
+
   return {
     state,
     dispatch,
     increment,
+    addNode,
+    changeNodeValues,
   }
 }
 
