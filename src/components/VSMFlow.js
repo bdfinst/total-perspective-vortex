@@ -24,10 +24,12 @@ const getEdgeId = () => `edge_${maxEdgeId++}`
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(initialElements)
+  const dispatch = useVSMDispatch()
 
   useEffect(() => {
     console.log(`Elements: `)
     console.log(elements)
+    dispatch({ type: 'SYNC', elements: elements })
   })
 
   const onConnect = (params) => {

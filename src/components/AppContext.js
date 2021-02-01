@@ -56,6 +56,9 @@ const vsmReducer = (state, action) => {
     case 'UPDATE': {
       return update(state, action.node)
     }
+    case 'SYNC': {
+      return { ...state, elements: action.elements }
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
     }
@@ -64,6 +67,8 @@ const vsmReducer = (state, action) => {
 
 const VSMProvider = ({ children }) => {
   const [state, dispatch] = useReducer(vsmReducer, initState)
+  console.log('CTX')
+  console.log(state)
   return (
     <MapStateContext.Provider value={state}>
       <MapDispatchContext.Provider value={dispatch}>

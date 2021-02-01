@@ -13,22 +13,23 @@ const flowEfficiency = (processTime, cycleTime) => {
 
   return Math.round((processTime / cycleTime) * 100)
 }
-const Totals = (input) => {
-  const elements = input.data || []
+
+const addValues = (a, b) => Number(a) + Number(b)
+
+const Totals = () => {
+  const { elements } = useVSMState()
 
   const totals = elements
-    .filter((el) => el.data)
-    .reduce((a, b) => ({
-      processTime: Number(a.data.processTime) + Number(b.data.processTime),
-      cycleTime: Number(a.data.cycleTime) + Number(b.data.cycleTime),
-      pctCompleteAccurate:
-        (Number(a.data.pctCompleteAccurate) +
-          Number(b.data.pctCompleteAccurate)) /
-        2,
-    }))
-
-  console.log(elements)
-  console.log(totals)
+    .filter((el) => el.hasOwnProperty('data'))
+    .map((el) => el.data)
+    .reduce((acc, val) => {
+      return {
+        processTime: addValues(acc.processTime, val.processTime),
+        cycleTime: addValues(acc.cycleTime, val.cycleTime),
+        pctCompleteAccurate:
+          addValues(acc.pctCompleteAccurate, val.pctCompleteAccurate) / 2,
+      }
+    })
 
   return (
     <>
@@ -43,10 +44,6 @@ const Totals = (input) => {
 }
 
 const Sidebar = () => {
-  const { elements } = useVSMState()
-
-  console.log(elements)
-
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.setData('application/reactflow', nodeType)
     event.dataTransfer.effectAllowed = 'move'
@@ -61,7 +58,7 @@ const Sidebar = () => {
       >
         Step Node
       </div>
-      <Totals data={elements} />
+      <Totals />
     </aside>
   )
 }
