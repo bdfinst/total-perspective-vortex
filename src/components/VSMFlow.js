@@ -10,11 +10,11 @@ import ReactFlow, {
 
 import { buildEdge, buildNode } from '../utils/utilities'
 import { useValueStream } from '../reactContext'
+import Node from './Node'
 import Sidebar from './Sidebar'
-import StepNode from './StepNode'
 
 const nodeTypes = {
-  stepNode: StepNode,
+  stepNode: Node,
 }
 
 let maxElementId = 0

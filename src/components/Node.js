@@ -3,8 +3,9 @@ import { Handle } from 'react-flow-renderer'
 import { TextField } from '@material-ui/core'
 
 import { useValueStream } from '../reactContext'
+import InputNumber from './InputNumber'
 
-const StepNode = (props) => {
+const Node = (props) => {
   const { changeNodeValues } = useValueStream()
   const [node, setNode] = useState(props)
 
@@ -45,46 +46,32 @@ const StepNode = (props) => {
       />
       <div className="node-container">
         <div className="row">
-          <TextField
-            label="Process Time"
+          <InputNumber
             id="processTime"
-            defaultValue={props.data.processTime}
-            variant="outlined"
-            size="small"
-            inputProps={{ min: 0, max: 9999 }}
-            type="number"
-            margin="dense"
+            label="Process Time"
+            inputProps={{ min: 0, max: 9999999 }}
             onChange={handleChange}
             onBlur={handleUpdate}
           />
         </div>
         <div className="row">
-          <TextField
-            label="Total Time"
+          <InputNumber
             id="cycleTime"
-            defaultValue={props.data.cycleTime}
-            variant="outlined"
-            size="small"
-            inputProps={{ min: 0, max: 9999 }}
-            type="number"
-            margin="dense"
+            label="Wait Time"
+            inputProps={{ min: 0, max: 9999999 }}
             onChange={handleCycleTimeChange}
             onBlur={handleUpdate}
           />
         </div>
         <div className="row">
-          <TextField
-            label="% C/A"
+          <InputNumber
             id="pctCompleteAccurate"
-            defaultValue={props.data.pctCompleteAccurate}
-            variant="outlined"
-            size="small"
             inputProps={{ min: 0, max: 100 }}
-            type="number"
-            margin="dense"
+            label="% C/A"
             onChange={handleChange}
             onBlur={handleUpdate}
           />
+          <div>{props.data.actors}</div>
         </div>
       </div>
 
@@ -98,4 +85,4 @@ const StepNode = (props) => {
   )
 }
 
-export default StepNode
+export default Node

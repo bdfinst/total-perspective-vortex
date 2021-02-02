@@ -10,13 +10,21 @@ const flowEfficiency = (processTime, cycleTime) => {
   return Math.round((processTime / cycleTime) * 100)
 }
 
+const nodeStyle = {
+  border: '2px solid #3385e9',
+  borderRadius: '12px',
+  padding: 8,
+  minWidth: '100px',
+  // backgroundColor: '#3385e9',
+}
+
 const buildNode = (id, position) => {
   return {
     id: `${id}`,
     type: 'stepNode',
     elType: 'NODE',
     data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
-    style: { border: '1px solid #777', padding: 8 },
+    style: nodeStyle,
     position,
   }
 }
