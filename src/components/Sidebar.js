@@ -26,7 +26,6 @@ const Sidebar = () => {
         Add Node
       </div>
       <Totals />
-      <div>Records: {state.elements.length}</div>
     </aside>
   )
 }

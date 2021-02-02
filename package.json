@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "test": "jest",
+    "test": "jest --collectCoverage",
     "test:e2e": "npm run dev:wait test:chrome",
     "test:chrome": "cypress run --browser chrome --headless",
     "dev:wait": "start-server-and-test dev http-get://localhost:3000",

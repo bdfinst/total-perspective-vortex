@@ -51,9 +51,6 @@ exports[`Sidebar should take a snapshot 1`] = `
     >
       Flow Efficiency:0%
     </div>
-    <div>
-      Records: 3
-    </div>
   </aside>
 </DocumentFragment>
 `;

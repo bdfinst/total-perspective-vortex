@@ -56,7 +56,7 @@ const valueStreamReducer = (state, action) => {
     case 'INCREMENT': {
       return { ...valueStream, lastElementId: state.lastElementId + 1 }
     }
-    case 'CREATE': {
+    case 'CREATE_NODE': {
       return create(state, action.data)
     }
     case 'CREATE_EDGE': {
@@ -93,7 +93,7 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
-  const createNode = (data) => dispatch({ type: 'CREATE', data })
+  const createNode = (data) => dispatch({ type: 'CREATE_NODE', data })
   const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
   const changeNodeValues = (
     nodeId,

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ReactFlow, {
   Controls,
   MiniMap,
@@ -22,7 +22,7 @@ const getElementId = () => `vsm_${maxElementId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const { state, dispatch, createEdge, createNode } = useValueStream()
+  const { state, createEdge, createNode } = useValueStream()
 
   const [elements, setElements] = useState(state.elements)
 
