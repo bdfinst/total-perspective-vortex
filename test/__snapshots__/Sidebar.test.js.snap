@@ -3,6 +3,23 @@
 exports[`Sidebar should take a snapshot 1`] = `
 <DocumentFragment>
   <aside>
+    <div>
+      <a
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+        href="https://github.com/bdfinst/vsm-tool"
+        tabindex="0"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          GitHub
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </a>
+    </div>
     <div
       class="description"
     >
@@ -12,7 +29,7 @@ exports[`Sidebar should take a snapshot 1`] = `
       class="vsmnode input"
       draggable="true"
     >
-      Step Node
+      Add Node
     </div>
     <div
       data-testid="processTime"
