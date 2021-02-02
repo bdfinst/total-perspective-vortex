@@ -12,8 +12,9 @@ const flowEfficiency = (processTime, cycleTime) => {
 
 const buildNode = (id, position) => {
   return {
-    id,
+    id: `${id}`,
     type: 'stepNode',
+    elType: 'NODE',
     data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
     style: { border: '1px solid #777', padding: 8 },
     position,
@@ -22,13 +23,33 @@ const buildNode = (id, position) => {
 
 const buildEdge = (id, source, target) => {
   return {
-    id,
-    source,
-    target,
+    id: `${id}`,
+    source: `${source}`,
+    target: `${target}`,
+    elType: 'EDGE',
     animated: true,
     style: { stroke: 'red' },
     arrowHeadType: 'arrowclosed',
   }
 }
 
-export { flowEfficiency, buildNode, buildEdge }
+const getElementById = (id, elements) =>
+  elements.filter((el) => el.id === `${id}`)[0]
+
+const addValues = (a, b) => Number(a) + Number(b)
+
+const getNodeSums = (elements) => {
+  return elements
+    .filter((element) => element.elType === 'NODE')
+    .map((element) => element.data)
+    .reduce((acc, val) => {
+      return {
+        processTime: addValues(acc.processTime, val.processTime),
+        cycleTime: addValues(acc.cycleTime, val.cycleTime),
+        pctCompleteAccurate:
+          addValues(acc.pctCompleteAccurate, val.pctCompleteAccurate) / 2,
+      }
+    })
+}
+
+export { flowEfficiency, buildNode, buildEdge, getNodeSums, getElementById }

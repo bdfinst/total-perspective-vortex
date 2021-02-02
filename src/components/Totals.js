@@ -1,31 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { flowEfficiency } from '../utils/utilities'
-import { useVSMState } from './AppContext'
-
-const addValues = (a, b) => Number(a) + Number(b)
+import { flowEfficiency, getNodeSums } from '../utils/utilities'
+import { useValueStream } from '../reactContext'
 
 const Totals = () => {
-  const { elements } = useVSMState()
+  const { state } = useValueStream()
+  const [totals, setTotals] = useState(getNodeSums(state.elements))
 
-  const totals = elements
-    .filter((el) => el.hasOwnProperty('data'))
-    .map((el) => el.data)
-    .reduce((acc, val) => {
-      return {
-        processTime: addValues(acc.processTime, val.processTime),
-        cycleTime: addValues(acc.cycleTime, val.cycleTime),
-        pctCompleteAccurate:
-          addValues(acc.pctCompleteAccurate, val.pctCompleteAccurate) / 2,
-      }
-    })
+  useEffect(() => {
+    const total = getNodeSums(state.elements)
+    setTotals(total)
+  }, [state.elements])
 
   return (
     <>
-      <div>Process Time: {totals.processTime}</div>
-      <div>Total Time: {totals.cycleTime}</div>
-      <div>Average C/A: {Math.round(totals.pctCompleteAccurate)}%</div>
-      <div>
+      <div data-testid="processTime">Process Time: {totals.processTime}</div>
+      <div data-testid="totalTime">Total Time: {totals.cycleTime}</div>
+      <div data-testid="pctca">
+        Average C/A: {Math.round(totals.pctCompleteAccurate)}%
+      </div>
+      <div data-testid="flow">
         Flow Efficiency:{flowEfficiency(totals.processTime, totals.cycleTime)}%
       </div>
     </>

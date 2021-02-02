@@ -1,10 +1,12 @@
 import React from 'react'
 
+import { useValueStream } from '../reactContext'
 import Totals from './Totals'
 
 const Sidebar = () => {
+  const { state } = useValueStream()
+
   const onDragStart = (event, nodeType) => {
-    event.dataTransfer.setData('application/reactflow', nodeType)
     event.dataTransfer.effectAllowed = 'move'
   }
   return (
@@ -18,6 +20,7 @@ const Sidebar = () => {
         Step Node
       </div>
       <Totals />
+      <div>Records: {state.elements.length}</div>
     </aside>
   )
 }

@@ -1,12 +1,12 @@
 import '../styles/globals.css'
 import '../styles/vsm.css'
-import { VSMProvider } from '../components/AppContext'
+import { ValueStreamProvider } from '../reactContext'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <VSMProvider>
+    <ValueStreamProvider>
       <Component {...pageProps} />
-    </VSMProvider>
+    </ValueStreamProvider>
   )
 }
 
