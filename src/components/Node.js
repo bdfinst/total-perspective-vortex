@@ -22,10 +22,10 @@ const Node = (props) => {
   const { changeNodeValues } = useValueStream()
   const [node, setNode] = useState(props)
 
-  const updateNode = (id, value) => {
+  const updateNode = (name, value) => {
     setNode((prevNode) => ({
       ...prevNode,
-      data: { ...prevNode.data, [id]: value },
+      data: { ...prevNode.data, [name]: value },
     }))
   }
   const handleCycleTimeChange = (e) => {
@@ -38,9 +38,9 @@ const Node = (props) => {
   }
 
   const handleChange = (e) => {
-    const { id, value } = e.target
+    const { name, value } = e.target
 
-    updateNode(id, value)
+    updateNode(name, value)
   }
 
   const handleUpdate = (e) => {
@@ -81,7 +81,7 @@ const Node = (props) => {
           <InputNumber
             id={`cycleTime_${node.id}`}
             name="cycleTime"
-            label="Wait Time"
+            label="Total Time"
             inputProps={{ min: 0, max: 9999999 }}
             onChange={handleCycleTimeChange}
             onBlur={handleUpdate}
