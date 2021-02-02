@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import ReactFlow, {
   Controls,
@@ -21,7 +22,7 @@ const getEdgeId = () => `edge_${maxEdgeId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const { state, dispatch, increment, addNode } = useValueStream()
+  const { state, dispatch, createEdge, createNode } = useValueStream()
 
   const [elements, setElements] = useState(state.elements)
   const [elementId, setElementId] = useState(0)
@@ -32,9 +33,9 @@ const VSMFlow = () => {
     return `node_${elementId}`
   }
 
-  useEffect(() => {
-    dispatch({ type: 'SYNC', elements: elements })
-  }, [dispatch, elements])
+  // useEffect(() => {
+  //   dispatch({ type: 'SYNC', elements: elements })
+  // }, [elements])
 
   const onConnect = (params) => {
     const found = elements.find((element) => {
@@ -64,6 +65,8 @@ const VSMFlow = () => {
     )
     const source = nodes[nodes.length - 1].id
 
+    createEdge(buildEdge(getNodeId, source, newNode.id))
+    console.log(state)
     setElements((element) =>
       element.concat(buildEdge(getEdgeId(), source, newNode.id)),
     )
@@ -80,7 +83,7 @@ const VSMFlow = () => {
     const id = getNodeId()
 
     const newNode = buildNode(id, position)
-    addNode(newNode)
+    createNode(newNode)
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)

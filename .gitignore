@@ -2,6 +2,7 @@
 
 # VSCode
 /.history
+report.*.json
 
 # dependencies
 /node_modules

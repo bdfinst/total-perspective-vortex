@@ -8,8 +8,8 @@ const Totals = () => {
   const [totals, setTotals] = useState(getNodeSums(state.elements))
 
   useEffect(() => {
-    console.log(state.elements)
-    setTotals(getNodeSums(state.elements))
+    const total = getNodeSums(state.elements)
+    setTotals(total)
   }, [state.elements])
 
   return (

@@ -59,6 +59,9 @@ const valueStreamReducer = (state, action) => {
     case 'CREATE': {
       return create(state, action.data)
     }
+    case 'CREATE_EDGE': {
+      return create(state, action.data)
+    }
     case 'UPDATE_NODE': {
       return updateNode(state, action.nodeId, action.data)
     }
@@ -90,14 +93,15 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
-  const addNode = (data) => dispatch({ type: 'CREATE', data })
+  const createNode = (data) => dispatch({ type: 'CREATE', data })
+  const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
   const changeNodeValues = (
     nodeId,
     { processTime, cycleTime, pctCompleteAccurate },
   ) =>
     dispatch({
       type: 'UPDATE_NODE',
-      nodeId,
+      nodeId: `${nodeId}`,
       data: { processTime, cycleTime, pctCompleteAccurate },
     })
 
@@ -105,7 +109,8 @@ const useValueStream = () => {
     state,
     dispatch,
     increment,
-    addNode,
+    createNode,
+    createEdge,
     changeNodeValues,
   }
 }
