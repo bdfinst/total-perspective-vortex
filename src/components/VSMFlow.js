@@ -10,11 +10,11 @@ import ReactFlow, {
 
 import { buildEdge, buildNode } from '../utils/utilities'
 import { useValueStream } from '../reactContext'
+import Node from './Node'
 import Sidebar from './Sidebar'
-import StepNode from './StepNode'
 
 const nodeTypes = {
-  stepNode: StepNode,
+  stepNode: Node,
 }
 
 let maxElementId = 0
@@ -25,10 +25,6 @@ const VSMFlow = () => {
   const { state, createEdge, createNode } = useValueStream()
 
   const [elements, setElements] = useState(state.elements)
-
-  // useEffect(() => {
-  //   dispatch({ type: 'SYNC', elements: elements })
-  // }, [elements])
 
   const onConnect = (params) => {
     const found = elements.find((element) => {
@@ -94,6 +90,9 @@ const VSMFlow = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             nodeTypes={nodeTypes}
+            defaultZoom={0.8}
+            minZoom={0.01}
+            maxZoom={1.5}
           >
             <Controls />
             <MiniMap

@@ -1,10 +1,24 @@
 import React, { useState } from 'react'
 import { Handle } from 'react-flow-renderer'
-import { TextField } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone'
 
+import { InputNumber, InputText } from './Inputs'
 import { useValueStream } from '../reactContext'
 
-const StepNode = (props) => {
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    float: 'right',
+  },
+}))
+
+const Node = (props) => {
+  const classes = useStyles()
+
   const { changeNodeValues } = useValueStream()
   const [node, setNode] = useState(props)
 
@@ -45,46 +59,46 @@ const StepNode = (props) => {
       />
       <div className="node-container">
         <div className="row">
-          <TextField
-            label="Process Time"
-            id="processTime"
-            defaultValue={props.data.processTime}
-            variant="outlined"
-            size="small"
-            inputProps={{ min: 0, max: 9999 }}
-            type="number"
-            margin="dense"
+          <InputText
+            id={`stepDescription_${node.id}`}
+            name="stepDescription"
+            label="Description"
             onChange={handleChange}
             onBlur={handleUpdate}
           />
         </div>
         <div className="row">
-          <TextField
-            label="Total Time"
-            id="cycleTime"
-            defaultValue={props.data.cycleTime}
-            variant="outlined"
-            size="small"
-            inputProps={{ min: 0, max: 9999 }}
-            type="number"
-            margin="dense"
+          <InputNumber
+            id={`processTime_${node.id}`}
+            name="processTime"
+            label="Process Time"
+            inputProps={{ min: 0, max: 9999999 }}
+            onChange={handleChange}
+            onBlur={handleUpdate}
+          />
+        </div>
+        <div className="row">
+          <InputNumber
+            id={`cycleTime_${node.id}`}
+            name="cycleTime"
+            label="Wait Time"
+            inputProps={{ min: 0, max: 9999999 }}
             onChange={handleCycleTimeChange}
             onBlur={handleUpdate}
           />
         </div>
         <div className="row">
-          <TextField
-            label="% C/A"
-            id="pctCompleteAccurate"
-            defaultValue={props.data.pctCompleteAccurate}
-            variant="outlined"
-            size="small"
+          <InputNumber
+            id={`pctCompleteAccurate_${node.id}`}
+            name="pctCompleteAccurate"
             inputProps={{ min: 0, max: 100 }}
-            type="number"
-            margin="dense"
+            label="% C/A"
             onChange={handleChange}
             onBlur={handleUpdate}
           />
+          <IconButton aria-label="delete" className={classes.extendedIcon}>
+            <DeleteTwoToneIcon />
+          </IconButton>
         </div>
       </div>
 
@@ -98,4 +112,4 @@ const StepNode = (props) => {
   )
 }
 
-export default StepNode
+export default Node

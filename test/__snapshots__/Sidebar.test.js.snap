@@ -37,14 +37,19 @@ exports[`Sidebar should take a snapshot 1`] = `
       Process Time: 0
     </div>
     <div
+      data-testid="waitTime"
+    >
+      Wait Time: 0
+    </div>
+    <div
       data-testid="totalTime"
     >
       Total Time: 0
     </div>
     <div
-      data-testid="pctca"
+      data-testid="avgPCA"
     >
-      Average C/A: 100%
+      Average %C/A: 100%
     </div>
     <div
       data-testid="flow"
