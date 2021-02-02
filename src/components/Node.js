@@ -1,11 +1,24 @@
 import React, { useState } from 'react'
 import { Handle } from 'react-flow-renderer'
-import { TextField } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone'
 
+import { InputNumber, InputText } from './Inputs'
 import { useValueStream } from '../reactContext'
-import InputNumber from './InputNumber'
+
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    float: 'right',
+  },
+}))
 
 const Node = (props) => {
+  const classes = useStyles()
+
   const { changeNodeValues } = useValueStream()
   const [node, setNode] = useState(props)
 
@@ -46,8 +59,18 @@ const Node = (props) => {
       />
       <div className="node-container">
         <div className="row">
+          <InputText
+            id={`stepDescription_${node.id}`}
+            name="stepDescription"
+            label="Description"
+            onChange={handleChange}
+            onBlur={handleUpdate}
+          />
+        </div>
+        <div className="row">
           <InputNumber
-            id="processTime"
+            id={`processTime_${node.id}`}
+            name="processTime"
             label="Process Time"
             inputProps={{ min: 0, max: 9999999 }}
             onChange={handleChange}
@@ -56,7 +79,8 @@ const Node = (props) => {
         </div>
         <div className="row">
           <InputNumber
-            id="cycleTime"
+            id={`cycleTime_${node.id}`}
+            name="cycleTime"
             label="Wait Time"
             inputProps={{ min: 0, max: 9999999 }}
             onChange={handleCycleTimeChange}
@@ -65,13 +89,16 @@ const Node = (props) => {
         </div>
         <div className="row">
           <InputNumber
-            id="pctCompleteAccurate"
+            id={`pctCompleteAccurate_${node.id}`}
+            name="pctCompleteAccurate"
             inputProps={{ min: 0, max: 100 }}
             label="% C/A"
             onChange={handleChange}
             onBlur={handleUpdate}
           />
-          <div>{props.data.actors}</div>
+          <IconButton aria-label="delete" className={classes.extendedIcon}>
+            <DeleteTwoToneIcon />
+          </IconButton>
         </div>
       </div>
 

@@ -26,10 +26,6 @@ const VSMFlow = () => {
 
   const [elements, setElements] = useState(state.elements)
 
-  // useEffect(() => {
-  //   dispatch({ type: 'SYNC', elements: elements })
-  // }, [elements])
-
   const onConnect = (params) => {
     const found = elements.find((element) => {
       return (
@@ -94,6 +90,9 @@ const VSMFlow = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             nodeTypes={nodeTypes}
+            defaultZoom={0.8}
+            minZoom={0.01}
+            maxZoom={1.5}
           >
             <Controls />
             <MiniMap

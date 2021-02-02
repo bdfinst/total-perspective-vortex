@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { flowEfficiency, getNodeSums } from '../utils/utilities'
+import { getNodeSums } from '../utils/utilities'
 import { useValueStream } from '../reactContext'
 
 const Totals = () => {
@@ -15,13 +15,10 @@ const Totals = () => {
   return (
     <>
       <div data-testid="processTime">Process Time: {totals.processTime}</div>
+      <div data-testid="waitTime">Wait Time: {totals.waitTime}</div>
       <div data-testid="totalTime">Total Time: {totals.cycleTime}</div>
-      <div data-testid="pctca">
-        Average C/A: {Math.round(totals.pctCompleteAccurate)}%
-      </div>
-      <div data-testid="flow">
-        Flow Efficiency:{flowEfficiency(totals.processTime, totals.cycleTime)}%
-      </div>
+      <div data-testid="avgPCA">Average %C/A: {totals.avgPCA}%</div>
+      <div data-testid="flow">Flow Efficiency:{totals.flowEfficiency}%</div>
     </>
   )
 }
