@@ -1,24 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { flowEfficiency } from '../utils/utilities'
+import { flowEfficiency, getNodeSums } from '../utils/utilities'
 import { useValueStream } from '../reactContext'
-
-const addValues = (a, b) => Number(a) + Number(b)
 
 const Totals = () => {
   const { state } = useValueStream()
+  const [totals, setTotals] = useState(getNodeSums(state.elements))
 
-  const totals = state.elements
-    .filter((el) => el.hasOwnProperty('data'))
-    .map((el) => el.data)
-    .reduce((acc, val) => {
-      return {
-        processTime: addValues(acc.processTime, val.processTime),
-        cycleTime: addValues(acc.cycleTime, val.cycleTime),
-        pctCompleteAccurate:
-          addValues(acc.pctCompleteAccurate, val.pctCompleteAccurate) / 2,
-      }
-    })
+  useEffect(() => {
+    console.log(state.elements)
+    setTotals(getNodeSums(state.elements))
+  }, [state.elements])
 
   return (
     <>

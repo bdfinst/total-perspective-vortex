@@ -72,14 +72,12 @@ const VSMFlow = () => {
   const onDrop = (event) => {
     event.preventDefault()
 
-    const type = event.dataTransfer.getData('application/reactflow')
     const position = reactFlowInstance.project({
       x: event.clientX,
       y: event.clientY - 40,
     })
 
     const id = getNodeId()
-    console.log(`ID: ${id}`)
 
     const newNode = buildNode(id, position)
     addNode(newNode)
