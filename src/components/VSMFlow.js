@@ -17,21 +17,14 @@ const nodeTypes = {
   stepNode: StepNode,
 }
 
-let maxEdgeId = 0
-const getEdgeId = () => `edge_${maxEdgeId++}`
+let maxElementId = 0
+const getElementId = () => `vsm_${maxElementId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const { state, dispatch, createEdge, createNode } = useValueStream()
 
   const [elements, setElements] = useState(state.elements)
-  const [elementId, setElementId] = useState(0)
-
-  const getNodeId = () => {
-    setElementId(elementId + 1)
-
-    return `node_${elementId}`
-  }
 
   // useEffect(() => {
   //   dispatch({ type: 'SYNC', elements: elements })
@@ -65,10 +58,10 @@ const VSMFlow = () => {
     )
     const source = nodes[nodes.length - 1].id
 
-    createEdge(buildEdge(getNodeId, source, newNode.id))
+    createEdge(buildEdge(getElementId(), source, newNode.id))
     console.log(state)
     setElements((element) =>
-      element.concat(buildEdge(getEdgeId(), source, newNode.id)),
+      element.concat(buildEdge(getElementId(), source, newNode.id)),
     )
   }
 
@@ -80,7 +73,7 @@ const VSMFlow = () => {
       y: event.clientY - 40,
     })
 
-    const id = getNodeId()
+    const id = getElementId()
 
     const newNode = buildNode(id, position)
     createNode(newNode)
