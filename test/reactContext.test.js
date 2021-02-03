@@ -50,7 +50,7 @@ describe('Value Stream Context', () => {
   it('should update an existing node with a given node ID', () => {
     const result = renderVSMHook()
 
-    const newData = { processTime: 1, cycleTime: 2, pctCompleteAccurate: 3 }
+    const newData = { processTime: 1, waitTime: 2, pctCompleteAccurate: 3 }
 
     const testNodeId = '1'
 
@@ -78,7 +78,7 @@ describe('Value Stream Context', () => {
       result.current.createNode(buildNode(testNodeId, { x: 1, y: 1 }))
     })
 
-    const newData = { processTime: 1, cycleTime: 2 }
+    const newData = { processTime: 1, waitTime: 2 }
 
     act(() => {
       result.current.changeNodeValues(testNodeId, newData)
@@ -86,7 +86,7 @@ describe('Value Stream Context', () => {
 
     expect(result.error).toEqual(
       Error(
-        'Invalid object sent to updateNode: {"processTime":1,"cycleTime":2}',
+        'Invalid object sent to updateNode: {"processTime":1,"waitTime":2}',
       ),
     )
   })
@@ -108,7 +108,7 @@ describe('Adding new node to existing nodes', () => {
   it('should keep node value after adding another node and edge', () => {
     const result = renderVSMHook()
 
-    const newData = { processTime: 1, cycleTime: 2, pctCompleteAccurate: 3 }
+    const newData = { processTime: 1, waitTime: 2, pctCompleteAccurate: 3 }
     act(() => {
       result.current.changeNodeValues(1, newData)
     })

@@ -31,8 +31,8 @@ describe('Sidebar', () => {
     const { getByTestId } = renderSidebar()
 
     expect(getByTestId('processTime')).toHaveTextContent(0)
-    expect(getByTestId('totalTime')).toHaveTextContent(0)
     expect(getByTestId('waitTime')).toHaveTextContent(0)
+    expect(getByTestId('totalTime')).toHaveTextContent(0)
     expect(getByTestId('avgPCA')).toHaveTextContent(0)
     expect(getByTestId('flow')).toHaveTextContent(0)
   })
@@ -56,7 +56,7 @@ describe('Sidebar', () => {
     const { getByTestId } = renderSidebar()
 
     expect(getByTestId('processTime')).toHaveTextContent(0)
-    expect(getByTestId('totalTime')).toHaveTextContent(0)
+    expect(getByTestId('waitTime')).toHaveTextContent(0)
     expect(getByTestId('avgPCA')).toHaveTextContent(0)
     expect(getByTestId('flow')).toHaveTextContent(0)
   })

@@ -31,7 +31,9 @@ const create = (state, newNode) => {
 }
 
 const updateNode = (state, nodeId, data) => {
-  const rule = { $and: ['processTime', 'cycleTime', 'pctCompleteAccurate'] }
+  const rule = {
+    $and: ['processTime', 'waitTime', 'pctCompleteAccurate'],
+  }
 
   if (validateKeys(rule, data)) {
     return {
@@ -95,14 +97,11 @@ const useValueStream = () => {
   const increment = () => dispatch({ type: 'INCREMENT' })
   const createNode = (data) => dispatch({ type: 'CREATE_NODE', data })
   const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
-  const changeNodeValues = (
-    nodeId,
-    { processTime, cycleTime, pctCompleteAccurate },
-  ) =>
+  const changeNodeValues = (nodeId, data) =>
     dispatch({
       type: 'UPDATE_NODE',
       nodeId: `${nodeId}`,
-      data: { processTime, cycleTime, pctCompleteAccurate },
+      data,
     })
 
   return {

@@ -6,17 +6,17 @@ const elements = [
   {
     id: '1',
     elType: 'NODE',
-    data: { processTime: 1, cycleTime: 4, pctCompleteAccurate: 25 },
+    data: { processTime: 1, waitTime: 2, pctCompleteAccurate: 25 },
   },
   {
     id: '2',
     elType: 'NODE',
-    data: { processTime: 2, cycleTime: 5, pctCompleteAccurate: 75 },
+    data: { processTime: 2, waitTime: 3, pctCompleteAccurate: 75 },
   },
   {
     id: '3',
     elType: 'NODE',
-    data: { processTime: 3, cycleTime: 6, pctCompleteAccurate: 100 },
+    data: { processTime: 3, waitTime: 4, pctCompleteAccurate: 100 },
   },
   {
     id: 'e1',
@@ -26,7 +26,7 @@ const elements = [
 
 it('should have the correct properties', () => {
   const rule = {
-    $and: ['processTime', 'cycleTime', 'waitTime', 'flowEfficiency', 'avgPCA'],
+    $and: ['processTime', 'waitTime', 'totalTime', 'flowEfficiency', 'avgPCA'],
   }
   const results = getNodeSums(elements)
 
@@ -38,8 +38,8 @@ it('should sum the values of the nodes', () => {
 
   expect(results).toEqual({
     processTime: 6,
-    cycleTime: 15,
     waitTime: 9,
+    totalTime: 15,
     flowEfficiency: 0.4,
     avgPCA: 66.67,
   })

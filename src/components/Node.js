@@ -28,13 +28,10 @@ const Node = (props) => {
       data: { ...prevNode.data, [name]: value },
     }))
   }
-  const handleCycleTimeChange = (e) => {
-    const { value } = e.target
+  const handleNumberChange = (e) => {
+    const { name, value } = e.target
 
-    if (Number(value) < Number(node.data.processTime)) {
-      e.target.value = node.data.processTime
-    }
-    handleChange(e)
+    updateNode(name, Number(value))
   }
 
   const handleChange = (e) => {
@@ -60,10 +57,20 @@ const Node = (props) => {
       <div className="node-container">
         <div className="row">
           <InputText
-            id={`stepDescription_${node.id}`}
-            name="stepDescription"
+            id={`description_${node.id}`}
+            name="description"
             label="Description"
             onChange={handleChange}
+            onBlur={handleUpdate}
+          />
+        </div>
+        <div className="row">
+          <InputNumber
+            id={`actors_${node.id}`}
+            name="actors"
+            label="Actors"
+            inputProps={{ min: 0, max: 9999999 }}
+            onChange={handleNumberChange}
             onBlur={handleUpdate}
           />
         </div>
@@ -73,17 +80,17 @@ const Node = (props) => {
             name="processTime"
             label="Process Time"
             inputProps={{ min: 0, max: 9999999 }}
-            onChange={handleChange}
+            onChange={handleNumberChange}
             onBlur={handleUpdate}
           />
         </div>
         <div className="row">
           <InputNumber
-            id={`cycleTime_${node.id}`}
-            name="cycleTime"
-            label="Total Time"
+            id={`waitTime_${node.id}`}
+            name="waitTime"
+            label="Wait Time"
             inputProps={{ min: 0, max: 9999999 }}
-            onChange={handleCycleTimeChange}
+            onChange={handleNumberChange}
             onBlur={handleUpdate}
           />
         </div>

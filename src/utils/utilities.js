@@ -1,13 +1,13 @@
-const flowEfficiency = (processTime, cycleTime) => {
-  if (cycleTime === 0 || isNaN(cycleTime)) {
+const flowEfficiency = (processTime, waitTime) => {
+  if (waitTime === 0 || isNaN(waitTime)) {
     return 0
   }
 
-  if (processTime === 0 || isNaN(cycleTime) || cycleTime < processTime) {
+  if (processTime === 0 || isNaN(waitTime) || waitTime < processTime) {
     return 0
   }
 
-  return Math.round((processTime / cycleTime) * 100) / 100
+  return Math.round((processTime / waitTime) * 100) / 100
 }
 
 const nodeStyle = {
@@ -15,7 +15,6 @@ const nodeStyle = {
   borderRadius: '12px',
   padding: 8,
   minWidth: '100px',
-  // backgroundColor: '#3385e9',
 }
 
 const buildNode = (id, position) => {
@@ -23,7 +22,11 @@ const buildNode = (id, position) => {
     id: `${id}`,
     type: 'stepNode',
     elType: 'NODE',
-    data: { processTime: 0, cycleTime: 0, pctCompleteAccurate: 100 },
+    data: {
+      processTime: 0,
+      waitTime: 0,
+      pctCompleteAccurate: 100,
+    },
     style: nodeStyle,
     position,
   }
@@ -55,7 +58,7 @@ const getNodeSums = (elements) => {
     .reduce((acc, val) => {
       return {
         processTime: addValues(acc.processTime, val.processTime),
-        cycleTime: addValues(acc.cycleTime, val.cycleTime),
+        waitTime: addValues(acc.waitTime, val.waitTime),
         pctCompleteAccurate: addValues(
           acc.pctCompleteAccurate,
           val.pctCompleteAccurate,
@@ -67,9 +70,12 @@ const getNodeSums = (elements) => {
 
   const totals = {
     processTime: sums.processTime,
-    cycleTime: sums.cycleTime,
-    waitTime: sums.cycleTime - sums.processTime,
-    flowEfficiency: flowEfficiency(sums.processTime, sums.cycleTime),
+    waitTime: sums.waitTime,
+    totalTime: sums.waitTime + sums.processTime,
+    flowEfficiency: flowEfficiency(
+      sums.processTime,
+      sums.processTime + sums.waitTime,
+    ),
     avgPCA: Math.round((sums.pctCompleteAccurate / nodeCount) * 100) / 100,
   }
 
