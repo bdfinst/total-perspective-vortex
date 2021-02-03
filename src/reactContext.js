@@ -32,7 +32,13 @@ const create = (state, newNode) => {
 
 const updateNode = (state, nodeId, data) => {
   const rule = {
-    $and: ['processTime', 'waitTime', 'pctCompleteAccurate'],
+    $and: [
+      'description',
+      'actors',
+      'processTime',
+      'waitTime',
+      'pctCompleteAccurate',
+    ],
   }
 
   if (validateKeys(rule, data)) {

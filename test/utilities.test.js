@@ -1,22 +1,31 @@
 import validateKeys from 'object-key-validator'
 
-import { flowEfficiency, getNodeSums } from '../src/utils/utilities'
+import { getNodeSums } from '../src/utils/utilities'
 
+const buildData = (processTime, waitTime, pctCompleteAccurate) => {
+  return {
+    description: '',
+    actors: 1,
+    processTime,
+    waitTime,
+    pctCompleteAccurate,
+  }
+}
 const elements = [
   {
     id: '1',
     elType: 'NODE',
-    data: { processTime: 1, waitTime: 2, pctCompleteAccurate: 25 },
+    data: buildData(1, 2, 25),
   },
   {
     id: '2',
     elType: 'NODE',
-    data: { processTime: 2, waitTime: 3, pctCompleteAccurate: 75 },
+    data: buildData(2, 3, 75),
   },
   {
     id: '3',
     elType: 'NODE',
-    data: { processTime: 3, waitTime: 4, pctCompleteAccurate: 100 },
+    data: buildData(3, 4, 100),
   },
   {
     id: 'e1',

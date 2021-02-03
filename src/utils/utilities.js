@@ -23,6 +23,8 @@ const buildNode = (id, position) => {
     type: 'stepNode',
     elType: 'NODE',
     data: {
+      description: '',
+      actors: 0,
       processTime: 0,
       waitTime: 0,
       pctCompleteAccurate: 100,
@@ -59,6 +61,7 @@ const getNodeSums = (elements) => {
       return {
         processTime: addValues(acc.processTime, val.processTime),
         waitTime: addValues(acc.waitTime, val.waitTime),
+        actorTime: addValues(acc.waitTime, val.processTime * val.actors),
         pctCompleteAccurate: addValues(
           acc.pctCompleteAccurate,
           val.pctCompleteAccurate,
@@ -69,6 +72,7 @@ const getNodeSums = (elements) => {
   const nodeCount = getNodes(elements).length
 
   const totals = {
+    actorTime: sums.actorTime,
     processTime: sums.processTime,
     waitTime: sums.waitTime,
     totalTime: sums.waitTime + sums.processTime,
