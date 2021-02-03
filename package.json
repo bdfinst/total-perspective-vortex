@@ -22,10 +22,11 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@mrblenny/react-flow-chart": "^0.0.14",
     "next": "10.0.6",
     "object-key-validator": "^1.1.2",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-flow-renderer": "^8.7.0"
   },
   "devDependencies": {
