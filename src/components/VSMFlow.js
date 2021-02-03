@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from 'react'
 import ReactFlow, {
   Controls,
   MiniMap,
@@ -8,30 +9,22 @@ import ReactFlow, {
 } from 'react-flow-renderer'
 
 import { buildEdge, buildNode } from '../utils/utilities'
-import { initialElements } from '../initial-elements'
-import { useVSMDispatch } from '../components/AppContext'
+import { useValueStream } from '../reactContext'
+import Node from './Node'
 import Sidebar from './Sidebar'
-import StepNode from './StepNode'
 
 const nodeTypes = {
-  stepNode: StepNode,
+  stepNode: Node,
 }
 
-let maxNodeId = 0
-let maxEdgeId = 0
-const getNodeId = () => `node_${maxNodeId++}`
-const getEdgeId = () => `edge_${maxEdgeId++}`
+let maxElementId = 0
+const getElementId = () => `vsm_${maxElementId++}`
 
 const VSMFlow = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const [elements, setElements] = useState(initialElements)
-  const dispatch = useVSMDispatch()
+  const { state, createEdge, createNode } = useValueStream()
 
-  useEffect(() => {
-    // console.log(`Elements: `)
-    // console.log(elements)
-    dispatch({ type: 'SYNC', elements: elements })
-  })
+  const [elements, setElements] = useState(state.elements)
 
   const onConnect = (params) => {
     const found = elements.find((element) => {
@@ -61,20 +54,25 @@ const VSMFlow = () => {
     )
     const source = nodes[nodes.length - 1].id
 
+    createEdge(buildEdge(getElementId(), source, newNode.id))
+    console.log(state)
     setElements((element) =>
-      element.concat(buildEdge(getEdgeId(), source, newNode.id)),
+      element.concat(buildEdge(getElementId(), source, newNode.id)),
     )
   }
 
   const onDrop = (event) => {
     event.preventDefault()
 
-    const type = event.dataTransfer.getData('application/reactflow')
     const position = reactFlowInstance.project({
       x: event.clientX,
       y: event.clientY - 40,
     })
-    const newNode = buildNode(getNodeId(), position)
+
+    const id = getElementId()
+
+    const newNode = buildNode(id, position)
+    createNode(newNode)
 
     setElements((element) => element.concat(newNode))
     autoConnect(newNode)
@@ -92,6 +90,9 @@ const VSMFlow = () => {
             onDrop={onDrop}
             onDragOver={onDragOver}
             nodeTypes={nodeTypes}
+            defaultZoom={0.8}
+            minZoom={0.01}
+            maxZoom={1.5}
           >
             <Controls />
             <MiniMap

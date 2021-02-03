@@ -6,22 +6,45 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: '30px',
+      width: '30ch',
       border: 0,
       borderRadius: 3,
     },
   },
 }))
 
-const InputNumber = (props) => {
+const InputText = (props) => {
   const classes = useStyles()
-  const { id, label, onChange, onBlur, inputProps } = props
+  const { id, label, onChange, onBlur, inputProps, name } = props
 
   return (
     <>
       <TextField
         className={classes.root}
         id={id}
+        name={name}
+        label={label}
+        variant="outlined"
+        size="small"
+        margin="dense"
+        inputProps={inputProps}
+        onChange={onChange}
+        onBlur={onBlur}
+      />
+    </>
+  )
+}
+
+const InputNumber = (props) => {
+  const classes = useStyles()
+  const { id, label, onChange, onBlur, inputProps, name } = props
+
+  return (
+    <>
+      <TextField
+        className={classes.root}
+        id={id}
+        name={name}
         label={label}
         variant="outlined"
         size="small"
@@ -36,4 +59,4 @@ const InputNumber = (props) => {
   )
 }
 
-export default InputNumber
+export { InputText, InputNumber }
