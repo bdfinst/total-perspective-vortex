@@ -41,11 +41,9 @@ const buildEdge = (id, source, target) => {
     id: `${id}`,
     source: `${source}`,
     target: `${target}`,
-
     elType: 'EDGE',
-    animated: true,
     style: { stroke: 'red' },
-    arrowHeadType: 'arrowclosed',
+    arrowHeadType: 'arrow',
   }
 }
 

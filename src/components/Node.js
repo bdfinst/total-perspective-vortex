@@ -49,7 +49,12 @@ const Node = (props) => {
       <Handle
         type="target"
         position="left"
-        style={{ background: '#555' }}
+        style={{
+          background: 'red',
+          width: '15px',
+          height: '15px',
+          left: '-9px',
+        }}
         onConnect={(params) => {
           console.log('handle onConnect', params)
         }}
@@ -113,7 +118,12 @@ const Node = (props) => {
         type="source"
         position="right"
         onConnect={(params) => console.log('handle onConnect', params)}
-        style={{ background: '#555' }}
+        style={{
+          background: 'green',
+          width: '15px',
+          height: '15px',
+          right: '-9px',
+        }}
       />
     </>
   )

@@ -6,6 +6,7 @@ import ReactFlow, {
   ReactFlowProvider,
   addEdge,
   removeElements,
+  updateEdge,
 } from 'react-flow-renderer'
 
 import { buildEdge, buildNode } from '../utils/utilities'
@@ -37,6 +38,13 @@ const ValueStreamMap = () => {
     }
   }
 
+  const onConnectStart = (event, { nodeId, handleType }) =>
+    console.log('on connect start', { nodeId, handleType })
+  const onConnectStop = (event) => console.log('on connect stop', event)
+  const onConnectEnd = (event) => console.log('on connect end', event)
+  const onNodeDragStop = (event, node) => console.log('drag stop', node)
+  const onElementClick = (event, element) => console.log('click', element)
+
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els))
 
@@ -48,14 +56,14 @@ const ValueStreamMap = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
+  const onEdgeUpdate = (oldEdge, newConnection) =>
+    setElements((els) => updateEdge(oldEdge, newConnection, els))
+
   const autoConnect = (newNode) => {
-    const nodes = elements.filter(
-      (el) => el.hasOwnProperty('type') && el.type === 'stepNode',
-    )
+    const nodes = elements.filter((el) => el.elType === 'NODE')
     const source = nodes[nodes.length - 1].id
 
     createEdge(buildEdge(getElementId(), source, newNode.id))
-    console.log(state)
     setElements((element) =>
       element.concat(buildEdge(getElementId(), source, newNode.id)),
     )
@@ -84,15 +92,22 @@ const ValueStreamMap = () => {
         <div className="reactflow-wrapper">
           <ReactFlow
             elements={elements}
-            onConnect={onConnect}
-            onElementsRemove={onElementsRemove}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
             nodeTypes={nodeTypes}
             defaultZoom={0.8}
             minZoom={0.01}
             maxZoom={1.5}
+            snapToGrid={true}
+            onConnect={onConnect}
+            onEdgeUpdate={onEdgeUpdate}
+            onElementsRemove={onElementsRemove}
+            onNodeDragStop={onNodeDragStop}
+            onElementClick={onElementClick}
+            onLoad={onLoad}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            onConnectStart={onConnectStart}
+            onConnectStop={onConnectStop}
+            onConnectEnd={onConnectEnd}
           >
             <Controls />
             <MiniMap
