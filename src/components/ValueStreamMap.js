@@ -20,7 +20,7 @@ const nodeTypes = {
 let maxElementId = 0
 const getElementId = () => `vsm_${maxElementId++}`
 
-const VSMFlow = () => {
+const ValueStreamMap = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const { state, createEdge, createNode } = useValueStream()
 
@@ -117,4 +117,4 @@ const VSMFlow = () => {
   )
 }
 
-export default VSMFlow
+export default ValueStreamMap

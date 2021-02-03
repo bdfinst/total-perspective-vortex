@@ -22,6 +22,8 @@ const buildNode = (id, position) => {
     id: `${id}`,
     type: 'stepNode',
     elType: 'NODE',
+    sourcePosition: 'right',
+    targetPosition: 'left',
     data: {
       description: '',
       actors: 0,
@@ -39,6 +41,7 @@ const buildEdge = (id, source, target) => {
     id: `${id}`,
     source: `${source}`,
     target: `${target}`,
+
     elType: 'EDGE',
     animated: true,
     style: { stroke: 'red' },
