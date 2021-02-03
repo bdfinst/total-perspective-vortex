@@ -44,7 +44,7 @@ exports[`Sidebar should take a snapshot 1`] = `
     <div
       data-testid="actorTime"
     >
-      Actor Time: 
+      Actor Time: 0
     </div>
     <div
       data-testid="totalTime"

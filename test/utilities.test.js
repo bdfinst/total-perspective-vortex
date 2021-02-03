@@ -46,6 +46,7 @@ it('should sum the values of the nodes', () => {
   const results = getNodeSums(elements)
 
   expect(results).toEqual({
+    actorTime: 8,
     processTime: 6,
     waitTime: 9,
     totalTime: 15,
