@@ -17,7 +17,7 @@ const init = () => {
   return elements
 }
 
-const CountContext = React.createContext()
+const ValueStreamContext = React.createContext()
 
 const valueStream = {
   maxNodeId: 2,
@@ -41,6 +41,7 @@ const addEdge = (state, { source, target }) => {
     return state
   }
 
+  console.log(`addEdge: ${source.id} ${target.id}`)
   return {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
@@ -112,13 +113,13 @@ const valueStreamReducer = (state, action) => {
 const ValueStreamProvider = (props) => {
   const [state, dispatch] = React.useReducer(valueStreamReducer, valueStream)
 
-  const value = React.useMemo(() => [state, dispatch], [state])
+  // const value = React.useMemo(() => [state, dispatch], [state])
 
-  return <CountContext.Provider value={value} {...props} />
+  return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
 }
 
 const useValueStream = () => {
-  const context = React.useContext(CountContext)
+  const context = React.useContext(ValueStreamContext)
   if (!context) {
     throw new Error(`useValueStream must be used within a ValueStreamProvider`)
   }
