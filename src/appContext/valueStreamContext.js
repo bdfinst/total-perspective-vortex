@@ -11,23 +11,32 @@ import validateKeys from 'object-key-validator'
 import { buildEdge, buildNode } from '../helpers/utilities'
 
 const init = () => {
-  const elements = [
-    buildNode('1', { x: 100, y: 150 }),
-    buildNode('2', { x: 350, y: 150 }),
-    buildEdge('e1', '1', '2'),
-  ]
+  const node1 = buildNode({ id: 1, x: 100, y: 150 })
+  const node2 = buildNode({ id: 2, x: 350, y: 150 })
+
+  const elements = [node1, node2, buildEdge(node1, node2)]
   return elements
 }
 
 const CountContext = React.createContext()
 
 const valueStream = {
-  lastElementId: 0,
+  maxNodeId: 2,
   elements: init(),
 }
 
 const create = (state, newNode) => {
   return { ...valueStream, elements: state.elements.concat(newNode) }
+}
+
+const addNode = (state, { x, y }) => {
+  const nodeId = state.maxNodeId + 1
+
+  return {
+    ...state,
+    maxNodeId: nodeId,
+    elements: [...state.elements, buildNode({ id: nodeId, x, y })],
+  }
 }
 
 const updateNode = (state, nodeId, data) => {
@@ -62,10 +71,10 @@ const updateEdge = (state, data) => {
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
     case 'INCREMENT': {
-      return { ...valueStream, lastElementId: state.lastElementId + 1 }
+      return { ...valueStream, maxNodeId: state.maxNodeId + 1 }
     }
     case 'CREATE_NODE': {
-      return create(state, action.data)
+      return addNode(state, action.data)
     }
     case 'CREATE_EDGE': {
       return create(state, action.data)
