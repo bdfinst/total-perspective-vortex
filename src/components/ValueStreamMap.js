@@ -97,17 +97,17 @@ const ValueStreamMap = () => {
             minZoom={0.01}
             maxZoom={1.5}
             snapToGrid={true}
-            // onConnect={onConnect}
-            // onEdgeUpdate={onEdgeUpdate}
-            // onElementsRemove={onElementsRemove}
-            // onNodeDragStop={onNodeDragStop}
-            // onElementClick={onElementClick}
-            // onLoad={onLoad}
+            onConnect={onConnect}
+            onEdgeUpdate={onEdgeUpdate}
+            onElementsRemove={onElementsRemove}
+            onNodeDragStop={onNodeDragStop}
+            onElementClick={onElementClick}
+            onLoad={onLoad}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            // onConnectStart={onConnectStart}
-            // onConnectStop={onConnectStop}
-            // onConnectEnd={onConnectEnd}
+            onConnectStart={onConnectStart}
+            onConnectStop={onConnectStop}
+            onConnectEnd={onConnectEnd}
           >
             <Controls />
             <MiniMap
