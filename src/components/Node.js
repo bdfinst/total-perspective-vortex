@@ -108,7 +108,13 @@ const Node = (props) => {
             onChange={handleChange}
             onBlur={handleUpdate}
           />
-          <IconButton aria-label="delete" className={classes.extendedIcon}>
+          <IconButton
+            aria-label="delete"
+            className={classes.extendedIcon}
+            onClick={(delNode) => {
+              console.log(`onClick Delete ${JSON.stringify(delNode)}`)
+            }}
+          >
             <DeleteTwoToneIcon />
           </IconButton>
         </div>
