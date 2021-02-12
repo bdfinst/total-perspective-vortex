@@ -67,6 +67,9 @@ export const getNodes = (elements) => {
 export const getEdges = (elements) => {
   return elements.filter((element) => element.elType === 'EDGE')
 }
+export const edgeExists = (elements, newEdge) => {
+  return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
+}
 
 export const getNodeSums = (elements) => {
   const sums = getNodes(elements)

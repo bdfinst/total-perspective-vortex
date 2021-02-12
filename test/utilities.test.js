@@ -3,6 +3,7 @@ import validateKeys from 'object-key-validator'
 import {
   buildEdge,
   buildNode,
+  getEdges,
   getNodeSums,
   getNodes,
 } from '../src/helpers/utilities'
@@ -86,9 +87,9 @@ describe('Building nodes and edges', () => {
 
     const elements = nodes.concat(buildEdge(nodes[0], nodes[1]))
 
-    const filtered = getNodes(elements)
+    const filtered = getEdges(elements)
 
-    expect(filtered.length).toEqual(1)
+    // expect(filtered.length).toEqual(1)
     expect(filtered[0].elType).toEqual('EDGE')
   })
   it('should require coordinates', () => {

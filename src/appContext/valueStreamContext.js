@@ -6,9 +6,8 @@
  */
 
 import React from 'react'
-import validateKeys from 'object-key-validator'
 
-import { buildEdge, buildNode } from '../helpers/utilities'
+import { buildEdge, buildNode, edgeExists } from '../helpers/utilities'
 
 const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 150 })
@@ -25,10 +24,6 @@ const valueStream = {
   elements: init(),
 }
 
-const create = (state, newNode) => {
-  return { ...valueStream, elements: state.elements.concat(newNode) }
-}
-
 const addNode = (state, { x, y }) => {
   const nodeId = state.maxNodeId + 1
 
@@ -39,28 +34,48 @@ const addNode = (state, { x, y }) => {
   }
 }
 
-const updateNode = (state, nodeId, data) => {
-  const rule = {
-    $and: [
-      'description',
-      'actors',
-      'processTime',
-      'waitTime',
-      'pctCompleteAccurate',
-    ],
+const addEdge = (state, { source, target }) => {
+  const newEdge = buildEdge(source, target)
+
+  if (edgeExists(state.elements, newEdge)) {
+    return state
   }
 
-  if (validateKeys(rule, data)) {
-    return {
-      ...state,
-      elements: state.elements.map((el) => {
-        return el.id === nodeId ? { ...el, data: data } : el
-      }),
-    }
-  } else {
-    throw new Error(
-      `Invalid object sent to updateNode: ${JSON.stringify(data)}`,
-    )
+  return {
+    ...state,
+    elements: [...state.elements, buildEdge(source, target)],
+  }
+}
+
+const updateNode = (state, { node, position, data }) => {
+  return {
+    ...state,
+    elements: state.elements.map((el) => {
+      return el.id === node.id
+        ? {
+            ...el,
+            data: data
+              ? {
+                  description: data.description
+                    ? data.description
+                    : el.data.description,
+                  actors: data.actors ? data.actors : el.data.actors,
+                  processTime: data.processTime
+                    ? data.processTime
+                    : el.data.processTime,
+                  waitTime: data.waitTime ? data.waitTime : el.data.waitTime,
+                  pctCompleteAccurate: data.pctCompleteAccurate
+                    ? data.pctCompleteAccurate
+                    : el.data.pctCompleteAccurate,
+                }
+              : el.data,
+            position: {
+              x: position ? position.x : el.position.x,
+              y: position ? position.y : el.position.y,
+            },
+          }
+        : el
+    }),
   }
 }
 
@@ -77,10 +92,10 @@ const valueStreamReducer = (state, action) => {
       return addNode(state, action.data)
     }
     case 'CREATE_EDGE': {
-      return create(state, action.data)
+      return addEdge(state, action.data)
     }
     case 'UPDATE_NODE': {
-      return updateNode(state, action.nodeId, action.data)
+      return updateNode(state, action.data)
     }
     case 'UPDATE_EDGE': {
       return updateEdge(state, action.data)
@@ -112,12 +127,7 @@ const useValueStream = () => {
   const increment = () => dispatch({ type: 'INCREMENT' })
   const createNode = (data) => dispatch({ type: 'CREATE_NODE', data })
   const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
-  const changeNodeValues = (nodeId, data) =>
-    dispatch({
-      type: 'UPDATE_NODE',
-      nodeId: `${nodeId}`,
-      data,
-    })
+  const changeNodeValues = (data) => dispatch({ type: 'UPDATE_NODE', data })
 
   return {
     state,

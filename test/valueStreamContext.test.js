@@ -7,6 +7,7 @@ import {
 import {
   buildEdge,
   buildNode,
+  getEdges,
   getElementById,
   getNodes,
 } from '../src/helpers/utilities'
@@ -56,53 +57,122 @@ describe('Value Stream Context', () => {
     expect(result.current.state.elements[el]).toHaveProperty('position')
   })
 
-  it('should update an existing node with a given node ID', () => {
-    const newData = {
-      description: '',
-      actors: 1,
-      processTime: 1,
-      waitTime: 2,
-      pctCompleteAccurate: 3,
-      \,
-    }
-
+  it('should add an edge between two nodes', () => {
     act(() => {
       result.current.createNode({ x: 1, y: 1 })
     })
 
     const nodes = getNodes(result.current.state.elements)
-    const testNode = nodes[nodes.length - 1]
+    const source = nodes[nodes.length - 1]
+    const target = nodes[nodes.length - 2]
 
     act(() => {
-      result.current.changeNodeValues(testNode, newData)
+      result.current.createEdge({ source, target })
     })
 
-    const found = result.current.state.elements.filter(
-      (node) => node.id === testNode.id,
-    )
+    const edges = getEdges(result.current.state.elements)
 
-    expect(found[0].data).toEqual(newData)
-    expect(found[0].position).toEqual({ x: 2, y: 2 })
+    expect(edges[edges.length - 1].source).toEqual(source.id)
+    expect(edges[edges.length - 1].target).toEqual(target.id)
   })
 
-  it('should throw an update error for having the wrong properties', () => {
-    const testNodeId = '1'
-
+  it('should prevent adding a duplicate node', () => {
     act(() => {
-      result.current.createNode(buildNode(testNodeId, { x: 1, y: 1 }))
+      result.current.createNode({ x: 1, y: 1 })
     })
 
-    const newData = { processTime: 1, waitTime: 2 }
+    const nodes = getNodes(result.current.state.elements)
+    const source = nodes[nodes.length - 1]
+    const target = nodes[nodes.length - 2]
+
+    const previous = getEdges(result.current.state.elements).length
 
     act(() => {
-      result.current.changeNodeValues(testNodeId, newData)
+      result.current.createEdge({ source, target })
     })
 
-    expect(result.error).toEqual(
-      Error(
-        'Invalid object sent to updateNode: {"processTime":1,"waitTime":2}',
-      ),
-    )
+    act(() => {
+      result.current.createEdge({ source, target })
+    })
+
+    expect(getEdges(result.current.state.elements).length).toEqual(previous + 1)
+  })
+
+  describe('Updating a node', () => {
+    it('should update data for a node', () => {
+      const newData = {
+        description: '',
+        actors: 1,
+        processTime: 1,
+        waitTime: 2,
+        pctCompleteAccurate: 3,
+      }
+
+      act(() => {
+        result.current.createNode({ x: 1, y: 1 })
+      })
+
+      const nodes = getNodes(result.current.state.elements)
+      const testNode = nodes[nodes.length - 1]
+
+      act(() => {
+        result.current.changeNodeValues({
+          node: testNode,
+          data: newData,
+        })
+      })
+
+      const found = result.current.state.elements.filter(
+        (node) => node.id === testNode.id,
+      )
+
+      expect(found[0].data).toEqual(newData)
+    })
+    it('should update one data property for a node', () => {
+      act(() => {
+        result.current.createNode({ x: 1, y: 1 })
+      })
+
+      const nodes = getNodes(result.current.state.elements)
+      const testNode = nodes[nodes.length - 1]
+
+      const newData = testNode.data
+      newData.description = 'New Description'
+
+      act(() => {
+        result.current.changeNodeValues({
+          node: testNode,
+          data: newData,
+        })
+      })
+
+      const found = result.current.state.elements.filter(
+        (node) => node.id === testNode.id,
+      )
+
+      expect(found[0].data).toEqual(newData)
+    })
+    it('should update a node position', () => {
+      act(() => {
+        result.current.createNode({ x: 1, y: 1 })
+      })
+
+      const nodes = getNodes(result.current.state.elements)
+      const testNode = nodes[nodes.length - 1]
+
+      act(() => {
+        result.current.changeNodeValues({
+          node: testNode,
+          position: { x: 2, y: 2 },
+        })
+      })
+
+      const found = result.current.state.elements.filter(
+        (node) => node.id === testNode.id,
+      )
+
+      expect(found[0].position).toEqual({ x: 2, y: 2 })
+    })
   })
 
   it('should throw an error for unknown dispatch', () => {
