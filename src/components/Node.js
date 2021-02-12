@@ -41,7 +41,7 @@ const Node = (props) => {
   }
 
   const handleUpdate = (e) => {
-    changeNodeValues(node.id, node.data)
+    changeNodeValues({ node: node, data: node.data })
   }
 
   return (
