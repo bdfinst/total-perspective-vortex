@@ -108,7 +108,7 @@ const Node = (props) => {
             onChange={handleChange}
             onBlur={handleUpdate}
           />
-          <IconButton
+          {/* <IconButton
             aria-label="delete"
             className={classes.extendedIcon}
             onClick={(delNode) => {
@@ -116,7 +116,7 @@ const Node = (props) => {
             }}
           >
             <DeleteTwoToneIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
 

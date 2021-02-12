@@ -25,8 +25,14 @@ const ValueStreamMap = () => {
   const [elements, setElements] = useState(state.elements)
 
   useEffect(() => {
-    setElements(state.elements)
-  }, [state.elements])
+    const nodes = getNodes(state.elements)
+
+    createEdge({
+      source: nodes[nodes.length - 2],
+      target: nodes[nodes.length - 1],
+    })
+    console.log(state.elements)
+  }, [createEdge, state.elements])
 
   // const onConnect = (params) => {
   //   const found = elements.find((element) => {
@@ -80,13 +86,8 @@ const ValueStreamMap = () => {
     })
 
     createNode(position)
-    const nodes = getNodes(state.elements)
 
-    createEdge({
-      source: nodes[nodes.length - 2],
-      target: nodes[nodes.length - 1],
-    })
-    console.log(state.elements)
+    // console.log(state.elements)
   }
 
   return (
