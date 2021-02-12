@@ -4,13 +4,7 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../src/appContext/valueStreamContext'
-import {
-  buildEdge,
-  buildNode,
-  getEdges,
-  getElementById,
-  getNodes,
-} from '../src/helpers/utilities'
+import { getEdges, getNodes } from '../src/helpers/utilities'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (

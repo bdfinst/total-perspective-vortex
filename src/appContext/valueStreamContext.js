@@ -41,7 +41,6 @@ const addEdge = (state, { source, target }) => {
     return state
   }
 
-  console.log(`addEdge: ${source.id} ${target.id}`)
   return {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
@@ -80,8 +79,15 @@ const updateNode = (state, { node, position, data }) => {
   }
 }
 
-const updateEdge = (state, data) => {
-  console.log(data)
+const updateEdge = (state, { oldEdge, newTargetNode }) => {
+  return {
+    ...state,
+    elements: state.elements.map((edge) => {
+      return edge.id === oldEdge.id
+        ? { ...edge, target: newTargetNode.id }
+        : edge
+    }),
+  }
 }
 
 const valueStreamReducer = (state, action) => {
@@ -126,9 +132,15 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
-  const createNode = (data) => dispatch({ type: 'CREATE_NODE', data })
-  const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
-  const changeNodeValues = (data) => dispatch({ type: 'UPDATE_NODE', data })
+  const createNode = ({ x, y }) =>
+    dispatch({ type: 'CREATE_NODE', data: { x, y } })
+  const createEdge = ({ source, target }) =>
+    dispatch({ type: 'CREATE_EDGE', data: { source, target } })
+  const changeNodeValues = ({ node, position, data }) =>
+    dispatch({ type: 'UPDATE_NODE', data: { node, position, data } })
+  const changeEdge = ({ oldEdge, newTargetNode }) => {
+    dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
+  }
 
   return {
     state,
@@ -137,6 +149,7 @@ const useValueStream = () => {
     createNode,
     createEdge,
     changeNodeValues,
+    changeEdge,
   }
 }
 

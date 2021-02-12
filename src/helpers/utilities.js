@@ -64,9 +64,15 @@ export const addValues = (a, b) => Number(a) + Number(b)
 export const getNodes = (elements) => {
   return elements.filter((element) => element.elType === 'NODE')
 }
+
+export const getNodeById = (elements, id) => {
+  return getNodes(elements).find((node) => node.id === id)
+}
+
 export const getEdges = (elements) => {
   return elements.filter((element) => element.elType === 'EDGE')
 }
+
 export const edgeExists = (elements, newEdge) => {
   return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
 }

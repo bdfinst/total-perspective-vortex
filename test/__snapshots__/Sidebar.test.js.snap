@@ -8,7 +8,9 @@ exports[`Sidebar should take a snapshot 1`] = `
         aria-disabled="false"
         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
         href="https://github.com/bdfinst/vsm-tool"
+        rel="noreferrer"
         tabindex="0"
+        target="_blank"
       >
         <span
           class="MuiButton-label"

@@ -8,7 +8,7 @@ import ReactFlow, {
   updateEdge,
 } from 'react-flow-renderer'
 
-import { getNodes } from '../helpers/utilities'
+import { getNodeById, getNodes } from '../helpers/utilities'
 import { useValueStream } from '../appContext/valueStreamContext'
 import Node from './Node'
 import Sidebar from './Sidebar'
@@ -21,29 +21,34 @@ const ValueStreamMap = () => {
   const reactFlowWrapper = useRef(null)
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const { state, createEdge, createNode } = useValueStream()
-  const [elements, setElements] = useState(state.elements)
+  const { state, createEdge, createNode, changeEdge } = useValueStream()
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
 
-    createEdge({
-      source: nodes[nodes.length - 2],
-      target: nodes[nodes.length - 1],
-    })
-    console.log(state.elements)
-  }, [createEdge, state.elements])
+    // if (nodes.length > nodeCount) {
+    //   createEdge({
+    //     source: nodes[nodes.length - 2],
+    //     target: nodes[nodes.length - 1],
+    //   })
+    // }
+    console.log(` ${nodes.length}`)
+  }, [state.elements])
 
-  // const onConnect = (params) => {
-  //   const found = elements.find((element) => {
-  //     return (
-  //       element.source === params.source && element.target === params.target
-  //     )
-  //   })
-  //   if (!found) {
-  //     setElements((els) => addEdge(params, els))
-  //   }
-  // }
+  const onConnect = (params) => {
+    const source = getNodeById(state.elements, params.source)
+    console.log(source)
+    const target = getNodeById(state.elements, params.target)
+    createEdge({ source, target })
+    // const found = elements.find((element) => {
+    //   return (
+    //     element.source === params.source && element.target === params.target
+    //   )
+    // })
+    // if (!found) {
+    //   setElements((els) => addEdge(params, els))
+    // }
+  }
 
   const onConnectStart = (event, { nodeId, handleType }) =>
     console.log('on connect start', { nodeId, handleType })
@@ -62,6 +67,9 @@ const ValueStreamMap = () => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
   }
+
+  const onEdgeUpdate = (oldEdge, newConnection) =>
+    changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
 
   // const onEdgeUpdate = (oldEdge, newConnection) =>
   //   setElements((els) => updateEdge(oldEdge, newConnection, els))
@@ -101,8 +109,8 @@ const ValueStreamMap = () => {
             minZoom={0.01}
             maxZoom={1.5}
             snapToGrid={true}
-            // onConnect={onConnect}
-            // onEdgeUpdate={onEdgeUpdate}
+            onConnect={onConnect}
+            onEdgeUpdate={onEdgeUpdate}
             // onElementsRemove={onElementsRemove}
             onNodeDragStop={onNodeDragStop}
             onElementClick={onElementClick}
