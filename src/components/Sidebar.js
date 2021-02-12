@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
 
-import { useValueStream } from '../reactContext'
+import { useValueStream } from '../appContext/valueStreamContext'
 import Totals from './Totals'
 
 const Sidebar = () => {

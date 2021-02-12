@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone'
 
 import { InputNumber, InputText } from './Inputs'
-import { useValueStream } from '../reactContext'
+import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   margin: {

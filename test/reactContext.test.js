@@ -1,6 +1,9 @@
 import { act, cleanup, renderHook } from '@testing-library/react-hooks'
 
-import { ValueStreamProvider, useValueStream } from '../src/reactContext'
+import {
+  ValueStreamProvider,
+  useValueStream,
+} from '../src/appContext/reactContext'
 import { buildEdge, buildNode, getElementById } from '../src/utils/utilities'
 
 const renderVSMHook = () => {

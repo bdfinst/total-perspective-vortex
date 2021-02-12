@@ -9,8 +9,8 @@ import ReactFlow, {
   updateEdge,
 } from 'react-flow-renderer'
 
-import { buildEdge, buildNode } from '../utils/utilities'
-import { useValueStream } from '../reactContext'
+import { buildEdge, buildNode } from '../helpers/utilities'
+import { useValueStream } from '../appContext/valueStreamContext'
 import Node from './Node'
 import Sidebar from './Sidebar'
 

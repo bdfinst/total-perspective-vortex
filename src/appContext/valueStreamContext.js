@@ -8,7 +8,7 @@
 import React from 'react'
 import validateKeys from 'object-key-validator'
 
-import { buildEdge, buildNode } from './utils/utilities'
+import { buildEdge, buildNode } from '../helpers/utilities'
 
 const init = () => {
   const elements = [

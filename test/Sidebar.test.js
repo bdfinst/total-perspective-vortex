@@ -2,7 +2,10 @@ import { act, renderHook } from '@testing-library/react-hooks'
 import { cleanup, render } from '@testing-library/react'
 import React from 'react'
 
-import { ValueStreamProvider, useValueStream } from '../src/reactContext'
+import {
+  ValueStreamProvider,
+  useValueStream,
+} from '../src/appContext/reactContext'
 import { buildNode } from '../src/utils/utilities'
 import Sidebar from '../src/components/Sidebar'
 
