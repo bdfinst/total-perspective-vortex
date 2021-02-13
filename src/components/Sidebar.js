@@ -1,9 +1,17 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
+import exportFromJSON from 'export-from-json'
 
+import { useValueStream } from '../appContext/valueStreamContext'
 import Totals from './Totals'
 
 const Sidebar = () => {
+  const { reset, state } = useValueStream()
+
+  const handleReset = () => {
+    console.log('Calling reset')
+    reset()
+  }
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.effectAllowed = 'move'
   }
@@ -28,6 +36,28 @@ const Sidebar = () => {
         Add Node
       </div>
       <Totals />
+      <div>
+        <Button color="primary" onClick={handleReset}>
+          Reset VSM
+        </Button>
+      </div>
+      <div>
+        <Button color="primary">Load</Button>
+      </div>
+      <div>
+        <Button
+          color="primary"
+          onClick={() => {
+            exportFromJSON({
+              data: state,
+              fileName: 'vsm',
+              exportType: 'json',
+            })
+          }}
+        >
+          Save
+        </Button>
+      </div>
     </aside>
   )
 }

@@ -7,7 +7,7 @@ Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https:
 
 ## Planned Features
 
-- [ ] Local persistance
+- [X] Local persistance
 - [X] Drag and drop node chaining
 - [ ] Parallel and converging value streams
 - [X] Auto-calculated totals

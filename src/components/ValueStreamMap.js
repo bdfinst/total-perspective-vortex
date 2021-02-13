@@ -13,9 +13,6 @@ import Node from './Node'
 import Sidebar from './Sidebar'
 
 const ValueStreamMap = () => {
-  const reactFlowWrapper = useRef(null)
-
-  const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const {
     state,
     createEdge,
@@ -23,6 +20,9 @@ const ValueStreamMap = () => {
     changeEdge,
     removeElements,
   } = useValueStream()
+  const reactFlowWrapper = useRef(null)
+
+  const [reactFlowInstance, setReactFlowInstance] = useState(null)
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
@@ -49,8 +49,9 @@ const ValueStreamMap = () => {
     removeElements(elementsToRemove)
   }
 
-  const onLoad = (_reactFlowInstance) =>
+  const onLoad = (_reactFlowInstance) => {
     setReactFlowInstance(_reactFlowInstance)
+  }
 
   const onDragOver = (event) => {
     event.preventDefault()

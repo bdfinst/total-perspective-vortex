@@ -35,14 +35,21 @@ const updateLocalStorage = (state) => {
   ls('elements', state.elements)
 }
 
+const resetVSM = () => {
+  ls.clear()
+  return vsInit
+}
+
 const addNode = (state, { x, y }) => {
   const nodeId = state.maxNodeId + 1
 
-  return {
+  const newState = {
     ...state,
     maxNodeId: nodeId,
     elements: [...state.elements, buildNode({ id: nodeId, x, y })],
   }
+  updateLocalStorage(newState)
+  return newState
 }
 
 const addEdge = (state, { source, target }) => {
@@ -52,14 +59,16 @@ const addEdge = (state, { source, target }) => {
     return state
   }
 
-  return {
+  const newState = {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
   }
+  updateLocalStorage(newState)
+  return newState
 }
 
 const updateNode = (state, { node, position, data }) => {
-  return {
+  const newState = {
     ...state,
     elements: state.elements.map((el) => {
       return el.id === node.id
@@ -88,10 +97,12 @@ const updateNode = (state, { node, position, data }) => {
         : el
     }),
   }
+  updateLocalStorage(newState)
+  return newState
 }
 
 const updateEdge = (state, { oldEdge, newTargetNode }) => {
-  return {
+  const newState = {
     ...state,
     elements: state.elements.map((edge) => {
       return edge.id === oldEdge.id
@@ -99,12 +110,14 @@ const updateEdge = (state, { oldEdge, newTargetNode }) => {
         : edge
     }),
   }
+  updateLocalStorage(newState)
+  return newState
 }
 
 const deleteElements = (state, elementsToRemove) => {
   const idsToRemove = elementsToRemove.map((el) => el.id)
 
-  const del = {
+  const newState = {
     ...state,
     elements:
       state.elements.length > 1
@@ -112,7 +125,8 @@ const deleteElements = (state, elementsToRemove) => {
         : state.elements,
   }
 
-  return del
+  updateLocalStorage(newState)
+  return newState
 }
 
 const valueStreamReducer = (state, action) => {
@@ -134,6 +148,9 @@ const valueStreamReducer = (state, action) => {
     }
     case 'DELETE': {
       return deleteElements(state, action.data)
+    }
+    case 'RESET': {
+      return resetVSM()
     }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
@@ -174,6 +191,7 @@ const useValueStream = () => {
   const removeElements = (elements = []) => {
     dispatch({ type: 'DELETE', data: elements })
   }
+  const reset = () => dispatch({ type: 'RESET' })
 
   return {
     state,
@@ -183,6 +201,7 @@ const useValueStream = () => {
     changeNodeValues,
     changeEdge,
     removeElements,
+    reset,
   }
 }
 
