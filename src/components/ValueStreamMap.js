@@ -3,9 +3,6 @@ import ReactFlow, {
   Controls,
   MiniMap,
   ReactFlowProvider,
-  addEdge,
-  removeElements,
-  updateEdge,
 } from 'react-flow-renderer'
 
 import { getNodeById, getNodes } from '../helpers/utilities'

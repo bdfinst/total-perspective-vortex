@@ -48,7 +48,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && git add . && npm run lint:check && npm run format:check"
+      "pre-commit": "npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
     }
   },
   "importSort": {
