@@ -51,47 +51,6 @@ describe('Value Stream Context', () => {
     expect(result.current.state.elements[el]).toHaveProperty('position')
   })
 
-  it('should add an edge between two nodes', () => {
-    act(() => {
-      result.current.createNode({ x: 1, y: 1 })
-    })
-
-    const nodes = getNodes(result.current.state.elements)
-    const source = nodes[nodes.length - 1]
-    const target = nodes[nodes.length - 2]
-
-    act(() => {
-      result.current.createEdge({ source, target })
-    })
-
-    const edges = getEdges(result.current.state.elements)
-
-    expect(edges[edges.length - 1].source).toEqual(source.id)
-    expect(edges[edges.length - 1].target).toEqual(target.id)
-  })
-
-  it('should prevent adding a duplicate node', () => {
-    act(() => {
-      result.current.createNode({ x: 1, y: 1 })
-    })
-
-    const nodes = getNodes(result.current.state.elements)
-    const source = nodes[nodes.length - 1]
-    const target = nodes[nodes.length - 2]
-
-    const previous = getEdges(result.current.state.elements).length
-
-    act(() => {
-      result.current.createEdge({ source, target })
-    })
-
-    act(() => {
-      result.current.createEdge({ source, target })
-    })
-
-    expect(getEdges(result.current.state.elements).length).toEqual(previous + 1)
-  })
-
   describe('Updating a node', () => {
     it('should update data for a node', () => {
       const newData = {
@@ -168,12 +127,76 @@ describe('Value Stream Context', () => {
       expect(found[0].position).toEqual({ x: 2, y: 2 })
     })
   })
+})
 
-  it('should throw an error for unknown dispatch', () => {
+describe('Linking nodes with edges', () => {
+  let result
+  let nodes
+  let source
+  let target1
+  let target2
+
+  beforeEach(() => {
+    result = renderVSMHook()
     act(() => {
-      result.current.dispatch({ type: 'FAKE' })
+      result.current.createNode({ x: 1, y: 1 })
+    })
+    act(() => {
+      result.current.createNode({ x: 1, y: 1 })
     })
 
-    expect(result.error).toEqual(Error('Unsupported action type: FAKE'))
+    nodes = getNodes(result.current.state.elements)
+    source = nodes[nodes.length - 1]
+    target1 = nodes[nodes.length - 2]
+    target2 = nodes[nodes.length - 3]
+  })
+
+  afterEach(cleanup)
+
+  it('should add an edge between two nodes', () => {
+    act(() => {
+      result.current.createEdge({ source: source, target: target1 })
+    })
+
+    const edges = getEdges(result.current.state.elements)
+
+    expect(edges[edges.length - 1].source).toEqual(source.id)
+    expect(edges[edges.length - 1].target).toEqual(target1.id)
+  })
+
+  it('should prevent adding a duplicate edge', () => {
+    act(() => {
+      result.current.createEdge({ source: source, target: target1 })
+    })
+    const before = getEdges(result.current.state.elements).length
+
+    act(() => {
+      result.current.createEdge({ source: source, target: target1 })
+    })
+
+    const after = getEdges(result.current.state.elements).length
+
+    expect(after).toEqual(before)
+  })
+
+  it('should update an edge to point to a new node', () => {
+    act(() => {
+      result.current.createEdge({ source: source, target: target1 })
+    })
+
+    let edges = getEdges(result.current.state.elements)
+    expect(edges[edges.length - 1].source).toEqual(source.id)
+    expect(edges[edges.length - 1].target).toEqual(target1.id)
+
+    act(() => {
+      result.current.changeEdge({
+        oldEdge: edges[edges.length - 1],
+        newTargetNode: target2,
+      })
+    })
+
+    edges = getEdges(result.current.state.elements)
+    expect(edges[edges.length - 1].source).toEqual(source.id)
+    expect(edges[edges.length - 1].target).toEqual(target2.id)
   })
 })

@@ -132,19 +132,22 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
+
   const createNode = ({ x, y }) =>
     dispatch({ type: 'CREATE_NODE', data: { x, y } })
+
   const createEdge = ({ source, target }) =>
     dispatch({ type: 'CREATE_EDGE', data: { source, target } })
+
   const changeNodeValues = ({ node, position, data }) =>
     dispatch({ type: 'UPDATE_NODE', data: { node, position, data } })
+
   const changeEdge = ({ oldEdge, newTargetNode }) => {
     dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
   }
 
   return {
     state,
-    dispatch,
     increment,
     createNode,
     createEdge,
