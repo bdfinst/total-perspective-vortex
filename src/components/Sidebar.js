@@ -3,6 +3,7 @@ import React from 'react'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../appContext/valueStreamContext'
+import FileUpload from './FileUpload'
 import Totals from './Totals'
 
 const Sidebar = () => {
@@ -12,9 +13,11 @@ const Sidebar = () => {
     console.log('Calling reset')
     reset()
   }
+
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.effectAllowed = 'move'
   }
+
   return (
     <aside>
       <div>
@@ -38,12 +41,10 @@ const Sidebar = () => {
       <Totals />
       <div>
         <Button color="primary" onClick={handleReset}>
-          Reset VSM
+          Reset
         </Button>
       </div>
-      <div>
-        <Button color="primary">Load</Button>
-      </div>
+
       <div>
         <Button
           color="primary"
@@ -57,6 +58,9 @@ const Sidebar = () => {
         >
           Save
         </Button>
+      </div>
+      <div>
+        <FileUpload />
       </div>
     </aside>
   )

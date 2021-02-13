@@ -82,8 +82,8 @@ const ValueStreamMap = () => {
             nodeTypes={{ customNode: Node }}
             edgeTypes={{ custom: CustomEdge }}
             connectionLineComponent={ConnectionLine}
-            defaultZoom={0.8}
-            minZoom={0.01}
+            defaultZoom={0.6}
+            minZoom={0.05}
             maxZoom={1.5}
             snapToGrid={true}
             onConnect={onConnect}

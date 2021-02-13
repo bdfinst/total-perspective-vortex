@@ -40,6 +40,17 @@ const resetVSM = () => {
   return vsInit
 }
 
+const initStateFromData = (state, data) => {
+  const jsonData = JSON.parse(data)
+  const newState = {
+    ...state,
+    maxNodeId: jsonData.maxNodeId,
+    elements: jsonData.elements,
+  }
+  updateLocalStorage(newState)
+  return newState
+}
+
 const addNode = (state, { x, y }) => {
   const nodeId = state.maxNodeId + 1
 
@@ -152,6 +163,9 @@ const valueStreamReducer = (state, action) => {
     case 'RESET': {
       return resetVSM()
     }
+    case 'INIT': {
+      return initStateFromData(state, action.data)
+    }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -193,6 +207,8 @@ const useValueStream = () => {
   }
   const reset = () => dispatch({ type: 'RESET' })
 
+  const initState = (data) => dispatch({ type: 'INIT', data: data })
+
   return {
     state,
     increment,
@@ -202,6 +218,7 @@ const useValueStream = () => {
     changeEdge,
     removeElements,
     reset,
+    initState,
   }
 }
 

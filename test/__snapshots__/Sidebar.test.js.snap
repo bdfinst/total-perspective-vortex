@@ -72,23 +72,7 @@ exports[`Sidebar should take a snapshot 1`] = `
         <span
           class="MuiButton-label"
         >
-          Reset VSM
-        </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
-      </button>
-    </div>
-    <div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label"
-        >
-          Load
+          Reset
         </span>
         <span
           class="MuiTouchRipple-root"
@@ -110,6 +94,24 @@ exports[`Sidebar should take a snapshot 1`] = `
           class="MuiTouchRipple-root"
         />
       </button>
+    </div>
+    <div>
+      <div>
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            Load
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
     </div>
   </aside>
 </DocumentFragment>
