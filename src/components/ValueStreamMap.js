@@ -71,9 +71,6 @@ const ValueStreamMap = () => {
   const onEdgeUpdate = (oldEdge, newConnection) =>
     changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
 
-  // const onEdgeUpdate = (oldEdge, newConnection) =>
-  //   setElements((els) => updateEdge(oldEdge, newConnection, els))
-
   // const autoConnect = (newNode) => {
   //   const nodes = elements.filter((el) => el.elType === 'NODE')
   //   const source = nodes[nodes.length - 1].id
