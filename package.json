@@ -23,6 +23,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@mrblenny/react-flow-chart": "^0.0.14",
+    "local-storage": "^2.0.0",
     "next": "10.0.6",
     "object-key-validator": "^1.1.2",
     "react": "^16.8.4",

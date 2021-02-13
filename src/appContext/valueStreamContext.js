@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import ls from 'local-storage'
 
 import { buildEdge, buildNode, edgeExists } from '../helpers/utilities'
 
@@ -19,9 +20,19 @@ const init = () => {
 
 const ValueStreamContext = React.createContext()
 
-const valueStream = {
+const vsInit = {
   maxNodeId: 2,
   elements: init(),
+}
+
+const valueStream = {
+  maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
+  elements: ls('elements') || vsInit.elements,
+}
+
+const updateLocalStorage = (state) => {
+  ls('maxNodeId', state.maxNodeId)
+  ls('elements', state.elements)
 }
 
 const addNode = (state, { x, y }) => {
