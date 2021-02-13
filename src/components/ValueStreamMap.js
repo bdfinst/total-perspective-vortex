@@ -3,47 +3,39 @@ import ReactFlow, {
   Controls,
   MiniMap,
   ReactFlowProvider,
-  addEdge,
-  removeElements,
-  updateEdge,
 } from 'react-flow-renderer'
 
-import { getNodes } from '../helpers/utilities'
+import { getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
+import ConnectionLine from './ConnectionLine'
+import CustomEdge from './CustomEdge'
 import Node from './Node'
 import Sidebar from './Sidebar'
-
-const nodeTypes = {
-  stepNode: Node,
-}
 
 const ValueStreamMap = () => {
   const reactFlowWrapper = useRef(null)
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const { state, createEdge, createNode } = useValueStream()
-  const [elements, setElements] = useState(state.elements)
+  const {
+    state,
+    createEdge,
+    createNode,
+    changeEdge,
+    removeElements,
+  } = useValueStream()
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
 
-    createEdge({
-      source: nodes[nodes.length - 2],
-      target: nodes[nodes.length - 1],
-    })
-    console.log(state.elements)
-  }, [createEdge, state.elements])
+    console.log(`Nodes: ${nodes.length}`)
+  }, [state.elements])
 
-  // const onConnect = (params) => {
-  //   const found = elements.find((element) => {
-  //     return (
-  //       element.source === params.source && element.target === params.target
-  //     )
-  //   })
-  //   if (!found) {
-  //     setElements((els) => addEdge(params, els))
-  //   }
-  // }
+  const onConnect = (params) => {
+    const source = getNodeById(state.elements, params.source)
+    const target = getNodeById(state.elements, params.target)
+
+    createEdge({ source, target })
+  }
 
   const onConnectStart = (event, { nodeId, handleType }) =>
     console.log('on connect start', { nodeId, handleType })
@@ -52,8 +44,10 @@ const ValueStreamMap = () => {
   const onNodeDragStop = (event, node) => console.log('drag stop', node)
   const onElementClick = (event, element) => console.log('click', element)
 
-  // const onElementsRemove = (elementsToRemove) =>
-  //   setElements((els) => removeElements(elementsToRemove, els))
+  const onElementsRemove = (elementsToRemove) => {
+    console.log(elementsToRemove)
+    removeElements(elementsToRemove)
+  }
 
   const onLoad = (_reactFlowInstance) =>
     setReactFlowInstance(_reactFlowInstance)
@@ -63,18 +57,8 @@ const ValueStreamMap = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
-  // const onEdgeUpdate = (oldEdge, newConnection) =>
-  //   setElements((els) => updateEdge(oldEdge, newConnection, els))
-
-  // const autoConnect = (newNode) => {
-  //   const nodes = elements.filter((el) => el.elType === 'NODE')
-  //   const source = nodes[nodes.length - 1].id
-
-  //   createEdge(buildEdge(getElementId(), source, newNode.id))
-  //   setElements((element) =>
-  //     element.concat(buildEdge(getElementId(), source, newNode.id)),
-  //   )
-  // }
+  const onEdgeUpdate = (oldEdge, newConnection) =>
+    changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
 
   const onDrop = (event) => {
     event.preventDefault()
@@ -86,8 +70,6 @@ const ValueStreamMap = () => {
     })
 
     createNode(position)
-
-    // console.log(state.elements)
   }
 
   return (
@@ -96,14 +78,16 @@ const ValueStreamMap = () => {
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={state.elements}
-            nodeTypes={nodeTypes}
+            nodeTypes={{ customNode: Node }}
+            edgeTypes={{ custom: CustomEdge }}
+            connectionLineComponent={ConnectionLine}
             defaultZoom={0.8}
             minZoom={0.01}
             maxZoom={1.5}
             snapToGrid={true}
-            // onConnect={onConnect}
-            // onEdgeUpdate={onEdgeUpdate}
-            // onElementsRemove={onElementsRemove}
+            onConnect={onConnect}
+            onEdgeUpdate={onEdgeUpdate}
+            onElementsRemove={onElementsRemove}
             onNodeDragStop={onNodeDragStop}
             onElementClick={onElementClick}
             onLoad={onLoad}
@@ -112,6 +96,7 @@ const ValueStreamMap = () => {
             onConnectStart={onConnectStart}
             onConnectStop={onConnectStop}
             onConnectEnd={onConnectEnd}
+            arrowHeadColor="green"
           >
             <Controls />
             <MiniMap

@@ -6,7 +6,7 @@ import {
   getEdges,
   getNodeSums,
   getNodes,
-} from '../src/helpers/utilities'
+} from '../src/helpers'
 
 const buildData = (processTime, waitTime, pctCompleteAccurate) => {
   return {
