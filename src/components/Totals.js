@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { getNodeSums } from '../helpers/utilities'
+import { getNodeSums } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const Totals = () => {

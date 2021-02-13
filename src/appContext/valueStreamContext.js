@@ -7,7 +7,7 @@
 
 import React from 'react'
 
-import { buildEdge, buildNode, edgeExists } from '../helpers/utilities'
+import { buildEdge, buildNode, edgeExists } from '../helpers'
 
 const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 150 })
@@ -41,7 +41,6 @@ const addEdge = (state, { source, target }) => {
     return state
   }
 
-  console.log(`addEdge: ${source.id} ${target.id}`)
   return {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
@@ -80,8 +79,29 @@ const updateNode = (state, { node, position, data }) => {
   }
 }
 
-const updateEdge = (state, data) => {
-  console.log(data)
+const updateEdge = (state, { oldEdge, newTargetNode }) => {
+  return {
+    ...state,
+    elements: state.elements.map((edge) => {
+      return edge.id === oldEdge.id
+        ? { ...edge, target: newTargetNode.id }
+        : edge
+    }),
+  }
+}
+
+const deleteElements = (state, elementsToRemove) => {
+  const idsToRemove = elementsToRemove.map((el) => el.id)
+
+  const del = {
+    ...state,
+    elements:
+      state.elements.length > 1
+        ? state.elements.filter((el) => !idsToRemove.includes(el.id))
+        : state.elements,
+  }
+
+  return del
 }
 
 const valueStreamReducer = (state, action) => {
@@ -101,8 +121,8 @@ const valueStreamReducer = (state, action) => {
     case 'UPDATE_EDGE': {
       return updateEdge(state, action.data)
     }
-    case 'SYNC': {
-      return { ...valueStream, elements: action.elements }
+    case 'DELETE': {
+      return deleteElements(state, action.data)
     }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
@@ -126,17 +146,32 @@ const useValueStream = () => {
   const [state, dispatch] = context
 
   const increment = () => dispatch({ type: 'INCREMENT' })
-  const createNode = (data) => dispatch({ type: 'CREATE_NODE', data })
-  const createEdge = (data) => dispatch({ type: 'CREATE_EDGE', data })
-  const changeNodeValues = (data) => dispatch({ type: 'UPDATE_NODE', data })
+
+  const createNode = ({ x, y }) =>
+    dispatch({ type: 'CREATE_NODE', data: { x, y } })
+
+  const createEdge = ({ source, target }) =>
+    dispatch({ type: 'CREATE_EDGE', data: { source, target } })
+
+  const changeNodeValues = ({ node, position, data }) =>
+    dispatch({ type: 'UPDATE_NODE', data: { node, position, data } })
+
+  const changeEdge = ({ oldEdge, newTargetNode }) => {
+    dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
+  }
+
+  const removeElements = (elements = []) => {
+    dispatch({ type: 'DELETE', data: elements })
+  }
 
   return {
     state,
-    dispatch,
     increment,
     createNode,
     createEdge,
     changeNodeValues,
+    changeEdge,
+    removeElements,
   }
 }
 

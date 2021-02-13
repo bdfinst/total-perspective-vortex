@@ -1,0 +1,15 @@
+[class*='custom-edge-path'] {
+  stroke-width: 2;
+  fill: transparent;
+}
+
+.custom-edge-path {
+  stroke: green;
+}
+
+.custom-edge-path-selected {
+  stroke: red;
+}
+.custom-edge-path:hover {
+  stroke: blue;
+}
