@@ -8,7 +8,7 @@ Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https:
 ## Planned Features
 
 - [X] Local persistance
-- [X] Drag and drop node chaining
+- [X] Drag and drop
 - [X] Upload and download VSM
 - [ ] Parallel and converging value streams
 - [X] Auto-calculated totals
@@ -27,5 +27,5 @@ Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https:
 Thanks for considering contributing to this value stream mapping tool. We have a few requests.
 
 1. We gladly accept tested contributions for fix or features that met the product goals.
-2. Please use FP style for all contributions to keep the code consistant.
+2. Please use functional style for all contributions to keep the code consistant.
 
