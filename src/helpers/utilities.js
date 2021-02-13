@@ -29,7 +29,7 @@ export const buildNode = ({ id, x, y }) => {
 
   return {
     id: id > 0 ? `${id}` : '-1',
-    type: 'stepNode',
+    type: 'customNode',
     elType: 'NODE',
     sourcePosition: 'right',
     targetPosition: 'left',
@@ -51,8 +51,8 @@ export const buildEdge = (source, target) => {
     source: `${source.id}`,
     target: `${target.id}`,
     elType: 'EDGE',
-    style: { stroke: 'red' },
     arrowHeadType: 'arrow',
+    type: 'custom',
   }
 }
 

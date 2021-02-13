@@ -22,7 +22,7 @@ const Sidebar = () => {
       <div className="description">Drag nodes to the pane on the right.</div>
       <div
         className="vsmnode input"
-        onDragStart={(event) => onDragStart(event, 'stepNode')}
+        onDragStart={(event) => onDragStart(event, 'customNode')}
         draggable
       >
         Add Node

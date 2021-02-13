@@ -7,12 +7,10 @@ import ReactFlow, {
 
 import { getNodeById, getNodes } from '../helpers/utilities'
 import { useValueStream } from '../appContext/valueStreamContext'
+import ConnectionLine from './ConnectionLine'
+import CustomEdge from './CustomEdge'
 import Node from './Node'
 import Sidebar from './Sidebar'
-
-const nodeTypes = {
-  stepNode: Node,
-}
 
 const ValueStreamMap = () => {
   const reactFlowWrapper = useRef(null)
@@ -98,7 +96,9 @@ const ValueStreamMap = () => {
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={state.elements}
-            nodeTypes={nodeTypes}
+            nodeTypes={{ customNode: Node }}
+            edgeTypes={{ custom: CustomEdge }}
+            connectionLineComponent={ConnectionLine}
             defaultZoom={0.8}
             minZoom={0.01}
             maxZoom={1.5}
