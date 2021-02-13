@@ -7,7 +7,7 @@
 
 import React from 'react'
 
-import { buildEdge, buildNode, edgeExists } from '../helpers/utilities'
+import { buildEdge, buildNode, edgeExists } from '../helpers'
 
 const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 150 })
@@ -90,6 +90,20 @@ const updateEdge = (state, { oldEdge, newTargetNode }) => {
   }
 }
 
+const deleteElements = (state, elementsToRemove) => {
+  const idsToRemove = elementsToRemove.map((el) => el.id)
+
+  const del = {
+    ...state,
+    elements:
+      state.elements.length > 1
+        ? state.elements.filter((el) => !idsToRemove.includes(el.id))
+        : state.elements,
+  }
+
+  return del
+}
+
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
     case 'INCREMENT': {
@@ -107,8 +121,8 @@ const valueStreamReducer = (state, action) => {
     case 'UPDATE_EDGE': {
       return updateEdge(state, action.data)
     }
-    case 'SYNC': {
-      return { ...valueStream, elements: action.elements }
+    case 'DELETE': {
+      return deleteElements(state, action.data)
     }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
@@ -146,6 +160,10 @@ const useValueStream = () => {
     dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
   }
 
+  const removeElements = (elements = []) => {
+    dispatch({ type: 'DELETE', data: elements })
+  }
+
   return {
     state,
     increment,
@@ -153,6 +171,7 @@ const useValueStream = () => {
     createEdge,
     changeNodeValues,
     changeEdge,
+    removeElements,
   }
 }
 

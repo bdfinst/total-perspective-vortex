@@ -9,10 +9,10 @@ const CustomEdge = ({
   targetY,
   sourcePosition,
   targetPosition,
-  style = { stroke: 'green', width: '10px', strokeWidth: '3' },
   data,
   arrowHeadType,
   markerEndId,
+  selected,
 }) => {
   const edgePath = getSmoothStepPath({
     sourceX,
@@ -25,16 +25,15 @@ const CustomEdge = ({
   })
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId)
 
-  console.log(markerEndId)
+  console.log(selected)
 
   return (
     <>
       <path
         id={id}
-        style={style}
-        // className="react-flow__edge-path"
         d={edgePath}
         markerEnd={markerEnd}
+        className={!selected ? 'custom-edge-path' : 'custom-edge-path-selected'}
       />
       {data ? (
         <text>

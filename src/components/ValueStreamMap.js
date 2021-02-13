@@ -5,7 +5,7 @@ import ReactFlow, {
   ReactFlowProvider,
 } from 'react-flow-renderer'
 
-import { getNodeById, getNodes } from '../helpers/utilities'
+import { getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import CustomEdge from './CustomEdge'
@@ -16,33 +16,25 @@ const ValueStreamMap = () => {
   const reactFlowWrapper = useRef(null)
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
-  const { state, createEdge, createNode, changeEdge } = useValueStream()
+  const {
+    state,
+    createEdge,
+    createNode,
+    changeEdge,
+    removeElements,
+  } = useValueStream()
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
 
-    // if (nodes.length > nodeCount) {
-    //   createEdge({
-    //     source: nodes[nodes.length - 2],
-    //     target: nodes[nodes.length - 1],
-    //   })
-    // }
-    console.log(` ${nodes.length}`)
+    console.log(`Nodes: ${nodes.length}`)
   }, [state.elements])
 
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
-    console.log(source)
     const target = getNodeById(state.elements, params.target)
+
     createEdge({ source, target })
-    // const found = elements.find((element) => {
-    //   return (
-    //     element.source === params.source && element.target === params.target
-    //   )
-    // })
-    // if (!found) {
-    //   setElements((els) => addEdge(params, els))
-    // }
   }
 
   const onConnectStart = (event, { nodeId, handleType }) =>
@@ -52,8 +44,10 @@ const ValueStreamMap = () => {
   const onNodeDragStop = (event, node) => console.log('drag stop', node)
   const onElementClick = (event, element) => console.log('click', element)
 
-  // const onElementsRemove = (elementsToRemove) =>
-  //   setElements((els) => removeElements(elementsToRemove, els))
+  const onElementsRemove = (elementsToRemove) => {
+    console.log(elementsToRemove)
+    removeElements(elementsToRemove)
+  }
 
   const onLoad = (_reactFlowInstance) =>
     setReactFlowInstance(_reactFlowInstance)
@@ -66,16 +60,6 @@ const ValueStreamMap = () => {
   const onEdgeUpdate = (oldEdge, newConnection) =>
     changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
 
-  // const autoConnect = (newNode) => {
-  //   const nodes = elements.filter((el) => el.elType === 'NODE')
-  //   const source = nodes[nodes.length - 1].id
-
-  //   createEdge(buildEdge(getElementId(), source, newNode.id))
-  //   setElements((element) =>
-  //     element.concat(buildEdge(getElementId(), source, newNode.id)),
-  //   )
-  // }
-
   const onDrop = (event) => {
     event.preventDefault()
 
@@ -86,8 +70,6 @@ const ValueStreamMap = () => {
     })
 
     createNode(position)
-
-    // console.log(state.elements)
   }
 
   return (
@@ -105,7 +87,7 @@ const ValueStreamMap = () => {
             snapToGrid={true}
             onConnect={onConnect}
             onEdgeUpdate={onEdgeUpdate}
-            // onElementsRemove={onElementsRemove}
+            onElementsRemove={onElementsRemove}
             onNodeDragStop={onNodeDragStop}
             onElementClick={onElementClick}
             onLoad={onLoad}
@@ -114,6 +96,7 @@ const ValueStreamMap = () => {
             onConnectStart={onConnectStart}
             onConnectStop={onConnectStop}
             onConnectEnd={onConnectEnd}
+            arrowHeadColor="green"
           >
             <Controls />
             <MiniMap

@@ -4,7 +4,7 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../src/appContext/valueStreamContext'
-import { getEdges, getNodes } from '../src/helpers/utilities'
+import { getEdges, getNodes } from '../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -198,5 +198,51 @@ describe('Linking nodes with edges', () => {
     edges = getEdges(result.current.state.elements)
     expect(edges[edges.length - 1].source).toEqual(source.id)
     expect(edges[edges.length - 1].target).toEqual(target2.id)
+  })
+})
+
+describe('Deleting elements', () => {
+  afterAll(cleanup)
+  it('should delete elements', () => {
+    const result = renderVSMHook()
+
+    expect(result.current.state.elements.length).toBeGreaterThan(1)
+
+    const elementsToRemove = result.current.state.elements
+      .filter((el) => el.id !== '1')
+      .map((el) => ({ id: el.id }))
+
+    act(() => {
+      result.current.removeElements(elementsToRemove)
+    })
+
+    const len = result.current.state.elements.length
+    expect(len).toEqual(1)
+    expect(result.current.state.elements[len - 1].id).toEqual('1')
+  })
+  it('should not delete the last element', () => {
+    const result = renderVSMHook()
+
+    expect(result.current.state.elements.length).toBeGreaterThan(1)
+
+    let elementsToRemove = result.current.state.elements
+      .filter((el) => el.id !== '1')
+      .map((el) => ({ id: el.id }))
+
+    act(() => {
+      result.current.removeElements(elementsToRemove)
+    })
+
+    elementsToRemove = result.current.state.elements
+      .filter((el) => el.id === '1')
+      .map((el) => ({ id: el.id }))
+
+    act(() => {
+      result.current.removeElements(elementsToRemove)
+    })
+
+    const len = result.current.state.elements.length
+    expect(len).toEqual(1)
+    expect(result.current.state.elements[len - 1].id).toEqual('1')
   })
 })
