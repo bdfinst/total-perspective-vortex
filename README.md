@@ -13,6 +13,7 @@ Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https:
 - [X] Auto-calculated totals
 - [ ] [PDF export](https://github.com/blikblum/pdfkit-webpack-example)
 - [ ] [Auto Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398)
+- [ ] Relative distance between nodes based on wait time w/ toggle to remove relative distance
 
 ## Development
 
