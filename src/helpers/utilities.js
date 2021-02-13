@@ -1,4 +1,4 @@
-const flowEfficiency = (processTime, waitTime) => {
+export const flowEfficiency = (processTime, waitTime) => {
   if (waitTime === 0 || isNaN(waitTime)) {
     return 0
   }
@@ -10,16 +10,25 @@ const flowEfficiency = (processTime, waitTime) => {
   return Math.round((processTime / waitTime) * 100) / 100
 }
 
-const nodeStyle = {
+export const nodeStyle = {
   border: '2px solid #3385e9',
   borderRadius: '12px',
   padding: 8,
   minWidth: '100px',
 }
 
-const buildNode = (id, position) => {
+/**
+ *
+ * @param {x,y} x and y Coordinates
+ */
+export const buildNode = ({ id, x, y }) => {
+  if (!x || !y) {
+    throw new Error('XY Coordinates not available for buildNode')
+  }
+  const position = { x, y }
+
   return {
-    id: `${id}`,
+    id: id > 0 ? `${id}` : '-1',
     type: 'stepNode',
     elType: 'NODE',
     sourcePosition: 'right',
@@ -36,26 +45,33 @@ const buildNode = (id, position) => {
   }
 }
 
-const buildEdge = (id, source, target) => {
+export const buildEdge = (source, target) => {
   return {
-    id: `${id}`,
-    source: `${source}`,
-    target: `${target}`,
+    id: `${source.id}_${target.id}`,
+    source: `${source.id}`,
+    target: `${target.id}`,
     elType: 'EDGE',
     style: { stroke: 'red' },
     arrowHeadType: 'arrow',
   }
 }
 
-const getElementById = (id, elements) =>
+export const getElementById = (id, elements) =>
   elements.filter((el) => el.id === `${id}`)[0]
 
-const addValues = (a, b) => Number(a) + Number(b)
+export const addValues = (a, b) => Number(a) + Number(b)
 
-const getNodes = (elements) => {
+export const getNodes = (elements) => {
   return elements.filter((element) => element.elType === 'NODE')
 }
-const getNodeSums = (elements) => {
+export const getEdges = (elements) => {
+  return elements.filter((element) => element.elType === 'EDGE')
+}
+export const edgeExists = (elements, newEdge) => {
+  return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
+}
+
+export const getNodeSums = (elements) => {
   const sums = getNodes(elements)
     .map((element) => element.data)
     .reduce((acc, val) => {
@@ -86,5 +102,3 @@ const getNodeSums = (elements) => {
 
   return totals
 }
-
-export { flowEfficiency, buildNode, buildEdge, getNodeSums, getElementById }

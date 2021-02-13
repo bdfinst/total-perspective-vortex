@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactFlow, {
   Controls,
   MiniMap,
@@ -9,8 +8,8 @@ import ReactFlow, {
   updateEdge,
 } from 'react-flow-renderer'
 
-import { buildEdge, buildNode } from '../utils/utilities'
-import { useValueStream } from '../reactContext'
+import { getNodes } from '../helpers/utilities'
+import { useValueStream } from '../appContext/valueStreamContext'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
@@ -18,25 +17,33 @@ const nodeTypes = {
   stepNode: Node,
 }
 
-let maxElementId = 0
-const getElementId = () => `vsm_${maxElementId++}`
-
 const ValueStreamMap = () => {
+  const reactFlowWrapper = useRef(null)
+
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const { state, createEdge, createNode } = useValueStream()
-
   const [elements, setElements] = useState(state.elements)
 
-  const onConnect = (params) => {
-    const found = elements.find((element) => {
-      return (
-        element.source === params.source && element.target === params.target
-      )
+  useEffect(() => {
+    const nodes = getNodes(state.elements)
+
+    createEdge({
+      source: nodes[nodes.length - 2],
+      target: nodes[nodes.length - 1],
     })
-    if (!found) {
-      setElements((els) => addEdge(params, els))
-    }
-  }
+    console.log(state.elements)
+  }, [createEdge, state.elements])
+
+  // const onConnect = (params) => {
+  //   const found = elements.find((element) => {
+  //     return (
+  //       element.source === params.source && element.target === params.target
+  //     )
+  //   })
+  //   if (!found) {
+  //     setElements((els) => addEdge(params, els))
+  //   }
+  // }
 
   const onConnectStart = (event, { nodeId, handleType }) =>
     console.log('on connect start', { nodeId, handleType })
@@ -45,8 +52,8 @@ const ValueStreamMap = () => {
   const onNodeDragStop = (event, node) => console.log('drag stop', node)
   const onElementClick = (event, element) => console.log('click', element)
 
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els))
+  // const onElementsRemove = (elementsToRemove) =>
+  //   setElements((els) => removeElements(elementsToRemove, els))
 
   const onLoad = (_reactFlowInstance) =>
     setReactFlowInstance(_reactFlowInstance)
@@ -56,40 +63,37 @@ const ValueStreamMap = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
-  const onEdgeUpdate = (oldEdge, newConnection) =>
-    setElements((els) => updateEdge(oldEdge, newConnection, els))
+  // const onEdgeUpdate = (oldEdge, newConnection) =>
+  //   setElements((els) => updateEdge(oldEdge, newConnection, els))
 
-  const autoConnect = (newNode) => {
-    const nodes = elements.filter((el) => el.elType === 'NODE')
-    const source = nodes[nodes.length - 1].id
+  // const autoConnect = (newNode) => {
+  //   const nodes = elements.filter((el) => el.elType === 'NODE')
+  //   const source = nodes[nodes.length - 1].id
 
-    createEdge(buildEdge(getElementId(), source, newNode.id))
-    setElements((element) =>
-      element.concat(buildEdge(getElementId(), source, newNode.id)),
-    )
-  }
+  //   createEdge(buildEdge(getElementId(), source, newNode.id))
+  //   setElements((element) =>
+  //     element.concat(buildEdge(getElementId(), source, newNode.id)),
+  //   )
+  // }
 
   const onDrop = (event) => {
     event.preventDefault()
 
+    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
     const position = reactFlowInstance.project({
-      x: event.clientX,
-      y: event.clientY - 40,
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
     })
 
-    const id = getElementId()
+    createNode(position)
 
-    const newNode = buildNode(id, position)
-    createNode(newNode)
-
-    setElements((element) => element.concat(newNode))
-    autoConnect(newNode)
+    // console.log(state.elements)
   }
 
   return (
     <div className="vsmflow">
       <ReactFlowProvider>
-        <div className="reactflow-wrapper">
+        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             elements={state.elements}
             nodeTypes={nodeTypes}
@@ -97,9 +101,9 @@ const ValueStreamMap = () => {
             minZoom={0.01}
             maxZoom={1.5}
             snapToGrid={true}
-            onConnect={onConnect}
-            onEdgeUpdate={onEdgeUpdate}
-            onElementsRemove={onElementsRemove}
+            // onConnect={onConnect}
+            // onEdgeUpdate={onEdgeUpdate}
+            // onElementsRemove={onElementsRemove}
             onNodeDragStop={onNodeDragStop}
             onElementClick={onElementClick}
             onLoad={onLoad}

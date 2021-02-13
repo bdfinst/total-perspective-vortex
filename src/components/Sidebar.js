@@ -1,19 +1,21 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
 
-import { useValueStream } from '../reactContext'
 import Totals from './Totals'
 
 const Sidebar = () => {
-  const { state } = useValueStream()
-
   const onDragStart = (event, nodeType) => {
     event.dataTransfer.effectAllowed = 'move'
   }
   return (
     <aside>
       <div>
-        <Button href="https://github.com/bdfinst/vsm-tool" color="primary">
+        <Button
+          href="https://github.com/bdfinst/vsm-tool"
+          target="_blank"
+          rel="noreferrer"
+          color="primary"
+        >
           GitHub
         </Button>
       </div>

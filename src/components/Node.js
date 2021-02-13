@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone'
 
 import { InputNumber, InputText } from './Inputs'
-import { useValueStream } from '../reactContext'
+import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -41,7 +41,7 @@ const Node = (props) => {
   }
 
   const handleUpdate = (e) => {
-    changeNodeValues(node.id, node.data)
+    changeNodeValues({ node: node, data: node.data })
   }
 
   return (
@@ -108,7 +108,7 @@ const Node = (props) => {
             onChange={handleChange}
             onBlur={handleUpdate}
           />
-          <IconButton
+          {/* <IconButton
             aria-label="delete"
             className={classes.extendedIcon}
             onClick={(delNode) => {
@@ -116,7 +116,7 @@ const Node = (props) => {
             }}
           >
             <DeleteTwoToneIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
 
