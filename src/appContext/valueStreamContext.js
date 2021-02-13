@@ -41,6 +41,7 @@ const resetVSM = () => {
 }
 
 const initStateFromData = (state, data) => {
+  //TODO: Validate file data
   const jsonData = JSON.parse(data)
   const newState = {
     ...state,

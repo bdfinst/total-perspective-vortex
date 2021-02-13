@@ -9,6 +9,7 @@ Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https:
 
 - [X] Local persistance
 - [X] Drag and drop node chaining
+- [X] Upload and download VSM
 - [ ] Parallel and converging value streams
 - [X] Auto-calculated totals
 - [ ] [PDF export](https://github.com/blikblum/pdfkit-webpack-example)
