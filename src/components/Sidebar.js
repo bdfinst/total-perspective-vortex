@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Paper } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
-import { useTheme } from '@material-ui/core/styles'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../appContext/valueStreamContext'
@@ -13,10 +13,19 @@ import ResetButton from './Buttons/ResetButton'
 import SaveButton from './Buttons/SaveButton'
 import Totals from './Totals'
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '&.Mui-disabled': {
+      pointerEvents: 'auto',
+    },
+  },
+}))
+
 const Sidebar = () => {
   const { reset, state } = useValueStream()
   const [isNodeSelected, setIsNodeSelected] = useState(false)
   const theme = useTheme()
+  const classes = useStyles(theme)
 
   useEffect(() => {
     setIsNodeSelected(

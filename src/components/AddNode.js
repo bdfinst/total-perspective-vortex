@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@material-ui/core'
+import { Card, CardContent } from '@material-ui/core'
 import { Launch } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'

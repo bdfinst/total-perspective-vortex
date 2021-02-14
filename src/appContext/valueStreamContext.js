@@ -5,7 +5,6 @@
  * https://kentcdodds.com/blog/application-state-management-with-react
  */
 
-import { isNode } from 'react-flow-renderer'
 import React from 'react'
 import ls from 'local-storage'
 

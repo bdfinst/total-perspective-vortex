@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { ZoomIn } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
