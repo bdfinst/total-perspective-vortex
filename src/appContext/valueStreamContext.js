@@ -25,10 +25,15 @@ const vsInit = {
   elements: init(),
 }
 
-const valueStream = {
-  maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
-  elements: ls('elements') || vsInit.elements,
+const buildData = () => {
+  // ls.clear()
+
+  return {
+    maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
+    elements: ls('elements') || vsInit.elements,
+  }
 }
+const valueStream = buildData()
 
 const updateLocalStorage = (state) => {
   ls('maxNodeId', state.maxNodeId)
@@ -42,12 +47,12 @@ const resetVSM = () => {
 
 const initStateFromData = (state, data) => {
   //TODO: Validate file data
-  const jsonData = JSON.parse(data)
   const newState = {
     ...state,
-    maxNodeId: jsonData.maxNodeId,
-    elements: jsonData.elements,
+    maxNodeId: data.maxNodeId,
+    elements: data.elements,
   }
+
   updateLocalStorage(newState)
   return newState
 }

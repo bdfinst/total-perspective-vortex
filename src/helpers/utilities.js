@@ -1,15 +1,3 @@
-export const flowEfficiency = (processTime, waitTime) => {
-  if (waitTime === 0 || isNaN(waitTime)) {
-    return 0
-  }
-
-  if (processTime === 0 || isNaN(waitTime) || waitTime < processTime) {
-    return 0
-  }
-
-  return Math.round((processTime / waitTime) * 100) / 100
-}
-
 export const getElementById = (id, elements) =>
   elements.filter((el) => el.id === `${id}`)[0]
 
@@ -18,6 +6,12 @@ export const addValues = (a, b) => Number(a) + Number(b)
 export const getNodes = (elements) => {
   return elements.filter((element) => element.elType === 'NODE')
 }
+
+export const isNode = (element) =>
+  element && element.elType && element.elType === 'NODE'
+
+export const isEdge = (element) =>
+  element && element.elType && element.elType === 'EDGE'
 
 export const getNodeById = (elements, id) => {
   return getNodes(elements).find((node) => node.id === id)
@@ -61,4 +55,24 @@ export const getNodeSums = (elements) => {
   }
 
   return totals
+}
+
+export const flowEfficiency = (processTime, waitTime) => {
+  if (waitTime === 0 || isNaN(waitTime)) {
+    return 0
+  }
+
+  if (processTime === 0 || isNaN(waitTime) || waitTime < processTime) {
+    return 0
+  }
+
+  return Math.round((processTime / waitTime) * 100) / 100
+}
+
+export const toJson = (str) => {
+  try {
+    return JSON.parse(str)
+  } catch (e) {
+    return null
+  }
 }
