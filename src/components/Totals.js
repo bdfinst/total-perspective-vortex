@@ -18,7 +18,7 @@ import { useValueStream } from '../appContext/valueStreamContext'
 const useStyles = makeStyles((theme) => ({
   root: {
     root: {
-      minWidth: 100,
+      minWidth: 200,
     },
     bullet: {
       display: 'inline-block',
@@ -56,12 +56,12 @@ const Totals = () => {
     {
       name: 'flowEfficiency',
       title: 'Flow Efficiency',
-      value: totals.flowEfficiency,
+      value: `${totals.flowEfficiency}%`,
     },
   ]
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className={classes.root}>
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
             <TableRow>

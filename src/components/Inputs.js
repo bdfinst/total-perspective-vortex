@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: '30ch',
+      width: '20ch',
       border: 0,
       borderRadius: 3,
     },
@@ -26,6 +26,7 @@ const InputText = (props) => {
         label={label}
         variant="outlined"
         size="small"
+        type="text"
         margin="dense"
         inputProps={inputProps}
         onChange={onChange}

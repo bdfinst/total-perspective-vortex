@@ -16,7 +16,7 @@ exports[`Sidebar should take a snapshot 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
           >
             <div
-              class="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+              class="MuiPaper-root MuiTableContainer-root makeStyles-root-1 MuiPaper-elevation1 MuiPaper-rounded"
             >
               <table
                 aria-label="simple table"
@@ -126,7 +126,7 @@ exports[`Sidebar should take a snapshot 1`] = `
                     <td
                       class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
                     >
-                      0
+                      0%
                     </td>
                   </tr>
                 </tbody>

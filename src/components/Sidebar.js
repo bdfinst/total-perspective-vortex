@@ -70,13 +70,13 @@ const Sidebar = () => {
             justify="flex-start"
             alignItems="center"
           >
-            <Grid item xs="12">
+            <Grid item xs={12}>
               <Totals />
             </Grid>
-            <Grid item xs="12">
+            <Grid item xs={12}>
               <AddNode />
             </Grid>
-            <Grid item container xs="12" direction="row" spacing="2">
+            <Grid item container xs={12} direction="row" spacing={2}>
               <Grid item xs>
                 <FocusButton onClick={focusNode} enabled={isNodeSelected} />
               </Grid>
@@ -92,7 +92,7 @@ const Sidebar = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs="12">
+        <Grid item xs={12}>
           <GitHubButton href="https://github.com/bdfinst/vsm-tool" />
         </Grid>
       </Grid>

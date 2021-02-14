@@ -1,23 +1,30 @@
 import React, { useState } from 'react'
+import { DeleteTwoTone } from '@material-ui/icons'
+import { Grid, IconButton } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
-import { IconButton } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
-import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { InputNumber, InputText } from './Inputs'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
   extendedIcon: {
     float: 'right',
+  },
+  nodeContainer: {
+    width: 175,
+    background: theme.palette.background.paper,
+    borderColor: theme.palette.primary.dark,
+    borderRadius: '12px',
+    borderStyle: 'solid',
+    borderWidth: '4px',
+    padding: 5,
   },
 }))
 
 const Node = (props) => {
-  const classes = useStyles()
+  const theme = useTheme()
+  const classes = useStyles(theme)
 
   const { changeNodeValues } = useValueStream()
   const [node, setNode] = useState(props)
@@ -44,70 +51,79 @@ const Node = (props) => {
     changeNodeValues({ node: node, data: node.data })
   }
 
-  return (
-    <>
+  const EdgeHandle = ({ type }) => {
+    const parms = {
+      type: type === 'source' ? type : 'target',
+      side: type === 'source' ? 'right' : 'left',
+      color: type === 'source' ? 'green' : 'red',
+    }
+    return (
       <Handle
-        type="target"
-        position="left"
+        type={parms.type}
+        position={parms.side}
+        onConnect={(params) => console.log('handle onConnect', params)}
         style={{
-          background: 'red',
+          background: parms.color,
           width: '15px',
           height: '15px',
-          left: '-9px',
-        }}
-        onConnect={(params) => {
-          console.log('handle onConnect', params)
+          [parms.side]: '-9px',
         }}
       />
-      <div className="node-container">
-        <div className="row">
-          <InputText
-            id={`description_${node.id}`}
-            name="description"
-            label="Description"
-            onChange={handleChange}
-            onBlur={handleUpdate}
-          />
-        </div>
-        <div className="row">
-          <InputNumber
-            id={`actors_${node.id}`}
-            name="actors"
-            label="Actors"
-            inputProps={{ min: 0, max: 9999999 }}
-            onChange={handleNumberChange}
-            onBlur={handleUpdate}
-          />
-        </div>
-        <div className="row">
-          <InputNumber
-            id={`processTime_${node.id}`}
-            name="processTime"
-            label="Process Time"
-            inputProps={{ min: 0, max: 9999999 }}
-            onChange={handleNumberChange}
-            onBlur={handleUpdate}
-          />
-        </div>
-        <div className="row">
-          <InputNumber
-            id={`waitTime_${node.id}`}
-            name="waitTime"
-            label="Wait Time"
-            inputProps={{ min: 0, max: 9999999 }}
-            onChange={handleNumberChange}
-            onBlur={handleUpdate}
-          />
-        </div>
-        <div className="row">
-          <InputNumber
-            id={`pctCompleteAccurate_${node.id}`}
-            name="pctCompleteAccurate"
-            inputProps={{ min: 0, max: 100 }}
-            label="% C/A"
-            onChange={handleChange}
-            onBlur={handleUpdate}
-          />
+    )
+  }
+  const buttons = [
+    {
+      name: 'actors',
+      label: 'Actors',
+      max: 999999,
+      onChange: handleNumberChange,
+    },
+    {
+      name: 'processTime',
+      label: 'Process Time',
+      max: 999999,
+      onChange: handleNumberChange,
+    },
+    {
+      name: 'waitTime',
+      label: 'Wait Time',
+      max: 999999,
+      onChange: handleNumberChange,
+    },
+    {
+      name: 'pctCompleteAccurate',
+      label: '% C/A',
+      max: 100,
+      onChange: handleChange,
+    },
+  ]
+  return (
+    <>
+      <EdgeHandle type="target" />
+      <div className={classes.nodeContainer}>
+        <Grid container>
+          <Grid item xs={12}>
+            <InputText
+              id={`description_${node.id}`}
+              name="description"
+              label="Description"
+              onChange={handleChange}
+              onBlur={handleUpdate}
+            />
+          </Grid>
+          {buttons.map((button) => (
+            <Grid item xs={12} key={`${button.name}_${node.id}`}>
+              <InputNumber
+                id={`${button.name}_${node.id}`}
+                name={button.name}
+                label={button.label}
+                inputProps={{ min: 0, max: button.max }}
+                onChange={button.onChange}
+                onBlur={handleUpdate}
+              />
+            </Grid>
+          ))}
+
           {/* <IconButton
             aria-label="delete"
             className={classes.extendedIcon}
@@ -117,20 +133,9 @@ const Node = (props) => {
           >
             <DeleteTwoToneIcon />
           </IconButton> */}
-        </div>
+        </Grid>
       </div>
-
-      <Handle
-        type="source"
-        position="right"
-        onConnect={(params) => console.log('handle onConnect', params)}
-        style={{
-          background: 'green',
-          width: '15px',
-          height: '15px',
-          right: '-9px',
-        }}
-      />
+      <EdgeHandle type="source" />
     </>
   )
 }
