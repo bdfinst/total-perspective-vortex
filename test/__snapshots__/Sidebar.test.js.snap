@@ -113,6 +113,7 @@ exports[`Sidebar should take a snapshot 1`] = `
         </button>
       </div>
     </div>
+    <div />
   </aside>
 </DocumentFragment>
 `;

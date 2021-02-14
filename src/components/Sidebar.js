@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core'
+import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import React from 'react'
 import exportFromJSON from 'export-from-json'
 
@@ -8,6 +9,24 @@ import Totals from './Totals'
 
 const Sidebar = () => {
   const { reset, state } = useValueStream()
+
+  const { setCenter } = useZoomPanHelper()
+  const store = useStore()
+
+  const focusNode = () => {
+    const { nodes } = store.getState()
+    const node = nodes.find((el) => el.selected === true)
+
+    if (node) {
+      console.log(node)
+      const x = node.__rf.position.x + node.__rf.width / 2
+      const y = node.__rf.position.y + node.__rf.height / 2
+      const zoom = 1.85
+      console.log(`Node: X: ${x} Y: ${y}`)
+
+      setCenter(x, y, zoom)
+    }
+  }
 
   const handleReset = () => {
     console.log('Calling reset')
@@ -44,7 +63,6 @@ const Sidebar = () => {
           Reset
         </Button>
       </div>
-
       <div>
         <Button
           color="primary"
@@ -62,6 +80,15 @@ const Sidebar = () => {
       <div>
         <FileUpload />
       </div>
+      {state.elements.find((el) => el.selected === true) ? (
+        <div>
+          <Button color="primary" onClick={focusNode}>
+            Focus
+          </Button>
+        </div>
+      ) : (
+        <div />
+      )}
     </aside>
   )
 }

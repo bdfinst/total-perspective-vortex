@@ -91,19 +91,33 @@ const addEdge = (state, { source, target }) => {
 const nodeSelect = (state, { node }) => {
   const newState = {
     ...state,
-    elements: state.elements.map((el) => {
-      return node.id === el.id
-        ? {
-            ...el,
-            selected: el.selected ? false : true,
-            style: {
-              ...el.style,
-              borderColor: !el.selected ? selectedBorderColor : borderColor,
-              borderWidth: !el.selected ? '3px' : '2px',
-            },
-          }
-        : el
-    }),
+    elements: state.elements
+      .map((el) => {
+        return node.id !== el.id
+          ? {
+              ...el,
+              selected: false,
+              style: {
+                ...el.style,
+                borderColor: borderColor,
+                borderWidth: '2px',
+              },
+            }
+          : el
+      })
+      .map((el) => {
+        return node.id === el.id
+          ? {
+              ...el,
+              selected: el.selected ? false : true,
+              style: {
+                ...el.style,
+                borderColor: !el.selected ? selectedBorderColor : borderColor,
+                borderWidth: !el.selected ? '3px' : '2px',
+              },
+            }
+          : el
+      }),
   }
 
   updateLocalStorage(newState)

@@ -1,11 +1,8 @@
-import { act, renderHook } from '@testing-library/react-hooks'
+import { ReactFlowProvider } from 'react-flow-renderer'
 import { cleanup, render } from '@testing-library/react'
 import React from 'react'
 
-import {
-  ValueStreamProvider,
-  useValueStream,
-} from '../src/appContext/valueStreamContext'
+import { ValueStreamProvider } from '../src/appContext/valueStreamContext'
 import Sidebar from '../src/components/Sidebar'
 
 afterEach(cleanup)
@@ -13,7 +10,9 @@ afterEach(cleanup)
 const renderSidebar = () => {
   return render(
     <ValueStreamProvider>
-      <Sidebar />
+      <ReactFlowProvider>
+        <Sidebar />
+      </ReactFlowProvider>
     </ValueStreamProvider>,
   )
 }

@@ -76,3 +76,16 @@ export const toJson = (str) => {
     return null
   }
 }
+
+export const removeElements = (elementsToRemove, elements) => {
+  const nodeIdsToRemove = elementsToRemove.map((n) => n.id)
+
+  return elements.filter((element) => {
+    const edgeElement = element
+    return !(
+      nodeIdsToRemove.includes(element.id) ||
+      nodeIdsToRemove.includes(edgeElement.target) ||
+      nodeIdsToRemove.includes(edgeElement.source)
+    )
+  })
+}
