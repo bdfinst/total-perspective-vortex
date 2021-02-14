@@ -1,14 +1,28 @@
-import { Button } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import { ButtonGroup } from '@material-ui/core'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
-import React from 'react'
+import { useTheme } from '@material-ui/core/styles'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../appContext/valueStreamContext'
+import AddNode from './AddNode'
 import FileUpload from './FileUpload'
+import FocusButton from './FocusButton'
+import GitHubButton from './GitHubButton'
+import ResetButton from './ResetButton'
+import SaveButton from './SaveButton'
 import Totals from './Totals'
 
 const Sidebar = () => {
   const { reset, state } = useValueStream()
+  const [isNodeSelected, setIsNodeSelected] = useState(false)
+  const theme = useTheme()
+
+  useEffect(() => {
+    setIsNodeSelected(
+      state.elements.filter((el) => el.selected === true).length > 0,
+    )
+  }, [state.elements])
 
   const { setCenter } = useZoomPanHelper()
   const store = useStore()
@@ -28,67 +42,28 @@ const Sidebar = () => {
     }
   }
 
-  const handleReset = () => {
-    console.log('Calling reset')
-    reset()
-  }
+  const handleReset = () => reset()
 
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.effectAllowed = 'move'
+  const handleExport = () => {
+    exportFromJSON({
+      data: state,
+      fileName: 'vsm',
+      exportType: 'json',
+    })
   }
 
   return (
     <aside>
-      <div>
-        <Button
-          href="https://github.com/bdfinst/vsm-tool"
-          target="_blank"
-          rel="noreferrer"
-          color="primary"
-        >
-          GitHub
-        </Button>
-      </div>
-      <div className="description">Drag nodes to the pane on the right.</div>
-      <div
-        className="vsmnode input"
-        onDragStart={(event) => onDragStart(event, 'customNode')}
-        draggable
-      >
-        Add Node
-      </div>
+      <GitHubButton href="https://github.com/bdfinst/vsm-tool" />
+      <AddNode />
       <Totals />
-      <div>
-        <Button color="primary" onClick={handleReset}>
-          Reset
-        </Button>
-      </div>
-      <div>
-        <Button
-          color="primary"
-          onClick={() => {
-            exportFromJSON({
-              data: state,
-              fileName: 'vsm',
-              exportType: 'json',
-            })
-          }}
-        >
-          Save
-        </Button>
-      </div>
-      <div>
+      <FocusButton onClick={focusNode} enabled={isNodeSelected} />
+
+      <ButtonGroup>
+        <SaveButton onClick={handleExport} />
         <FileUpload />
-      </div>
-      {state.elements.find((el) => el.selected === true) ? (
-        <div>
-          <Button color="primary" onClick={focusNode}>
-            Focus
-          </Button>
-        </div>
-      ) : (
-        <div />
-      )}
+      </ButtonGroup>
+      <ResetButton onClick={handleReset} />
     </aside>
   )
 }
