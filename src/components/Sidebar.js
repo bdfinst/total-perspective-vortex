@@ -102,7 +102,7 @@ const Sidebar = () => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <GitHubButton href="https://github.com/bdfinst/vsm-tool" />
+          <GitHubButton />
         </Grid>
       </Grid>
     </aside>
