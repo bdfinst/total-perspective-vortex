@@ -3,216 +3,342 @@
 exports[`Sidebar should take a snapshot 1`] = `
 <DocumentFragment>
   <aside>
-    <div>
-      <span
-        aria-disabled="false"
-        aria-label="upload picture"
-        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
-        href="https://github.com/bdfinst/vsm-tool"
-        rel="noreferrer"
-        role="button"
-        tabindex="0"
-        target="_blank"
-        title="Fork me on GitHub"
-      >
-        <span
-          class="MuiIconButton-label"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
-      </span>
-    </div>
-    <div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-justify-xs-space-evenly"
+    >
       <div
-        class="MuiPaper-root MuiCard-root makeStyles-root-1 MuiPaper-outlined MuiPaper-rounded"
-        draggable="true"
+        class="MuiGrid-root MuiGrid-item"
       >
         <div
-          class="MuiCardContent-root"
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary"
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
           >
-            Add Node
-          </p>
+            <div
+              class="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+            >
+              <table
+                aria-label="simple table"
+                class="MuiTable-root"
+              >
+                <tbody
+                  class="MuiTableBody-root"
+                >
+                  <tr
+                    class="MuiTableRow-root"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignCenter"
+                      colspan="2"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+                      >
+                        Totals
+                      </p>
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="processTime"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Process Time
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      0
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="waitTime"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Wait Time
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      0
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="actorTime"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Actor Time
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      0
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="totalTime"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Total Time
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      0
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="avgPCA"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Average C/A
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      100%
+                    </td>
+                  </tr>
+                  <tr
+                    class="MuiTableRow-root"
+                    data-testid="flowEfficiency"
+                  >
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignLeft"
+                    >
+                      Flow Efficiency
+                    </td>
+                    <td
+                      class="MuiTableCell-root MuiTableCell-body MuiTableCell-alignRight"
+                    >
+                      0
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+          >
+            <div>
+              <div
+                class="MuiPaper-root MuiCard-root makeStyles-root-2 MuiPaper-outlined MuiPaper-rounded"
+                draggable="true"
+              >
+                <div
+                  class="MuiCardContent-root makeStyles-root-2"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root makeStyles-icon-3"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-grid-xs-12"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            >
+              <div>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-4 MuiButton-containedPrimary Mui-disabled Mui-disabled"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                        />
+                        <path
+                          d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"
+                        />
+                      </svg>
+                    </span>
+                    Focus
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            >
+              <div>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                  tabindex="0"
+                  title="Export to file"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"
+                        />
+                      </svg>
+                    </span>
+                    Save
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            >
+              <div>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+                  tabindex="0"
+                  title="Open file upload"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                        />
+                      </svg>
+                    </span>
+                    Upload
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+            >
+              <div>
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+                  tabindex="0"
+                  title="Reset diagram"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label"
+                  >
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                        />
+                      </svg>
+                    </span>
+                    Reset
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      data-testid="processTime"
-    >
-      Process Time: 0
-    </div>
-    <div
-      data-testid="waitTime"
-    >
-      Wait Time: 0
-    </div>
-    <div
-      data-testid="actorTime"
-    >
-      Actor Time: 0
-    </div>
-    <div
-      data-testid="totalTime"
-    >
-      Total Time: 0
-    </div>
-    <div
-      data-testid="avgPCA"
-    >
-      Average %C/A: 100%
-    </div>
-    <div
-      data-testid="flow"
-    >
-      Flow Efficiency:0%
-    </div>
-    <div>
-      <span
-        class=""
-        title="Select node to focus"
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
       >
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-root-2 Mui-disabled Mui-disabled"
-          disabled=""
-          tabindex="-1"
-          type="button"
-        >
+        <div>
           <span
-            class="MuiButton-label"
+            aria-disabled="false"
+            aria-label="upload picture"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary"
+            href="https://github.com/bdfinst/vsm-tool"
+            rel="noreferrer"
+            role="button"
+            tabindex="0"
+            target="_blank"
+            title="Fork me on GitHub"
           >
             <span
-              class="MuiButton-startIcon MuiButton-iconSizeMedium"
+              class="MuiIconButton-label"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                />
-                <path
-                  d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"
+                  d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8 0 3.2.9.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1 .9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"
                 />
               </svg>
             </span>
-            Focus
-          </span>
-        </button>
-      </span>
-    </div>
-    <div
-      class="MuiButtonGroup-root"
-      role="group"
-    >
-      <div>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
-          tabindex="0"
-          title="Export to file"
-          type="button"
-        >
-          <span
-            class="MuiButton-label"
-          >
             <span
-              class="MuiButton-startIcon MuiButton-iconSizeMedium"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"
-                />
-              </svg>
-            </span>
-            Save
+              class="MuiTouchRipple-root"
+            />
           </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
+        </div>
       </div>
-      <div>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained"
-          tabindex="0"
-          title="Open file upload"
-          type="button"
-        >
-          <span
-            class="MuiButton-label"
-          >
-            <span
-              class="MuiButton-startIcon MuiButton-iconSizeMedium"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
-                />
-              </svg>
-            </span>
-            Upload
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-      </div>
-    </div>
-    <div>
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
-        tabindex="0"
-        title="Reset diagram"
-        type="button"
-      >
-        <span
-          class="MuiButton-label"
-        >
-          <span
-            class="MuiButton-startIcon MuiButton-iconSizeMedium"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-              />
-            </svg>
-          </span>
-          Reset
-        </span>
-        <span
-          class="MuiTouchRipple-root"
-        />
-      </button>
     </div>
   </aside>
 </DocumentFragment>

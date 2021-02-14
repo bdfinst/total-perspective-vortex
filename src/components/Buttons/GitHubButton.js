@@ -14,7 +14,7 @@ const GitHubButton = (props) => {
           target="_blank"
           rel="noreferrer"
         >
-          <GitHub />
+          <GitHub fontSize="large" />
         </IconButton>
       </Tooltip>
     </div>

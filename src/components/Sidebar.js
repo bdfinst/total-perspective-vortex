@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { ButtonGroup } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import { useTheme } from '@material-ui/core/styles'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../appContext/valueStreamContext'
 import AddNode from './AddNode'
-import FileUpload from './FileUpload'
-import FocusButton from './FocusButton'
-import GitHubButton from './GitHubButton'
-import ResetButton from './ResetButton'
-import SaveButton from './SaveButton'
+import FileUpload from './Buttons/FileUpload'
+import FocusButton from './Buttons/FocusButton'
+import GitHubButton from './Buttons/GitHubButton'
+import ResetButton from './Buttons/ResetButton'
+import SaveButton from './Buttons/SaveButton'
 import Totals from './Totals'
 
 const Sidebar = () => {
@@ -54,16 +54,48 @@ const Sidebar = () => {
 
   return (
     <aside>
-      <GitHubButton href="https://github.com/bdfinst/vsm-tool" />
-      <AddNode />
-      <Totals />
-      <FocusButton onClick={focusNode} enabled={isNodeSelected} />
-
-      <ButtonGroup>
-        <SaveButton onClick={handleExport} />
-        <FileUpload />
-      </ButtonGroup>
-      <ResetButton onClick={handleReset} />
+      <Grid
+        container
+        spacing={2}
+        direction="column"
+        justify="space-evenly"
+        alignItems="stretch"
+      >
+        <Grid item>
+          <Grid
+            spacing={2}
+            item
+            container
+            direction="column"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Grid item xs="12">
+              <Totals />
+            </Grid>
+            <Grid item xs="12">
+              <AddNode />
+            </Grid>
+            <Grid item container xs="12" direction="row" spacing="2">
+              <Grid item xs>
+                <FocusButton onClick={focusNode} enabled={isNodeSelected} />
+              </Grid>
+              <Grid item xs>
+                <SaveButton onClick={handleExport} />
+              </Grid>
+              <Grid item xs>
+                <FileUpload />
+              </Grid>
+              <Grid item xs>
+                <ResetButton onClick={handleReset} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs="12">
+          <GitHubButton href="https://github.com/bdfinst/vsm-tool" />
+        </Grid>
+      </Grid>
     </aside>
   )
 }

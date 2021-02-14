@@ -1,14 +1,22 @@
 import { Card, CardContent, Typography } from '@material-ui/core'
+import { Launch } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.backgroundColor,
-    color: theme.color,
-    width: '60px',
-    height: '60px',
-    // backgroundColor: theme.primary,
+    backgroundColor: theme.palette.primary.main,
+    '&:hover': {
+      transform: 'translateZ(2)',
+    },
+  },
+  icon: {
+    transform: 'scaleX(-1)',
+    '&:hover': {
+      transform: 'scale(-2,2)',
+    },
+    fontSize: 35,
+    color: theme.textPrimary,
   },
 }))
 
@@ -24,26 +32,14 @@ const AddNode = (props) => {
     <div>
       <Card
         className={classes.root}
-        raised={true}
         variant="outlined"
         onDragStart={(event) => onDragStart(event, 'customNode')}
         draggable
       >
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Add Node
-          </Typography>
+        <CardContent className={classes.root}>
+          <Launch className={classes.icon} />
         </CardContent>
       </Card>
-
-      {/* <div className="description">Drag nodes to the pane on the right.</div>
-      <div
-        className="vsmnode input"
-        onDragStart={(event) => onDragStart(event, 'customNode')}
-        draggable
-      >
-        Add Node
-      </div> */}
     </div>
   )
 }

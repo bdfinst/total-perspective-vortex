@@ -35,6 +35,6 @@ describe('Sidebar', () => {
     expect(getByTestId('waitTime')).toHaveTextContent(0)
     expect(getByTestId('totalTime')).toHaveTextContent(0)
     expect(getByTestId('avgPCA')).toHaveTextContent(0)
-    expect(getByTestId('flow')).toHaveTextContent(0)
+    expect(getByTestId('flowEfficiency')).toHaveTextContent(0)
   })
 })

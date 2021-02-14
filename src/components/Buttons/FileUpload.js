@@ -3,8 +3,8 @@ import { Button, Tooltip } from '@material-ui/core'
 import { DropzoneDialog } from 'material-ui-dropzone'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
-import { toJson } from '../helpers'
-import { useValueStream } from '../appContext/valueStreamContext'
+import { toJson } from '../../helpers'
+import { useValueStream } from '../../appContext/valueStreamContext'
 
 const FileUpload = (props) => {
   const { initState } = useValueStream()
