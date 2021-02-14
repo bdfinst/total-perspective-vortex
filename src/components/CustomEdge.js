@@ -25,8 +25,6 @@ const CustomEdge = ({
   })
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId)
 
-  console.log(selected)
-
   return (
     <>
       <path

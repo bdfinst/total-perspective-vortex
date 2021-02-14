@@ -36,7 +36,6 @@ const FileUpload = (props) => {
       open: false,
     })
     handleFileChosen(files[0])
-    console.log(state.files)
   }
 
   const handleOpen = () => {

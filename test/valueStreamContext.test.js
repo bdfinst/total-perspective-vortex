@@ -91,6 +91,7 @@ describe('Value Stream Context', () => {
 
       const newData = testNode.data
       newData.description = 'New Description'
+      const currentPos = testNode.position
 
       act(() => {
         result.current.changeNodeValues({
@@ -99,12 +100,14 @@ describe('Value Stream Context', () => {
         })
       })
 
-      const found = result.current.state.elements.filter(
+      const found = result.current.state.elements.find(
         (node) => node.id === testNode.id,
       )
 
-      expect(found[0].data).toEqual(newData)
+      expect(found.data).toEqual(newData)
+      expect(found.position).toEqual(currentPos)
     })
+
     it('should update a node position', () => {
       act(() => {
         result.current.createNode({ x: 1, y: 1 })

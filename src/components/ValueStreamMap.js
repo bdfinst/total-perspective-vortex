@@ -3,6 +3,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   ReactFlowProvider,
+  isNode,
 } from 'react-flow-renderer'
 
 import { getNodeById, getNodes } from '../helpers'
@@ -19,6 +20,7 @@ const ValueStreamMap = () => {
     createNode,
     changeEdge,
     removeElements,
+    selectNode,
   } = useValueStream()
   const reactFlowWrapper = useRef(null)
 
@@ -42,10 +44,14 @@ const ValueStreamMap = () => {
   const onConnectStop = (event) => console.log('on connect stop', event)
   const onConnectEnd = (event) => console.log('on connect end', event)
   const onNodeDragStop = (event, node) => console.log('drag stop', node)
-  const onElementClick = (event, element) => console.log('click', element)
+
+  const onElementClick = (event, element) => {
+    if (isNode(element)) {
+      selectNode({ node: element })
+    }
+  }
 
   const onElementsRemove = (elementsToRemove) => {
-    console.log(elementsToRemove)
     removeElements(elementsToRemove)
   }
 

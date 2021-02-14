@@ -5,10 +5,14 @@
  * https://kentcdodds.com/blog/application-state-management-with-react
  */
 
+import { isNode } from 'react-flow-renderer'
 import React from 'react'
 import ls from 'local-storage'
 
 import { buildEdge, buildNode, edgeExists } from '../helpers'
+
+const selectedBorderColor = 'red'
+const borderColor = '#3385e9'
 
 const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 150 })
@@ -84,6 +88,28 @@ const addEdge = (state, { source, target }) => {
   return newState
 }
 
+const nodeSelect = (state, { node }) => {
+  const newState = {
+    ...state,
+    elements: state.elements.map((el) => {
+      return node.id === el.id
+        ? {
+            ...el,
+            selected: el.selected ? false : true,
+            style: {
+              ...el.style,
+              borderColor: !el.selected ? selectedBorderColor : borderColor,
+              borderWidth: !el.selected ? '3px' : '2px',
+            },
+          }
+        : el
+    }),
+  }
+
+  updateLocalStorage(newState)
+  return newState
+}
+
 const updateNode = (state, { node, position, data }) => {
   const newState = {
     ...state,
@@ -106,10 +132,12 @@ const updateNode = (state, { node, position, data }) => {
                     : el.data.pctCompleteAccurate,
                 }
               : el.data,
-            position: {
-              x: position ? position.x : el.position.x,
-              y: position ? position.y : el.position.y,
-            },
+            position: position
+              ? {
+                  x: position ? position.x : el.position.x,
+                  y: position ? position.y : el.position.y,
+                }
+              : el.position,
           }
         : el
     }),
@@ -132,7 +160,11 @@ const updateEdge = (state, { oldEdge, newTargetNode }) => {
 }
 
 const deleteElements = (state, elementsToRemove) => {
-  const idsToRemove = elementsToRemove.map((el) => el.id)
+  const elementList = Array.isArray(elementsToRemove)
+    ? elementsToRemove
+    : [elementsToRemove]
+
+  const idsToRemove = elementList.map((el) => el.id)
 
   const newState = {
     ...state,
@@ -159,6 +191,9 @@ const valueStreamReducer = (state, action) => {
     }
     case 'UPDATE_NODE': {
       return updateNode(state, action.data)
+    }
+    case 'SELECT_NODE': {
+      return nodeSelect(state, action.data)
     }
     case 'UPDATE_EDGE': {
       return updateEdge(state, action.data)
@@ -215,6 +250,9 @@ const useValueStream = () => {
 
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
+  const selectNode = ({ node }) =>
+    dispatch({ type: 'SELECT_NODE', data: { node } })
+
   return {
     state,
     increment,
@@ -225,6 +263,7 @@ const useValueStream = () => {
     removeElements,
     reset,
     initState,
+    selectNode,
   }
 }
 

@@ -1,7 +1,9 @@
 const nodeStyle = {
-  border: '2px solid #3385e9',
+  borderColor: '#3385e9',
   borderRadius: '12px',
-  padding: 8,
+  borderStyle: 'solid',
+  borderWidth: '2px',
+  padding: 5,
   minWidth: '100px',
 }
 
@@ -29,7 +31,14 @@ export const buildNode = ({ id, x, y }) => {
       waitTime: 0,
       pctCompleteAccurate: 100,
     },
-    style: nodeStyle,
+    style: {
+      borderColor: '#3385e9',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '2px',
+      padding: 5,
+      minWidth: '100px',
+    },
     position,
   }
 }
