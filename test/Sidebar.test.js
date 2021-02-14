@@ -18,11 +18,6 @@ const renderSidebar = () => {
 }
 
 describe('Sidebar', () => {
-  it('should take a snapshot', () => {
-    const { asFragment } = renderSidebar()
-
-    expect(asFragment(<Sidebar />)).toMatchSnapshot()
-  })
   it('should equal to 0', () => {
     const { getByTestId } = renderSidebar()
 
@@ -35,6 +30,6 @@ describe('Sidebar', () => {
     expect(getByTestId('waitTime')).toHaveTextContent(0)
     expect(getByTestId('totalTime')).toHaveTextContent(0)
     expect(getByTestId('avgPCA')).toHaveTextContent(0)
-    expect(getByTestId('flow')).toHaveTextContent(0)
+    expect(getByTestId('flowEfficiency')).toHaveTextContent(0)
   })
 })

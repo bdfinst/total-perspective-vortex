@@ -1,14 +1,37 @@
-import { Button } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import { Grid } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
-import React from 'react'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../appContext/valueStreamContext'
-import FileUpload from './FileUpload'
+import AddNode from './AddNode'
+import FileUpload from './Buttons/FileUpload'
+import FocusButton from './Buttons/FocusButton'
+import GitHubButton from './Buttons/GitHubButton'
+import ResetButton from './Buttons/ResetButton'
+import SaveButton from './Buttons/SaveButton'
 import Totals from './Totals'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '&.Mui-disabled': {
+      pointerEvents: 'auto',
+    },
+  },
+}))
 
 const Sidebar = () => {
   const { reset, state } = useValueStream()
+  const [isNodeSelected, setIsNodeSelected] = useState(false)
+  const theme = useTheme()
+  const classes = useStyles(theme)
+
+  useEffect(() => {
+    setIsNodeSelected(
+      state.elements.filter((el) => el.selected === true).length > 0,
+    )
+  }, [state.elements])
 
   const { setCenter } = useZoomPanHelper()
   const store = useStore()
@@ -28,67 +51,60 @@ const Sidebar = () => {
     }
   }
 
-  const handleReset = () => {
-    console.log('Calling reset')
-    reset()
-  }
+  const handleReset = () => reset()
 
-  const onDragStart = (event, nodeType) => {
-    event.dataTransfer.effectAllowed = 'move'
+  const handleExport = () => {
+    exportFromJSON({
+      data: state,
+      fileName: 'vsm',
+      exportType: 'json',
+    })
   }
 
   return (
     <aside>
-      <div>
-        <Button
-          href="https://github.com/bdfinst/vsm-tool"
-          target="_blank"
-          rel="noreferrer"
-          color="primary"
-        >
-          GitHub
-        </Button>
-      </div>
-      <div className="description">Drag nodes to the pane on the right.</div>
-      <div
-        className="vsmnode input"
-        onDragStart={(event) => onDragStart(event, 'customNode')}
-        draggable
+      <Grid
+        container
+        spacing={2}
+        direction="column"
+        justify="space-evenly"
+        alignItems="stretch"
       >
-        Add Node
-      </div>
-      <Totals />
-      <div>
-        <Button color="primary" onClick={handleReset}>
-          Reset
-        </Button>
-      </div>
-      <div>
-        <Button
-          color="primary"
-          onClick={() => {
-            exportFromJSON({
-              data: state,
-              fileName: 'vsm',
-              exportType: 'json',
-            })
-          }}
-        >
-          Save
-        </Button>
-      </div>
-      <div>
-        <FileUpload />
-      </div>
-      {state.elements.find((el) => el.selected === true) ? (
-        <div>
-          <Button color="primary" onClick={focusNode}>
-            Focus
-          </Button>
-        </div>
-      ) : (
-        <div />
-      )}
+        <Grid item>
+          <Grid
+            spacing={2}
+            item
+            container
+            direction="column"
+            justify="flex-start"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <Totals />
+            </Grid>
+            <Grid item xs={12}>
+              <AddNode />
+            </Grid>
+            <Grid item container xs={12} direction="row" spacing={2}>
+              <Grid item xs>
+                <FocusButton onClick={focusNode} enabled={isNodeSelected} />
+              </Grid>
+              <Grid item xs>
+                <SaveButton onClick={handleExport} />
+              </Grid>
+              <Grid item xs>
+                <FileUpload />
+              </Grid>
+              <Grid item xs>
+                <ResetButton onClick={handleReset} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <GitHubButton />
+        </Grid>
+      </Grid>
     </aside>
   )
 }

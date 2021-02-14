@@ -1,12 +1,3 @@
-const nodeStyle = {
-  borderColor: '#3385e9',
-  borderRadius: '12px',
-  borderStyle: 'solid',
-  borderWidth: '2px',
-  padding: 5,
-  minWidth: '100px',
-}
-
 /**
  *
  * @param {x,y} x and y Coordinates
@@ -32,12 +23,11 @@ export const buildNode = ({ id, x, y }) => {
       pctCompleteAccurate: 100,
     },
     style: {
-      borderColor: '#3385e9',
-      borderRadius: '12px',
-      borderStyle: 'solid',
-      borderWidth: '2px',
-      padding: 5,
-      minWidth: '100px',
+      // borderColor: '#3385e9',
+      // borderRadius: '12px',
+      // borderStyle: 'solid',
+      // borderWidth: '2px',
+      padding: -1,
     },
     position,
   }

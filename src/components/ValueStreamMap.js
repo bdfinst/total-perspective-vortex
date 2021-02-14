@@ -5,6 +5,8 @@ import ReactFlow, {
   ReactFlowProvider,
   isNode,
 } from 'react-flow-renderer'
+import { Container } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
@@ -13,7 +15,19 @@ import CustomEdge from './CustomEdge'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
+const useStyles = makeStyles((theme) => ({
+  constainer: {
+    flexDirection: 'column',
+    display: 'flex',
+    height: '600px',
+    background: theme.palette.background.default,
+  },
+}))
+
 const ValueStreamMap = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+
   const {
     state,
     createEdge,
@@ -81,6 +95,7 @@ const ValueStreamMap = () => {
 
   return (
     <div className="vsmflow">
+      {/* <Container className={classes.container}> */}
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
@@ -109,12 +124,8 @@ const ValueStreamMap = () => {
             <MiniMap
               nodeColor={(node) => {
                 switch (node.type) {
-                  case 'input':
-                    return 'red'
-                  case 'default':
-                    return '#00ff00'
-                  case 'output':
-                    return 'rgb(0,0,255)'
+                  case 'customNode':
+                    return theme.palette.primary.main
                   default:
                     return '#eee'
                 }
@@ -124,6 +135,7 @@ const ValueStreamMap = () => {
         </div>
         <Sidebar />
       </ReactFlowProvider>
+      {/* </Container> */}
     </div>
   )
 }
