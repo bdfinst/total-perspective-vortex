@@ -41,11 +41,9 @@ const Sidebar = () => {
     const node = nodes.find((el) => el.selected === true)
 
     if (node) {
-      console.log(node)
       const x = node.__rf.position.x + node.__rf.width / 2
       const y = node.__rf.position.y + node.__rf.height / 2
       const zoom = 1.85
-      console.log(`Node: X: ${x} Y: ${y}`)
 
       setCenter(x, y, zoom)
     }

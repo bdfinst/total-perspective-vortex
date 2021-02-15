@@ -14,8 +14,8 @@ const selectedBorderColor = 'red'
 const borderColor = '#3385e9'
 
 const init = () => {
-  const node1 = buildNode({ id: 1, x: 100, y: 150 })
-  const node2 = buildNode({ id: 2, x: 350, y: 150 })
+  const node1 = buildNode({ id: 1, x: 100, y: 175 })
+  const node2 = buildNode({ id: 2, x: 350, y: 175 })
 
   const elements = [node1, node2, buildEdge(node1, node2)]
   return elements

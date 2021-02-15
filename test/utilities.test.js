@@ -133,6 +133,6 @@ describe('Building totals', () => {
     expect(results.waitTime).toEqual(waitTime)
     expect(results.totalTime).toEqual(totalTime)
     expect(results.flowEfficiency).toEqual(flowEfficiency)
-    expect(results.avgPCA).toEqual(2)
+    expect(results.avgPCA).toEqual(6)
   })
 })

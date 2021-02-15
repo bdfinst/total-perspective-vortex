@@ -4,7 +4,9 @@ export const nodeDefaults = {
 }
 
 export const buildNode = ({ id, x, y }) => {
-  if (!x || !y) {
+  const validCoord = (n) => !isNaN(n) && n > -1
+
+  if (!validCoord(x) || !validCoord(y)) {
     throw new Error('XY Coordinates not available for buildNode')
   }
   const position = { x, y }
