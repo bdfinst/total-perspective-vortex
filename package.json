@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "rm -rf .next && next dev",
     "build": "next build && next export",
     "start": "next start",
     "test": "jest --collectCoverage",
-    "ci": "jest --watch",
+    "ci": "jest --detectOpenHandles --watch",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
     "lint:check": "eslint src",

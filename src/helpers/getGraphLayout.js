@@ -4,6 +4,7 @@ import dagre from 'dagre'
 import { nodeDefaults } from './buildNode'
 
 const dagreGraph = new dagre.graphlib.Graph()
+dagreGraph.setDefaultEdgeLabel(() => ({}))
 
 /**
  *
@@ -11,8 +12,6 @@ const dagreGraph = new dagre.graphlib.Graph()
  * @param {boolean} useProportional
  */
 export const getGraphLayout = (elements, useProportional = true) => {
-  dagreGraph.setDefaultEdgeLabel(() => ({}))
-
   dagreGraph.setGraph({ rankdir: 'LR' })
   const xShift = 50
 

@@ -1,10 +1,12 @@
+import { isEdge, isNode } from 'react-flow-renderer'
+
 export const getElementById = (id, elements) =>
   elements.filter((el) => el.id === `${id}`)[0]
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
 export const getNodes = (elements) => {
-  return elements.filter((element) => element.elType === 'NODE')
+  return elements.filter((element) => isNode(element))
 }
 
 export const getNodeById = (elements, id) => {
@@ -12,55 +14,73 @@ export const getNodeById = (elements, id) => {
 }
 
 export const getEdges = (elements) => {
-  return elements.filter((element) => element.elType === 'EDGE')
+  return elements.filter((element) => isEdge(element))
 }
 
 export const edgeExists = (elements, newEdge) => {
   return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
 }
 
-export const getNodeSums = (elements) => {
-  const sums = getNodes(elements)
-    .map((element) => element.data)
-    .reduce((acc, val) => {
-      return {
-        processTime: addValues(acc.processTime, val.processTime),
-        waitTime: addValues(acc.waitTime, val.waitTime),
-        actorTime: addValues(acc.waitTime, val.processTime * val.actors),
-        pctCompleteAccurate: addValues(
-          acc.pctCompleteAccurate,
-          val.pctCompleteAccurate,
-        ),
-      }
-    })
+export const roundTo2 = (number) => Math.round(number * 100) / 100
 
-  const nodeCount = getNodes(elements).length
+const calcPropertyAvg = (nodes, property) => {
+  const posFilter = (val) => val > 0
+  const values = nodes
+    .filter((node) => isNode(node))
+    .filter((node) => posFilter(node.data[property]))
+    .map((node) => node.data[property])
+
+  return (
+    values.reduce((acc, pca) => {
+      return acc + pca
+    }, 0) / values.length
+  )
+}
+
+const calcPropertySum = (nodes, property) => {
+  const values = nodes
+    .filter((node) => isNode(node))
+    .map((node) => node.data[property])
+
+  return values.reduce((acc, pca) => {
+    return acc + pca
+  }, 0)
+}
+
+export const getNodeSums = (elements) => {
+  const nodes = getNodes(elements)
+  const actorTime = nodes
+    .map((node) => node.data)
+    .reduce((acc, val) => acc + val.actors * val.processTime, 0)
 
   const totals = {
-    actorTime: sums.actorTime,
-    processTime: sums.processTime,
-    waitTime: sums.waitTime,
-    totalTime: sums.waitTime + sums.processTime,
-    flowEfficiency: flowEfficiency(
-      sums.processTime,
-      sums.processTime + sums.waitTime,
-    ),
-    avgPCA: Math.round((sums.pctCompleteAccurate / nodeCount) * 100) / 100,
+    actorTime: actorTime,
+    averageActors:
+      nodes.reduce((acc, node) => acc + node.data.actors, 0) / nodes.length,
+    processTime: calcPropertySum(elements, 'processTime'),
+    waitTime: calcPropertySum(elements, 'waitTime'),
+    avgPCA: roundTo2(calcPropertyAvg(elements, 'pctCompleteAccurate')),
   }
+  totals.totalTime = totals.waitTime + totals.processTime
+  totals.flowEfficiency = calcFlowEfficiency(
+    totals.processTime,
+    totals.totalTime,
+  )
 
   return totals
 }
 
-export const flowEfficiency = (processTime, waitTime) => {
-  if (waitTime === 0 || isNaN(waitTime)) {
+export const calcFlowEfficiency = (processTime, totalTime) => {
+  if (
+    totalTime === 0 ||
+    isNaN(totalTime) ||
+    processTime === 0 ||
+    isNaN(processTime)
+  ) {
     return 0
   }
 
-  if (processTime === 0 || isNaN(waitTime) || waitTime < processTime) {
-    return 0
-  }
-
-  return Math.round((processTime / waitTime) * 100) / 100
+  return roundTo2((processTime / totalTime) * 100)
 }
 
 export const toJson = (str) => {
