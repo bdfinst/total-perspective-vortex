@@ -1,7 +1,8 @@
-/**
- *
- * @param {x,y} x and y Coordinates
- */
+export const nodeDefaults = {
+  width: 175,
+  height: 300,
+}
+
 export const buildNode = ({ id, x, y }) => {
   if (!x || !y) {
     throw new Error('XY Coordinates not available for buildNode')
@@ -23,10 +24,6 @@ export const buildNode = ({ id, x, y }) => {
       pctCompleteAccurate: 100,
     },
     style: {
-      // borderColor: '#3385e9',
-      // borderRadius: '12px',
-      // borderStyle: 'solid',
-      // borderWidth: '2px',
       padding: -1,
     },
     position,

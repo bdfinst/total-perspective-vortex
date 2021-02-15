@@ -48,6 +48,11 @@ const Totals = () => {
   const rows = [
     { name: 'processTime', title: 'Process Time', value: totals.processTime },
     { name: 'waitTime', title: 'Wait Time', value: totals.waitTime },
+    {
+      name: 'averageActors',
+      title: 'Average Actors',
+      value: totals.averageActors,
+    },
     { name: 'actorTime', title: 'Actor Time', value: totals.actorTime },
     { name: 'totalTime', title: 'Total Time', value: totals.totalTime },
     { name: 'avgPCA', title: 'Average C/A', value: `${totals.avgPCA}%` },

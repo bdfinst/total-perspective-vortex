@@ -1,3 +1,4 @@
+import { isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
 import {
@@ -6,7 +7,9 @@ import {
   getEdges,
   getNodeSums,
   getNodes,
+  roundTo2,
 } from '../src/helpers'
+import { elements as elementFixture } from './fixtures/elements'
 
 const buildData = (processTime, waitTime, pctCompleteAccurate) => {
   return {
@@ -17,27 +20,15 @@ const buildData = (processTime, waitTime, pctCompleteAccurate) => {
     pctCompleteAccurate,
   }
 }
-const elements = [
-  {
-    id: '1',
-    elType: 'NODE',
-    data: buildData(1, 2, 25),
-  },
-  {
-    id: '2',
-    elType: 'NODE',
-    data: buildData(2, 3, 75),
-  },
-  {
-    id: '3',
-    elType: 'NODE',
-    data: buildData(3, 4, 100),
-  },
-  {
-    id: 'e1',
-    elType: 'EDGE',
-  },
-]
+
+const elements = elementFixture.map((el, idx) => {
+  return isNode(el)
+    ? {
+        ...el,
+        data: buildData(idx + 1, idx + 2, (idx + 1) * 2),
+      }
+    : el
+})
 
 describe('Building nodes and edges', () => {
   it('should build a node with a default id', () => {
@@ -117,14 +108,32 @@ describe('Building totals', () => {
 
   it('should sum the values of the nodes', () => {
     const results = getNodeSums(elements)
+    const actorTime = elements
+      .filter((el) => isNode(el))
+      .map((node) => node.data)
+      .reduce((acc, val) => acc + val.actors * val.processTime, 0)
 
-    expect(results).toEqual({
-      actorTime: 8,
-      processTime: 6,
-      waitTime: 9,
-      totalTime: 15,
-      flowEfficiency: 0.4,
-      avgPCA: 66.67,
-    })
+    const processTime = elements
+      .filter((el) => isNode(el))
+      .reduce((acc, el) => {
+        return acc + el.data.processTime
+      }, 0)
+
+    const waitTime = elements
+      .filter((el) => isNode(el))
+      .reduce((acc, el) => {
+        return acc + el.data.waitTime
+      }, 0)
+
+    const totalTime = processTime + waitTime
+    const flowEfficiency = roundTo2((processTime / totalTime) * 100)
+
+    expect(results.actorTime).toEqual(actorTime)
+    expect(results.averageActors).toEqual(1)
+    expect(results.processTime).toEqual(processTime)
+    expect(results.waitTime).toEqual(waitTime)
+    expect(results.totalTime).toEqual(totalTime)
+    expect(results.flowEfficiency).toEqual(flowEfficiency)
+    expect(results.avgPCA).toEqual(6.5)
   })
 })
