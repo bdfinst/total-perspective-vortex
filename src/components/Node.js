@@ -5,6 +5,7 @@ import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { InputNumber, InputText } from './Inputs'
+import { nodeDefaults } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
   },
   nodeContainer: {
-    width: 175,
+    width: nodeDefaults.width,
     background: theme.palette.background.paper,
     borderColor: theme.palette.primary.dark,
     borderRadius: '12px',

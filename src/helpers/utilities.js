@@ -7,12 +7,6 @@ export const getNodes = (elements) => {
   return elements.filter((element) => element.elType === 'NODE')
 }
 
-export const isNode = (element) =>
-  element && element.elType && element.elType === 'NODE'
-
-export const isEdge = (element) =>
-  element && element.elType && element.elType === 'EDGE'
-
 export const getNodeById = (elements, id) => {
   return getNodes(elements).find((node) => node.id === id)
 }

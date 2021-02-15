@@ -7,8 +7,9 @@ import ReactFlow, {
 } from 'react-flow-renderer'
 import { Container } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import dagre from 'dagre'
 
-import { getNodeById, getNodes } from '../helpers'
+import { getGraphLayout, getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import CustomEdge from './CustomEdge'
@@ -32,6 +33,7 @@ const ValueStreamMap = () => {
     state,
     createEdge,
     createNode,
+    changeNodeValues,
     changeEdge,
     removeElements,
     selectNode,
@@ -42,6 +44,12 @@ const ValueStreamMap = () => {
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
+    console.log(nodes[1].position)
+    const layout = getNodes(getGraphLayout(state.elements))
+
+    layout.map((n) =>
+      console.log({ id: n.id, x: n.position.x, y: n.position.y }),
+    )
 
     console.log(`Nodes: ${nodes.length}`)
   }, [state.elements])
@@ -54,10 +62,15 @@ const ValueStreamMap = () => {
   }
 
   const onConnectStart = (event, { nodeId, handleType }) =>
-    console.log('on connect start', { nodeId, handleType })
+    console.log('on connect start', { nodeId, handleType, event })
+
   const onConnectStop = (event) => console.log('on connect stop', event)
+
   const onConnectEnd = (event) => console.log('on connect end', event)
-  const onNodeDragStop = (event, node) => console.log('drag stop', node)
+
+  const onNodeDragStop = (event, node) => {
+    changeNodeValues({ node, position: node.position })
+  }
 
   const onElementClick = (event, element) => {
     if (isNode(element)) {
