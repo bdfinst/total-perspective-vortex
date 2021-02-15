@@ -1,65 +1,19 @@
-export const elements = [
-  {
-    id: '1',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    position: {
-      x: 87.50006149411689,
-      y: 150,
-    },
-  },
-  {
-    id: '2',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 0,
-    },
+import { buildEdge, buildNode } from '../../src/helpers'
 
-    position: {
-      x: 312.50005313585376,
-      y: 150,
-    },
-  },
-  {
-    id: '1_2',
-    source: '1',
-    target: '2',
-  },
-  {
-    id: '3',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 3,
-    },
-    position: {
-      x: 687.500039657312,
-      y: 150,
-    },
-  },
-  {
-    id: '2_3',
-    source: '2',
-    target: '3',
-  },
-  {
-    id: '4',
+export const elements = () => {
+  const max = 10
+  const nodes = []
 
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 2,
-    },
+  for (let index = 1; index < max; index++) {
+    nodes.push(buildNode({ id: index, x: 100, y: 150 }))
+  }
 
-    position: {
-      x: 862.5000823083907,
-      y: 150,
-    },
-  },
-  {
-    id: '3_4',
-    source: '3',
-    target: '4',
-  },
-]
+  const els = nodes.map((node, idx) => {
+    if (idx === 0) return node
+    if (idx > nodes.length - 1) return node
+    const edge = buildEdge(nodes[idx - 1], node)
+    return [node, edge]
+  })
+
+  return els
+}
