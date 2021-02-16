@@ -105,7 +105,7 @@ const ValueStreamMap = () => {
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
-            elements={getGraphLayout(state.elements, true, 5)}
+            elements={getGraphLayout(state.elements, true, 10)}
             nodeTypes={{ customNode: Node }}
             edgeTypes={{ custom: CustomEdge }}
             connectionLineComponent={ConnectionLine}

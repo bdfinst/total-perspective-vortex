@@ -76,19 +76,19 @@ const Node = (props) => {
     {
       name: 'actors',
       label: 'Actors',
-      max: 999999,
+      max: 99,
       onChange: handleNumberChange,
     },
     {
       name: 'processTime',
       label: 'Process Time',
-      max: 999999,
+      max: 999,
       onChange: handleNumberChange,
     },
     {
       name: 'waitTime',
       label: 'Wait Time',
-      max: 999999,
+      max: 999,
       onChange: handleNumberChange,
     },
     {
@@ -118,6 +118,7 @@ const Node = (props) => {
                 id={`${button.name}_${node.id}`}
                 name={button.name}
                 label={button.label}
+                value={node.data[button.name]}
                 inputProps={{ min: 0, max: button.max }}
                 onChange={button.onChange}
                 onBlur={handleUpdate}
