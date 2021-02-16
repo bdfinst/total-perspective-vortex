@@ -126,7 +126,6 @@ const ValueStreamMap = () => {
             onConnectEnd={onConnectEnd}
             arrowHeadColor="green"
           >
-            <Controls />
             <MiniMap
               nodeColor={(node) => {
                 switch (node.type) {

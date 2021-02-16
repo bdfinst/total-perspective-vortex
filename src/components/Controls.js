@@ -1,11 +1,28 @@
-import { ButtonGroup } from '@material-ui/core'
+import { ButtonGroup, Container, Paper } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-import { FileUpload, ResetButton, SaveButton, ZoomButtonGroup } from './Buttons'
+import {
+  FileUpload,
+  ResetButton,
+  SaveButton,
+  ZoomFocusButton,
+  ZoomInButton,
+  ZoomOutButton,
+} from './Buttons'
 
 const useStyles = makeStyles((theme) => ({
-  root: { zIndex: 'appBar' },
+  overrides: {
+    MuiPaper: {
+      textAlign: 'center',
+      color: 'orange',
+    },
+  },
+  root: {
+    background: 'orange',
+    padding: '0 0 0 0',
+    // width: '2.1em',
+  },
 }))
 
 const Controls = () => {
@@ -13,17 +30,25 @@ const Controls = () => {
   const classes = useStyles(theme)
 
   return (
-    <div className={classes.root}>
-      <ButtonGroup orientation="vertical" color="primary">
-        <ButtonGroup orientation="vertical">
+    <>
+      <Container className={classes.root}>
+        <Paper>
+          {/* <ButtonGroup orientation="horizontal" color="secondary"> */}
+          <ZoomFocusButton />
+          <ZoomInButton />
+          <ZoomOutButton />
+          {/* </ButtonGroup> */}
+        </Paper>
+
+        <Paper>
+          {/* <ButtonGroup orientation="horizontal" color="secondary"> */}
           <ResetButton />
           <SaveButton />
           <FileUpload />
-        </ButtonGroup>
-        <br />
-        <ZoomButtonGroup />
-      </ButtonGroup>
-    </div>
+          {/* </ButtonGroup> */}
+        </Paper>
+      </Container>
+    </>
   )
 }
 
