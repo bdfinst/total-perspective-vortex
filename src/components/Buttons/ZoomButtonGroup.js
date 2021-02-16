@@ -1,5 +1,5 @@
 import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core'
-import { Fullscreen, Visibility, ZoomIn, ZoomOut } from '@material-ui/icons'
+import { Visibility, ZoomIn, ZoomOut } from '@material-ui/icons'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import React from 'react'
 

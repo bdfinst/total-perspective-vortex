@@ -43,9 +43,6 @@ const Sidebar = () => {
             <Grid item xs={12}>
               <AddNode />
             </Grid>
-            <Grid item container xs={12} direction="row" spacing={2}>
-              <Controls />
-            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12}>
