@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core'
-import { ZoomIn } from '@material-ui/icons'
+import { IconButton } from '@material-ui/core'
+import { Visibility } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -11,25 +11,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const FocusButton = ({ onClick, enabled }) => {
+export const FocusButton = ({ onClick, enabled }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
   return (
     <div>
       {/* wrap in <span> to display tooltip when disabled */}
-      <Button
+      <IconButton
         className={classes.root}
-        color="primary"
-        variant="contained"
         disabled={!enabled}
-        startIcon={<ZoomIn />}
         onClick={onClick}
       >
-        Focus
-      </Button>
+        <Visibility />
+      </IconButton>
     </div>
   )
 }
-
-export default FocusButton

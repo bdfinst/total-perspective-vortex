@@ -4,13 +4,10 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import exportFromJSON from 'export-from-json'
 
+import { GitHubButton } from './Buttons'
 import { useValueStream } from '../appContext/valueStreamContext'
 import AddNode from './AddNode'
-import FileUpload from './Buttons/FileUpload'
-import FocusButton from './Buttons/FocusButton'
-import GitHubButton from './Buttons/GitHubButton'
-import ResetButton from './Buttons/ResetButton'
-import SaveButton from './Buttons/SaveButton'
+import Controls from './Controls'
 import Totals from './Totals'
 
 const useStyles = makeStyles((theme) => ({
@@ -84,18 +81,12 @@ const Sidebar = () => {
               <AddNode />
             </Grid>
             <Grid item container xs={12} direction="row" spacing={2}>
-              <Grid item xs>
-                <FocusButton onClick={focusNode} enabled={isNodeSelected} />
-              </Grid>
-              <Grid item xs>
-                <SaveButton onClick={handleExport} />
-              </Grid>
-              <Grid item xs>
-                <FileUpload />
-              </Grid>
-              <Grid item xs>
-                <ResetButton onClick={handleReset} />
-              </Grid>
+              <Controls
+                handleReset={handleReset}
+                focusNode={focusNode}
+                enabled={isNodeSelected}
+                handleExport={handleExport}
+              />
             </Grid>
           </Grid>
         </Grid>

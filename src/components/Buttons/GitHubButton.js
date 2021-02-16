@@ -2,7 +2,7 @@ import { GitHub } from '@material-ui/icons'
 import { IconButton, Tooltip } from '@material-ui/core'
 import React from 'react'
 
-const GitHubButton = () => {
+export const GitHubButton = () => {
   return (
     <div>
       <Tooltip title="Fork me on GitHub">
@@ -18,5 +18,3 @@ const GitHubButton = () => {
     </div>
   )
 }
-
-export default GitHubButton

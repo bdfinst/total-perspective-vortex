@@ -1,22 +1,15 @@
-import { Button, Tooltip } from '@material-ui/core'
+import { IconButton, Tooltip } from '@material-ui/core'
 import { Save } from '@material-ui/icons'
 import React from 'react'
 
-const SaveButton = (props) => {
+export const SaveButton = (props) => {
   return (
     <div>
       <Tooltip title="Export to file">
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<Save />}
-          onClick={props.onClick}
-        >
-          Save
-        </Button>
+        <IconButton onClick={props.onClick}>
+          <Save />
+        </IconButton>
       </Tooltip>
     </div>
   )
 }
-
-export default SaveButton

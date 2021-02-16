@@ -1,22 +1,15 @@
-import { Button, Tooltip } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
+import { IconButton, Tooltip } from '@material-ui/core'
 import React from 'react'
 
-const ResetButton = (props) => {
+export const ResetButton = (props) => {
   return (
     <div>
       <Tooltip title="Reset diagram">
-        <Button
-          variant="contained"
-          color="secondary"
-          startIcon={<Delete />}
-          onClick={props.onClick}
-        >
-          Reset
-        </Button>
+        <IconButton onClick={props.onClick}>
+          <Delete />
+        </IconButton>
       </Tooltip>
     </div>
   )
 }
-
-export default ResetButton
