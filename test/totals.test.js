@@ -7,6 +7,8 @@ import { elements as elementFixture } from './fixtures/elements'
 let elements
 elements = elementFixture(10)
 
+console.log(elements)
+
 describe('Building totals', () => {
   let results
   let processTime
@@ -81,7 +83,6 @@ describe('Building totals', () => {
     const num = 3
     elements = elementFixture(num, pca)
 
-    console.log(elements.map((e) => e.data.pctCompleteAccurate))
     results = getNodeSums(elements)
 
     expect(results.avgPCA).toEqual((pca + pca / 2) / 2)
