@@ -53,25 +53,36 @@ const Node = (props) => {
   }
 
   const EdgeHandle = ({ type }) => {
-    const parms = {
-      type: type === 'source' ? type : 'target',
-      side: type === 'source' ? 'right' : 'left',
-      color: type === 'source' ? 'green' : 'red',
+    const settings = (handleType) => {
+      switch (handleType) {
+        case 'target':
+          return { type: 'target', side: 'left', color: 'red' }
+        case 'target2':
+          return { type: 'target', side: 'top', color: 'red' }
+        default:
+          return { type: 'source', side: 'right', color: 'green' }
+      }
     }
+    // const parms = {
+    //   type: type === 'source' ? type : 'target',
+    //   side: type === 'source' ? 'right' : 'left',
+    //   color: type === 'source' ? 'green' : 'red',
+    // }
     return (
       <Handle
-        type={parms.type}
-        position={parms.side}
-        onConnect={(params) => console.log('handle onConnect', params)}
+        type={settings(type).type}
+        position={settings(type).side}
+        onConnect={(params) => console.log('handle onConnect', settings(type))}
         style={{
-          background: parms.color,
+          background: settings(type).color,
           width: '15px',
           height: '15px',
-          [parms.side]: '-9px',
+          [settings(type).side]: '-9px',
         }}
       />
     )
   }
+
   const buttons = [
     {
       name: 'actors',
@@ -81,13 +92,13 @@ const Node = (props) => {
     },
     {
       name: 'processTime',
-      label: 'Process Time',
+      label: 'Process',
       max: 999,
       onChange: handleNumberChange,
     },
     {
       name: 'waitTime',
-      label: 'Wait Time',
+      label: 'Wait',
       max: 999,
       onChange: handleNumberChange,
     },
