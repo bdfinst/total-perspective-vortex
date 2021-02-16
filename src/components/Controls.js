@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
 import { ButtonGroup } from '@material-ui/core'
+import React from 'react'
 
-import { FileUpload, FocusButton, ResetButton, SaveButton } from './Buttons'
+import { FileUpload, ResetButton, SaveButton, ZoomButtonGroup } from './Buttons'
 
-const Controls = ({ handleReset, handleExport, focusNode, isNodeSelected }) => {
+const Controls = () => {
   return (
     <>
       <ButtonGroup orientation="vertical" color="primary">
-        <ResetButton onClick={handleReset} />
-        <SaveButton onClick={handleExport} />
-        <FileUpload />
-        <FocusButton onClick={focusNode} enabled={isNodeSelected} />
+        <ButtonGroup orientation="vertical">
+          <ResetButton />
+          <SaveButton />
+          <FileUpload />
+        </ButtonGroup>
+        <br />
+        <ZoomButtonGroup />
       </ButtonGroup>
     </>
   )
