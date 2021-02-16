@@ -14,19 +14,22 @@ dagreGraph.setDefaultEdgeLabel(() => ({}))
 export const getGraphLayout = (
   elements,
   useProportional = true,
-  waitOffset = 50,
+  offsetWidth = 50,
 ) => {
-  console.log(useProportional, waitOffset)
   dagreGraph.setGraph({ rankdir: 'LR' })
 
-  const offsetWidth = (waitTime, offset) =>
-    useProportional && waitTime > 0 ? waitTime * offset : 0
+  const offsetPosition = (waitTime, offset) => {
+    return useProportional && waitTime > 0 ? waitTime * offset : 0
+  }
 
   elements.forEach((el) => {
     if (isNode(el)) {
+      const width = nodeDefaults.width
+      const height = nodeDefaults.height
+
       dagreGraph.setNode(el.id, {
-        width: nodeDefaults.width + offsetWidth(el.data.waitTime, waitOffset),
-        height: nodeDefaults.height,
+        width: width,
+        height: height,
       })
     } else {
       dagreGraph.setEdge(el.source, el.target)
@@ -35,16 +38,17 @@ export const getGraphLayout = (
 
   dagre.layout(dagreGraph)
 
+  let totalOffset = 0
   return elements.map((el) => {
     if (isNode(el)) {
       const nodeWithPosition = dagreGraph.node(el.id)
 
-      el.targetPosition = 'left'
-      el.sourcePosition = 'right'
+      totalOffset = totalOffset + offsetPosition(el.data.waitTime, offsetWidth)
+
       // Pass a slightly different position to notify react flow about the change
       el.position = {
-        x: nodeWithPosition.x,
-        y: nodeWithPosition.y + Math.random() / 10000,
+        x: nodeWithPosition.x + totalOffset + Math.random() / 10000,
+        y: nodeWithPosition.y,
       }
     }
     return el

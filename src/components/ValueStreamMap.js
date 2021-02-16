@@ -7,7 +7,6 @@ import ReactFlow, {
 } from 'react-flow-renderer'
 import { Container } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import dagre from 'dagre'
 
 import { getGraphLayout, getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
@@ -44,12 +43,6 @@ const ValueStreamMap = () => {
 
   useEffect(() => {
     const nodes = getNodes(state.elements)
-    console.log(nodes[1].position)
-    const layout = getNodes(getGraphLayout(state.elements))
-
-    layout.map((n) =>
-      console.log({ id: n.id, x: n.position.x, y: n.position.y }),
-    )
 
     console.log(`Nodes: ${nodes.length}`)
   }, [state.elements])
@@ -112,7 +105,7 @@ const ValueStreamMap = () => {
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
-            elements={state.elements}
+            elements={getGraphLayout(state.elements, true, 5)}
             nodeTypes={{ customNode: Node }}
             edgeTypes={{ custom: CustomEdge }}
             connectionLineComponent={ConnectionLine}
