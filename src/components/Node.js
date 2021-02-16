@@ -5,6 +5,7 @@ import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { InputNumber, InputText } from './Inputs'
+import { nodeDefaults } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
   },
   nodeContainer: {
-    width: 175,
+    width: nodeDefaults.width,
     background: theme.palette.background.paper,
     borderColor: theme.palette.primary.dark,
     borderRadius: '12px',
@@ -75,19 +76,19 @@ const Node = (props) => {
     {
       name: 'actors',
       label: 'Actors',
-      max: 999999,
+      max: 99,
       onChange: handleNumberChange,
     },
     {
       name: 'processTime',
       label: 'Process Time',
-      max: 999999,
+      max: 999,
       onChange: handleNumberChange,
     },
     {
       name: 'waitTime',
       label: 'Wait Time',
-      max: 999999,
+      max: 999,
       onChange: handleNumberChange,
     },
     {
@@ -117,6 +118,7 @@ const Node = (props) => {
                 id={`${button.name}_${node.id}`}
                 name={button.name}
                 label={button.label}
+                value={node.data[button.name]}
                 inputProps={{ min: 0, max: button.max }}
                 onChange={button.onChange}
                 onBlur={handleUpdate}

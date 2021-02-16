@@ -1,65 +1,14 @@
-export const elements = [
-  {
-    id: '1',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    position: {
-      x: 87.50006149411689,
-      y: 150,
-    },
-  },
-  {
-    id: '2',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 0,
-    },
+import { buildEdge, buildNode } from '../../src/helpers'
 
-    position: {
-      x: 312.50005313585376,
-      y: 150,
-    },
-  },
-  {
-    id: '1_2',
-    source: '1',
-    target: '2',
-  },
-  {
-    id: '3',
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 3,
-    },
-    position: {
-      x: 687.500039657312,
-      y: 150,
-    },
-  },
-  {
-    id: '2_3',
-    source: '2',
-    target: '3',
-  },
-  {
-    id: '4',
+export const elements = () => {
+  const ids = [1, 2, 3, 4, 5]
+  const nodes = ids.map((id) => buildNode({ id: id, x: 0, y: 0 }))
 
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      waitTime: 2,
-    },
+  const edges = nodes
+    .map((node, idx) => {
+      if (idx > 0 && idx < nodes.length - 1) buildEdge(nodes[idx - 1], node)
+    })
+    .filter((x) => x) //Remove undefined
 
-    position: {
-      x: 862.5000823083907,
-      y: 150,
-    },
-  },
-  {
-    id: '3_4',
-    source: '3',
-    target: '4',
-  },
-]
+  return nodes.concat(edges)
+}

@@ -1,4 +1,4 @@
-import { isNode } from 'react-flow-renderer'
+import { isEdge, isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
 import {
@@ -21,7 +21,7 @@ const buildData = (processTime, waitTime, pctCompleteAccurate) => {
   }
 }
 
-const elements = elementFixture.map((el, idx) => {
+const elements = elementFixture().map((el, idx) => {
   return isNode(el)
     ? {
         ...el,
@@ -68,7 +68,7 @@ describe('Building nodes and edges', () => {
     const filtered = getNodes(elements)
 
     expect(filtered.length).toEqual(2)
-    expect(filtered[0].elType).toEqual('NODE')
+    expect(isNode(filtered[0])).toEqual(true)
   })
   it('should return an array of only EDGE', () => {
     const nodes = [
@@ -80,8 +80,7 @@ describe('Building nodes and edges', () => {
 
     const filtered = getEdges(elements)
 
-    // expect(filtered.length).toEqual(1)
-    expect(filtered[0].elType).toEqual('EDGE')
+    expect(isEdge(filtered[0])).toEqual(true)
   })
   it('should require coordinates', () => {
     expect(() => {
@@ -134,6 +133,6 @@ describe('Building totals', () => {
     expect(results.waitTime).toEqual(waitTime)
     expect(results.totalTime).toEqual(totalTime)
     expect(results.flowEfficiency).toEqual(flowEfficiency)
-    expect(results.avgPCA).toEqual(6.5)
+    expect(results.avgPCA).toEqual(6)
   })
 })

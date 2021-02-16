@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const handleFocus = (event) => event.target.select()
+
 const InputText = (props) => {
   const classes = useStyles()
   const { id, label, onChange, onBlur, inputProps, name } = props
@@ -31,6 +33,7 @@ const InputText = (props) => {
         inputProps={inputProps}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={handleFocus}
       />
     </>
   )
@@ -38,7 +41,7 @@ const InputText = (props) => {
 
 const InputNumber = (props) => {
   const classes = useStyles()
-  const { id, label, onChange, onBlur, inputProps, name } = props
+  const { id, label, onChange, onBlur, inputProps, name, value } = props
 
   return (
     <>
@@ -51,10 +54,11 @@ const InputNumber = (props) => {
         size="small"
         margin="dense"
         type="number"
-        defaultValue={0}
+        value={value}
         inputProps={inputProps}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={handleFocus}
       />
     </>
   )
