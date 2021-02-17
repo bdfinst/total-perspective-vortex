@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     align: 'center',
     padding: '20px 10px 20px 10px',
-    background: 'red',
   },
 }))
 
