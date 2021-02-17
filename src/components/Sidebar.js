@@ -39,10 +39,10 @@ const Sidebar = () => {
           >
             <Grid item xs={12}>
               <Totals />
-              <Controls />
-            </Grid>
-            <Grid item xs={12}>
               <AddNode />
+              <Controls />
+              {/* </Grid>
+            <Grid item xs={12}> */}
             </Grid>
           </Grid>
         </Grid>
