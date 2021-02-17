@@ -76,14 +76,8 @@ const Node = (props) => {
 
   const buttons = [
     {
-      name: 'actors',
-      label: 'Actors',
-      max: 99,
-      onChange: handleNumberChange,
-    },
-    {
       name: 'processTime',
-      label: 'Process',
+      label: 'Work',
       max: 999,
       onChange: handleNumberChange,
     },
@@ -91,6 +85,12 @@ const Node = (props) => {
       name: 'waitTime',
       label: 'Wait',
       max: 999,
+      onChange: handleNumberChange,
+    },
+    {
+      name: 'actors',
+      label: 'Actors',
+      max: 99,
       onChange: handleNumberChange,
     },
     {
@@ -113,9 +113,8 @@ const Node = (props) => {
               onChange={handleChange}
               onBlur={handleUpdate}
             />
-          </Grid>
-          {buttons.map((button) => (
-            <Grid item xs={12} key={`${button.name}_${node.id}`}>
+
+            {buttons.map((button) => (
               <InputNumber
                 id={`${button.name}_${node.id}`}
                 name={button.name}
@@ -125,18 +124,8 @@ const Node = (props) => {
                 onChange={button.onChange}
                 onBlur={handleUpdate}
               />
-            </Grid>
-          ))}
-
-          {/* <IconButton
-            aria-label="delete"
-            className={classes.extendedIcon}
-            onClick={(delNode) => {
-              console.log(`onClick Delete ${JSON.stringify(delNode)}`)
-            }}
-          >
-            <DeleteTwoToneIcon />
-          </IconButton> */}
+            ))}
+          </Grid>
         </Grid>
       </div>
       <EdgeHandle type="source" />

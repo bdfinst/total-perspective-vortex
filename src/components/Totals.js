@@ -46,7 +46,7 @@ const Totals = () => {
   }, [state.elements])
 
   const rows = [
-    { name: 'processTime', title: 'Process Time', value: totals.processTime },
+    { name: 'processTime', title: 'Work Time', value: totals.processTime },
     { name: 'waitTime', title: 'Wait Time', value: totals.waitTime },
     {
       name: 'averageActors',
