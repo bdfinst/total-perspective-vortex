@@ -17,7 +17,6 @@ const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 175 })
   const node2 = buildNode({ id: 2, x: 350, y: 175 })
 
-  console.log(node1)
   const elements = [node1, node2, buildEdge(node1, node2)]
   return elements
 }

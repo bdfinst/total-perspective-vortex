@@ -1,5 +1,5 @@
 import { Container, Paper, Tooltip } from '@material-ui/core'
-import { Launch, Menu } from '@material-ui/icons'
+import { Menu } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 

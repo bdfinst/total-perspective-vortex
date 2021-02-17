@@ -1,4 +1,4 @@
-import { ButtonGroup, Container, Paper } from '@material-ui/core'
+import { ButtonGroup, Container } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
