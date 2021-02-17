@@ -1,4 +1,4 @@
-import { ButtonGroup, Container } from '@material-ui/core'
+import { ButtonGroup, Grid } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -10,6 +10,7 @@ import {
   ZoomInButton,
   ZoomOutButton,
 } from './Buttons'
+import AddNode from './AddNode'
 
 const useStyles = makeStyles((theme) => ({
   overrides: {
@@ -34,21 +35,30 @@ const Controls = () => {
 
   return (
     <>
-      <Container className={classes.root}>
-        <ButtonGroup orientation="horizontal" color="secondary">
-          <ZoomFocusButton />
-          <ZoomInButton />
-          <ZoomOutButton />
-        </ButtonGroup>{' '}
-      </Container>
-
-      <Container className={classes.root}>
-        <ButtonGroup orientation="horizontal" color="secondary">
-          <ResetButton />
-          <SaveButton />
-          <FileUpload />
-        </ButtonGroup>
-      </Container>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="flex-start"
+      >
+        <Grid item xs={5}>
+          <ButtonGroup orientation="horizontal" color="secondary">
+            <ZoomFocusButton />
+            <ZoomInButton />
+            <ZoomOutButton />
+          </ButtonGroup>
+        </Grid>
+        <Grid item xs={2}>
+          <AddNode />
+        </Grid>
+        <Grid item xs={5}>
+          <ButtonGroup orientation="horizontal" color="secondary">
+            <ResetButton />
+            <SaveButton />
+            <FileUpload />
+          </ButtonGroup>
+        </Grid>
+      </Grid>
     </>
   )
 }

@@ -23,6 +23,11 @@ A simple value stream mapping application to help automate a tedious manual proc
 - `npm test`: Run all of the tests
 - `npm run test:ci`: Test in watch mode
 
+### Known quirks with NextJS
+
+When running in dev mode and changing styling in MaterialUI, NextJS can get a bit lost on 
+style names. Kill and re-start the dev server after style changes.
+
 ## Contributions
 
 Thanks for considering contributing to this value stream mapping tool. We have a few requests.
