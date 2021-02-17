@@ -1,6 +1,10 @@
+import theme from '../theme'
+
 export const nodeDefaults = {
   width: 175,
   height: 300,
+  selectedColor: theme.palette.secondary.main,
+  deselectedColor: theme.palette.primary.dark,
 }
 
 export const buildNode = ({ id, x, y }) => {
@@ -25,7 +29,13 @@ export const buildNode = ({ id, x, y }) => {
       pctCompleteAccurate: 100,
     },
     style: {
-      padding: -1,
+      width: nodeDefaults.width,
+      background: theme.palette.background.paper,
+      borderColor: nodeDefaults.deselectedColor,
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
     },
     position,
   }

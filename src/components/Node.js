@@ -12,15 +12,6 @@ const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     float: 'right',
   },
-  nodeContainer: {
-    width: nodeDefaults.width,
-    background: theme.palette.background.paper,
-    borderColor: theme.palette.primary.dark,
-    borderRadius: '12px',
-    borderStyle: 'solid',
-    borderWidth: '4px',
-    padding: 5,
-  },
 }))
 
 const Node = (props) => {
@@ -112,7 +103,7 @@ const Node = (props) => {
   return (
     <>
       <EdgeHandle type="target" />
-      <div className={classes.nodeContainer}>
+      <div className="node-container">
         <Grid container>
           <Grid item xs={12}>
             <InputText

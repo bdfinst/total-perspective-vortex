@@ -1,22 +1,25 @@
-import { Card, CardContent } from '@material-ui/core'
-import { Launch } from '@material-ui/icons'
+import { Container, Paper, Tooltip } from '@material-ui/core'
+import { Launch, Menu } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    '&:hover': {
-      transform: 'translateZ(2)',
-    },
-  },
   icon: {
-    transform: 'scaleX(-1)',
     '&:hover': {
-      transform: 'scale(-2,2)',
+      transform: 'scale(-1.3,1.3)',
     },
-    fontSize: 35,
+    fontSize: 40,
     color: theme.textPrimary,
+  },
+  paper: {
+    width: '4em',
+    elevation: 0,
+    textAlign: 'center',
+    background: theme.palette.primary.main,
+  },
+  container: {
+    align: 'center',
+    padding: '20px 10px 20px 10px',
   },
 }))
 
@@ -29,18 +32,18 @@ const AddNode = (props) => {
   }
 
   return (
-    <div>
-      <Card
-        className={classes.root}
-        variant="outlined"
-        onDragStart={(event) => onDragStart(event, 'customNode')}
-        draggable
-      >
-        <CardContent className={classes.root}>
-          <Launch className={classes.icon} />
-        </CardContent>
-      </Card>
-    </div>
+    <Container className={classes.container}>
+      <Tooltip title="Drag to add new step">
+        <Paper
+          className={classes.paper}
+          variant="outlined"
+          onDragStart={(event) => onDragStart(event, 'customNode')}
+          draggable
+        >
+          <Menu className={classes.icon} />
+        </Paper>
+      </Tooltip>{' '}
+    </Container>
   )
 }
 export default AddNode

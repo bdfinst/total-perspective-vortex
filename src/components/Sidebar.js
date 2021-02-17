@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { Grid } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { useStore, useZoomPanHelper } from 'react-flow-renderer'
-import exportFromJSON from 'export-from-json'
+import React from 'react'
 
-import { useValueStream } from '../appContext/valueStreamContext'
+import { GitHubButton } from './Buttons'
 import AddNode from './AddNode'
-import FileUpload from './Buttons/FileUpload'
-import FocusButton from './Buttons/FocusButton'
-import GitHubButton from './Buttons/GitHubButton'
-import ResetButton from './Buttons/ResetButton'
-import SaveButton from './Buttons/SaveButton'
+import Controls from './Controls'
 import Totals from './Totals'
 
 const useStyles = makeStyles((theme) => ({
@@ -22,42 +16,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Sidebar = () => {
-  const { reset, state } = useValueStream()
-  const [isNodeSelected, setIsNodeSelected] = useState(false)
   const theme = useTheme()
   const classes = useStyles(theme)
-
-  useEffect(() => {
-    setIsNodeSelected(
-      state.elements.filter((el) => el.selected === true).length > 0,
-    )
-  }, [state.elements])
-
-  const { setCenter } = useZoomPanHelper()
-  const store = useStore()
-
-  const focusNode = () => {
-    const { nodes } = store.getState()
-    const node = nodes.find((el) => el.selected === true)
-
-    if (node) {
-      const x = node.__rf.position.x + node.__rf.width / 2
-      const y = node.__rf.position.y + node.__rf.height / 2
-      const zoom = 1.85
-
-      setCenter(x, y, zoom)
-    }
-  }
-
-  const handleReset = () => reset()
-
-  const handleExport = () => {
-    exportFromJSON({
-      data: state,
-      fileName: 'vsm',
-      exportType: 'json',
-    })
-  }
 
   return (
     <aside>
@@ -79,23 +39,10 @@ const Sidebar = () => {
           >
             <Grid item xs={12}>
               <Totals />
-            </Grid>
-            <Grid item xs={12}>
               <AddNode />
-            </Grid>
-            <Grid item container xs={12} direction="row" spacing={2}>
-              <Grid item xs>
-                <FocusButton onClick={focusNode} enabled={isNodeSelected} />
-              </Grid>
-              <Grid item xs>
-                <SaveButton onClick={handleExport} />
-              </Grid>
-              <Grid item xs>
-                <FileUpload />
-              </Grid>
-              <Grid item xs>
-                <ResetButton onClick={handleReset} />
-              </Grid>
+              <Controls />
+              {/* </Grid>
+            <Grid item xs={12}> */}
             </Grid>
           </Grid>
         </Grid>

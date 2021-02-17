@@ -7,8 +7,6 @@ import { elements as elementFixture } from './fixtures/elements'
 let elements
 elements = elementFixture(10)
 
-console.log(elements)
-
 describe('Building totals', () => {
   let results
   let processTime

@@ -8,7 +8,7 @@
 import React from 'react'
 import ls from 'local-storage'
 
-import { buildEdge, buildNode, edgeExists } from '../helpers'
+import { buildEdge, buildNode, edgeExists, nodeDefaults } from '../helpers'
 
 const selectedBorderColor = 'red'
 const borderColor = '#3385e9'
@@ -17,6 +17,7 @@ const init = () => {
   const node1 = buildNode({ id: 1, x: 100, y: 175 })
   const node2 = buildNode({ id: 2, x: 350, y: 175 })
 
+  console.log(node1)
   const elements = [node1, node2, buildEdge(node1, node2)]
   return elements
 }
@@ -98,8 +99,7 @@ const nodeSelect = (state, { node }) => {
               selected: false,
               style: {
                 ...el.style,
-                borderColor: borderColor,
-                borderWidth: '2px',
+                borderColor: nodeDefaults.deselectedColor,
               },
             }
           : el
@@ -111,8 +111,9 @@ const nodeSelect = (state, { node }) => {
               selected: el.selected ? false : true,
               style: {
                 ...el.style,
-                borderColor: !el.selected ? selectedBorderColor : borderColor,
-                borderWidth: !el.selected ? '3px' : '2px',
+                borderColor: !el.selected
+                  ? nodeDefaults.selectedColor
+                  : nodeDefaults.deselectedColor,
               },
             }
           : el
