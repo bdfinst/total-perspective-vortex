@@ -10,7 +10,9 @@ export const GitHubButton = () => {
           color="primary"
           aria-label="GitHub link"
           component="span"
-          onClick={() => window.open('https://github.com/bdfinst/vsm-tool')}
+          onClick={() =>
+            window.open('https://github.com/bdfinst/value-stream-map')
+          }
         >
           <GitHub fontSize="large" />
         </IconButton>
