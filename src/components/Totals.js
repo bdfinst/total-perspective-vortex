@@ -14,23 +14,14 @@ import { getNodeSums } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    root: {
-      minWidth: 200,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-      color: theme.textSecondary,
-      textAlign: 'center',
-    },
-    pos: {
-      marginBottom: 12,
-    },
+  tableContainer: {
+    minWidth: 200,
+  },
+
+  title: {
+    fontSize: 14,
+    color: theme.textSecondary,
+    textAlign: 'center',
   },
 }))
 
@@ -64,7 +55,11 @@ const Totals = () => {
   ]
   return (
     <>
-      <TableContainer component={Paper} className={classes.root}>
+      <TableContainer
+        component={Paper}
+        elevation={0}
+        className={classes.tableContainer}
+      >
         <Table className={classes.table} aria-label="simple table">
           <TableBody>
             <TableRow>
