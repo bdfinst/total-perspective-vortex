@@ -1,20 +1,30 @@
 {
-  "name": "vsm-tool",
-  "version": "0.1.0",
-  "private": true,
+  "name": "value-stream-map",
+  "version": "1.0.0",
+  "description": "A tool for value stream mapping a process flow",
+  "keywords": [
+    "lean",
+    "devops",
+    "vsm"
+  ],
   "scripts": {
-    "dev": "rm -rf .next && next dev",
     "build": "next build && next export",
-    "start": "next start",
-    "test": "jest --collectCoverage",
-    "test:ci-debug": "jest --detectOpenHandles --watch",
-    "ci": "jest  --watch",
+    "depcheck": "depcheck --ignores='import-sort-style-absolute'",
+    "dev": "rm -rf .next && next dev",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
+    "lint": "npm run format:fix && npm run lint:fix",
     "lint:check": "eslint src test",
     "lint:fix": "eslint src test --fix",
-    "lint": "npm run format:fix && npm run lint:fix",
-    "depcheck": "depcheck --ignores='import-sort-style-absolute'"
+    "start": "next start",
+    "test": "jest --collectCoverage",
+    "test:ci": "jest  --watch",
+    "test:ci-debug": "jest --detectOpenHandles --watch"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
+    }
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -52,11 +62,6 @@
     "object-key-validator": "^1.1.2",
     "prettier": "^1.19.1",
     "react-test-renderer": "^16.12.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
-    }
   },
   "importSort": {
     ".js, .jsx, .es6, .es": {

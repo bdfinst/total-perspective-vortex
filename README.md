@@ -2,25 +2,26 @@
 
 A simple value stream mapping application to help automate a tedious manual process
 
-[Auto
-Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398)
+
 
 ## Planned Features
 
 - [X] Local persistance
 - [X] Drag and drop
 - [X] Upload and download VSM
-- [ ] Parallel and converging value streams
+- [X] Parallel and converging value streams
 - [X] Auto-calculated totals
 - [ ] [PDF export](https://github.com/blikblum/pdfkit-webpack-example)
-- [ ] [Auto Layout](https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398https://github.com/wbkd/react-flow/issues/5#issuecomment-643805398)
-- [ ] Relative distance between nodes based on wait time w/ toggle to remove relative distance
+- [X] Auto Layout
+- [X] Relative distance between nodes based on wait time
+- [ ] Relative node size based on work time
+- [ ] Toggle relative width
 
 ## Development
 
 - `npm run dev`: Serve on port 3000
 - `npm test`: Run all of the tests
-- `npm run ci`: Test in watch mode
+- `npm run test:ci`: Test in watch mode
 
 ## Contributions
 
