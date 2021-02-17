@@ -2,7 +2,8 @@
 
 A simple value stream mapping application to help automate a tedious manual process
 
-![](./docs/vsm.png | width=100)
+![VSM Screenshot](./docs/vsm.png)
+
 ## Planned Features
 
 - [X] Local persistance
