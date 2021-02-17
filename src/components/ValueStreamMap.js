@@ -4,17 +4,39 @@ import ReactFlow, {
   ReactFlowProvider,
   isNode,
 } from 'react-flow-renderer'
-import { useTheme } from '@material-ui/core/styles'
+import { Container, Grid, Paper } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { getGraphLayout, getNodeById, getNodes } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
+import Controls from './ControlsH'
 import CustomEdge from './CustomEdge'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    align: 'center',
+    padding: '0 0 0 0 ',
+  },
+  paper: {
+    elevation: 0,
+    height: '80vh',
+    padding: '0 0 0 0 ',
+    textAlign: 'center',
+  },
+  controls: {
+    elevation: 0,
+    height: '10vh',
+    padding: '0 0 0 0 ',
+    textAlign: 'center',
+  },
+}))
+
 const ValueStreamMap = () => {
   const theme = useTheme()
+  const classes = useStyles(theme)
 
   const {
     state,
@@ -88,48 +110,63 @@ const ValueStreamMap = () => {
   }
 
   return (
-    <div className="vsmflow">
-      {/* <Container className={classes.container}> */}
+    <Container className={classes.container}>
       <ReactFlowProvider>
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-          <ReactFlow
-            elements={getGraphLayout(state.elements, true, 10)}
-            nodeTypes={{ customNode: Node }}
-            edgeTypes={{ custom: CustomEdge }}
-            connectionLineComponent={ConnectionLine}
-            defaultZoom={0.6}
-            minZoom={0.05}
-            maxZoom={1.5}
-            snapToGrid={true}
-            onConnect={onConnect}
-            onEdgeUpdate={onEdgeUpdate}
-            onElementsRemove={onElementsRemove}
-            onNodeDragStop={onNodeDragStop}
-            onElementClick={onElementClick}
-            onLoad={onLoad}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            onConnectStart={onConnectStart}
-            onConnectStop={onConnectStop}
-            onConnectEnd={onConnectEnd}
-            arrowHeadColor="green"
-          >
-            <MiniMap
-              nodeColor={(node) => {
-                switch (node.type) {
-                  case 'customNode':
-                    return theme.palette.primary.main
-                  default:
-                    return '#eee'
-                }
-              }}
-            />
-          </ReactFlow>
-        </div>
-        <Sidebar />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="flex-start"
+        >
+          <Grid item xs={12} md={9}>
+            <div ref={reactFlowWrapper}>
+              <Paper className={classes.controls} elevation={0}>
+                <Controls />
+              </Paper>
+
+              <Paper className={classes.paper} elevation={0}>
+                <ReactFlow
+                  elements={getGraphLayout(state.elements, true, 10)}
+                  nodeTypes={{ customNode: Node }}
+                  edgeTypes={{ custom: CustomEdge }}
+                  connectionLineComponent={ConnectionLine}
+                  defaultZoom={0.6}
+                  minZoom={0.05}
+                  maxZoom={1.5}
+                  snapToGrid={true}
+                  onConnect={onConnect}
+                  onEdgeUpdate={onEdgeUpdate}
+                  onElementsRemove={onElementsRemove}
+                  onNodeDragStop={onNodeDragStop}
+                  onElementClick={onElementClick}
+                  onLoad={onLoad}
+                  onDrop={onDrop}
+                  onDragOver={onDragOver}
+                  onConnectStart={onConnectStart}
+                  onConnectStop={onConnectStop}
+                  onConnectEnd={onConnectEnd}
+                  arrowHeadColor="green"
+                >
+                  <MiniMap
+                    nodeColor={(node) => {
+                      switch (node.type) {
+                        case 'customNode':
+                          return theme.palette.primary.main
+                        default:
+                          return '#eee'
+                      }
+                    }}
+                  />
+                </ReactFlow>
+              </Paper>
+            </div>
+          </Grid>
+          <Grid item>
+            <Sidebar />
+          </Grid>
+        </Grid>
       </ReactFlowProvider>
-      {/* </Container> */}
-    </div>
+    </Container>
   )
 }
 

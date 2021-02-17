@@ -1,5 +1,5 @@
-import { Container, Paper, Tooltip } from '@material-ui/core'
-import { Menu } from '@material-ui/icons'
+import { Container, IconButton, Paper, Tooltip } from '@material-ui/core'
+import { Menu, ViewListRounded } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -10,16 +10,6 @@ const useStyles = makeStyles((theme) => ({
     },
     fontSize: 40,
     color: theme.textPrimary,
-  },
-  paper: {
-    width: '4em',
-    elevation: 0,
-    textAlign: 'center',
-    background: theme.palette.primary.main,
-  },
-  container: {
-    align: 'center',
-    padding: '20px 10px 20px 10px',
   },
 }))
 
@@ -32,18 +22,17 @@ const AddNode = (props) => {
   }
 
   return (
-    <Container className={classes.container}>
-      <Tooltip title="Drag to add new step">
-        <Paper
-          className={classes.paper}
-          variant="outlined"
-          onDragStart={(event) => onDragStart(event, 'customNode')}
-          draggable
-        >
-          <Menu className={classes.icon} />
-        </Paper>
-      </Tooltip>{' '}
-    </Container>
+    <Tooltip title="Drag to add step">
+      <IconButton
+        color="primary"
+        aria-label="GitHub link"
+        component="span"
+        draggable
+        onDragStart={(event) => onDragStart(event, 'customNode')}
+      >
+        <ViewListRounded className={classes.icon} />
+      </IconButton>
+    </Tooltip>
   )
 }
 export default AddNode
