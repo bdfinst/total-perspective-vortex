@@ -1,35 +1,46 @@
-import { IconButton, Tooltip } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { Visibility, ZoomIn, ZoomOut } from '@material-ui/icons'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import React from 'react'
 
+const useStyles = makeStyles((theme) => ({
+  button: { color: theme.palette.primary.dark },
+}))
+
 export const ZoomInButton = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
   const { zoomIn } = useZoomPanHelper()
 
   return (
     <>
       <Tooltip title="Zoom in">
-        <IconButton onClick={zoomIn}>
+        <Button variant="outlined" className={classes.button} onClick={zoomIn}>
           <ZoomIn />
-        </IconButton>
+        </Button>
       </Tooltip>
     </>
   )
 }
 export const ZoomOutButton = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
   const { zoomOut } = useZoomPanHelper()
 
   return (
     <>
       <Tooltip title="Zoom out">
-        <IconButton onClick={zoomOut}>
+        <Button variant="outlined" className={classes.button} onClick={zoomOut}>
           <ZoomOut />
-        </IconButton>
+        </Button>
       </Tooltip>
     </>
   )
 }
 export const ZoomFocusButton = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
   const { fitView, setCenter } = useZoomPanHelper()
   const store = useStore()
 
@@ -51,9 +62,13 @@ export const ZoomFocusButton = () => {
   return (
     <>
       <Tooltip title="Fit to screen">
-        <IconButton onClick={handleFocusNode}>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          onClick={handleFocusNode}
+        >
           <Visibility />
-        </IconButton>
+        </Button>
       </Tooltip>
     </>
   )

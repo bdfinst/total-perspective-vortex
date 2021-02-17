@@ -1,11 +1,18 @@
-import { IconButton, Tooltip } from '@material-ui/core'
+import { Button, Tooltip } from '@material-ui/core'
 import { Save } from '@material-ui/icons'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 import exportFromJSON from 'export-from-json'
 
 import { useValueStream } from '../../appContext/valueStreamContext'
 
+const useStyles = makeStyles((theme) => ({
+  button: { color: theme.palette.secondary.dark },
+}))
+
 export const SaveButton = (props) => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
   const { state } = useValueStream()
 
   const handleExport = () => {
@@ -19,9 +26,13 @@ export const SaveButton = (props) => {
   return (
     <div>
       <Tooltip title="Export to file">
-        <IconButton onClick={handleExport}>
+        <Button
+          variant="outlined"
+          className={classes.button}
+          onClick={handleExport}
+        >
           <Save />
-        </IconButton>
+        </Button>
       </Tooltip>
     </div>
   )

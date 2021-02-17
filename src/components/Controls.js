@@ -15,12 +15,15 @@ const useStyles = makeStyles((theme) => ({
   overrides: {
     MuiPaper: {
       textAlign: 'center',
-      color: 'orange',
+      padding: '0 0 0 0',
+      elevation: 0,
+    },
+    MuiContainer: {
+      align: 'center',
+      paddingTop: '10',
     },
   },
   root: {
-    background: 'orange',
-    padding: '0 0 0 0',
     // width: '2.1em',
   },
 }))
@@ -32,21 +35,19 @@ const Controls = () => {
   return (
     <>
       <Container className={classes.root}>
-        <Paper>
-          {/* <ButtonGroup orientation="horizontal" color="secondary"> */}
+        <ButtonGroup orientation="horizontal" color="secondary">
           <ZoomFocusButton />
           <ZoomInButton />
           <ZoomOutButton />
-          {/* </ButtonGroup> */}
-        </Paper>
+        </ButtonGroup>{' '}
+      </Container>
 
-        <Paper>
-          {/* <ButtonGroup orientation="horizontal" color="secondary"> */}
+      <Container className={classes.root}>
+        <ButtonGroup orientation="horizontal" color="secondary">
           <ResetButton />
           <SaveButton />
           <FileUpload />
-          {/* </ButtonGroup> */}
-        </Paper>
+        </ButtonGroup>
       </Container>
     </>
   )
