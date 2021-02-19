@@ -8,8 +8,8 @@
     "vsm"
   ],
   "repository": {
-    "type":"git",
-    "url":"https://github.com/bdfinst/value-stream-map"
+    "type": "git",
+    "url": "https://github.com/bdfinst/value-stream-map"
   },
   "scripts": {
     "build": "next build && next export",
