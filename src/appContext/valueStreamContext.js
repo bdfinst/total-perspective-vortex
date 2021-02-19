@@ -39,8 +39,10 @@ const buildData = () => {
 const valueStream = buildData()
 
 const updateLocalStorage = (state) => {
+  const elements = { ...state.elements, selected: false }
   ls('maxNodeId', state.maxNodeId)
   ls('elements', state.elements)
+  console.log(elements)
 }
 
 const resetVSM = () => {
@@ -263,7 +265,7 @@ const useValueStream = () => {
 
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
-  const selectNode = ({ node }) =>
+  const toggleNodeSelect = ({ node }) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
   return {
@@ -276,7 +278,7 @@ const useValueStream = () => {
     removeElements,
     reset,
     initState,
-    selectNode,
+    toggleNodeSelect,
   }
 }
 

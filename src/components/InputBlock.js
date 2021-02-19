@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import ReactFlow, {
+  MiniMap,
+  ReactFlowProvider,
+  isNode,
+} from 'react-flow-renderer'
 import {
   Button,
   Container,
@@ -14,6 +19,7 @@ import {
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { InputNumber, InputText } from './Inputs'
+import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,14 +28,28 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
 }))
-const InputBlock = ({ node }) => {
+
+const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const [open, setOpen] = useState(node.length && node.length === 1)
+
+  const { state, toggleNodeSelect } = useValueStream()
+
+  const onElementClick = (event, element) => {
+    if (isNode(element)) {
+      toggleNodeSelect({ node: element })
+    }
+  }
+
+  const node = state.elements.find((el) => isNode(el) && el.selected)
+
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    console.log(node)
-  }, [node])
+    if (node) {
+      setOpen(true)
+    }
+  }, [node, open])
 
   const handleNumberChange = (e) => {
     const { name, value } = e.target
@@ -49,6 +69,7 @@ const InputBlock = ({ node }) => {
 
   const handleClose = () => {
     setOpen(false)
+    toggleNodeSelect({ node })
   }
 
   const buttons = [

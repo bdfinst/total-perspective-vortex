@@ -46,7 +46,7 @@ const ValueStreamMap = () => {
     changeNodeValues,
     changeEdge,
     removeElements,
-    selectNode,
+    toggleNodeSelect,
   } = useValueStream()
   const reactFlowWrapper = useRef(null)
 
@@ -81,7 +81,7 @@ const ValueStreamMap = () => {
 
   const onElementClick = (event, element) => {
     if (isNode(element)) {
-      selectNode({ node: element })
+      toggleNodeSelect({ node: element })
     }
   }
 
@@ -162,7 +162,7 @@ const ValueStreamMap = () => {
                     }}
                   />
                 </ReactFlow>
-                <InputBlock node={getSelectedNode()} open={openInput} />
+                <InputBlock />
               </Paper>
             </div>
           </Grid>
