@@ -108,9 +108,9 @@ const Node = (props) => {
         <Grid container>
           <Grid item xs={12}>
             <InputText
-              id={`description_${node.id}`}
-              name="description"
-              label="Description"
+              id={`processName_${node.id}`}
+              name="processName"
+              label="processName"
               onChange={handleChange}
               onBlur={handleUpdate}
             />

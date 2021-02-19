@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactFlow, {
   MiniMap,
   ReactFlowProvider,
@@ -21,8 +21,9 @@ import {
 import { HelpOutline } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { InputNumber, InputText } from './Inputs'
 import { useValueStream } from '../appContext/valueStreamContext'
+import inputFieldDefs from './InputDialog/fieldDefs'
+import useForm from '../hooks/useForm'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -38,18 +39,18 @@ const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const [data, setData] = useState({})
-
-  const { state, toggleNodeSelect } = useValueStream()
-
-  const onElementClick = (event, element) => {
-    if (isNode(element)) {
-      toggleNodeSelect({ node: element })
-    }
-  }
+  const [open, setOpen] = useState(false)
+  const { state, toggleNodeSelect, changeNodeValues } = useValueStream()
+  const [errors, setErrors] = useState(false)
+  const [inputs, setInputs] = useState(inputFieldDefs)
+  const [submitted, setSubmitted] = useState(false)
 
   const node = state.elements.find((el) => isNode(el) && el.selected)
 
-  const [open, setOpen] = useState(false)
+  const handleClose = () => {
+    setOpen(false)
+    toggleNodeSelect({ node })
+  }
 
   useEffect(() => {
     if (node) {
@@ -58,65 +59,66 @@ const InputBlock = () => {
   }, [node, open])
 
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    if (submitted) handleClose()
+  }, [submitted])
+
+  useEffect(() => {
+    inputs.map((i) => {
+      if (i.error) {
+        console.log(i.label, i.helperText)
+      }
+    })
+  }, [errors, inputs])
+
+  const handleSubmit = (event) => {
+    if (event) event.preventDefault()
+    setErrors(false)
+
+    const newInputs = inputs.map((input) => {
+      const isValid = input.isValid(input.value)
+
+      if (!isValid) setErrors(true)
+
+      return {
+        ...input,
+        error: !isValid,
+        helperText: input.getHelperText(!isValid),
+      }
+    })
+
+    setInputs(newInputs)
+    if (!errors) {
+      const data = {}
+      newInputs.forEach((input) => {
+        data[input.id] = isNaN(input.value) ? input.value : Number(input.value)
+      })
+
+      changeNodeValues({ node: node, data: data })
+      setSubmitted(true)
+    }
+  }
+
+  const handleChange = (event) => {
+    const newInputs = [...inputs]
+    const index = inputs.findIndex((item) => {
+      return item.id === event.target.id
+    })
+
+    const input = inputs[index]
+    const isValid = input.isValid(event.target.value)
+
+    newInputs[index] = {
+      ...input,
+      value: event.target.value.trim(),
+      error: !isValid,
+      helperText: input.getHelperText(!isValid),
+    }
+    setInputs(newInputs)
+  }
 
   const handleFieldUpdate = (value, field) => {
     setData({ ...data, [field]: value })
   }
-  const handleNumberChange = (e) => {
-    const { name, value } = e.target
-
-    console.log(name, Number(value))
-  }
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-
-    console.log(name, value)
-  }
-
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    toggleNodeSelect({ node })
-  }
-
-  const inputFields = [
-    {
-      name: 'processTime',
-      label: 'Work Time',
-      max: 999,
-      helpText: 'The amount of time required to do the activity',
-      onChange: handleNumberChange,
-    },
-    {
-      name: 'waitTime',
-      label: 'Wait Time',
-      helpText: 'The amount of time spent before the activity is started',
-      max: 999,
-      onChange: handleNumberChange,
-    },
-    {
-      name: 'actors',
-      label: 'People',
-      helpText:
-        'The number of people engaged in the activity. For automation, this should be 0',
-      max: 999,
-      onChange: handleNumberChange,
-    },
-    {
-      name: 'pctCompleteAccurate',
-      label: '% C/A',
-      helpText:
-        'What % of the output from this step is accepted by the next? For example, if 20% of code reviews require rework, this should be set to 80%',
-      max: 100,
-      onChange: handleChange,
-    },
-  ]
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -133,52 +135,55 @@ const InputBlock = () => {
               <TextField
                 autoFocus
                 className={classes.input}
-                id="description"
-                name="description"
-                label="Description"
-                inputProps={{ name: 'description' }}
-                onChange={(e) =>
-                  handleFieldUpdate(e.target.value, 'description')
-                }
+                id={inputs[0].id}
+                label={inputs[0].label}
+                placeholder={inputs[0].placeholder}
+                value={inputs[0].value}
+                onChange={handleChange}
+                error={inputs[0].error}
+                helperText={inputs[0].helperText}
                 margin="dense"
                 size="small"
                 type="text"
                 fullWidth
+                required
               />
             </Grid>
-            {inputFields.map((field) => (
-              <Grid
-                item
-                container
-                key={`gic_${field.name}`}
-                direction="row"
-                justify="space-between"
-                alignItems="center"
-                xs={6}
-              >
-                <Grid item id={`gitf_${field.name}`} xs={11}>
-                  <TextField
-                    key={`${field.name}`}
-                    name={field.name}
-                    label={field.label}
-                    inputProps={{ min: 0, max: field.max, name: field.name }}
-                    className={classes.input}
-                    size="small"
-                    margin="dense"
-                    type="number"
-                    fullWidth
-                    onChange={(e) =>
-                      handleFieldUpdate(e.target.value, field.name)
-                    }
-                  />
+            {inputs
+              .filter((input) => input.id !== 'processName')
+              .map((input) => (
+                <Grid
+                  item
+                  key={`gi_${input.id}`}
+                  container
+                  key={`gic_${input.id}`}
+                  direction="row"
+                  justify="space-between"
+                  alignItems="center"
+                  xs={6}
+                >
+                  <Grid item key={`gitf_${input.id}`} xs={11}>
+                    <TextField
+                      id={input.id}
+                      label={input.label}
+                      placeholder={input.placeholder}
+                      value={Number(input.value)}
+                      onChange={handleChange}
+                      error={input.error}
+                      helperText={input.helperText}
+                      type="number"
+                      size="small"
+                      margin="dense"
+                      required
+                    />
+                  </Grid>
+                  <Grid item key={`gitt_${input.id}`} xs={1}>
+                    <Tooltip title={input.tooltip}>
+                      <HelpOutline className={classes.help} />
+                    </Tooltip>
+                  </Grid>
                 </Grid>
-                <Grid item key={`gitt_${field.name}`} xs={1}>
-                  <Tooltip title={field.helpText}>
-                    <HelpOutline className={classes.help} />
-                  </Tooltip>
-                </Grid>
-              </Grid>
-            ))}
+              ))}
           </Grid>
         </form>
       </DialogContent>
@@ -186,7 +191,7 @@ const InputBlock = () => {
         <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleSubmit} color="primary">
           Update
         </Button>
       </DialogActions>

@@ -29,7 +29,7 @@ const vsInit = {
 }
 
 const buildData = () => {
-  // ls.clear()
+  ls.clear()
 
   return {
     maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
@@ -39,10 +39,8 @@ const buildData = () => {
 const valueStream = buildData()
 
 const updateLocalStorage = (state) => {
-  const elements = { ...state.elements, selected: false }
   ls('maxNodeId', state.maxNodeId)
   ls('elements', state.elements)
-  console.log(elements)
 }
 
 const resetVSM = () => {
@@ -134,9 +132,9 @@ const updateNode = (state, { node, position, data }) => {
             ...el,
             data: data
               ? {
-                  description: data.description
-                    ? data.description
-                    : el.data.description,
+                  processName: data.processName
+                    ? data.processName
+                    : el.data.processName,
                   actors: data.actors ? data.actors : el.data.actors,
                   processTime: data.processTime
                     ? data.processTime

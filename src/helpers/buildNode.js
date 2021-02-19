@@ -22,7 +22,7 @@ export const buildNode = ({ id, x, y }) => {
     targetPosition: 'left',
     selected: false,
     data: {
-      description: '',
+      processName: '',
       actors: 0,
       processTime: 0,
       waitTime: 0,
