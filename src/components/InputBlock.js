@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const [helpOpen, setHelpOpen] = useState(false)
+  const [data, setData] = useState({})
 
   const { state, toggleNodeSelect } = useValueStream()
 
@@ -57,6 +57,13 @@ const InputBlock = () => {
     }
   }, [node, open])
 
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  const handleFieldUpdate = (value, field) => {
+    setData({ ...data, [field]: value })
+  }
   const handleNumberChange = (e) => {
     const { name, value } = e.target
 
@@ -129,6 +136,10 @@ const InputBlock = () => {
                 id="description"
                 name="description"
                 label="Description"
+                inputProps={{ name: 'description' }}
+                onChange={(e) =>
+                  handleFieldUpdate(e.target.value, 'description')
+                }
                 margin="dense"
                 size="small"
                 type="text"
@@ -139,7 +150,7 @@ const InputBlock = () => {
               <Grid
                 item
                 container
-                id={`gic_${field.name}`}
+                key={`gic_${field.name}`}
                 direction="row"
                 justify="space-between"
                 alignItems="center"
@@ -147,19 +158,21 @@ const InputBlock = () => {
               >
                 <Grid item id={`gitf_${field.name}`} xs={11}>
                   <TextField
-                    id={`${field.name}`}
+                    key={`${field.name}`}
                     name={field.name}
                     label={field.label}
-                    inputProps={{ min: 0, max: field.max }}
+                    inputProps={{ min: 0, max: field.max, name: field.name }}
                     className={classes.input}
                     size="small"
                     margin="dense"
                     type="number"
                     fullWidth
-                    // onChange={field.onChange}
+                    onChange={(e) =>
+                      handleFieldUpdate(e.target.value, field.name)
+                    }
                   />
                 </Grid>
-                <Grid item id={`gitt_${field.name}`} xs={1}>
+                <Grid item key={`gitt_${field.name}`} xs={1}>
                   <Tooltip title={field.helpText}>
                     <HelpOutline className={classes.help} />
                   </Tooltip>
@@ -170,7 +183,7 @@ const InputBlock = () => {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
         <Button onClick={handleClose} color="primary">
