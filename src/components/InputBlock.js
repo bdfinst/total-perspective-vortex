@@ -1,29 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ReactFlow, {
-  MiniMap,
-  ReactFlowProvider,
-  isNode,
-} from 'react-flow-renderer'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
-  IconButton,
-  Paper,
   TextField,
   Tooltip,
 } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
+import { isNode } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
 import inputFieldDefs from './InputDialog/fieldDefs'
-import useForm from '../hooks/useForm'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -48,6 +39,7 @@ const InputBlock = () => {
   const node = state.elements.find((el) => isNode(el) && el.selected)
 
   const handleClose = () => {
+    setSubmitted(false)
     setOpen(false)
     toggleNodeSelect({ node })
   }
@@ -178,7 +170,7 @@ const InputBlock = () => {
                     />
                   </Grid>
                   <Grid item key={`gitt_${input.id}`} xs={1}>
-                    <Tooltip title={input.tooltip}>
+                    <Tooltip title={input.toolTip}>
                       <HelpOutline className={classes.help} />
                     </Tooltip>
                   </Grid>
