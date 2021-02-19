@@ -7,6 +7,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { InputNumber, InputText } from './Inputs'
 import { nodeDefaults } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
+import InputBlock from './InputBlock'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -117,6 +118,7 @@ const Node = (props) => {
             {buttons.map((button) => (
               <InputNumber
                 id={`${button.name}_${node.id}`}
+                key={`${button.name}_${node.id}`}
                 name={button.name}
                 label={button.label}
                 value={node.data[button.name]}

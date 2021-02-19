@@ -12,6 +12,7 @@ import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'
+import InputBlock from './InputBlock'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
@@ -57,6 +58,9 @@ const ValueStreamMap = () => {
     console.log(`Nodes: ${nodes.length}`)
   }, [state.elements])
 
+  const getSelectedNode = () => {
+    return getNodes(state.elements).filter((node) => node.selected === true)
+  }
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
@@ -158,6 +162,7 @@ const ValueStreamMap = () => {
                     }}
                   />
                 </ReactFlow>
+                <InputBlock node={getSelectedNode()} open={openInput} />
               </Paper>
             </div>
           </Grid>
