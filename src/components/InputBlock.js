@@ -13,25 +13,31 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  IconButton,
   Paper,
   TextField,
+  Tooltip,
 } from '@material-ui/core'
+import { HelpOutline } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { InputNumber, InputText } from './Inputs'
 import { useValueStream } from '../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    // height: '90vh',
-    padding: '0 0 0 0 ',
-    textAlign: 'center',
+  input: {
+    padding: '5 5 5 5 ',
+    margin: 8,
+  },
+  help: {
+    color: theme.palette.primary.light,
   },
 }))
 
 const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
+  const [helpOpen, setHelpOpen] = useState(false)
 
   const { state, toggleNodeSelect } = useValueStream()
 
@@ -72,81 +78,103 @@ const InputBlock = () => {
     toggleNodeSelect({ node })
   }
 
-  const buttons = [
+  const inputFields = [
     {
       name: 'processTime',
-      label: 'Work',
+      label: 'Work Time',
       max: 999,
+      helpText: 'The amount of time required to do the activity',
       onChange: handleNumberChange,
     },
     {
       name: 'waitTime',
-      label: 'Wait',
+      label: 'Wait Time',
+      helpText: 'The amount of time spent before the activity is started',
       max: 999,
       onChange: handleNumberChange,
     },
     {
       name: 'actors',
-      label: 'Actors',
-      max: 99,
+      label: 'People',
+      helpText:
+        'The number of people engaged in the activity. For automation, this should be 0',
+      max: 999,
       onChange: handleNumberChange,
     },
     {
       name: 'pctCompleteAccurate',
       label: '% C/A',
+      helpText:
+        'What % of the output from this step is accepted by the next? For example, if 20% of code reviews require rework, this should be set to 80%',
       max: 100,
       onChange: handleChange,
     },
   ]
 
   return (
-    // <Container>
-    //   <Paper elevation={1}>
-    //     {' '}
-    //     <Grid container>
-    //       <Grid item xs={12}>
-    //         <InputText
-    //           id="description"
-    //           name="description"
-    //           label="Description"
-    //           onChange={handleChange}
-    //         />
-
-    //         {buttons.map((button) => (
-    //           <InputNumber
-    //             id={`${button.name}`}
-    //             name={button.name}
-    //             label={button.label}
-    //             inputProps={{ min: 0, max: button.max }}
-    //             onChange={button.onChange}
-    //           />
-    //         ))}
-    //       </Grid>
-    //     </Grid>
-    //   </Paper>
-    // </Container>
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <DialogTitle id="form-dialog-title">Process</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
-        />
+        <form className={classes.root} noValidate autoComplete="off">
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <TextField
+                autoFocus
+                className={classes.input}
+                id="description"
+                name="description"
+                label="Description"
+                margin="dense"
+                size="small"
+                type="text"
+                fullWidth
+              />
+            </Grid>
+            {inputFields.map((field) => (
+              <Grid
+                item
+                container
+                id={`gic_${field.name}`}
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+                xs={6}
+              >
+                <Grid item id={`gitf_${field.name}`} xs={11}>
+                  <TextField
+                    id={`${field.name}`}
+                    name={field.name}
+                    label={field.label}
+                    inputProps={{ min: 0, max: field.max }}
+                    className={classes.input}
+                    size="small"
+                    margin="dense"
+                    type="number"
+                    fullWidth
+                    // onChange={field.onChange}
+                  />
+                </Grid>
+                <Grid item id={`gitt_${field.name}`} xs={1}>
+                  <Tooltip title={field.helpText}>
+                    <HelpOutline className={classes.help} />
+                  </Tooltip>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </form>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
         <Button onClick={handleClose} color="primary">
-          Subscribe
+          Update
         </Button>
       </DialogActions>
     </Dialog>
