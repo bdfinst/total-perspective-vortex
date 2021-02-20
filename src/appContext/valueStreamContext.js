@@ -29,7 +29,10 @@ const vsInit = {
 }
 
 const buildData = () => {
-  ls.clear()
+  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+    console.log('Clear local storage')
+    ls.clear()
+  }
 
   return {
     maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,

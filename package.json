@@ -14,7 +14,8 @@
   "scripts": {
     "build": "next build && next export",
     "depcheck": "depcheck --ignores='import-sort-style-absolute'",
-    "dev": "rm -rf .next && next dev",
+    "dev": "rm -rf .next &&  next dev",
+    "dev:clean": "rm -rf .next && REACT_APP_LOCAL_STORAGE=clear next dev",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
     "lint": "npm run format:fix && npm run lint:fix",
