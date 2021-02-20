@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const [data, setData] = useState({})
-  const [open, setOpen] = useState(false)
   const { state, toggleNodeSelect, changeNodeValues } = useValueStream()
-  const [errors, setErrors] = useState(false)
   const [inputs, setInputs] = useState(inputFieldDefs)
+
   const [submitted, setSubmitted] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [errors, setErrors] = useState(false)
 
   const node = state.elements.find((el) => isNode(el) && el.selected)
 
@@ -47,6 +47,8 @@ const InputBlock = () => {
   useEffect(() => {
     if (node) {
       setOpen(true)
+      console.log(node)
+      console.log(convertNodeToInputs())
     }
   }, [node, open])
 
@@ -62,6 +64,24 @@ const InputBlock = () => {
     })
   }, [errors, inputs])
 
+  const convertNodeToInputs = () => {
+    const newInputs = [...inputs]
+
+    for (const key in node.data) {
+      const index = inputs.findIndex((item) => {
+        return item.id === key
+      })
+      const input = inputs[index]
+
+      newInputs[index] = {
+        ...input,
+        value: node.data[key],
+      }
+    }
+    setInputs(newInputs)
+
+    console.log(newInputs)
+  }
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
     setErrors(false)
@@ -108,10 +128,6 @@ const InputBlock = () => {
     setInputs(newInputs)
   }
 
-  const handleFieldUpdate = (value, field) => {
-    setData({ ...data, [field]: value })
-  }
-
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id="form-dialog-title">Process</DialogTitle>
@@ -148,13 +164,12 @@ const InputBlock = () => {
                   item
                   key={`gi_${input.id}`}
                   container
-                  key={`gic_${input.id}`}
                   direction="row"
                   justify="space-between"
                   alignItems="center"
                   xs={6}
                 >
-                  <Grid item key={`gitf_${input.id}`} xs={11}>
+                  <Grid item key={`field_${input.id}`} xs={11}>
                     <TextField
                       id={input.id}
                       label={input.label}
@@ -169,7 +184,7 @@ const InputBlock = () => {
                       required
                     />
                   </Grid>
-                  <Grid item key={`gitt_${input.id}`} xs={1}>
+                  <Grid item key={`help_${input.id}`} xs={1}>
                     <Tooltip title={input.toolTip}>
                       <HelpOutline className={classes.help} />
                     </Tooltip>

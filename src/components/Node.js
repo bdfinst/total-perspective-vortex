@@ -24,10 +24,6 @@ const Node = (props) => {
   )
 
   useEffect(() => {
-    console.log(`Node`)
-    console.log(node.data)
-    console.log(data)
-    console.log(state.elements)
     setData(state.elements.find((el) => el.id === node.id).data)
   }, [state.elements])
 
