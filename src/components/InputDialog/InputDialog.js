@@ -13,8 +13,8 @@ import { HelpOutline } from '@material-ui/icons'
 import { isNode } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { useValueStream } from '../appContext/valueStreamContext'
-import inputFieldDefs from './InputDialog/fieldDefs'
+import { useValueStream } from '../../appContext/valueStreamContext'
+import inputFieldDefs from './fieldDefs'
 
 const useStyles = makeStyles((theme) => ({
   input: {

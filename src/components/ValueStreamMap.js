@@ -12,7 +12,7 @@ import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'
-import InputBlock from './InputBlock'
+import InputBlock from './InputDialog/InputDialog'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
