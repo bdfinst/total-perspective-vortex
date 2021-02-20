@@ -4,8 +4,6 @@ import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { InputNumber, InputText } from './Inputs'
-import { nodeDefaults } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import inputFieldDefs from './InputDialog/fieldDefs'
 
@@ -29,7 +27,9 @@ const Node = (props) => {
     console.log(`Node`)
     console.log(node.data)
     console.log(data)
-  }, [node.selected])
+    console.log(state.elements)
+    setData(state.elements.find((el) => el.id === node.id).data)
+  }, [state.elements])
 
   const EdgeHandle = ({ type }) => {
     const settings = (handleType) => {
@@ -66,6 +66,7 @@ const Node = (props) => {
           <Grid item xs={12}>
             {inputFieldDefs.map((field) => (
               <TextField
+                key={`${field.id}_${node.id}`}
                 id={`${field.id}_${node.id}`}
                 label={field.label}
                 value={data[field.id]}

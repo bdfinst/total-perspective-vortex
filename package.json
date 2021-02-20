@@ -21,7 +21,8 @@
     "lint:check": "eslint src test",
     "lint:fix": "eslint src test --fix",
     "start": "next start",
-    "test": "jest --collectCoverage",
+    "test:cover": "jest --collectCoverage",
+    "test": "jest ",
     "test:ci": "jest  --watch",
     "test:ci-debug": "jest --detectOpenHandles --watch"
   },
