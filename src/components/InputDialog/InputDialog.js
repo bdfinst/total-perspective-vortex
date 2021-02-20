@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   help: {
     color: theme.palette.primary.light,
+    fontSize: 'small',
   },
 }))
 
@@ -169,7 +170,7 @@ const InputBlock = () => {
                   alignItems="center"
                   xs={6}
                 >
-                  <Grid item key={`field_${input.id}`} xs={11}>
+                  <Grid item key={`field_${input.id}`} xs={12}>
                     <TextField
                       id={input.id}
                       label={input.label}
@@ -183,8 +184,6 @@ const InputBlock = () => {
                       margin="dense"
                       required
                     />
-                  </Grid>
-                  <Grid item key={`help_${input.id}`} xs={1}>
                     <Tooltip title={input.toolTip}>
                       <HelpOutline className={classes.help} />
                     </Tooltip>
