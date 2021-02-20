@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { DeleteTwoTone } from '@material-ui/icons'
 import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'

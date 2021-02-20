@@ -48,8 +48,7 @@ const InputBlock = () => {
   useEffect(() => {
     if (node) {
       setOpen(true)
-      console.log(node)
-      console.log(convertNodeToInputs())
+      convertNodeToInputs()
     }
   }, [node, open])
 
@@ -80,8 +79,6 @@ const InputBlock = () => {
       }
     }
     setInputs(newInputs)
-
-    console.log(newInputs)
   }
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
