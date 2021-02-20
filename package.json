@@ -1,6 +1,6 @@
 {
   "name": "value-stream-map",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A tool for value stream mapping a process flow",
   "keywords": [
     "lean",
