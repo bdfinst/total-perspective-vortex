@@ -41,17 +41,18 @@ const Controls = () => {
         justify="space-between"
         alignItems="flex-start"
       >
-        <Grid item xs={5}>
+        <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ZoomFocusButton />
             <ZoomInButton />
             <ZoomOutButton />
           </ButtonGroup>
         </Grid>
-        <Grid item xs={2}>
+        <Grid>
           <AddNode />
+          {/* <InputBlock /> */}
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ResetButton />
             <SaveButton />

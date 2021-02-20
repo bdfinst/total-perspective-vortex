@@ -12,6 +12,7 @@ import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'
+import InputBlock from './InputDialog/InputDialog'
 import Node from './Node'
 import Sidebar from './Sidebar'
 
@@ -45,18 +46,22 @@ const ValueStreamMap = () => {
     changeNodeValues,
     changeEdge,
     removeElements,
-    selectNode,
+    toggleNodeSelect,
   } = useValueStream()
   const reactFlowWrapper = useRef(null)
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
+  const [elements, setElements] = useState(state.elements)
 
   useEffect(() => {
-    const nodes = getNodes(state.elements)
+    setElements(state.elements)
 
-    console.log(`Nodes: ${nodes.length}`)
+    console.log(`Nodes: ${getNodes(elements).length}`)
   }, [state.elements])
 
+  // const getSelectedNode = () => {
+  //   return getNodes(state.elements).filter((node) => node.selected === true)
+  // }
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
@@ -77,7 +82,7 @@ const ValueStreamMap = () => {
 
   const onElementClick = (event, element) => {
     if (isNode(element)) {
-      selectNode({ node: element })
+      toggleNodeSelect({ node: element })
     }
   }
 
@@ -126,7 +131,7 @@ const ValueStreamMap = () => {
 
               <Paper className={classes.paper} elevation={0}>
                 <ReactFlow
-                  elements={getGraphLayout(state.elements, true, 10)}
+                  elements={getGraphLayout(elements, true, 10)}
                   nodeTypes={{ customNode: Node }}
                   edgeTypes={{ custom: CustomEdge }}
                   connectionLineComponent={ConnectionLine}
@@ -158,6 +163,7 @@ const ValueStreamMap = () => {
                     }}
                   />
                 </ReactFlow>
+                <InputBlock />
               </Paper>
             </div>
           </Grid>

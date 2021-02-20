@@ -29,7 +29,10 @@ const vsInit = {
 }
 
 const buildData = () => {
-  // ls.clear()
+  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+    console.log('Clear local storage')
+    ls.clear()
+  }
 
   return {
     maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
@@ -132,9 +135,9 @@ const updateNode = (state, { node, position, data }) => {
             ...el,
             data: data
               ? {
-                  description: data.description
-                    ? data.description
-                    : el.data.description,
+                  processName: data.processName
+                    ? data.processName
+                    : el.data.processName,
                   actors: data.actors ? data.actors : el.data.actors,
                   processTime: data.processTime
                     ? data.processTime
@@ -263,7 +266,7 @@ const useValueStream = () => {
 
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
-  const selectNode = ({ node }) =>
+  const toggleNodeSelect = ({ node }) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
   return {
@@ -276,7 +279,7 @@ const useValueStream = () => {
     removeElements,
     reset,
     initState,
-    selectNode,
+    toggleNodeSelect,
   }
 }
 

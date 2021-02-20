@@ -54,7 +54,7 @@ describe('Value Stream Context', () => {
   describe('Updating a node', () => {
     it('should update data for a node', () => {
       const newData = {
-        description: '',
+        processName: '',
         actors: 1,
         processTime: 1,
         waitTime: 2,
@@ -90,7 +90,7 @@ describe('Value Stream Context', () => {
       const testNode = nodes[nodes.length - 1]
 
       const newData = testNode.data
-      newData.description = 'New Description'
+      newData.processName = 'New processName'
       const currentPos = testNode.position
 
       act(() => {
