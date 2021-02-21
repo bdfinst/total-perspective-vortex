@@ -1,5 +1,5 @@
-import { Container, IconButton, Paper, Tooltip } from '@material-ui/core'
-import { Menu, ViewListRounded } from '@material-ui/icons'
+import { IconButton, Tooltip } from '@material-ui/core'
+import { ViewListRounded } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 

@@ -26,7 +26,9 @@ export const elements = (count = 2, pca = 0) => {
 
   const edges = nodes
     .map((node, idx) => {
-      if (idx > 0 && idx < nodes.length - 1) buildEdge(nodes[idx - 1], node)
+      return idx > 0 && idx < nodes.length - 1
+        ? buildEdge(nodes[idx - 1], node)
+        : {}
     })
     .filter((x) => x) //Remove undefined
 

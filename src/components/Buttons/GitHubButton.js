@@ -1,5 +1,4 @@
 import { GitHub } from '@material-ui/icons'
-import { IconButton, Tooltip } from '@material-ui/core'
 import React from 'react'
 
 import { IconButtonStyled } from './IconButtonStyled'

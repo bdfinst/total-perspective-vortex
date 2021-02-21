@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
@@ -75,9 +76,10 @@ const Node = (props) => {
               }}
             />
           </Grid>
-          {inputFieldDefs.map((field) => {
-            const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
-            if (field.id !== 'processName') {
+          {inputFieldDefs
+            .filter((field) => field.id !== 'processName')
+            .map((field) => {
+              const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
               return (
                 <Grid item xs={6}>
                   <TextField
@@ -95,8 +97,7 @@ const Node = (props) => {
                   />
                 </Grid>
               )
-            }
-          })}
+            })}
         </Grid>
       </div>
       <EdgeHandle type="source" />

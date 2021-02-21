@@ -50,7 +50,7 @@ const InputBlock = () => {
     state,
     toggleNodeSelect,
     changeNodeValues,
-    insertNodeBefore,
+    addNodeBefore,
     addNodeAfter,
   } = useValueStream()
   const [inputs, setInputs] = useState(inputFieldDefs)
@@ -142,7 +142,7 @@ const InputBlock = () => {
   }
 
   const handleInsertStep = () => {
-    insertNodeBefore(node)
+    addNodeBefore(node)
   }
   const handleAddStep = () => {
     addNodeAfter(node)

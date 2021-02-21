@@ -6,18 +6,14 @@
  */
 
 import React, { useReducer } from 'react'
-import { isEdge, isNode } from 'react-flow-renderer'
+import { isEdge } from 'react-flow-renderer'
 import ls from 'local-storage'
 
 import {
   buildEdge,
   buildNode,
-  createEdgeId,
   edgeExists,
-  findEdgesTo,
   getEdgesBySource,
-  getEdgesByTarget,
-  getElementById,
   getLastEdge,
   getLastNode,
   nodeDefaults,
