@@ -5,10 +5,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
-  IconButton,
-  Paper,
   TextField,
   Tooltip,
 } from '@material-ui/core'
@@ -49,7 +46,13 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const { state, toggleNodeSelect, changeNodeValues } = useValueStream()
+  const {
+    state,
+    toggleNodeSelect,
+    changeNodeValues,
+    insertNodeBefore,
+    addNodeAfter,
+  } = useValueStream()
   const [inputs, setInputs] = useState(inputFieldDefs)
 
   const [submitted, setSubmitted] = useState(false)
@@ -139,10 +142,10 @@ const InputBlock = () => {
   }
 
   const handleInsertStep = () => {
-    console.log('Insert step')
+    insertNodeBefore(node)
   }
   const handleAddStep = () => {
-    console.log('Add step')
+    addNodeAfter(node)
   }
 
   return (
@@ -216,7 +219,7 @@ const InputBlock = () => {
         >
           <Grid item xs={6}>
             <IconButtonStyled
-              title="Insert step before"
+              title="Add step before"
               onClick={handleInsertStep}
             >
               <InputOutlined

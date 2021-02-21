@@ -217,6 +217,7 @@ const valueStreamReducer = (state, action) => {
     case 'DELETE': {
       return deleteElements(state, action.data)
     }
+
     case 'RESET': {
       return resetVSM()
     }

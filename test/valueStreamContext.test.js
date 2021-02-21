@@ -4,7 +4,7 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../src/appContext/valueStreamContext'
-import { getEdges, getNodes } from '../src/helpers'
+import { getEdges, getNodes, findEdgesTo } from '../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -248,4 +248,41 @@ describe('Deleting elements', () => {
     expect(len).toEqual(1)
     expect(result.current.state.elements[len - 1].id).toEqual('1')
   })
+})
+describe('Adding and inserting nodes', () => {
+  afterEach(cleanup)
+  let result
+  beforeEach(() => {
+    result = renderVSMHook()
+  })
+
+  it('should add a node with a connecting edge', () => {
+    const selectedNode = getNodes(result.current.state.elements).length-1
+    act(() => {
+      result.current.createNode({ x: 1, y: 1 })
+    })
+    const newNode = getNodes(result.current.state.elements).length-1
+
+    const edges = findEdgesTo(selectedNode)
+    edges.map((edge)=>{})
+
+    act(() => {
+      result.current.createNode({ x: 1, y: 1 })
+    })
+
+    createNode,
+    createEdge,
+    changeEdge,
+
+
+    const el = result.current.state.elements
+    console.log(el)
+
+    expect(true).toEqual(false)
+
+    // addNodeAfter
+  })
+  // it('should insert a node', () => {
+  //   insertNodeBefore
+  // })
 })
