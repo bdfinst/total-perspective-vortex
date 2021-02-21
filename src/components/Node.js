@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
   extendedIcon: {
     float: 'right',
   },
+  number: {
+    alignText: 'right',
+  },
 }))
 
 const Node = (props) => {
@@ -59,15 +62,41 @@ const Node = (props) => {
       <div className="node-container">
         <Grid container>
           <Grid item xs={12}>
-            {inputFieldDefs.map((field) => (
-              <TextField
-                key={`${field.id}_${node.id}`}
-                id={`${field.id}_${node.id}`}
-                label={field.label}
-                value={data[field.id]}
-              />
-            ))}
+            <TextField
+              className={classes.title}
+              key={`${inputFieldDefs[0].id}_${node.id}`}
+              id={`${inputFieldDefs[0].id}_${node.id}`}
+              label={inputFieldDefs[0].label}
+              value={data[inputFieldDefs[0].id]}
+              variant="outlined"
+              margin="dense"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
           </Grid>
+          {inputFieldDefs.map((field) => {
+            const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
+            if (field.id !== 'processName') {
+              return (
+                <Grid item xs={6}>
+                  <TextField
+                    className={classes.number}
+                    key={`${field.id}_${node.id}`}
+                    id={`${field.id}_${node.id}`}
+                    label={field.label.split(' ')[0]}
+                    value={`${data[field.id]}${suffix}`}
+                    variant="outlined"
+                    margin="dense"
+                    InputProps={{
+                      readonly: true,
+                      style: { textAlign: 'right' },
+                    }}
+                  />
+                </Grid>
+              )
+            }
+          })}
         </Grid>
       </div>
       <EdgeHandle type="source" />
