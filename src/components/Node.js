@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
+import { defaultNodeData } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import inputFieldDefs from './InputDialog/fieldDefs'
 
@@ -22,12 +22,11 @@ const Node = (props) => {
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-  const [data, setData] = useState(
-    state.elements.find((el) => el.id === node.id).data,
-  )
 
   useEffect(() => {
-    setData(state.elements.find((el) => el.id === node.id).data)
+    const data = state.elements.find((el) => el.id === node.id)
+    const newNode = { ...node, data }
+    setNode(newNode)
   }, [state.elements])
 
   const EdgeHandle = ({ type }) => {
@@ -68,12 +67,12 @@ const Node = (props) => {
               key={`${inputFieldDefs[0].id}_${node.id}`}
               id={`${inputFieldDefs[0].id}_${node.id}`}
               label={inputFieldDefs[0].label}
-              value={data[inputFieldDefs[0].id]}
-              variant="outlined"
-              margin="dense"
+              defaultValue={node.data[inputFieldDefs[0].id]}
               InputProps={{
                 readOnly: true,
               }}
+              variant="outlined"
+              margin="dense"
             />
           </Grid>
           {inputFieldDefs
@@ -81,19 +80,18 @@ const Node = (props) => {
             .map((field) => {
               const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
               return (
-                <Grid item xs={6}>
+                <Grid item xs={6} key={`gi_${field.id}`}>
                   <TextField
                     className={classes.number}
                     key={`${field.id}_${node.id}`}
                     id={`${field.id}_${node.id}`}
                     label={field.label.split(' ')[0]}
-                    value={`${data[field.id]}${suffix}`}
-                    variant="outlined"
-                    margin="dense"
+                    defaultValue={`${node.data[field.id]}${suffix}`}
                     InputProps={{
                       readOnly: true,
-                      style: { textAlign: 'right' },
                     }}
+                    variant="outlined"
+                    margin="dense"
                   />
                 </Grid>
               )

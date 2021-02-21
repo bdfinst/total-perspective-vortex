@@ -7,6 +7,13 @@ export const nodeDefaults = {
   deselectedColor: theme.palette.primary.dark,
 }
 
+export const defaultNodeData = {
+  processName: '',
+  actors: 0,
+  processTime: 0,
+  waitTime: 0,
+  pctCompleteAccurate: 100,
+}
 export const buildNode = ({ id, x, y }) => {
   const validCoord = (n) => !isNaN(n) && n > -1
 
@@ -21,13 +28,7 @@ export const buildNode = ({ id, x, y }) => {
     sourcePosition: 'right',
     targetPosition: 'left',
     selected: false,
-    data: {
-      processName: '',
-      actors: 0,
-      processTime: 0,
-      waitTime: 0,
-      pctCompleteAccurate: 100,
-    },
+    data: defaultNodeData,
     style: {
       width: nodeDefaults.width,
       background: theme.palette.background.paper,

@@ -14,6 +14,7 @@ import {
   buildNode,
   edgeExists,
   getEdgesBySource,
+  getGraphLayout,
   getLastEdge,
   getLastNode,
   nodeDefaults,
@@ -21,42 +22,49 @@ import {
 
 const defaultPosition = { x: 100, y: 175 }
 
-const init = () => {
-  const node1 = buildNode({ id: 1, x: defaultPosition.x, y: defaultPosition.y })
-  const node2 = buildNode({ id: 2, x: 350, y: 175 })
-
-  const elements = [node1, node2, buildEdge(node1, node2)]
-  return elements
-}
-
 const ValueStreamContext = React.createContext()
-
-const vsInit = {
-  maxNodeId: 2,
-  elements: init(),
-}
-
-const buildData = () => {
-  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
-    console.log('Clear local storage')
-    ls.clear()
-  }
-
-  return {
-    maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
-    elements: ls('elements') || vsInit.elements,
-  }
-}
-const valueStream = buildData()
 
 const updateLocalStorage = (state) => {
   ls('maxNodeId', state.maxNodeId)
   ls('elements', state.elements)
 }
 
-const resetVSM = () => {
+const updateStateElements = (state) => {
+  const graphedLayouts = getGraphLayout(state.elements, true, 10)
+  const newState = { ...state, elements: graphedLayouts }
+  updateLocalStorage(newState)
+  return newState
+}
+
+const addNode = (state, { x, y }) => {
+  const nodeId = state.maxNodeId + 1
+  const newNode = buildNode({ id: nodeId, x, y })
+
+  const newState = {
+    ...state,
+    maxNodeId: nodeId,
+    elements: [...state.elements, newNode],
+  }
+
+  return newState
+}
+
+const resetData = (state) => {
   ls.clear()
-  return vsInit
+
+  const newNode = buildNode({
+    id: state.maxNodeId,
+    x: defaultPosition.x,
+    y: defaultPosition.y,
+  })
+
+  const newState = {
+    ...state,
+    elements: [newNode],
+  }
+  const initState = insertNodeAfter(newState, { node: newState.elements[0] })
+
+  return initState
 }
 
 const initStateFromData = (state, data) => {
@@ -67,20 +75,7 @@ const initStateFromData = (state, data) => {
     elements: data.elements,
   }
 
-  updateLocalStorage(newState)
-  return newState
-}
-
-const addNode = (state, { x, y }) => {
-  const nodeId = state.maxNodeId + 1
-
-  const newState = {
-    ...state,
-    maxNodeId: nodeId,
-    elements: [...state.elements, buildNode({ id: nodeId, x, y })],
-  }
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
 const addEdge = (state, { source, target }) => {
@@ -94,7 +89,7 @@ const addEdge = (state, { source, target }) => {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
   }
-  updateLocalStorage(newState)
+
   return newState
 }
 
@@ -130,8 +125,7 @@ const nodeSelect = (state, { node }) => {
       }),
   }
 
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
 const updateNode = (state, { node, position, data }) => {
@@ -166,8 +160,7 @@ const updateNode = (state, { node, position, data }) => {
         : el
     }),
   }
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
 const updateEdge = (edge, newNode, isTargetNode) => {
@@ -185,13 +178,7 @@ const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
       : e,
   )
 
-  return { ...state, elements: newElements }
-}
-
-const updateStateElements = (state, elements) => {
-  const newState = { ...state, elements }
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements({ ...state, elements: newElements })
 }
 
 const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
@@ -201,7 +188,7 @@ const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
     isEdge(e) && e.id === edge.id ? updateEdge(e, newNode, isTargetNode) : e,
   )
 
-  return updateStateElements(state, newElements)
+  return updateStateElements({ ...state, elements: newElements })
 }
 
 const deleteElements = (state, elementsToRemove) => {
@@ -219,8 +206,7 @@ const deleteElements = (state, elementsToRemove) => {
         : state.elements,
   }
 
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
 const insertNodeBefore = (state, { node }) => {
@@ -240,7 +226,7 @@ const insertNodeBefore = (state, { node }) => {
     target: node,
   })
 
-  return newEdgeState
+  return updateStateElements(newEdgeState)
 }
 
 const insertNodeAfter = (state, { node }) => {
@@ -267,8 +253,35 @@ const insertNodeAfter = (state, { node }) => {
       })
     : edgeAddedState
 
-  return edgesUpdatedState
+  return updateStateElements(edgesUpdatedState)
 }
+
+const initValueStream = () => {
+  const state1 = {
+    maxNodeId: 2,
+    elements: [],
+  }
+  const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
+  const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
+
+  return state3
+}
+
+const buildData = () => {
+  const init = initValueStream()
+
+  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+    console.log('Clear local storage')
+    ls.clear()
+  }
+
+  return {
+    maxNodeId: ls('maxNodeId') || init.maxNodeId,
+    elements: ls('elements') || init.elements,
+  }
+}
+
+const valueStream = buildData()
 
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
@@ -300,7 +313,7 @@ const valueStreamReducer = (state, action) => {
       return insertNodeAfter(state, action.data)
     }
     case 'RESET': {
-      return resetVSM()
+      return resetData(state)
     }
     case 'INIT': {
       return initStateFromData(state, action.data)

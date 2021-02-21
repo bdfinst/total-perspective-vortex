@@ -7,7 +7,7 @@ import ReactFlow, {
 import { Container, Grid, Paper } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { getGraphLayout, getNodeById, getNodes } from '../helpers'
+import { getNodeById } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
@@ -54,9 +54,8 @@ const ValueStreamMap = () => {
   const [elements, setElements] = useState(state.elements)
 
   useEffect(() => {
+    console.log('setElements(state.elements)')
     setElements(state.elements)
-
-    console.log(`Nodes: ${getNodes(elements).length}`)
   }, [state.elements])
 
   const onConnect = (params) => {
@@ -128,7 +127,7 @@ const ValueStreamMap = () => {
 
               <Paper className={classes.paper} elevation={0}>
                 <ReactFlow
-                  elements={getGraphLayout(elements, true, 10)}
+                  elements={elements}
                   nodeTypes={{ customNode: Node }}
                   edgeTypes={{ custom: CustomEdge }}
                   connectionLineComponent={ConnectionLine}
