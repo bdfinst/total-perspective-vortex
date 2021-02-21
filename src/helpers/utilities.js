@@ -23,6 +23,14 @@ export const getLastNode = (elements) => {
   return el[el.length - 1]
 }
 
+export const getEdgesBySource = (elements, node) => {
+  return getEdges(elements).filter((e) => e.source === node.id)
+}
+
+export const getEdgesByTarget = (elements, node) => {
+  return getEdges(elements).filter((e) => e.target === node.id)
+}
+
 export const getLastEdge = (elements) => {
   const el = getEdges(elements)
   return el[el.length - 1]

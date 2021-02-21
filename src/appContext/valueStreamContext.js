@@ -15,16 +15,18 @@ import {
   createEdgeId,
   edgeExists,
   findEdgesTo,
+  getEdgesBySource,
+  getEdgesByTarget,
+  getElementById,
   getLastEdge,
   getLastNode,
   nodeDefaults,
 } from '../helpers'
 
-const selectedBorderColor = 'red'
-const borderColor = '#3385e9'
+const defaultPosition = { x: 100, y: 175 }
 
 const init = () => {
-  const node1 = buildNode({ id: 1, x: 100, y: 175 })
+  const node1 = buildNode({ id: 1, x: defaultPosition.x, y: defaultPosition.y })
   const node2 = buildNode({ id: 2, x: 350, y: 175 })
 
   const elements = [node1, node2, buildEdge(node1, node2)]
@@ -172,19 +174,6 @@ const updateNode = (state, { node, position, data }) => {
   return newState
 }
 
-const updateEdgeTarget = (state, { oldEdge, newTargetNode }) => {
-  const newState = {
-    ...state,
-    elements: state.elements.map((edge) => {
-      return edge.id === oldEdge.id
-        ? { ...edge, target: newTargetNode.id }
-        : edge
-    }),
-  }
-  updateLocalStorage(newState)
-  return newState
-}
-
 const updateEdge = (edge, newNode, isTargetNode) => {
   return isTargetNode
     ? { ...edge, target: newNode.id }
@@ -259,7 +248,30 @@ const insertNodeBefore = (state, { node }) => {
 }
 
 const insertNodeAfter = (state, { node }) => {
-  return state
+  const sourceNode = node ? node : getLastNode(state.elements)
+  const nodeAddedState = addNode(state, defaultPosition)
+
+  const newNode = getLastNode(nodeAddedState.elements)
+
+  const edgeAddedState = addEdge(nodeAddedState, {
+    source: sourceNode,
+    target: newNode,
+  })
+
+  const newRightEdge = getLastEdge(edgeAddedState.elements)
+  const oldRightEdge = getEdgesBySource(state.elements, sourceNode).find(
+    (e) => e.id !== newRightEdge.id,
+  )
+
+  const edgesUpdatedState = oldRightEdge
+    ? updateOneEdge(edgeAddedState, {
+        edge: oldRightEdge,
+        newNode: newNode,
+        isTarget: false,
+      })
+    : edgeAddedState
+
+  return edgesUpdatedState
 }
 
 const valueStreamReducer = (state, action) => {
