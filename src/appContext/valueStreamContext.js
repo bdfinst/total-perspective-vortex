@@ -5,10 +5,20 @@
  * https://kentcdodds.com/blog/application-state-management-with-react
  */
 
-import React from 'react'
+import React, { useReducer } from 'react'
+import { isEdge, isNode } from 'react-flow-renderer'
 import ls from 'local-storage'
 
-import { buildEdge, buildNode, edgeExists, nodeDefaults } from '../helpers'
+import {
+  buildEdge,
+  buildNode,
+  createEdgeId,
+  edgeExists,
+  findEdgesTo,
+  getLastEdge,
+  getLastNode,
+  nodeDefaults,
+} from '../helpers'
 
 const selectedBorderColor = 'red'
 const borderColor = '#3385e9'
@@ -162,7 +172,7 @@ const updateNode = (state, { node, position, data }) => {
   return newState
 }
 
-const updateEdge = (state, { oldEdge, newTargetNode }) => {
+const updateEdgeTarget = (state, { oldEdge, newTargetNode }) => {
   const newState = {
     ...state,
     elements: state.elements.map((edge) => {
@@ -173,6 +183,40 @@ const updateEdge = (state, { oldEdge, newTargetNode }) => {
   }
   updateLocalStorage(newState)
   return newState
+}
+
+const updateEdge = (edge, newNode, isTargetNode) => {
+  return isTargetNode
+    ? { ...edge, target: newNode.id }
+    : { ...edge, source: newNode.id }
+}
+
+const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
+  const elements = state.elements
+
+  const newElements = elements.map((e) =>
+    isEdge(e) && e.target === oldTargetNode.id
+      ? updateEdge(e, newTargetNode, true)
+      : e,
+  )
+
+  return { ...state, elements: newElements }
+}
+
+const updateStateElements = (state, elements) => {
+  const newState = { ...state, elements }
+  updateLocalStorage(newState)
+  return newState
+}
+
+const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
+  const elements = state.elements
+
+  const newElements = elements.map((e) =>
+    isEdge(e) && e.id === edge.id ? updateEdge(e, newNode, isTargetNode) : e,
+  )
+
+  return updateStateElements(state, newElements)
 }
 
 const deleteElements = (state, elementsToRemove) => {
@@ -194,6 +238,30 @@ const deleteElements = (state, elementsToRemove) => {
   return newState
 }
 
+const insertNodeBefore = (state, { node }) => {
+  if (!node) return state
+
+  const nodeAddedState = addNode(state, node.position)
+
+  const insertedNode = getLastNode(nodeAddedState.elements)
+  const edgesUpdatedState = updateAllEdgesTarget(
+    nodeAddedState,
+    node,
+    insertedNode,
+  )
+
+  const newEdgeState = addEdge(edgesUpdatedState, {
+    source: insertedNode,
+    target: node,
+  })
+
+  return newEdgeState
+}
+
+const insertNodeAfter = (state, { node }) => {
+  return state
+}
+
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
     case 'INCREMENT': {
@@ -212,12 +280,17 @@ const valueStreamReducer = (state, action) => {
       return nodeSelect(state, action.data)
     }
     case 'UPDATE_EDGE': {
-      return updateEdge(state, action.data)
+      return updateOneEdge(state, action.data)
     }
     case 'DELETE': {
       return deleteElements(state, action.data)
     }
-
+    case 'INSERT_NODE_BEFORE': {
+      return insertNodeBefore(state, action.data)
+    }
+    case 'INSERT_NODE_AFTER': {
+      return insertNodeAfter(state, action.data)
+    }
     case 'RESET': {
       return resetVSM()
     }
@@ -231,11 +304,12 @@ const valueStreamReducer = (state, action) => {
 }
 
 const ValueStreamProvider = (props) => {
-  const [state, dispatch] = React.useReducer(valueStreamReducer, valueStream)
+  const [state, dispatch] = useReducer(valueStreamReducer, valueStream)
 
-  // const value = React.useMemo(() => [state, dispatch], [state])
+  const value = React.useMemo(() => [state, dispatch], [state])
 
-  return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
+  // return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
+  return <ValueStreamContext.Provider value={value} {...props} />
 }
 
 const useValueStream = () => {
@@ -256,8 +330,26 @@ const useValueStream = () => {
   const changeNodeValues = ({ node, position, data }) =>
     dispatch({ type: 'UPDATE_NODE', data: { node, position, data } })
 
-  const changeEdge = ({ oldEdge, newTargetNode }) => {
-    dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
+  const changeEdgeTarget = (edge, newTargetNode) => {
+    dispatch({
+      type: 'UPDATE_EDGE',
+      data: { edge: edge, newNode: newTargetNode, isTargetNode: true },
+    })
+  }
+
+  const changeEdgeSource = (edge, newSourceNode) => {
+    dispatch({
+      type: 'UPDATE_EDGE',
+      data: { edge: edge, newNode: newSourceNode, isTargetNode: false },
+    })
+  }
+
+  const addNodeBefore = (node) => {
+    dispatch({ type: 'INSERT_NODE_BEFORE', data: { node } })
+  }
+
+  const addNodeAfter = (node) => {
+    dispatch({ type: 'INSERT_NODE_AFTER', data: { node } })
   }
 
   const removeElements = (elements = []) => {
@@ -276,11 +368,14 @@ const useValueStream = () => {
     createNode,
     createEdge,
     changeNodeValues,
-    changeEdge,
+    changeEdgeTarget,
+    changeEdgeSource,
     removeElements,
     reset,
     initState,
     toggleNodeSelect,
+    addNodeBefore,
+    addNodeAfter,
   }
 }
 

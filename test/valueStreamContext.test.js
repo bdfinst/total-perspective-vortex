@@ -4,7 +4,13 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../src/appContext/valueStreamContext'
-import { getEdges, getNodes, findEdgesTo } from '../src/helpers'
+import {
+  getEdges,
+  getElementById,
+  getLastEdge,
+  getLastNode,
+  getNodes,
+} from '../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -192,10 +198,7 @@ describe('Linking nodes with edges', () => {
     expect(edges[edges.length - 1].target).toEqual(target1.id)
 
     act(() => {
-      result.current.changeEdge({
-        oldEdge: edges[edges.length - 1],
-        newTargetNode: target2,
-      })
+      result.current.changeEdgeTarget(edges[edges.length - 1], target2)
     })
 
     edges = getEdges(result.current.state.elements)
@@ -256,33 +259,93 @@ describe('Adding and inserting nodes', () => {
     result = renderVSMHook()
   })
 
-  it('should add a node with a connecting edge', () => {
-    const selectedNode = getNodes(result.current.state.elements).length-1
+  const addNode = () => {
     act(() => {
       result.current.createNode({ x: 1, y: 1 })
     })
-    const newNode = getNodes(result.current.state.elements).length-1
+    return getLastNode(result.current.state.elements)
+  }
 
-    const edges = findEdgesTo(selectedNode)
-    edges.map((edge)=>{})
+  const addEdge = (source, target) => {
+    act(() => {
+      result.current.createEdge({ source: source, target: target })
+    })
+    return getLastEdge(result.current.state.elements)
+  }
+
+  it('should Insert a node before the previous node and update the edges', () => {
+    const prevNode = addNode()
+    const selectedNode = addNode()
+    const prevEdge = addEdge(prevNode, selectedNode)
+
+    expect(prevEdge.source).toEqual(prevNode.id)
+    expect(prevEdge.target).toEqual(selectedNode.id)
 
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.addNodeBefore(selectedNode)
     })
 
-    createNode,
-    createEdge,
-    changeEdge,
+    const newNode = getLastNode(result.current.state.elements)
+    const newEdge = getLastEdge(result.current.state.elements)
+    const updatedEdge = getElementById(
+      prevEdge.id,
+      result.current.state.elements,
+    )
 
-
-    const el = result.current.state.elements
-    console.log(el)
-
-    expect(true).toEqual(false)
-
-    // addNodeAfter
+    expect(updatedEdge.source).toEqual(prevNode.id)
+    expect(updatedEdge.target).toEqual(newNode.id)
+    expect(newEdge.source).toEqual(newNode.id)
+    expect(newEdge.target).toEqual(selectedNode.id)
   })
-  // it('should insert a node', () => {
-  //   insertNodeBefore
-  // })
+  it('should do nothing if no node is selected', () => {
+    const prevNode = addNode()
+    const selectedNode = addNode()
+    const prevEdge = addEdge(prevNode, selectedNode)
+    const prevCount = result.current.state.elements.length
+
+    expect(prevEdge.source).toEqual(prevNode.id)
+    expect(prevEdge.target).toEqual(selectedNode.id)
+
+    act(() => {
+      result.current.addNodeBefore()
+    })
+
+    const newCount = result.current.state.elements.length
+
+    expect(prevCount).toEqual(newCount)
+    expect(prevEdge.source).toEqual(prevNode.id)
+    expect(prevEdge.target).toEqual(selectedNode.id)
+  })
+  it.skip('should add a node after the selected node', () => {
+    const selectedNode = addNode()
+    const prevNodeCount = getNodes(result.current.state.elements).length
+
+    act(() => {
+      result.current.addNodeAfter(selectedNode)
+    })
+
+    const newNodeCount = getNodes(result.current.state.elements).length
+    const newNode = getLastNode(result.current.state.elements)
+    const newEdge = getLastEdge(result.current.state.elements)
+
+    expect(prevNodeCount + 1).toEqual(newNodeCount)
+    expect(newEdge.source).toEqual(selectedNode.id)
+    expect(newEdge.target).toEqual(newNode.id)
+  })
+  it.skip('should add a node at the end if no node is selected', () => {
+    const selectedNode = addNode()
+    const prevNodeCount = getNodes(result.current.state.elements).length
+
+    act(() => {
+      result.current.addNodeAfter()
+    })
+
+    const newNodeCount = getNodes(result.current.state.elements).length
+    const newNode = getLastNode(result.current.state.elements)
+    const newEdge = getLastEdge(result.current.state.elements)
+
+    expect(prevNodeCount + 1).toEqual(newNodeCount)
+    expect(newEdge.source).toEqual(selectedNode.id)
+    expect(newEdge.target).toEqual(newNode.id)
+  })
 })

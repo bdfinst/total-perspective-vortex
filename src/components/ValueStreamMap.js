@@ -44,7 +44,7 @@ const ValueStreamMap = () => {
     createEdge,
     createNode,
     changeNodeValues,
-    changeEdge,
+    changeEdgeTarget,
     removeElements,
     toggleNodeSelect,
   } = useValueStream()
@@ -96,8 +96,8 @@ const ValueStreamMap = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
-  const onEdgeUpdate = (oldEdge, newConnection) =>
-    changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
+  const onEdgeUpdate = (edge, newTargetNode) =>
+    changeEdgeTarget(edge, newTargetNode)
 
   const onDrop = (event) => {
     event.preventDefault()

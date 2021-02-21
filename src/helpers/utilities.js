@@ -17,8 +17,29 @@ export const getEdges = (elements) => {
   return elements.filter((element) => isEdge(element))
 }
 
+export const getLastNode = (elements) => {
+  const el = getNodes(elements)
+
+  return el[el.length - 1]
+}
+
+export const getLastEdge = (elements) => {
+  const el = getEdges(elements)
+  return el[el.length - 1]
+}
+
+export const findEdgesTo = (node, elements) => {
+  return elements
+    .filter((element) => isEdge(element))
+    .filter((edge) => edge.target === node.id)
+}
+
 export const edgeExists = (elements, newEdge) => {
-  return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
+  return getEdges(elements).find(
+    (el) => el.source === newEdge.source && el.target === newEdge.target,
+  )
+    ? true
+    : false
 }
 
 export const roundTo2 = (number) => Math.round(number * 100) / 100
