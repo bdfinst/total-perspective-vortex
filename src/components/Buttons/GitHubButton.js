@@ -8,7 +8,6 @@ export const GitHubButton = () => {
       <Tooltip title="Fork me on GitHub">
         <IconButton
           color="primary"
-          aria-label="GitHub link"
           component="span"
           onClick={() =>
             window.open('https://github.com/bdfinst/value-stream-map')

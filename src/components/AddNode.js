@@ -25,7 +25,6 @@ const AddNode = (props) => {
     <Tooltip title="Drag to add step">
       <IconButton
         color="primary"
-        aria-label="GitHub link"
         component="span"
         draggable
         onDragStart={(event) => onDragStart(event, 'customNode')}

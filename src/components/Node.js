@@ -89,7 +89,7 @@ const Node = (props) => {
                     variant="outlined"
                     margin="dense"
                     InputProps={{
-                      readonly: true,
+                      readOnly: true,
                       style: { textAlign: 'right' },
                     }}
                   />

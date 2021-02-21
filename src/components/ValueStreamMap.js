@@ -59,9 +59,6 @@ const ValueStreamMap = () => {
     console.log(`Nodes: ${getNodes(elements).length}`)
   }, [state.elements])
 
-  // const getSelectedNode = () => {
-  //   return getNodes(state.elements).filter((node) => node.selected === true)
-  // }
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)

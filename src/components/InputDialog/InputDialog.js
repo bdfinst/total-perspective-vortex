@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import {
   Button,
@@ -6,13 +7,16 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
+  Paper,
   TextField,
   Tooltip,
 } from '@material-ui/core'
-import { HelpOutline } from '@material-ui/icons'
+import { HelpOutline, InputOutlined } from '@material-ui/icons'
 import { isNode } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
+import { IconButtonStyled } from '../Buttons'
 import { useValueStream } from '../../appContext/valueStreamContext'
 import inputFieldDefs from './fieldDefs'
 
@@ -23,7 +27,22 @@ const useStyles = makeStyles((theme) => ({
   },
   help: {
     color: theme.palette.primary.light,
-    fontSize: 'small',
+    fontSize: 'medium',
+  },
+  insertLeft: {
+    transform: 'rotateY(180deg)',
+
+    color: theme.textPrimary,
+  },
+  insertRight: {
+    color: theme.textPrimary,
+  },
+  icon: {
+    fontSize: 40,
+    color: theme.textPrimary,
+  },
+  paper: {
+    textAlign: 'center',
   },
 }))
 
@@ -48,23 +67,15 @@ const InputBlock = () => {
   useEffect(() => {
     if (node) {
       setOpen(true)
-      convertNodeToInputs()
+      populateFormDefaults()
     }
   }, [node, open])
 
   useEffect(() => {
-    if (submitted) handleClose()
-  }, [submitted])
+    if (submitted && !errors) handleClose()
+  }, [submitted, errors])
 
-  useEffect(() => {
-    inputs.map((i) => {
-      if (i.error) {
-        console.log(i.label, i.helperText)
-      }
-    })
-  }, [errors, inputs])
-
-  const convertNodeToInputs = () => {
+  const populateFormDefaults = () => {
     const newInputs = [...inputs]
 
     for (const key in node.data) {
@@ -80,6 +91,7 @@ const InputBlock = () => {
     }
     setInputs(newInputs)
   }
+
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
     setErrors(false)
@@ -126,11 +138,18 @@ const InputBlock = () => {
     setInputs(newInputs)
   }
 
+  const handleInsertStep = () => {
+    console.log('Insert step')
+  }
+  const handleAddStep = () => {
+    console.log('Add step')
+  }
+
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="form-dialog-title">Process</DialogTitle>
+      {/* <DialogTitle id="form-dialog-title">Process</DialogTitle> */}
       <DialogContent>
-        <form className={classes.root} noValidate autoComplete="off">
+        <form>
           <Grid
             container
             direction="row"
@@ -189,6 +208,30 @@ const InputBlock = () => {
               ))}
           </Grid>
         </form>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Grid item xs={6}>
+            <IconButtonStyled
+              title="Insert step before"
+              onClick={handleInsertStep}
+            >
+              <InputOutlined
+                className={`${classes.icon} ${classes.insertLeft}`}
+              />
+            </IconButtonStyled>
+          </Grid>
+          <Grid item xs={6}>
+            <IconButtonStyled title="Add step after" onClick={handleAddStep}>
+              <InputOutlined
+                className={`${classes.icon} ${classes.insertRight}`}
+              />
+            </IconButtonStyled>
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">
