@@ -20,12 +20,33 @@ const useStyles = makeStyles((theme) => ({
     padding: '5 5 5 5 ',
     margin: 8,
   },
+  help: {
+    color: theme.palette.primary.light,
+    fontSize: 'medium',
+  },
+  icon: {
+    fontSize: 40,
+    color: theme.textPrimary,
+  },
 }))
+
+const helpText = {
+  error: 'Cannot be blank',
+  normal: 'Enter a name for the process step',
+}
 
 const getErrors = (key, value, errors) => {
   switch (key) {
     case 'processName':
-      return { ...errors, processName: value.length > 0 ? false : true }
+      return { ...errors, [key]: value.length > 0 ? false : true }
+    case 'processTime':
+      return { ...errors, [key]: value > 0 && value <= 999 ? false : true }
+    case 'waitTime':
+      return { ...errors, [key]: value > 0 && value <= 999 ? false : true }
+    case 'pctCompleteAccurate':
+      return { ...errors, [key]: value > 0 && value <= 100 ? false : true }
+    case 'actors':
+      return { ...errors, [key]: value >= 0 && value <= 99 ? false : true }
     default:
       return errors
   }
@@ -40,6 +61,7 @@ export const InputBase = ({
   inputType,
   helpText,
   toolTip,
+  cols,
 }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
@@ -81,7 +103,7 @@ export const InputBase = ({
   }
 
   return (
-    <Grid item xs={12}>
+    <Grid item xs={cols}>
       <TextField
         autoFocus
         className={`${classes.input}`}
@@ -98,7 +120,7 @@ export const InputBase = ({
         fullWidth
         required
       />
-      {toolTip.length && (
+      {toolTip.length > 0 && (
         <Tooltip title={toolTip}>
           <HelpOutline className={classes.help} />
         </Tooltip>
@@ -123,109 +145,99 @@ export const InputProcessName = ({ node, onChange, errors }) => {
       inputType="text"
       helpText={helpText}
       toolTip=""
+      cols={12}
     />
   )
 }
 
-// export const InputProcessName = ({ node, onChange, errors }) => {
-//   const theme = useTheme()
-//   const classes = useStyles(theme)
-
-//   const [errorList, setErrorList] = useState(errors)
-//   const [nodeData, setNodeData] = useState({})
-//   const [helperText, setHelperText] = useState('')
-
-//   useEffect(() => {
-//     setNodeData(node.data)
-//   }, [node.data])
-
-//   useEffect(() => {
-//     setHelperText(
-//       errorList.processName
-//         ? 'Cannot be blank'
-//         : 'Enter a name for the process step',
-//     )
-//   }, [errorList.processName])
-
-//   const handleBlur = (e) => {
-//     const value = e.target.value.trim()
-
-//     const newData = { ...nodeData, processName: value }
-
-//     const newErrors = getErrors('processName', value, errorList)
-//     setErrorList(newErrors)
-//     console.log(newErrors)
-//     console.log(errorList)
-
-//     onChange(newData, errorList)
-//   }
-
-//   const handleChange = (e) => {
-//     const value = e.target.value
-
-//     const newErrors = getErrors('processName', value, errorList)
-//     const newData = { ...nodeData, processName: value }
-
-//     setErrorList(newErrors)
-//     setNodeData(newData)
-
-//     console.log(newData.processName)
-//     console.log(e.target.value)
-//   }
-
-//   return (
-//     <Grid item xs={12}>
-//       <TextField
-//         autoFocus
-//         className={`${classes.input}`}
-//         id={node.id}
-//         label={node.data.processName}
-//         value={nodeData.processName}
-//         onChange={handleChange}
-//         onBlur={handleBlur}
-//         error={errorList.processName}
-//         helperText={helperText}
-//         margin="dense"
-//         size="small"
-//         type="text"
-//         fullWidth
-//         required
-//       />
-//       {/* <Tooltip title={input.toolTip}>
-//         <HelpOutline className={classes.help} />
-//       </Tooltip> */}
-//     </Grid>
-//   )
-// }
-
 export const InputProcessTime = ({ node, onChange, errors }) => {
+  const helpText = {
+    error: 'Must be between 1 and 999',
+    normal: 'Value between 1 and 999',
+  }
+
+  const toolTip = 'The amount of time required to do the activity'
+
   return (
-    <Grid item xs={6}>
-      <div>ProcessTime</div>
-    </Grid>
+    <InputBase
+      node={node}
+      onChange={onChange}
+      errors={errors}
+      title="Work Time"
+      propName="processTime"
+      inputType="number"
+      helpText={helpText}
+      toolTip={toolTip}
+      cols={6}
+    />
   )
 }
 
 export const InputWaitTime = ({ node, onChange, errors }) => {
+  const helpText = {
+    error: 'Must be between 1 and 999',
+    normal: 'Value between 1 and 999',
+  }
+
+  const toolTip = 'The amount of time spent before the activity is started'
+
   return (
-    <Grid item xs={6}>
-      <div>WaitTime</div>
-    </Grid>
+    <InputBase
+      node={node}
+      onChange={onChange}
+      errors={errors}
+      title="Wait Time"
+      propName="waitTime"
+      inputType="number"
+      helpText={helpText}
+      toolTip={toolTip}
+      cols={6}
+    />
   )
 }
 
 export const InputAccuracy = ({ node, onChange, errors }) => {
+  const helpText = {
+    error: 'Must be between 1% and 100%',
+    normal: 'Value between 1% and 100%',
+  }
+
+  const toolTip =
+    'What % of the output from this step is accepted by the next? For example, if 20% of code reviews require rework, this should be set to 80%'
+
   return (
-    <Grid item xs={6}>
-      <div>Accuracy</div>
-    </Grid>
+    <InputBase
+      node={node}
+      onChange={onChange}
+      errors={errors}
+      title="%C/A"
+      propName="pctCompleteAccurate"
+      inputType="number"
+      helpText={helpText}
+      toolTip={toolTip}
+      cols={6}
+    />
   )
 }
 
 export const InputActors = ({ node, onChange, errors }) => {
+  const helpText = {
+    error: 'Must be between 1 and 99',
+    normal: 'Value between 1 and 99',
+  }
+  const toolTip = 'The amount of time required to do the activity'
+
   return (
-    <Grid item xs={6}>
-      <div>Actors</div>
-    </Grid>
+    <InputBase
+      node={node}
+      onChange={onChange}
+      errors={errors}
+      title="People Required"
+      propName="actors"
+      inputType="number"
+      helpText={helpText}
+      toolTip={toolTip}
+      cols={6}
+    />
   )
 }

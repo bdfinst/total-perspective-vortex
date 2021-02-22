@@ -42,9 +42,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 40,
     color: theme.textPrimary,
   },
-  paper: {
-    textAlign: 'center',
-  },
 }))
 
 const InputBlock = ({ onClose, open, selectedNode }) => {
