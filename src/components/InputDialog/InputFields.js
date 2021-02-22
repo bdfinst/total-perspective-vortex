@@ -99,8 +99,6 @@ export const InputBase = ({
 
     setErrorList(newErrors)
     setNodeData(newData)
-
-    \
   }
 
   return (
