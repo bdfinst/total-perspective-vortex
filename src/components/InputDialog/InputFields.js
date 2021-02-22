@@ -40,9 +40,9 @@ const getErrors = (key, value, errors) => {
     case 'processName':
       return { ...errors, [key]: value.length > 0 ? false : true }
     case 'processTime':
-      return { ...errors, [key]: value > 0 && value <= 999 ? false : true }
+      return { ...errors, [key]: value >= 0 && value <= 999 ? false : true }
     case 'waitTime':
-      return { ...errors, [key]: value > 0 && value <= 999 ? false : true }
+      return { ...errors, [key]: value >= 0 && value <= 999 ? false : true }
     case 'pctCompleteAccurate':
       return { ...errors, [key]: value > 0 && value <= 100 ? false : true }
     case 'actors':
@@ -61,6 +61,8 @@ export const InputBase = ({
   inputType,
   helpText,
   toolTip,
+  autoFocus,
+  required,
   cols,
 }) => {
   const theme = useTheme()
@@ -105,8 +107,7 @@ export const InputBase = ({
   return (
     <Grid item xs={cols}>
       <TextField
-        autoFocus
-        className={`${classes.input}`}
+        className={classes.input}
         id={node.id}
         label={title}
         value={nodeData[propName]}
@@ -117,8 +118,8 @@ export const InputBase = ({
         margin="dense"
         size="small"
         type={inputType || 'text'}
-        fullWidth
-        required
+        required={required || false}
+        autoFocus={autoFocus || false}
       />
       {toolTip.length > 0 && (
         <Tooltip title={toolTip}>
@@ -146,14 +147,16 @@ export const InputProcessName = ({ node, onChange, errors }) => {
       helpText={helpText}
       toolTip=""
       cols={12}
+      required={true}
+      autoFocus={true}
     />
   )
 }
 
 export const InputProcessTime = ({ node, onChange, errors }) => {
   const helpText = {
-    error: 'Must be between 1 and 999',
-    normal: 'Value between 1 and 999',
+    error: 'Must be between 0 and 999',
+    normal: 'Value between 0 and 999',
   }
 
   const toolTip = 'The amount of time required to do the activity'
@@ -169,6 +172,7 @@ export const InputProcessTime = ({ node, onChange, errors }) => {
       helpText={helpText}
       toolTip={toolTip}
       cols={6}
+      required={true}
     />
   )
 }
@@ -216,6 +220,7 @@ export const InputAccuracy = ({ node, onChange, errors }) => {
       helpText={helpText}
       toolTip={toolTip}
       cols={6}
+      required={true}
     />
   )
 }
