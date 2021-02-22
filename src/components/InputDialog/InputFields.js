@@ -108,7 +108,7 @@ export const InputBase = ({
     <Grid item xs={cols}>
       <TextField
         className={classes.input}
-        id={node.id}
+        id={`${propName}-${node.id}`}
         label={title}
         value={nodeData[propName]}
         onChange={handleChange}
