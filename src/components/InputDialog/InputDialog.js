@@ -6,8 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  TextField,
-  Tooltip,
 } from '@material-ui/core'
 import { HelpOutline, InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -19,7 +17,8 @@ import {
   InputProcessName,
   InputProcessTime,
   InputWaitTime,
-} from './Inputs'
+} from './InputFields'
+import { defaultNodeData } from '../../helpers'
 import { useValueStream } from '../../appContext/valueStreamContext'
 import inputFieldDefs from './fieldDefs'
 
@@ -61,8 +60,8 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const [inputs, setInputs] = useState(inputFieldDefs)
 
   const [submitted, setSubmitted] = useState(false)
-  const [errors, setErrors] = useState(false)
-  const [data, setData] = useState({})
+  const [errorList, setErrorList] = useState({})
+  const [nodeData, setNodeData] = useState(defaultNodeData)
 
   const handleClose = () => {
     console.log('Close Dialog')
@@ -70,20 +69,23 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     onClose()
   }
 
+  const errorListExists = (errors) => {
+    return Object.entries(errors).find((e) => e[1] === true)
+  }
+
   useEffect(() => {
-    console.log(`Dialog Node: ${selectedNode}`)
     if (selectedNode && open) {
       setInputs(inputFieldDefs)
       populateFormDefaults(selectedNode)
-      console.log(selectedNode)
     } else {
       handleClose()
     }
   }, [selectedNode])
 
   useEffect(() => {
-    if (submitted && !errors) handleClose()
-  }, [submitted, errors])
+    const error = errorListExists(errorList)
+    if (submitted && !error) handleClose()
+  }, [submitted, errorList])
 
   const populateFormDefaults = (node) => {
     const newInputs = [...inputFieldDefs]
@@ -104,48 +106,20 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
-    setErrors(false)
 
-    const newInputs = inputs.map((input) => {
-      const isValid = input.isValid(input.value)
+    console.log('handleSubmit')
+    console.log(nodeData)
+    console.log(errorList)
 
-      if (!isValid) setErrors(true)
-
-      return {
-        ...input,
-        error: !isValid,
-        helperText: input.getHelperText(!isValid),
-      }
-    })
-
-    setInputs(newInputs)
-    if (!errors) {
-      const data = {}
-      newInputs.forEach((input) => {
-        data[input.id] = isNaN(input.value) ? input.value : Number(input.value)
-      })
-
-      changeNodeValues({ node: selectedNode, data: data })
+    if (!errorListExists(errorList)) {
+      changeNodeValues({ node: selectedNode, data: nodeData })
       setSubmitted(true)
     }
   }
 
-  const handleChange = (event) => {
-    const newInputs = [...inputs]
-    const index = inputs.findIndex((item) => {
-      return item.id === event.target.id
-    })
-
-    const input = inputs[index]
-    const isValid = input.isValid(event.target.value)
-
-    newInputs[index] = {
-      ...input,
-      value: event.target.value.trim(),
-      error: !isValid,
-      helperText: input.getHelperText(!isValid),
-    }
-    setInputs(newInputs)
+  const handleChange = (data, errors) => {
+    setErrorList(errors)
+    setNodeData(data)
   }
 
   const handleInsertStep = () => {
@@ -169,14 +143,30 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
             alignItems="center"
           >
             <InputProcessName
-              className={classes.input}
               node={selectedNode}
+              errors={errorList}
               onChange={handleChange}
             />
-            <InputProcessTime className={classes.input} node={selectedNode} />
-            <InputWaitTime className={classes.input} node={selectedNode} />
-            <InputAccuracy className={classes.input} node={selectedNode} />
-            <InputActors className={classes.input} node={selectedNode} />
+            <InputProcessTime
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+            />
+            <InputWaitTime
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+            />
+            <InputAccuracy
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+            />
+            <InputActors
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+            />
             {/* <Grid item xs={12}>
               <TextField
                 autoFocus
