@@ -1,10 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   Grid,
   TextField,
   Tooltip,
@@ -43,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const InputBlock = () => {
+const InputBlock = (props) => {
+  const { onClose, open, selectedNode } = props
+
   const theme = useTheme()
   const classes = useStyles(theme)
   const {
     state,
-    toggleNodeSelect,
     changeNodeValues,
     addNodeBefore,
     addNodeAfter,
@@ -56,32 +57,37 @@ const InputBlock = () => {
   const [inputs, setInputs] = useState(inputFieldDefs)
 
   const [submitted, setSubmitted] = useState(false)
-  const [open, setOpen] = useState(false)
   const [errors, setErrors] = useState(false)
 
-  const node = state.elements.find((el) => isNode(el) && el.selected)
-
   const handleClose = () => {
+    console.log('Close Dialog')
     setSubmitted(false)
-    setOpen(false)
-    toggleNodeSelect({ node })
+    onClose()
   }
 
   useEffect(() => {
-    if (node) {
-      setOpen(true)
+    console.log(`Dialog Node: ${selectedNode}`)
+    if (selectedNode && open) {
       populateFormDefaults()
+      console.log(selectedNode)
+    } else {
+      handleClose()
     }
-  }, [node, open])
+  }, [selectedNode])
 
-  useEffect(() => {
-    if (submitted && !errors) handleClose()
-  }, [submitted, errors])
+  // useEffect(() => {
+  //   console.log(`Open: ${open}`)
+  //   setOpen(isOpen)
+  // }, [isOpen, open])
+
+  // useEffect(() => {
+  //   if (submitted && !errors) handleClose()
+  // }, [submitted, errors])
 
   const populateFormDefaults = () => {
     const newInputs = [...inputs]
 
-    for (const key in node.data) {
+    for (const key in selectedNode.data) {
       const index = inputs.findIndex((item) => {
         return item.id === key
       })
@@ -89,7 +95,7 @@ const InputBlock = () => {
 
       newInputs[index] = {
         ...input,
-        value: node.data[key],
+        value: selectedNode.data[key],
       }
     }
     setInputs(newInputs)
@@ -118,7 +124,7 @@ const InputBlock = () => {
         data[input.id] = isNaN(input.value) ? input.value : Number(input.value)
       })
 
-      changeNodeValues({ node: node, data: data })
+      changeNodeValues({ node: selectedNode, data: data })
       setSubmitted(true)
     }
   }
@@ -142,15 +148,17 @@ const InputBlock = () => {
   }
 
   const handleInsertStep = () => {
-    addNodeBefore(node)
+    addNodeBefore(selectedNode)
   }
   const handleAddStep = () => {
-    addNodeAfter(node)
+    addNodeAfter(selectedNode)
   }
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      {/* <DialogTitle id="form-dialog-title">Process</DialogTitle> */}
+      {/* <DialogTitle id="form-dialog-title">
+        Process {selectedNode.id}
+      </DialogTitle> */}
       <DialogContent>
         <form>
           <Grid

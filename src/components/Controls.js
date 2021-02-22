@@ -6,6 +6,7 @@ import {
   FileUpload,
   ResetButton,
   SaveButton,
+  SettingsButton,
   ZoomFocusButton,
   ZoomInButton,
   ZoomOutButton,
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Controls = () => {
+const Controls = ({ onDialogOpen, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -50,6 +51,10 @@ const Controls = () => {
         </Grid>
         <Grid>
           <AddNode />
+          <SettingsButton
+            onDialogOpen={onDialogOpen}
+            selectedNode={selectedNode}
+          />
           {/* <InputBlock /> */}
         </Grid>
         <Grid item xs={2}>

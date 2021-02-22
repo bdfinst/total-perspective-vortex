@@ -3,7 +3,6 @@ import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { SettingsButton } from './Buttons'
 import { useValueStream } from '../appContext/valueStreamContext'
 import inputFieldDefs from './InputDialog/fieldDefs'
 
@@ -20,13 +19,14 @@ const Node = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  const { state, openEditNode } = useValueStream()
+  const { state } = useValueStream()
   const [node, setNode] = useState(props)
   const [data, setData] = useState(
     state.elements.find((el) => el.id === node.id).data,
   )
 
   useEffect(() => {
+    console.log(props)
     setData(state.elements.find((el) => el.id === node.id).data)
   }, [state.elements])
 
@@ -98,11 +98,6 @@ const Node = (props) => {
             }
           })}
         </Grid>
-        <SettingsButton
-          onClick={() => {
-            console.log(node)
-          }}
-        />
       </div>
       <EdgeHandle type="source" />
     </>

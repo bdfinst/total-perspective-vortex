@@ -52,10 +52,13 @@ const ValueStreamMap = () => {
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(state.elements)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const selectedNode = state.elements.find((el) => isNode(el) && el.selected)
 
   useEffect(() => {
-    console.log('setElements(state.elements)')
     setElements(state.elements)
+    console.log(`Selected: ${selectedNode}`)
   }, [state.elements])
 
   const onConnect = (params) => {
@@ -110,6 +113,14 @@ const ValueStreamMap = () => {
     createNode(position)
   }
 
+  const handleDialogOpen = () => {
+    if (selectedNode) setIsDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false)
+  }
+
   return (
     <Container className={classes.container}>
       <ReactFlowProvider>
@@ -122,7 +133,10 @@ const ValueStreamMap = () => {
           <Grid item xs={12} md={9}>
             <div ref={reactFlowWrapper}>
               <Paper className={classes.controls} elevation={0}>
-                <Controls />
+                <Controls
+                  onDialogOpen={handleDialogOpen}
+                  selectedNode={selectedNode}
+                />
               </Paper>
 
               <Paper className={classes.paper} elevation={0}>
@@ -159,7 +173,11 @@ const ValueStreamMap = () => {
                     }}
                   />
                 </ReactFlow>
-                <InputBlock />
+                <InputBlock
+                  open={isDialogOpen}
+                  onClose={handleDialogClose}
+                  selectedNode={selectedNode}
+                />
               </Paper>
             </div>
           </Grid>

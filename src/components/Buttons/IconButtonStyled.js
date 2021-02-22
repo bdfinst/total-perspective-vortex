@@ -8,7 +8,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const IconButtonStyled = ({ title, children, onClick, color }) => {
+export const IconButtonStyled = ({
+  title,
+  children,
+  onClick,
+  color,
+  className,
+}) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -17,6 +23,7 @@ export const IconButtonStyled = ({ title, children, onClick, color }) => {
       <Tooltip title={title}>
         <IconButton
           color={color || 'primary'}
+          className={className}
           component="span"
           onClick={onClick}
         >
