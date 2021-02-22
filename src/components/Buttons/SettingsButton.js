@@ -17,12 +17,8 @@ export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  const defaults = {
-    title: 'Select node to edit',
-    color: theme.palette.text.disabled,
-  }
-  const [title, setTitle] = useState(defaults.title)
-  const [color, setColor] = useState(defaults.color)
+  const unselectedTitle = 'Select node to edit'
+  const [title, setTitle] = useState(unselectedTitle)
 
   const handleOpen = () => {
     onDialogOpen()
@@ -30,11 +26,9 @@ export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
 
   useEffect(() => {
     if (selectedNode) {
-      setColor(theme.palette.primary.main)
       setTitle(`Edit node ${selectedNode.id} ${selectedNode.data.processName}`)
     } else {
-      setColor(defaults.color)
-      setTitle(defaults.title)
+      setTitle(unselectedTitle)
     }
   }, [selectedNode])
 
