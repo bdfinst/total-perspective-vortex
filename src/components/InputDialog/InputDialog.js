@@ -80,9 +80,9 @@ const InputBlock = (props) => {
   //   setOpen(isOpen)
   // }, [isOpen, open])
 
-  // useEffect(() => {
-  //   if (submitted && !errors) handleClose()
-  // }, [submitted, errors])
+  useEffect(() => {
+    if (submitted && !errors) handleClose()
+  }, [submitted, errors])
 
   const populateFormDefaults = () => {
     const newInputs = [...inputs]
@@ -156,9 +156,9 @@ const InputBlock = (props) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      {/* <DialogTitle id="form-dialog-title">
+      <DialogTitle id="form-dialog-title">
         Process {selectedNode.id}
-      </DialogTitle> */}
+      </DialogTitle>
       <DialogContent>
         <form>
           <Grid

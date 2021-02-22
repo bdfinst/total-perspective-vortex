@@ -21,14 +21,26 @@ const Node = (props) => {
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-  const [data, setData] = useState(
-    state.elements.find((el) => el.id === node.id).data,
-  )
+
+  const defaultData = {
+    processName: '',
+    actors: 0,
+    processTime: 0,
+    waitTime: 0,
+    pctCompleteAccurate: 100,
+  }
+  const [data, setData] = useState(defaultData)
 
   useEffect(() => {
-    console.log(props)
-    setData(state.elements.find((el) => el.id === node.id).data)
+    const found = state.elements.find((el) => el.id === node.id)
+    setData(found ? found.data : defaultData)
+    console.log(`STATE: ${state.elements.length}`)
+    console.log(`NODE: ${node.id}`)
   }, [state.elements])
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   const EdgeHandle = ({ type }) => {
     const settings = (handleType) => {

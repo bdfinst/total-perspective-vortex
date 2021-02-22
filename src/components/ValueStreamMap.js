@@ -53,11 +53,13 @@ const ValueStreamMap = () => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(state.elements)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [selectedNode, setSelectedNode] = useState()
 
-  const selectedNode = state.elements.find((el) => isNode(el) && el.selected)
+  // const selectedNode = state.elements.find((el) => isNode(el) && el.selected)
 
   useEffect(() => {
     setElements(state.elements)
+    setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
     console.log(`Selected: ${selectedNode}`)
   }, [state.elements])
 
