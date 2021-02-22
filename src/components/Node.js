@@ -79,7 +79,7 @@ const Node = (props) => {
             const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
             if (field.id !== 'processName') {
               return (
-                <Grid item xs={6}>
+                <Grid item xs={6} key={`gi_${field.id}`}>
                   <TextField
                     className={classes.number}
                     key={`${field.id}_${node.id}`}
@@ -89,8 +89,7 @@ const Node = (props) => {
                     variant="outlined"
                     margin="dense"
                     InputProps={{
-                      readonly: true,
-                      style: { textAlign: 'right' },
+                      readOnly: true,
                     }}
                   />
                 </Grid>
