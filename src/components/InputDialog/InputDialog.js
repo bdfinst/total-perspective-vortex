@@ -10,10 +10,16 @@ import {
   Tooltip,
 } from '@material-ui/core'
 import { HelpOutline, InputOutlined } from '@material-ui/icons'
-import { isNode } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { IconButtonStyled } from '../Buttons'
+import {
+  InputAccuracy,
+  InputActors,
+  InputProcessName,
+  InputProcessTime,
+  InputWaitTime,
+} from './Inputs'
 import { useValueStream } from '../../appContext/valueStreamContext'
 import inputFieldDefs from './fieldDefs'
 
@@ -43,9 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const InputBlock = (props) => {
-  const { onClose, open, selectedNode } = props
-
+const InputBlock = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const {
@@ -54,6 +58,7 @@ const InputBlock = (props) => {
     addNodeBefore,
     addNodeAfter,
   } = useValueStream()
+
   const [inputs, setInputs] = useState(inputFieldDefs)
 
   const [submitted, setSubmitted] = useState(false)
@@ -68,26 +73,22 @@ const InputBlock = (props) => {
   useEffect(() => {
     console.log(`Dialog Node: ${selectedNode}`)
     if (selectedNode && open) {
-      populateFormDefaults()
+      setInputs(inputFieldDefs)
+      populateFormDefaults(selectedNode)
       console.log(selectedNode)
     } else {
       handleClose()
     }
   }, [selectedNode])
 
-  // useEffect(() => {
-  //   console.log(`Open: ${open}`)
-  //   setOpen(isOpen)
-  // }, [isOpen, open])
-
   useEffect(() => {
     if (submitted && !errors) handleClose()
   }, [submitted, errors])
 
-  const populateFormDefaults = () => {
-    const newInputs = [...inputs]
+  const populateFormDefaults = (node) => {
+    const newInputs = [...inputFieldDefs]
 
-    for (const key in selectedNode.data) {
+    for (const key in node.data) {
       const index = inputs.findIndex((item) => {
         return item.id === key
       })
@@ -156,9 +157,9 @@ const InputBlock = (props) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle id="form-dialog-title">
+      {/* <DialogTitle id="form-dialog-title">
         Process {selectedNode.id}
-      </DialogTitle>
+      </DialogTitle> */}
       <DialogContent>
         <form>
           <Grid
@@ -167,7 +168,12 @@ const InputBlock = (props) => {
             justify="space-between"
             alignItems="center"
           >
-            <Grid item xs={12}>
+            <InputProcessName className={classes.input} node={selectedNode} />
+            <InputProcessTime className={classes.input} node={selectedNode} />
+            <InputWaitTime className={classes.input} node={selectedNode} />
+            <InputAccuracy className={classes.input} node={selectedNode} />
+            <InputActors className={classes.input} node={selectedNode} />
+            {/* <Grid item xs={12}>
               <TextField
                 autoFocus
                 className={classes.input}
@@ -216,7 +222,7 @@ const InputBlock = (props) => {
                     </Tooltip>
                   </Grid>
                 </Grid>
-              ))}
+              ))}*/}
           </Grid>
         </form>
         <Grid
