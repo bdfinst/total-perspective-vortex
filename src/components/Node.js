@@ -3,7 +3,6 @@ import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { defaultNodeData } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import inputFieldDefs from './InputDialog/fieldDefs'
 
@@ -22,11 +21,12 @@ const Node = (props) => {
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
+  const [data, setData] = useState(
+    state.elements.find((el) => el.id === node.id).data,
+  )
 
   useEffect(() => {
-    const data = state.elements.find((el) => el.id === node.id)
-    const newNode = { ...node, data }
-    setNode(newNode)
+    setData(state.elements.find((el) => el.id === node.id).data)
   }, [state.elements])
 
   const EdgeHandle = ({ type }) => {
@@ -67,18 +67,17 @@ const Node = (props) => {
               key={`${inputFieldDefs[0].id}_${node.id}`}
               id={`${inputFieldDefs[0].id}_${node.id}`}
               label={inputFieldDefs[0].label}
-              defaultValue={node.data[inputFieldDefs[0].id]}
+              value={data[inputFieldDefs[0].id]}
+              variant="outlined"
+              margin="dense"
               InputProps={{
                 readOnly: true,
               }}
-              variant="outlined"
-              margin="dense"
             />
           </Grid>
-          {inputFieldDefs
-            .filter((field) => field.id !== 'processName')
-            .map((field) => {
-              const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
+          {inputFieldDefs.map((field) => {
+            const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
+            if (field.id !== 'processName') {
               return (
                 <Grid item xs={6} key={`gi_${field.id}`}>
                   <TextField
@@ -86,16 +85,17 @@ const Node = (props) => {
                     key={`${field.id}_${node.id}`}
                     id={`${field.id}_${node.id}`}
                     label={field.label.split(' ')[0]}
-                    defaultValue={`${node.data[field.id]}${suffix}`}
+                    value={`${data[field.id]}${suffix}`}
+                    variant="outlined"
+                    margin="dense"
                     InputProps={{
                       readOnly: true,
                     }}
-                    variant="outlined"
-                    margin="dense"
                   />
                 </Grid>
               )
-            })}
+            }
+          })}
         </Grid>
       </div>
       <EdgeHandle type="source" />

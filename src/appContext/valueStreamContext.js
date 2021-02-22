@@ -49,24 +49,6 @@ const addNode = (state, { x, y }) => {
   return newState
 }
 
-const resetData = (state) => {
-  ls.clear()
-
-  const newNode = buildNode({
-    id: state.maxNodeId,
-    x: defaultPosition.x,
-    y: defaultPosition.y,
-  })
-
-  const newState = {
-    ...state,
-    elements: [newNode],
-  }
-  const initState = insertNodeAfter(newState, { node: newState.elements[0] })
-
-  return initState
-}
-
 const initStateFromData = (state, data) => {
   //TODO: Validate file data
   const newState = {
@@ -281,6 +263,12 @@ const buildData = () => {
   }
 }
 
+const resetData = () => {
+  ls.clear()
+
+  return buildData()
+}
+
 const valueStream = buildData()
 
 const valueStreamReducer = (state, action) => {
@@ -313,7 +301,7 @@ const valueStreamReducer = (state, action) => {
       return insertNodeAfter(state, action.data)
     }
     case 'RESET': {
-      return resetData(state)
+      return resetData()
     }
     case 'INIT': {
       return initStateFromData(state, action.data)
