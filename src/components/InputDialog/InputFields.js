@@ -100,8 +100,7 @@ export const InputBase = ({
     setErrorList(newErrors)
     setNodeData(newData)
 
-    console.log(newData[propName])
-    console.log(e.target.value)
+    \
   }
 
   return (

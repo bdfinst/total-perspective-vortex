@@ -61,7 +61,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const [nodeData, setNodeData] = useState(defaultNodeData)
 
   const handleClose = () => {
-    console.log('Close Dialog')
     setSubmitted(false)
     onClose()
   }
@@ -103,10 +102,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
-
-    console.log('handleSubmit')
-    console.log(nodeData)
-    console.log(errorList)
 
     if (!errorListExists(errorList)) {
       changeNodeValues({ node: selectedNode, data: nodeData })

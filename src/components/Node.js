@@ -34,8 +34,6 @@ const Node = (props) => {
   useEffect(() => {
     const found = state.elements.find((el) => el.id === node.id)
     setData(found ? found.data : defaultData)
-    console.log(`STATE: ${state.elements.length}`)
-    console.log(`NODE: ${node.id}`)
   }, [state.elements])
 
   useEffect(() => {
