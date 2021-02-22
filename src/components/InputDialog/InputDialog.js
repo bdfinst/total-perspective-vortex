@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   },
   insertLeft: {
     transform: 'rotateY(180deg)',
-
     color: theme.textPrimary,
   },
   insertRight: {
@@ -63,6 +62,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState(false)
+  const [data, setData] = useState({})
 
   const handleClose = () => {
     console.log('Close Dialog')
@@ -168,7 +168,11 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
             justify="space-between"
             alignItems="center"
           >
-            <InputProcessName className={classes.input} node={selectedNode} />
+            <InputProcessName
+              className={classes.input}
+              node={selectedNode}
+              onChange={handleChange}
+            />
             <InputProcessTime className={classes.input} node={selectedNode} />
             <InputWaitTime className={classes.input} node={selectedNode} />
             <InputAccuracy className={classes.input} node={selectedNode} />
