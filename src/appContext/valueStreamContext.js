@@ -5,74 +5,60 @@
  * https://kentcdodds.com/blog/application-state-management-with-react
  */
 
-import React from 'react'
+import React, { useReducer } from 'react'
+import { isEdge } from 'react-flow-renderer'
 import ls from 'local-storage'
 
-import { buildEdge, buildNode, edgeExists, nodeDefaults } from '../helpers'
+import {
+  buildEdge,
+  buildNode,
+  edgeExists,
+  getEdgesBySource,
+  getGraphLayout,
+  getLastEdge,
+  getLastNode,
+  nodeDefaults,
+} from '../helpers'
 
-const selectedBorderColor = 'red'
-const borderColor = '#3385e9'
-
-const init = () => {
-  const node1 = buildNode({ id: 1, x: 100, y: 175 })
-  const node2 = buildNode({ id: 2, x: 350, y: 175 })
-
-  const elements = [node1, node2, buildEdge(node1, node2)]
-  return elements
-}
+const defaultPosition = { x: 100, y: 175 }
 
 const ValueStreamContext = React.createContext()
-
-const vsInit = {
-  maxNodeId: 2,
-  elements: init(),
-}
-
-const buildData = () => {
-  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
-    console.log('Clear local storage')
-    ls.clear()
-  }
-
-  return {
-    maxNodeId: ls('maxNodeId') || vsInit.maxNodeId,
-    elements: ls('elements') || vsInit.elements,
-  }
-}
-const valueStream = buildData()
 
 const updateLocalStorage = (state) => {
   ls('maxNodeId', state.maxNodeId)
   ls('elements', state.elements)
 }
 
-const resetVSM = () => {
-  ls.clear()
-  return vsInit
-}
-
-const initStateFromData = (state, data) => {
-  //TODO: Validate file data
-  const newState = {
-    ...state,
-    maxNodeId: data.maxNodeId,
-    elements: data.elements,
-  }
-
+const updateStateElements = (state) => {
+  const graphedLayouts = getGraphLayout(state.elements, true, 10)
+  const newState = { ...state, elements: graphedLayouts }
   updateLocalStorage(newState)
   return newState
 }
 
 const addNode = (state, { x, y }) => {
   const nodeId = state.maxNodeId + 1
+  const newNode = buildNode({ id: nodeId, x, y })
 
   const newState = {
     ...state,
     maxNodeId: nodeId,
-    elements: [...state.elements, buildNode({ id: nodeId, x, y })],
+    elements: [...state.elements, newNode],
   }
-  updateLocalStorage(newState)
+
   return newState
+}
+
+const initStateFromData = (state, data) => {
+  //TODO: Validate file data
+  const newState = {
+    ...state,
+    currentEditNode: undefined,
+    maxNodeId: data.maxNodeId,
+    elements: data.elements,
+  }
+
+  return updateStateElements(newState)
 }
 
 const addEdge = (state, { source, target }) => {
@@ -86,11 +72,12 @@ const addEdge = (state, { source, target }) => {
     ...state,
     elements: [...state.elements, buildEdge(source, target)],
   }
-  updateLocalStorage(newState)
+
   return newState
 }
 
 const nodeSelect = (state, { node }) => {
+  if (state.currentEditNode) return state
   const newState = {
     ...state,
     elements: state.elements
@@ -122,8 +109,7 @@ const nodeSelect = (state, { node }) => {
       }),
   }
 
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
 const updateNode = (state, { node, position, data }) => {
@@ -138,7 +124,7 @@ const updateNode = (state, { node, position, data }) => {
                   processName: data.processName
                     ? data.processName
                     : el.data.processName,
-                  actors: data.actors ? data.actors : el.data.actors,
+                  people: data.people ? data.people : el.data.people,
                   processTime: data.processTime
                     ? data.processTime
                     : el.data.processTime,
@@ -158,21 +144,35 @@ const updateNode = (state, { node, position, data }) => {
         : el
     }),
   }
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
 
-const updateEdge = (state, { oldEdge, newTargetNode }) => {
-  const newState = {
-    ...state,
-    elements: state.elements.map((edge) => {
-      return edge.id === oldEdge.id
-        ? { ...edge, target: newTargetNode.id }
-        : edge
-    }),
-  }
-  updateLocalStorage(newState)
-  return newState
+const updateEdge = (edge, newNode, isTargetNode) => {
+  return isTargetNode
+    ? { ...edge, target: newNode.id }
+    : { ...edge, source: newNode.id }
+}
+
+const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
+  const elements = state.elements
+
+  const newElements = elements.map((e) =>
+    isEdge(e) && e.target === oldTargetNode.id
+      ? updateEdge(e, newTargetNode, true)
+      : e,
+  )
+
+  return updateStateElements({ ...state, elements: newElements })
+}
+
+const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
+  const elements = state.elements
+
+  const newElements = elements.map((e) =>
+    isEdge(e) && e.id === edge.id ? updateEdge(e, newNode, isTargetNode) : e,
+  )
+
+  return updateStateElements({ ...state, elements: newElements })
 }
 
 const deleteElements = (state, elementsToRemove) => {
@@ -190,9 +190,88 @@ const deleteElements = (state, elementsToRemove) => {
         : state.elements,
   }
 
-  updateLocalStorage(newState)
-  return newState
+  return updateStateElements(newState)
 }
+
+const insertNodeBefore = (state, { node }) => {
+  if (!node) return state
+
+  const nodeAddedState = addNode(state, node.position)
+
+  const insertedNode = getLastNode(nodeAddedState.elements)
+  const edgesUpdatedState = updateAllEdgesTarget(
+    nodeAddedState,
+    node,
+    insertedNode,
+  )
+
+  const newEdgeState = addEdge(edgesUpdatedState, {
+    source: insertedNode,
+    target: node,
+  })
+
+  return updateStateElements(newEdgeState)
+}
+
+const insertNodeAfter = (state, { node }) => {
+  const sourceNode = node ? node : getLastNode(state.elements)
+  const nodeAddedState = addNode(state, defaultPosition)
+
+  const newNode = getLastNode(nodeAddedState.elements)
+
+  const edgeAddedState = addEdge(nodeAddedState, {
+    source: sourceNode,
+    target: newNode,
+  })
+
+  const newRightEdge = getLastEdge(edgeAddedState.elements)
+  const oldRightEdge = getEdgesBySource(state.elements, sourceNode).find(
+    (e) => e.id !== newRightEdge.id,
+  )
+
+  const edgesUpdatedState = oldRightEdge
+    ? updateOneEdge(edgeAddedState, {
+        edge: oldRightEdge,
+        newNode: newNode,
+        isTarget: false,
+      })
+    : edgeAddedState
+
+  return updateStateElements(edgesUpdatedState)
+}
+
+const initValueStream = () => {
+  const state1 = {
+    maxNodeId: 2,
+    elements: [],
+  }
+  const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
+  const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
+
+  return state3
+}
+
+const buildData = () => {
+  const init = initValueStream()
+
+  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+    console.log('Clear local storage')
+    ls.clear()
+  }
+
+  return {
+    maxNodeId: ls('maxNodeId') || init.maxNodeId,
+    elements: ls('elements') || init.elements,
+  }
+}
+
+const resetData = () => {
+  ls.clear()
+
+  return buildData()
+}
+
+const valueStream = buildData()
 
 const valueStreamReducer = (state, action) => {
   switch (action.type) {
@@ -211,14 +290,26 @@ const valueStreamReducer = (state, action) => {
     case 'SELECT_NODE': {
       return nodeSelect(state, action.data)
     }
+    case 'OPEN_EDIT_NODE': {
+      return { ...valueStream, currentEditNode: action.data }
+    }
+    case 'CLOSE_EDIT_NODE': {
+      return { ...valueStream, currentEditNode: undefined }
+    }
     case 'UPDATE_EDGE': {
-      return updateEdge(state, action.data)
+      return updateOneEdge(state, action.data)
     }
     case 'DELETE': {
       return deleteElements(state, action.data)
     }
+    case 'INSERT_NODE_BEFORE': {
+      return insertNodeBefore(state, action.data)
+    }
+    case 'INSERT_NODE_AFTER': {
+      return insertNodeAfter(state, action.data)
+    }
     case 'RESET': {
-      return resetVSM()
+      return resetData()
     }
     case 'INIT': {
       return initStateFromData(state, action.data)
@@ -230,11 +321,12 @@ const valueStreamReducer = (state, action) => {
 }
 
 const ValueStreamProvider = (props) => {
-  const [state, dispatch] = React.useReducer(valueStreamReducer, valueStream)
+  const [state, dispatch] = useReducer(valueStreamReducer, valueStream)
 
-  // const value = React.useMemo(() => [state, dispatch], [state])
+  const value = React.useMemo(() => [state, dispatch], [state])
 
-  return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
+  // return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
+  return <ValueStreamContext.Provider value={value} {...props} />
 }
 
 const useValueStream = () => {
@@ -255,8 +347,26 @@ const useValueStream = () => {
   const changeNodeValues = ({ node, position, data }) =>
     dispatch({ type: 'UPDATE_NODE', data: { node, position, data } })
 
-  const changeEdge = ({ oldEdge, newTargetNode }) => {
-    dispatch({ type: 'UPDATE_EDGE', data: { oldEdge, newTargetNode } })
+  const changeEdgeTarget = (edge, newTargetNode) => {
+    dispatch({
+      type: 'UPDATE_EDGE',
+      data: { edge: edge, newNode: newTargetNode, isTargetNode: true },
+    })
+  }
+
+  const changeEdgeSource = (edge, newSourceNode) => {
+    dispatch({
+      type: 'UPDATE_EDGE',
+      data: { edge: edge, newNode: newSourceNode, isTargetNode: false },
+    })
+  }
+
+  const addNodeBefore = (node) => {
+    dispatch({ type: 'INSERT_NODE_BEFORE', data: { node } })
+  }
+
+  const addNodeAfter = (node) => {
+    dispatch({ type: 'INSERT_NODE_AFTER', data: { node } })
   }
 
   const removeElements = (elements = []) => {
@@ -269,17 +379,27 @@ const useValueStream = () => {
   const toggleNodeSelect = ({ node }) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
+  const openEditNode = (node) =>
+    dispatch({ type: 'OPEN_EDIT_NODE', data: node.id })
+
+  const closeEditNode = () => dispatch({ type: 'CLOSE_EDIT_NODE' })
+
   return {
     state,
     increment,
     createNode,
+    openEditNode,
+    closeEditNode,
     createEdge,
     changeNodeValues,
-    changeEdge,
+    changeEdgeTarget,
+    changeEdgeSource,
     removeElements,
     reset,
     initState,
     toggleNodeSelect,
+    addNodeBefore,
+    addNodeAfter,
   }
 }
 

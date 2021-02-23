@@ -7,7 +7,7 @@ import ReactFlow, {
 import { Container, Grid, Paper } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { getGraphLayout, getNodeById, getNodes } from '../helpers'
+import { getNodeById } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
@@ -44,7 +44,7 @@ const ValueStreamMap = () => {
     createEdge,
     createNode,
     changeNodeValues,
-    changeEdge,
+    changeEdgeTarget,
     removeElements,
     toggleNodeSelect,
   } = useValueStream()
@@ -52,16 +52,14 @@ const ValueStreamMap = () => {
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(state.elements)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [selectedNode, setSelectedNode] = useState()
 
   useEffect(() => {
     setElements(state.elements)
-
-    console.log(`Nodes: ${getNodes(elements).length}`)
+    setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
   }, [state.elements])
 
-  // const getSelectedNode = () => {
-  //   return getNodes(state.elements).filter((node) => node.selected === true)
-  // }
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
@@ -99,8 +97,8 @@ const ValueStreamMap = () => {
     event.dataTransfer.dropEffect = 'move'
   }
 
-  const onEdgeUpdate = (oldEdge, newConnection) =>
-    changeEdge({ oldEdge: oldEdge, newTargetNode: newConnection })
+  const onEdgeUpdate = (edge, newTargetNode) =>
+    changeEdgeTarget(edge, newTargetNode)
 
   const onDrop = (event) => {
     event.preventDefault()
@@ -112,6 +110,14 @@ const ValueStreamMap = () => {
     })
 
     createNode(position)
+  }
+
+  const handleDialogOpen = () => {
+    if (selectedNode) setIsDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false)
   }
 
   return (
@@ -126,12 +132,15 @@ const ValueStreamMap = () => {
           <Grid item xs={12} md={9}>
             <div ref={reactFlowWrapper}>
               <Paper className={classes.controls} elevation={0}>
-                <Controls />
+                <Controls
+                  onDialogOpen={handleDialogOpen}
+                  selectedNode={selectedNode}
+                />
               </Paper>
 
               <Paper className={classes.paper} elevation={0}>
                 <ReactFlow
-                  elements={getGraphLayout(elements, true, 10)}
+                  elements={elements}
                   nodeTypes={{ customNode: Node }}
                   edgeTypes={{ custom: CustomEdge }}
                   connectionLineComponent={ConnectionLine}
@@ -163,7 +172,11 @@ const ValueStreamMap = () => {
                     }}
                   />
                 </ReactFlow>
-                <InputBlock />
+                <InputBlock
+                  open={isDialogOpen}
+                  onClose={handleDialogClose}
+                  selectedNode={selectedNode}
+                />
               </Paper>
             </div>
           </Grid>

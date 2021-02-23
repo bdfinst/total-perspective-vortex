@@ -35,7 +35,7 @@ describe('Building totals', () => {
         'totalTime',
         'flowEfficiency',
         'avgPCA',
-        'actorTime',
+        'peopleTime',
         'averageActors',
       ],
     }
@@ -49,12 +49,12 @@ describe('Building totals', () => {
     expect(calcFlowEfficiency(workTime, totalTime)).toEqual(expectedFE)
   })
   it('should calacuate the total manual process time', () => {
-    const actorTime = elements
+    const peopleTime = elements
       .filter((el) => isNode(el))
       .map((node) => node.data)
-      .reduce((acc, val) => acc + val.actors * val.processTime, 0)
+      .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
-    expect(results.actorTime).toEqual(actorTime)
+    expect(results.peopleTime).toEqual(peopleTime)
   })
   it('should calculate the total process time', () => {
     expect(results.processTime).toEqual(processTime)

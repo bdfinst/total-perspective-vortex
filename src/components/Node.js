@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, TextField } from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography,
+} from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
-import inputFieldDefs from './InputDialog/fieldDefs'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -12,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   number: {
     alignText: 'right',
+  },
+  title: {
+    fontSize: '1.2em',
+    color: theme.textSecondary,
+    textAlign: 'center',
   },
 }))
 
@@ -21,12 +33,19 @@ const Node = (props) => {
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-  const [data, setData] = useState(
-    state.elements.find((el) => el.id === node.id).data,
-  )
+
+  const defaultData = {
+    processName: '',
+    people: 0,
+    processTime: 0,
+    waitTime: 0,
+    pctCompleteAccurate: 100,
+  }
+  const [data, setData] = useState(defaultData)
 
   useEffect(() => {
-    setData(state.elements.find((el) => el.id === node.id).data)
+    const found = state.elements.find((el) => el.id === node.id)
+    setData(found ? found.data : defaultData)
   }, [state.elements])
 
   const EdgeHandle = ({ type }) => {
@@ -56,47 +75,55 @@ const Node = (props) => {
     )
   }
 
+  const inputFieldDefs = [
+    {
+      id: 'processTime',
+      label: 'Work',
+    },
+    {
+      id: 'waitTime',
+      label: 'Wait',
+    },
+    {
+      id: 'people',
+      label: 'People',
+    },
+    {
+      id: 'pctCompleteAccurate',
+      label: '%C/A',
+    },
+  ]
+
   return (
     <>
       <EdgeHandle type="target" />
       <div className="node-container">
-        <Grid container>
-          <Grid item xs={12}>
-            <TextField
-              className={classes.title}
-              key={`${inputFieldDefs[0].id}_${node.id}`}
-              id={`${inputFieldDefs[0].id}_${node.id}`}
-              label={inputFieldDefs[0].label}
-              value={data[inputFieldDefs[0].id]}
-              variant="outlined"
-              margin="dense"
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </Grid>
-          {inputFieldDefs.map((field) => {
-            const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
-            if (field.id !== 'processName') {
-              return (
-                <Grid item xs={6} key={`gi_${field.id}`}>
-                  <TextField
-                    className={classes.number}
-                    key={`${field.id}_${node.id}`}
-                    id={`${field.id}_${node.id}`}
-                    label={field.label.split(' ')[0]}
-                    value={`${data[field.id]}${suffix}`}
-                    variant="outlined"
-                    margin="dense"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-              )
-            }
-          })}
-        </Grid>
+        <TableContainer
+          component={Paper}
+          elevation={0}
+          className={classes.tableContainer}
+        >
+          <Table className={classes.table} aria-label="simple table">
+            <TableBody>
+              <TableRow>
+                <TableCell align="center" colSpan={2}>
+                  <Typography className={classes.title} gutterBottom>
+                    {data.processName || 'Update Me'}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+              {inputFieldDefs.map((field) => (
+                <TableRow key={field.id} data-testid={field.id}>
+                  <TableCell align="left">{field.label}</TableCell>
+                  <TableCell align="right">
+                    {data[field.id]}
+                    {field.id === 'pctCompleteAccurate' ? '%' : ''}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       <EdgeHandle type="source" />
     </>

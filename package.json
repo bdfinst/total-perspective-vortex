@@ -43,7 +43,8 @@
     "npm": "^7.5.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-flow-renderer": "^8.7.0"
+    "react-flow-renderer": "^8.7.0",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.9",

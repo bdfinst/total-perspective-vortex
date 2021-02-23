@@ -3,9 +3,6 @@ import dagre from 'dagre'
 
 import { nodeDefaults } from './buildNode'
 
-const dagreGraph = new dagre.graphlib.Graph()
-dagreGraph.setDefaultEdgeLabel(() => ({}))
-
 /**
  *
  * @param {Array} elements
@@ -16,6 +13,9 @@ export const getGraphLayout = (
   useProportional = true,
   offsetWidth = 50,
 ) => {
+  const dagreGraph = new dagre.graphlib.Graph()
+  dagreGraph.setDefaultEdgeLabel(() => ({}))
+
   dagreGraph.setGraph({ rankdir: 'LR' })
 
   const offsetPosition = (waitTime, offset) => {
