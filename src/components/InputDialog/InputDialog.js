@@ -110,7 +110,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const InputPaper = ({ children }) => (
     <Paper
       className={classes.paper}
-      elevation={2}
+      elevation={0}
       square={true}
       children={children}
     >
@@ -125,9 +125,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const handleHelpClose = () => {
     setHelpOpen(false)
   }
-
-  // const displayHelp = (propName) => {
-  //   setHelpOpen(true)
 
   return (
     <>
@@ -162,7 +159,12 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                   key={`gi_${field.propName}`}
                 >
                   <Grid item xs={field.toolTip.length ? 10 : 12}>
-                    <InputPaper>
+                    <Paper
+                      key={`p_${field.propName}`}
+                      className={classes.paper}
+                      elevation={0}
+                      square={true}
+                    >
                       <TextField
                         key={field.propName}
                         className={classes.input}
@@ -173,7 +175,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         error={errorList[field.propName]}
                         onChange={(e) => handleChange(e, field.propName)}
                       />
-                    </InputPaper>
+                    </Paper>
                   </Grid>
                   {field.toolTip.length > 0 && (
                     <Grid item xs={2}>
@@ -202,7 +204,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
             alignItems="center"
           >
             <Grid item xs={6}>
-              <InputPaper>
+              <Paper className={classes.paper} elevation={0} square={true}>
                 <IconButtonStyled
                   title="Add step before"
                   onClick={handleInsertStep}
@@ -211,10 +213,11 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                     className={`${classes.icon} ${classes.insertLeft}`}
                   />
                 </IconButtonStyled>
-              </InputPaper>
+              </Paper>
             </Grid>
             <Grid item xs={6}>
-              <InputPaper>
+              <Paper className={classes.paper} elevation={0} square={true}>
+                {' '}
                 <IconButtonStyled
                   title="Add step after"
                   onClick={handleAddStep}
@@ -223,7 +226,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                     className={`${classes.icon} ${classes.insertRight}`}
                   />
                 </IconButtonStyled>
-              </InputPaper>
+              </Paper>
             </Grid>
           </Grid>
         </DialogContent>
