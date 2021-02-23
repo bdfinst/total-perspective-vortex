@@ -13,7 +13,6 @@ import {
   ZoomInButton,
   ZoomOutButton,
 } from './Buttons'
-import AddNode from './AddNode'
 
 const useStyles = makeStyles((theme) => ({
   overrides: {
