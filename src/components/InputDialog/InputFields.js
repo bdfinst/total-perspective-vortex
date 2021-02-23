@@ -19,26 +19,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const helpText = {
-  error: 'Cannot be blank',
-  normal: 'Enter a name for the process step',
+const getFieldDefs = (key) => {
+  switch (key) {
+    case 'processName':
+      return {
+        title: 'Step Name',
+        type: 'string',
+        toolTip: '',
+        gridCols: 12,
+        required: true,
+        autoFocus: true,
+        helpText: {
+          error: 'Cannot be blank',
+          normal: 'Enter a name for the process step',
+        },
+        isError: (value) => (value.length > 0 ? false : true),
+      }
+    case 'processTime':
+      return {
+        title: 'Work Time',
+        type: 'number',
+        gridCols: 6,
+        required: false,
+        autoFocus: false,
+        toolTip: 'The amount of time required to do the activity',
+        helpText: {
+          error: 'Must be between 0 and 999',
+          normal: 'Value between 0 and 999',
+        },
+        isError: (value) => (value >= 0 && value <= 999 ? false : true),
+      }
+    default:
+      return {}
+  }
 }
 
 const getErrors = (key, value, errors) => {
-  switch (key) {
-    case 'processName':
-      return { ...errors, [key]: value.length > 0 ? false : true }
-    case 'processTime':
-      return { ...errors, [key]: value >= 0 && value <= 999 ? false : true }
-    case 'waitTime':
-      return { ...errors, [key]: value >= 0 && value <= 999 ? false : true }
-    case 'pctCompleteAccurate':
-      return { ...errors, [key]: value > 0 && value <= 100 ? false : true }
-    case 'actors':
-      return { ...errors, [key]: value >= 0 && value <= 99 ? false : true }
-    default:
-      return errors
-  }
+  return { ...errors, [key]: getFieldDefs(key).isError(value) }
 }
 
 export const InputBase = ({
@@ -61,40 +78,39 @@ export const InputBase = ({
   const [errorList, setErrorList] = useState(errors)
   const [nodeData, setNodeData] = useState({})
   const [helperText, setHelperText] = useState('')
+  const [fieldValue, setFieldValue] = useState('')
 
   useEffect(() => {
-    setNodeData(node.data)
-  }, [node.data])
+    setFieldValue(node.data[propName])
+  }, [node.data[propName]])
 
   useEffect(() => {
     setHelperText(errorList[propName] ? helpText.error : helpText.normal)
   }, [errorList[propName]])
 
-  const handleBlur = (e) => {
+  const update = (e) => {
     const value = e.target.value.trim()
-
-    const newData = { ...nodeData, [propName]: value }
+    setFieldValue(value)
 
     const newErrors = getErrors(propName, value, errorList)
     setErrorList(newErrors)
-    setNodeData(newData)
 
-    console.log(`Blur ${JSON.stringify(newData)}`)
+    return value
+  }
+  const handleBlur = (e) => {
+    const value = update(e)
 
-    onBlur(newData, errorList, propName)
+    console.log(`Blur ${propName} : ${value}`)
+
+    onBlur(value, errorList, propName)
   }
 
   const handleChange = (e) => {
-    const value = e.target.value
+    const value = update(e)
 
-    const newErrors = getErrors(propName, value, errorList)
-    const newData = { ...nodeData, [propName]: value }
+    console.log(`Change ${propName} : ${value}`)
 
-    console.log(`Change ${JSON.stringify(newData)}`)
-
-    setErrorList(newErrors)
-    setNodeData(newData)
-    onChange(newData, errorList, propName)
+    onChange(value, errorList, propName)
   }
 
   return (
@@ -120,6 +136,25 @@ export const InputBase = ({
         </Tooltip>
       )}
     </Grid>
+  )
+}
+
+export const InputValue = ({ node, onChange, onBlur, errors, propName }) => {
+  return (
+    <InputBase
+      node={node}
+      onChange={onChange}
+      onBlur={onBlur}
+      errors={errors}
+      title={getFieldDefs(propName).title}
+      propName={propName}
+      inputType={getFieldDefs(propName).type}
+      helpText={getFieldDefs(propName).helpText}
+      toolTip={getFieldDefs(propName).toolTip}
+      cols={getFieldDefs(propName).gridCols}
+      required={getFieldDefs(propName).required}
+      autoFocus={getFieldDefs(propName).autoFocus || false}
+    />
   )
 }
 

@@ -15,6 +15,7 @@ import {
   InputActors,
   InputProcessName,
   InputProcessTime,
+  InputValue,
   InputWaitTime,
 } from './InputFields'
 import { defaultNodeData } from '../../helpers'
@@ -83,10 +84,10 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     }
   }
 
-  const handleChange = (data, errors, propName) => {
-    console.log(data)
+  const handleChange = (value, errors, propName) => {
+    console.log(value)
     setErrorList(errors)
-    setNodeData({ ...nodeData, [propName]: data[propName] })
+    setNodeData({ ...nodeData, [propName]: value })
   }
 
   const handleBlur = (data, errors, propName) => {
@@ -113,19 +114,35 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
             justify="space-between"
             alignItems="center"
           >
-            <InputProcessName
+            <InputValue
               node={selectedNode}
+              propName="processName"
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <InputValue
+              node={selectedNode}
+              propName="processTime"
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {/* <InputProcessName
+              node={selectedNode}
+              property="processName"
               errors={errorList}
               onChange={handleChange}
               onBlur={handleBlur}
             />
             <InputProcessTime
               node={selectedNode}
+              property="processTime"
               errors={errorList}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <InputWaitTime
+          <InputWaitTime
               node={selectedNode}
               errors={errorList}
               onChange={handleChange}
@@ -142,7 +159,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
               errors={errorList}
               onChange={handleChange}
               onBlur={handleBlur}
-            />
+            /> */}
           </Grid>
         </form>
         <Grid
