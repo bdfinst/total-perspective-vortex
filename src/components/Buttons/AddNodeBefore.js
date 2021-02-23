@@ -1,33 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Tooltip } from '@material-ui/core'
-import { SettingsOutlined } from '@material-ui/icons'
+import { InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+
+import { useValueStream } from '../../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   inactive: {
     color: theme.palette.text.disabled,
+    transform: 'rotateY(180deg)',
   },
   active: {
     color: theme.palette.primary.dark,
+    transform: 'rotateY(180deg)',
   },
 }))
 
-export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
+export const AddNodeBefore = ({ selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
+  const { addNodeBefore } = useValueStream()
 
-  const unselectedTitle = 'Select node to edit'
-  const [title, setTitle] = useState(unselectedTitle)
+  const defaultTitle = 'Select node to insert before'
+  const [title, setTitle] = useState(defaultTitle)
 
-  const handleOpen = () => {
-    onDialogOpen()
+  const handleInsertStep = () => {
+    addNodeBefore(selectedNode)
   }
 
   useEffect(() => {
     if (selectedNode) {
-      setTitle(`Edit node ${selectedNode.id} ${selectedNode.data.processName}`)
+      setTitle(
+        `Insert node before ${selectedNode.id} ${selectedNode.data.processName}`,
+      )
     } else {
-      setTitle(unselectedTitle)
+      setTitle(defaultTitle)
     }
   }, [selectedNode])
 
@@ -37,9 +44,9 @@ export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
         <Button
           className={selectedNode ? classes.active : classes.inactive}
           variant="outlined"
-          onClick={handleOpen}
+          onClick={handleInsertStep}
         >
-          <SettingsOutlined />
+          <InputOutlined />
         </Button>
       </Tooltip>
     </div>

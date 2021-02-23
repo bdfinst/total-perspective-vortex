@@ -4,17 +4,6 @@ import { Grid, TextField, Tooltip } from '@material-ui/core'
 import { HelpOutline } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-const x = {
-  id: 'processName',
-  label: 'Process Name',
-  value: '',
-  error: false,
-  helperText: 'Enter a name for the process step',
-  getHelperText: (error) =>
-    error ? 'Cannot be blank' : 'Enter a name for the process step',
-  isValid: (value) => value.length > 0,
-}
-
 const useStyles = makeStyles((theme) => ({
   input: {
     padding: '5 5 5 5 ',
@@ -107,7 +96,7 @@ export const InputBase = ({
         className={classes.input}
         id={`${propName}-${node.id}`}
         label={title}
-        value={nodeData[propName]}
+        value={nodeData[propName] || ''}
         onChange={handleChange}
         onBlur={handleBlur}
         error={errorList[propName]}

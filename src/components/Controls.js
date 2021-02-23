@@ -3,6 +3,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import {
+  AddNodeAfter,
+  AddNodeBefore,
   FileUpload,
   ResetButton,
   SaveButton,
@@ -50,12 +52,14 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
           </ButtonGroup>
         </Grid>
         <Grid>
-          <AddNode />
-          <SettingsButton
-            onDialogOpen={onDialogOpen}
-            selectedNode={selectedNode}
-          />
-          {/* <InputBlock /> */}
+          <ButtonGroup orientation="horizontal" color="secondary">
+            <AddNodeBefore selectedNode={selectedNode} />
+            <SettingsButton
+              onDialogOpen={onDialogOpen}
+              selectedNode={selectedNode}
+            />
+            <AddNodeAfter selectedNode={selectedNode} />
+          </ButtonGroup>
         </Grid>
         <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">

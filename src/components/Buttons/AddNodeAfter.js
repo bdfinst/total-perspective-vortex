@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Tooltip } from '@material-ui/core'
-import { SettingsOutlined } from '@material-ui/icons'
+import { InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+
+import { useValueStream } from '../../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   inactive: {
@@ -12,22 +14,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
+export const AddNodeAfter = ({ selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
+  const { addNodeAfter } = useValueStream()
 
   const unselectedTitle = 'Select node to edit'
   const [title, setTitle] = useState(unselectedTitle)
 
-  const handleOpen = () => {
-    onDialogOpen()
+  const handleAddStep = () => {
+    addNodeAfter(selectedNode)
   }
 
   useEffect(() => {
     if (selectedNode) {
-      setTitle(`Edit node ${selectedNode.id} ${selectedNode.data.processName}`)
+      setTitle(
+        `Add node after ${selectedNode.id} ${selectedNode.data.processName}`,
+      )
     } else {
-      setTitle(unselectedTitle)
+      setTitle(`Add node to end`)
     }
   }, [selectedNode])
 
@@ -35,11 +40,11 @@ export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
     <div>
       <Tooltip title={title}>
         <Button
-          className={selectedNode ? classes.active : classes.inactive}
+          className={classes.activee}
           variant="outlined"
-          onClick={handleOpen}
+          onClick={handleAddStep}
         >
-          <SettingsOutlined />
+          <InputOutlined />
         </Button>
       </Tooltip>
     </div>

@@ -4,10 +4,9 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Grid,
 } from '@material-ui/core'
-import { HelpOutline, InputOutlined } from '@material-ui/icons'
+import { InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { IconButtonStyled } from '../Buttons'
@@ -47,12 +46,7 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const {
-    state,
-    changeNodeValues,
-    addNodeBefore,
-    addNodeAfter,
-  } = useValueStream()
+  const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
 
   const [inputs, setInputs] = useState(inputFieldDefs)
 
@@ -159,56 +153,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
               errors={errorList}
               onChange={handleChange}
             />
-            {/* <Grid item xs={12}>
-              <TextField
-                autoFocus
-                className={classes.input}
-                id={inputs[0].id}
-                label={inputs[0].label}
-                placeholder={inputs[0].placeholder}
-                value={inputs[0].value}
-                onChange={handleChange}
-                error={inputs[0].error}
-                helperText={inputs[0].helperText}
-                margin="dense"
-                size="small"
-                type="text"
-                fullWidth
-                required
-              />
-            </Grid>
-            {inputs
-              .filter((input) => input.id !== 'processName')
-              .map((input) => (
-                <Grid
-                  item
-                  key={`gi_${input.id}`}
-                  container
-                  direction="row"
-                  justify="space-between"
-                  alignItems="center"
-                  xs={6}
-                >
-                  <Grid item key={`field_${input.id}`} xs={12}>
-                    <TextField
-                      id={input.id}
-                      label={input.label}
-                      placeholder={input.placeholder}
-                      value={Number(input.value)}
-                      onChange={handleChange}
-                      error={input.error}
-                      helperText={input.helperText}
-                      type="number"
-                      size="small"
-                      margin="dense"
-                      required
-                    />
-                    <Tooltip title={input.toolTip}>
-                      <HelpOutline className={classes.help} />
-                    </Tooltip>
-                  </Grid>
-                </Grid>
-              ))}*/}
           </Grid>
         </form>
         <Grid

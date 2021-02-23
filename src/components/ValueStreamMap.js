@@ -55,8 +55,6 @@ const ValueStreamMap = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedNode, setSelectedNode] = useState()
 
-  // const selectedNode = state.elements.find((el) => isNode(el) && el.selected)
-
   useEffect(() => {
     setElements(state.elements)
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
