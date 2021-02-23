@@ -3,7 +3,7 @@ import { buildEdge, buildNode } from '../../src/helpers'
 const buildData = (processTime, waitTime, pctCompleteAccurate) => {
   return {
     processName: '',
-    actors: 1,
+    people: 1,
     processTime,
     waitTime,
     pctCompleteAccurate,

@@ -124,7 +124,7 @@ const updateNode = (state, { node, position, data }) => {
                   processName: data.processName
                     ? data.processName
                     : el.data.processName,
-                  actors: data.actors ? data.actors : el.data.actors,
+                  people: data.people ? data.people : el.data.people,
                   processTime: data.processTime
                     ? data.processTime
                     : el.data.processTime,

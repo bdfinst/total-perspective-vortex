@@ -57,7 +57,7 @@ export const fieldConfigs = [
     isError: (value) => (value >= 1 && value <= 100 ? false : true),
   },
   {
-    propName: 'actors',
+    propName: 'people',
     title: 'People Required',
     type: 'number',
     gridCols: 6,
@@ -73,7 +73,7 @@ export const fieldConfigs = [
 ]
 
 // processName: '',
-// actors: 0,
+// people: 0,
 // processTime: 0,
 // waitTime: 0,
 // pctCompleteAccurate: 100,

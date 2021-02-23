@@ -275,7 +275,7 @@ export const InputActors = ({ node, onChange, onBlur, errors }) => {
       onBlur={onBlur}
       errors={errors}
       title="People Required"
-      propName="actors"
+      propName="people"
       inputType="number"
       helpText={helpText}
       toolTip={toolTip}

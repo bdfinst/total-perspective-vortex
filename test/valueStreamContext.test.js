@@ -62,7 +62,7 @@ describe('Value Stream Context', () => {
     it('should update data for a node', () => {
       const newData = {
         processName: '',
-        actors: 1,
+        people: 1,
         processTime: 1,
         waitTime: 2,
         pctCompleteAccurate: 3,

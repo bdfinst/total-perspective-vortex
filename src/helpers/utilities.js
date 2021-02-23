@@ -78,14 +78,14 @@ const calcPropertySum = (nodes, property) => {
 
 export const getNodeSums = (elements) => {
   const nodes = getNodes(elements)
-  const actorTime = nodes
+  const peopleTime = nodes
     .map((node) => node.data)
-    .reduce((acc, val) => acc + val.actors * val.processTime, 0)
+    .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
   const totals = {
-    actorTime: actorTime,
+    peopleTime: peopleTime,
     averageActors:
-      nodes.reduce((acc, node) => acc + node.data.actors, 0) / nodes.length,
+      nodes.reduce((acc, node) => acc + node.data.people, 0) / nodes.length,
     processTime: calcPropertySum(elements, 'processTime'),
     waitTime: calcPropertySum(elements, 'waitTime'),
     avgPCA: roundTo2(calcPropertyAvg(elements, 'pctCompleteAccurate')),

@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   Grid,
   TextField,
 } from '@material-ui/core'
@@ -61,11 +62,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     console.log(`Form Errors: ${JSON.stringify(errorList)}`)
   }, [errorList])
 
-  // const [submitted, setSubmitted] = useState(false)
-  // const [nodeData, setNodeData] = useState(defaultNodeData)
-
   const handleClose = () => {
-    // setSubmitted(false)
     onClose()
   }
 
@@ -73,46 +70,14 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     return Object.entries(errors).find((e) => e[1] === true)
   }
 
-  // useEffect(() => {
-  //   if (selectedNode && open) {
-  //     setNodeData(selectedNode.data)
-  //   } else {
-  //     handleClose()
-  //   }
-  // }, [selectedNode])
-
-  // useEffect(() => {
-  //   const error = errorListExists(errorList)
-  //   if (submitted && !error) handleClose()
-  // }, [submitted, errorList])
-
-  // useEffect(() => {
-  //   console.log(`nodeData: ${JSON.stringify(nodeData)}`)
-  // }, [nodeData])
-
-  // const handleSubmit = (event) => {
-  //   console.log(`submit ${event.target}`)
-  // }
-
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
 
     if (!errorListExists(errorList)) {
       changeNodeValues({ node: selectedNode, data: formData })
-      // setSubmitted(true)
       handleClose()
     }
   }
-
-  // const handleChange = (value, errors, propName) => {
-  //   console.log(value)
-  //   setErrorList(errors)
-  //   setNodeData({ ...nodeData, [propName]: value })
-  // }
-
-  // const handleBlur = (data, errors, propName) => {
-  //   handleChange(data, errors, propName)
-  // }
 
   const handleInsertStep = () => {
     addNodeBefore(selectedNode)
@@ -132,9 +97,9 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      {/* <DialogTitle id="form-dialog-title">
-        Process {selectedNode.id}
-      </DialogTitle> */}
+      <DialogTitle id="form-dialog-title">
+        Update Process {selectedNode && selectedNode.id}
+      </DialogTitle>
       <DialogContent>
         <form>
           <Grid container>

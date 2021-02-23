@@ -23,7 +23,7 @@ const Node = (props) => {
 
   const defaultData = {
     processName: '',
-    actors: 0,
+    people: 0,
     processTime: 0,
     waitTime: 0,
     pctCompleteAccurate: 100,
@@ -79,7 +79,7 @@ const Node = (props) => {
     },
 
     {
-      id: 'actors',
+      id: 'people',
       label: 'People',
     },
 
