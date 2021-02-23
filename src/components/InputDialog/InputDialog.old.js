@@ -5,14 +5,20 @@ import {
   DialogActions,
   DialogContent,
   Grid,
-  TextField,
 } from '@material-ui/core'
 import { InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { IconButtonStyled } from '../Buttons'
+import {
+  InputAccuracy,
+  InputActors,
+  InputProcessName,
+  InputProcessTime,
+  InputValue,
+  InputWaitTime,
+} from './InputFields'
 import { defaultNodeData } from '../../helpers'
-import { fieldConfigs, getFieldConfig } from './formConfigs'
 import { useValueStream } from '../../appContext/valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -42,22 +48,12 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const classes = useStyles(theme)
   const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
 
-  const [formData, setFormData] = useState(selectedNode.data || {})
+  const [submitted, setSubmitted] = useState(false)
   const [errorList, setErrorList] = useState({})
-
-  useEffect(() => {
-    console.log(`Form Data: ${JSON.stringify(formData)}`)
-  }, [formData])
-
-  useEffect(() => {
-    console.log(`Form Errors: ${JSON.stringify(errorList)}`)
-  }, [errorList])
-
-  // const [submitted, setSubmitted] = useState(false)
-  // const [nodeData, setNodeData] = useState(defaultNodeData)
+  const [nodeData, setNodeData] = useState(defaultNodeData)
 
   const handleClose = () => {
-    // setSubmitted(false)
+    setSubmitted(false)
     onClose()
   }
 
@@ -65,42 +61,38 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     return Object.entries(errors).find((e) => e[1] === true)
   }
 
-  // useEffect(() => {
-  //   if (selectedNode && open) {
-  //     setNodeData(selectedNode.data)
-  //   } else {
-  //     handleClose()
-  //   }
-  // }, [selectedNode])
+  useEffect(() => {
+    if (selectedNode && open) {
+      setNodeData(selectedNode.data)
+    } else {
+      handleClose()
+    }
+  }, [selectedNode])
 
   // useEffect(() => {
   //   const error = errorListExists(errorList)
   //   if (submitted && !error) handleClose()
   // }, [submitted, errorList])
 
-  // useEffect(() => {
-  //   console.log(`nodeData: ${JSON.stringify(nodeData)}`)
-  // }, [nodeData])
-
-  // const handleSubmit = (event) => {
-  //   console.log(`submit ${event.target}`)
-  // }
+  useEffect(() => {
+    console.log(`nodeData: ${JSON.stringify(nodeData)}`)
+  }, [nodeData])
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
 
     if (!errorListExists(errorList)) {
-      changeNodeValues({ node: selectedNode, data: formData })
-      // setSubmitted(true)
+      changeNodeValues({ node: selectedNode, data: nodeData })
+      setSubmitted(true)
       handleClose()
     }
   }
 
-  // const handleChange = (value, errors, propName) => {
-  //   console.log(value)
-  //   setErrorList(errors)
-  //   setNodeData({ ...nodeData, [propName]: value })
-  // }
+  const handleChange = (value, errors, propName) => {
+    console.log(value)
+    setErrorList(errors)
+    setNodeData({ ...nodeData, [propName]: value })
+  }
 
   // const handleBlur = (data, errors, propName) => {
   //   handleChange(data, errors, propName)
@@ -113,15 +105,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     addNodeAfter(selectedNode)
   }
 
-  const handleChange = (e, propName) => {
-    const value = e.target.value
-    setErrorList({
-      ...errorList,
-      [propName]: getFieldConfig(propName).isError(value),
-    })
-    setFormData({ ...formData, [propName]: e.target.value })
-  }
-
   return (
     <Dialog open={open} onClose={handleClose}>
       {/* <DialogTitle id="form-dialog-title">
@@ -129,18 +112,58 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
       </DialogTitle> */}
       <DialogContent>
         <form>
-          <Grid constainer>
-            {fieldConfigs.map((field) => (
-              <Grid item xs={field.gridCols} key={`gi_${field.propName}`}>
-                <TextField
-                  key={field.propName}
-                  type={field.type}
-                  value={formData[field.propName] || ''}
-                  error={errorList[field.propName]}
-                  onChange={(e) => handleChange(e, field.propName)}
-                />
-              </Grid>
-            ))}
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <InputValue
+              node={selectedNode}
+              propName="processName"
+              errors={errorList}
+              onChange={handleChange}
+              // onBlur={handleBlur}
+            />
+            <InputValue
+              node={selectedNode}
+              propName="processTime"
+              errors={errorList}
+              onChange={handleChange}
+              // onBlur={handleBlur}
+            />
+            {/* <InputProcessName
+              node={selectedNode}
+              property="processName"
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <InputProcessTime
+              node={selectedNode}
+              property="processTime"
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          <InputWaitTime
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <InputActors
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <InputAccuracy
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            /> */}
           </Grid>
         </form>
         <Grid

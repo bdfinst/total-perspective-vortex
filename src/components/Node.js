@@ -35,10 +35,6 @@ const Node = (props) => {
     setData(found ? found.data : defaultData)
   }, [state.elements])
 
-  useEffect(() => {
-    console.log(`Node: ${JSON.stringify(data)}`)
-  }, [data])
-
   const EdgeHandle = ({ type }) => {
     const settings = (handleType) => {
       switch (handleType) {

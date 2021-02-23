@@ -61,7 +61,7 @@ const getErrors = (key, value, errors) => {
 export const InputBase = ({
   node,
   onChange,
-  onBlur,
+  // onBlur,
   errors,
   propName,
   title,
@@ -97,20 +97,24 @@ export const InputBase = ({
 
     return value
   }
-  const handleBlur = (e) => {
-    const value = update(e)
+  // const handleBlur = (e) => {
+  //   const value = update(e)
 
-    console.log(`Blur ${propName} : ${value}`)
+  //   console.log(`Blur ${propName} : ${value}`)
 
-    onBlur(value, errorList, propName)
-  }
+  //   onBlur(value, errorList, propName)
+  // }
 
   const handleChange = (e) => {
-    const value = update(e)
+    const value = e.target.value.trim()
+    setFieldValue(value)
 
-    console.log(`Change ${propName} : ${value}`)
+    const newErrors = getErrors(propName, value, errorList)
+    setErrorList(newErrors)
 
-    onChange(value, errorList, propName)
+    console.log(`Change ${propName} : ${fieldValue}`)
+
+    onChange(fieldValue, errorList, propName)
   }
 
   return (
@@ -121,7 +125,7 @@ export const InputBase = ({
         label={title}
         value={nodeData[propName] || ''}
         onChange={handleChange}
-        onBlur={handleBlur}
+        // onBlur={handleBlur}
         error={errorList[propName]}
         helperText={helperText}
         margin="dense"
@@ -139,12 +143,12 @@ export const InputBase = ({
   )
 }
 
-export const InputValue = ({ node, onChange, onBlur, errors, propName }) => {
+export const InputValue = ({ node, onChange, errors, propName }) => {
   return (
     <InputBase
       node={node}
       onChange={onChange}
-      onBlur={onBlur}
+      // onBlur={onBlur}
       errors={errors}
       title={getFieldDefs(propName).title}
       propName={propName}
