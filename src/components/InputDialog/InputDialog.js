@@ -42,8 +42,16 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const classes = useStyles(theme)
   const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
 
-  const [formData, setFormData] = useState(selectedNode.data || {})
+  const [formData, setFormData] = useState(defaultNodeData)
   const [errorList, setErrorList] = useState({})
+
+  useEffect(() => {
+    if (selectedNode && open) {
+      setFormData(selectedNode.data)
+    } else {
+      handleClose()
+    }
+  }, [selectedNode])
 
   useEffect(() => {
     console.log(`Form Data: ${JSON.stringify(formData)}`)
@@ -129,12 +137,13 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
       </DialogTitle> */}
       <DialogContent>
         <form>
-          <Grid constainer>
+          <Grid container>
             {fieldConfigs.map((field) => (
               <Grid item xs={field.gridCols} key={`gi_${field.propName}`}>
                 <TextField
                   key={field.propName}
                   type={field.type}
+                  label={field.title}
                   value={formData[field.propName] || ''}
                   error={errorList[field.propName]}
                   onChange={(e) => handleChange(e, field.propName)}
