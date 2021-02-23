@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, TextField } from '@material-ui/core'
+import {
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
@@ -11,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
   number: {
     alignText: 'right',
+  },
+  title: {
+    fontSize: '1.2em',
+    color: theme.textSecondary,
+    textAlign: 'center',
   },
 }))
 
@@ -64,25 +79,17 @@ const Node = (props) => {
 
   const inputFieldDefs = [
     {
-      id: 'processName',
-      label: 'Process',
-    },
-
-    {
       id: 'processTime',
       label: 'Work',
     },
-
     {
       id: 'waitTime',
       label: 'Wait',
     },
-
     {
       id: 'people',
       label: 'People',
     },
-
     {
       id: 'pctCompleteAccurate',
       label: '%C/A',
@@ -93,43 +100,32 @@ const Node = (props) => {
     <>
       <EdgeHandle type="target" />
       <div className="node-container">
-        <Grid container>
-          <Grid item xs={12}>
-            <TextField
-              className={classes.title}
-              key={`${inputFieldDefs[0].id}_${node.id}`}
-              id={`${inputFieldDefs[0].id}_${node.id}`}
-              value={data[inputFieldDefs[0].id] || ''}
-              margin="dense"
-              type="text"
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </Grid>
-          {inputFieldDefs.map((field) => {
-            const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
-            if (field.id !== 'processName') {
-              return (
-                <Grid item xs={6} key={`gi_${field.id}`}>
-                  <TextField
-                    className={classes.number}
-                    key={`${field.id}_${node.id}`}
-                    id={`${field.id}_${node.id}`}
-                    label={field.label}
-                    value={`${data[field.id]}${suffix}` || ''}
-                    variant="outlined"
-                    margin="dense"
-                    type="text"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Grid>
-              )
-            }
-          })}
-        </Grid>
+        <TableContainer
+          component={Paper}
+          elevation={0}
+          className={classes.tableContainer}
+        >
+          <Table className={classes.table} aria-label="simple table">
+            <TableBody>
+              <TableRow>
+                <TableCell align="center" colSpan={2}>
+                  <Typography className={classes.title} gutterBottom>
+                    {data.processName || 'Update Me'}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+              {inputFieldDefs.map((field) => (
+                <TableRow key={field.id} data-testid={field.id}>
+                  <TableCell align="left">{field.label}</TableCell>
+                  <TableCell align="right">
+                    {data[field.id]}
+                    {field.id === 'pctCompleteAccurate' ? '%' : ''}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       <EdgeHandle type="source" />
     </>
