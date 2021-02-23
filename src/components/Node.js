@@ -4,7 +4,6 @@ import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
-import inputFieldDefs from './InputDialog/fieldDefs'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -37,7 +36,7 @@ const Node = (props) => {
   }, [state.elements])
 
   useEffect(() => {
-    console.log(data)
+    console.log(`Node: ${JSON.stringify(data)}`)
   }, [data])
 
   const EdgeHandle = ({ type }) => {
@@ -67,6 +66,33 @@ const Node = (props) => {
     )
   }
 
+  const inputFieldDefs = [
+    {
+      id: 'processName',
+      label: 'Process',
+    },
+
+    {
+      id: 'processTime',
+      label: 'Work',
+    },
+
+    {
+      id: 'waitTime',
+      label: 'Wait',
+    },
+
+    {
+      id: 'actors',
+      label: 'People',
+    },
+
+    {
+      id: 'pctCompleteAccurate',
+      label: '%C/A',
+    },
+  ]
+
   return (
     <>
       <EdgeHandle type="target" />
@@ -77,10 +103,9 @@ const Node = (props) => {
               className={classes.title}
               key={`${inputFieldDefs[0].id}_${node.id}`}
               id={`${inputFieldDefs[0].id}_${node.id}`}
-              label={inputFieldDefs[0].label}
-              value={data[inputFieldDefs[0].id]}
-              variant="outlined"
+              value={data[inputFieldDefs[0].id] || ''}
               margin="dense"
+              type="text"
               InputProps={{
                 readOnly: true,
               }}
@@ -95,10 +120,11 @@ const Node = (props) => {
                     className={classes.number}
                     key={`${field.id}_${node.id}`}
                     id={`${field.id}_${node.id}`}
-                    label={field.label.split(' ')[0]}
-                    value={`${data[field.id]}${suffix}`}
+                    label={field.label}
+                    value={`${data[field.id]}${suffix}` || ''}
                     variant="outlined"
                     margin="dense"
+                    type="text"
                     InputProps={{
                       readOnly: true,
                     }}

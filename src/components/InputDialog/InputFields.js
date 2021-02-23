@@ -44,6 +44,7 @@ const getErrors = (key, value, errors) => {
 export const InputBase = ({
   node,
   onChange,
+  onBlur,
   errors,
   propName,
   title,
@@ -76,8 +77,11 @@ export const InputBase = ({
 
     const newErrors = getErrors(propName, value, errorList)
     setErrorList(newErrors)
+    setNodeData(newData)
 
-    onChange(newData, errorList)
+    console.log(`Blur ${JSON.stringify(newData)}`)
+
+    onBlur(newData, errorList, propName)
   }
 
   const handleChange = (e) => {
@@ -86,8 +90,11 @@ export const InputBase = ({
     const newErrors = getErrors(propName, value, errorList)
     const newData = { ...nodeData, [propName]: value }
 
+    console.log(`Change ${JSON.stringify(newData)}`)
+
     setErrorList(newErrors)
     setNodeData(newData)
+    onChange(newData, errorList, propName)
   }
 
   return (
@@ -116,7 +123,7 @@ export const InputBase = ({
   )
 }
 
-export const InputProcessName = ({ node, onChange, errors }) => {
+export const InputProcessName = ({ node, onChange, onBlur, errors }) => {
   const helpText = {
     error: 'Cannot be blank',
     normal: 'Enter a name for the process step',
@@ -126,6 +133,7 @@ export const InputProcessName = ({ node, onChange, errors }) => {
     <InputBase
       node={node}
       onChange={onChange}
+      onBlur={onBlur}
       errors={errors}
       title="Step Name"
       propName="processName"
@@ -139,7 +147,7 @@ export const InputProcessName = ({ node, onChange, errors }) => {
   )
 }
 
-export const InputProcessTime = ({ node, onChange, errors }) => {
+export const InputProcessTime = ({ node, onChange, onBlur, errors }) => {
   const helpText = {
     error: 'Must be between 0 and 999',
     normal: 'Value between 0 and 999',
@@ -151,6 +159,7 @@ export const InputProcessTime = ({ node, onChange, errors }) => {
     <InputBase
       node={node}
       onChange={onChange}
+      onBlur={onBlur}
       errors={errors}
       title="Work Time"
       propName="processTime"
@@ -163,7 +172,7 @@ export const InputProcessTime = ({ node, onChange, errors }) => {
   )
 }
 
-export const InputWaitTime = ({ node, onChange, errors }) => {
+export const InputWaitTime = ({ node, onChange, onBlur, errors }) => {
   const helpText = {
     error: 'Must be between 1 and 999',
     normal: 'Value between 1 and 999',
@@ -175,6 +184,7 @@ export const InputWaitTime = ({ node, onChange, errors }) => {
     <InputBase
       node={node}
       onChange={onChange}
+      onBlur={onBlur}
       errors={errors}
       title="Wait Time"
       propName="waitTime"
@@ -186,7 +196,7 @@ export const InputWaitTime = ({ node, onChange, errors }) => {
   )
 }
 
-export const InputAccuracy = ({ node, onChange, errors }) => {
+export const InputAccuracy = ({ node, onChange, onBlur, errors }) => {
   const helpText = {
     error: 'Must be between 1% and 100%',
     normal: 'Value between 1% and 100%',
@@ -199,6 +209,7 @@ export const InputAccuracy = ({ node, onChange, errors }) => {
     <InputBase
       node={node}
       onChange={onChange}
+      onBlur={onBlur}
       errors={errors}
       title="%C/A"
       propName="pctCompleteAccurate"
@@ -211,7 +222,7 @@ export const InputAccuracy = ({ node, onChange, errors }) => {
   )
 }
 
-export const InputActors = ({ node, onChange, errors }) => {
+export const InputActors = ({ node, onChange, onBlur, errors }) => {
   const helpText = {
     error: 'Must be between 1 and 99',
     normal: 'Value between 1 and 99',
@@ -222,6 +233,7 @@ export const InputActors = ({ node, onChange, errors }) => {
     <InputBase
       node={node}
       onChange={onChange}
+      onBlur={onBlur}
       errors={errors}
       title="People Required"
       propName="actors"

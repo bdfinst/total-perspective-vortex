@@ -19,7 +19,6 @@ import {
 } from './InputFields'
 import { defaultNodeData } from '../../helpers'
 import { useValueStream } from '../../appContext/valueStreamContext'
-import inputFieldDefs from './fieldDefs'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -48,8 +47,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const classes = useStyles(theme)
   const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
 
-  const [inputs, setInputs] = useState(inputFieldDefs)
-
   const [submitted, setSubmitted] = useState(false)
   const [errorList, setErrorList] = useState({})
   const [nodeData, setNodeData] = useState(defaultNodeData)
@@ -65,34 +62,16 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   useEffect(() => {
     if (selectedNode && open) {
-      setInputs(inputFieldDefs)
-      populateFormDefaults(selectedNode)
+      setNodeData(selectedNode.data)
     } else {
       handleClose()
     }
   }, [selectedNode])
 
-  useEffect(() => {
-    const error = errorListExists(errorList)
-    if (submitted && !error) handleClose()
-  }, [submitted, errorList])
-
-  const populateFormDefaults = (node) => {
-    const newInputs = [...inputFieldDefs]
-
-    for (const key in node.data) {
-      const index = inputs.findIndex((item) => {
-        return item.id === key
-      })
-      const input = inputs[index]
-
-      newInputs[index] = {
-        ...input,
-        value: selectedNode.data[key],
-      }
-    }
-    setInputs(newInputs)
-  }
+  // useEffect(() => {
+  //   const error = errorListExists(errorList)
+  //   if (submitted && !error) handleClose()
+  // }, [submitted, errorList])
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
@@ -100,12 +79,18 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     if (!errorListExists(errorList)) {
       changeNodeValues({ node: selectedNode, data: nodeData })
       setSubmitted(true)
+      handleClose()
     }
   }
 
-  const handleChange = (data, errors) => {
+  const handleChange = (data, errors, propName) => {
+    console.log(data)
     setErrorList(errors)
-    setNodeData(data)
+    setNodeData({ ...nodeData, [propName]: data[propName] })
+  }
+
+  const handleBlur = (data, errors, propName) => {
+    handleChange(data, errors, propName)
   }
 
   const handleInsertStep = () => {
@@ -132,26 +117,31 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
               node={selectedNode}
               errors={errorList}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <InputProcessTime
               node={selectedNode}
               errors={errorList}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             <InputWaitTime
               node={selectedNode}
               errors={errorList}
               onChange={handleChange}
-            />
-            <InputAccuracy
-              node={selectedNode}
-              errors={errorList}
-              onChange={handleChange}
+              onBlur={handleBlur}
             />
             <InputActors
               node={selectedNode}
               errors={errorList}
               onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <InputAccuracy
+              node={selectedNode}
+              errors={errorList}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </Grid>
         </form>
