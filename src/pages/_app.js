@@ -21,7 +21,9 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>VSM</title>
+        <title>Bifröst</title>
+        <link rel="shortcut icon" href="/favicon.ico" />
+
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"

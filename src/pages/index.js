@@ -6,11 +6,9 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
   return (
     <Container>
-      {/* <div className={styles.container}> */}
       <main className={styles.main}>
         <ValueStreamMap />
       </main>
-      {/* </div> */}
     </Container>
   )
 }
