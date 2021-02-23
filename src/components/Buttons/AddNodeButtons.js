@@ -8,11 +8,53 @@ import { useValueStream } from '../../appContext/valueStreamContext'
 const useStyles = makeStyles((theme) => ({
   inactive: {
     color: theme.palette.text.disabled,
+    transform: 'rotateY(180deg)',
   },
-  active: {
+  arrowLeft: {
+    color: theme.palette.primary.dark,
+    transform: 'rotateY(180deg)',
+  },
+  arrowRight: {
     color: theme.palette.primary.dark,
   },
 }))
+
+export const AddNodeBefore = ({ selectedNode }) => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+  const { addNodeBefore } = useValueStream()
+
+  const defaultTitle = 'Select node to insert before'
+  const [title, setTitle] = useState(defaultTitle)
+
+  const handleInsertStep = () => {
+    addNodeBefore(selectedNode)
+  }
+
+  useEffect(() => {
+    if (selectedNode) {
+      setTitle(
+        `Insert node before selected${selectedNode.id} ${selectedNode.data.processName}`,
+      )
+    } else {
+      setTitle(defaultTitle)
+    }
+  }, [selectedNode])
+
+  return (
+    <div>
+      <Tooltip title={title}>
+        <Button
+          className={selectedNode ? classes.arrowLeft : classes.inactive}
+          variant="outlined"
+          onClick={handleInsertStep}
+        >
+          <InputOutlined />
+        </Button>
+      </Tooltip>
+    </div>
+  )
+}
 
 export const AddNodeAfter = ({ selectedNode }) => {
   const theme = useTheme()
@@ -40,7 +82,7 @@ export const AddNodeAfter = ({ selectedNode }) => {
     <div>
       <Tooltip title={title}>
         <Button
-          className={classes.activee}
+          className={classes.arrowRight}
           variant="outlined"
           onClick={handleAddStep}
         >
