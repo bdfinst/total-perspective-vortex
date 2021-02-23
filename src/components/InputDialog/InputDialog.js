@@ -176,7 +176,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                     </InputPaper>
                   </Grid>
                   {field.toolTip.length > 0 && (
-                    <Grid xs={2}>
+                    <Grid item xs={2}>
                       <Paper
                         className={classes.paper}
                         elevation={0}
