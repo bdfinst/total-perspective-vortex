@@ -4,7 +4,6 @@ import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
-import inputFieldDefs from './InputDialog/fieldDefs'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -21,12 +20,19 @@ const Node = (props) => {
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-  const [data, setData] = useState(
-    state.elements.find((el) => el.id === node.id).data,
-  )
+
+  const defaultData = {
+    processName: '',
+    people: 0,
+    processTime: 0,
+    waitTime: 0,
+    pctCompleteAccurate: 100,
+  }
+  const [data, setData] = useState(defaultData)
 
   useEffect(() => {
-    setData(state.elements.find((el) => el.id === node.id).data)
+    const found = state.elements.find((el) => el.id === node.id)
+    setData(found ? found.data : defaultData)
   }, [state.elements])
 
   const EdgeHandle = ({ type }) => {
@@ -56,6 +62,33 @@ const Node = (props) => {
     )
   }
 
+  const inputFieldDefs = [
+    {
+      id: 'processName',
+      label: 'Process',
+    },
+
+    {
+      id: 'processTime',
+      label: 'Work',
+    },
+
+    {
+      id: 'waitTime',
+      label: 'Wait',
+    },
+
+    {
+      id: 'people',
+      label: 'People',
+    },
+
+    {
+      id: 'pctCompleteAccurate',
+      label: '%C/A',
+    },
+  ]
+
   return (
     <>
       <EdgeHandle type="target" />
@@ -66,10 +99,9 @@ const Node = (props) => {
               className={classes.title}
               key={`${inputFieldDefs[0].id}_${node.id}`}
               id={`${inputFieldDefs[0].id}_${node.id}`}
-              label={inputFieldDefs[0].label}
-              value={data[inputFieldDefs[0].id]}
-              variant="outlined"
+              value={data[inputFieldDefs[0].id] || ''}
               margin="dense"
+              type="text"
               InputProps={{
                 readOnly: true,
               }}
@@ -79,18 +111,18 @@ const Node = (props) => {
             const suffix = field.id === 'pctCompleteAccurate' ? '%' : ''
             if (field.id !== 'processName') {
               return (
-                <Grid item xs={6}>
+                <Grid item xs={6} key={`gi_${field.id}`}>
                   <TextField
                     className={classes.number}
                     key={`${field.id}_${node.id}`}
                     id={`${field.id}_${node.id}`}
-                    label={field.label.split(' ')[0]}
-                    value={`${data[field.id]}${suffix}`}
+                    label={field.label}
+                    value={`${data[field.id]}${suffix}` || ''}
                     variant="outlined"
                     margin="dense"
+                    type="text"
                     InputProps={{
-                      readonly: true,
-                      style: { textAlign: 'right' },
+                      readOnly: true,
                     }}
                   />
                 </Grid>

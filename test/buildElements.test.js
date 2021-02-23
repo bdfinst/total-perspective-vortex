@@ -24,7 +24,6 @@ describe('Building nodes and edges', () => {
     const node2 = buildNode({ id: 2, x: 100, y: 80 })
     const result = buildEdge(node1, node2)
 
-    expect(result.id).toEqual('1_2')
     expect(result.source).toEqual('1')
     expect(result.target).toEqual('2')
   })

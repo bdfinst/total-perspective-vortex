@@ -17,8 +17,37 @@ export const getEdges = (elements) => {
   return elements.filter((element) => isEdge(element))
 }
 
+export const getLastNode = (elements) => {
+  const el = getNodes(elements)
+
+  return el[el.length - 1]
+}
+
+export const getEdgesBySource = (elements, node) => {
+  return getEdges(elements).filter((e) => e.source === node.id)
+}
+
+export const getEdgesByTarget = (elements, node) => {
+  return getEdges(elements).filter((e) => e.target === node.id)
+}
+
+export const getLastEdge = (elements) => {
+  const el = getEdges(elements)
+  return el[el.length - 1]
+}
+
+export const findEdgesTo = (node, elements) => {
+  return elements
+    .filter((element) => isEdge(element))
+    .filter((edge) => edge.target === node.id)
+}
+
 export const edgeExists = (elements, newEdge) => {
-  return getEdges(elements).find((el) => el.id === newEdge.id) ? true : false
+  return getEdges(elements).find(
+    (el) => el.source === newEdge.source && el.target === newEdge.target,
+  )
+    ? true
+    : false
 }
 
 export const roundTo2 = (number) => Math.round(number * 100) / 100
@@ -49,14 +78,14 @@ const calcPropertySum = (nodes, property) => {
 
 export const getNodeSums = (elements) => {
   const nodes = getNodes(elements)
-  const actorTime = nodes
+  const peopleTime = nodes
     .map((node) => node.data)
-    .reduce((acc, val) => acc + val.actors * val.processTime, 0)
+    .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
   const totals = {
-    actorTime: actorTime,
+    peopleTime: peopleTime,
     averageActors:
-      nodes.reduce((acc, node) => acc + node.data.actors, 0) / nodes.length,
+      nodes.reduce((acc, node) => acc + node.data.people, 0) / nodes.length,
     processTime: calcPropertySum(elements, 'processTime'),
     waitTime: calcPropertySum(elements, 'waitTime'),
     avgPCA: roundTo2(calcPropertyAvg(elements, 'pctCompleteAccurate')),

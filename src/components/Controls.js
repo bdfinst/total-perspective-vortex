@@ -3,14 +3,16 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import {
+  AddNodeAfter,
+  AddNodeBefore,
   FileUpload,
   ResetButton,
   SaveButton,
+  SettingsButton,
   ZoomFocusButton,
   ZoomInButton,
   ZoomOutButton,
 } from './Buttons'
-import AddNode from './AddNode'
 
 const useStyles = makeStyles((theme) => ({
   overrides: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Controls = () => {
+const Controls = ({ onDialogOpen, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -49,8 +51,14 @@ const Controls = () => {
           </ButtonGroup>
         </Grid>
         <Grid>
-          <AddNode />
-          {/* <InputBlock /> */}
+          <ButtonGroup orientation="horizontal" color="secondary">
+            <AddNodeBefore selectedNode={selectedNode} />
+            <SettingsButton
+              onDialogOpen={onDialogOpen}
+              selectedNode={selectedNode}
+            />
+            <AddNodeAfter selectedNode={selectedNode} />
+          </ButtonGroup>
         </Grid>
         <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">
