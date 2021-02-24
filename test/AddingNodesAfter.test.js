@@ -5,7 +5,6 @@ import {
   useValueStream,
 } from '../src/appContext/valueStreamContext'
 import {
-  getEdges,
   getEdgesBySource,
   getElementById,
   getLastEdge,

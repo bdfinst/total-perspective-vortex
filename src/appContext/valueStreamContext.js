@@ -6,19 +6,17 @@
  */
 
 import React, { useReducer } from 'react'
-import { isEdge, isNode } from 'react-flow-renderer'
+import { isEdge } from 'react-flow-renderer'
 import ls from 'local-storage'
 
 import {
   buildEdge,
   buildNode,
   edgeExists,
-  getEdge,
   getEdgesBySource,
   getGraphLayout,
   getLastEdge,
   getLastNode,
-  getNodeIndexes,
   nodeDefaults,
   spliceArray,
 } from '../helpers'
@@ -254,8 +252,6 @@ const insertNodeAfter = (state, { node }) => {
       ? spliceArray(state.elements, index + 1, insertedNode)
       : state.elements.concat(insertedNode),
   }
-
-  console.log(nodeAddedState)
 
   const edgeAddedState = addEdge(nodeAddedState, {
     source: sourceNode,

@@ -92,7 +92,6 @@ describe('Value Stream Context', () => {
 
       const newData = testNode.data
       newData.processName = 'New processName'
-      const currentPos = testNode.position
 
       act(() => {
         result.current.changeNodeValues({
