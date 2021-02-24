@@ -18,6 +18,7 @@ import {
   getLastEdge,
   getLastNode,
   nodeDefaults,
+  spliceArray,
 } from '../helpers'
 
 const defaultPosition = { x: 100, y: 175 }
@@ -30,23 +31,38 @@ const updateLocalStorage = (state) => {
 }
 
 const updateStateElements = (state) => {
-  const graphedLayouts = getGraphLayout(state.elements, true, 10)
+  const relativeSize = 4
+  const graphedLayouts = getGraphLayout(
+    state.elements,
+    true,
+    // state.isRelativeSized,
+    relativeSize,
+  )
   const newState = { ...state, elements: graphedLayouts }
   updateLocalStorage(newState)
   return newState
 }
 
-const addNode = (state, { x, y }) => {
+const createNode = (state, x, y) => {
   const nodeId = state.maxNodeId + 1
   const newNode = buildNode({ id: nodeId, x, y })
 
-  const newState = {
-    ...state,
-    maxNodeId: nodeId,
+  return [
+    {
+      ...state,
+      maxNodeId: nodeId,
+    },
+    newNode,
+  ]
+}
+
+const addNode = (state, { x, y }) => {
+  const [newState, newNode] = createNode(state, x, y)
+
+  return {
+    ...newState,
     elements: [...state.elements, newNode],
   }
-
-  return newState
 }
 
 const initStateFromData = (state, data) => {
@@ -61,6 +77,11 @@ const initStateFromData = (state, data) => {
   return updateStateElements(newState)
 }
 
+/**
+ * Add an edge if there are no duplicates
+ * @param {*} state
+ * @param {*} param1
+ */
 const addEdge = (state, { source, target }) => {
   const newEdge = buildEdge(source, target)
 
@@ -196,9 +217,18 @@ const deleteElements = (state, elementsToRemove) => {
 const insertNodeBefore = (state, { node }) => {
   if (!node) return state
 
-  const nodeAddedState = addNode(state, node.position)
+  const [newNodeState, insertedNode] = createNode(state, 0, 0)
 
-  const insertedNode = getLastNode(nodeAddedState.elements)
+  const index = state.elements.findIndex((e) => e.id === node.id)
+
+  const nodeAddedState = {
+    ...newNodeState,
+    elements:
+      index > 0
+        ? spliceArray(state.elements, index, insertedNode)
+        : state.elements,
+  }
+
   const edgesUpdatedState = updateAllEdgesTarget(
     nodeAddedState,
     node,
@@ -215,13 +245,23 @@ const insertNodeBefore = (state, { node }) => {
 
 const insertNodeAfter = (state, { node }) => {
   const sourceNode = node ? node : getLastNode(state.elements)
-  const nodeAddedState = addNode(state, defaultPosition)
 
-  const newNode = getLastNode(nodeAddedState.elements)
+  const [newNodeState, insertedNode] = createNode(state, 0, 0)
+
+  const index = node
+    ? state.elements.findIndex((e) => e.id === node.id)
+    : undefined
+
+  const nodeAddedState = {
+    ...newNodeState,
+    elements: node
+      ? spliceArray(state.elements, index + 1, insertedNode)
+      : state.elements.concat(insertedNode),
+  }
 
   const edgeAddedState = addEdge(nodeAddedState, {
     source: sourceNode,
-    target: newNode,
+    target: insertedNode,
   })
 
   const newRightEdge = getLastEdge(edgeAddedState.elements)
@@ -232,7 +272,7 @@ const insertNodeAfter = (state, { node }) => {
   const edgesUpdatedState = oldRightEdge
     ? updateOneEdge(edgeAddedState, {
         edge: oldRightEdge,
-        newNode: newNode,
+        newNode: insertedNode,
         isTarget: false,
       })
     : edgeAddedState
@@ -242,8 +282,9 @@ const insertNodeAfter = (state, { node }) => {
 
 const initValueStream = () => {
   const state1 = {
-    maxNodeId: 2,
+    maxNodeId: 0,
     elements: [],
+    isRelativeSized: true,
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
@@ -314,6 +355,9 @@ const valueStreamReducer = (state, action) => {
     case 'INIT': {
       return initStateFromData(state, action.data)
     }
+    case 'RELATIVE_SIZE': {
+      return { ...valueStream, isRelativeSized: !state.isRelativeSized }
+    }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -374,9 +418,11 @@ const useValueStream = () => {
   }
   const reset = () => dispatch({ type: 'RESET' })
 
+  const setRelativelySized = () => dispatch({ type: 'RELATIVE_SIZE' })
+
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
-  const toggleNodeSelect = ({ node }) =>
+  const toggleNodeSelect = (node) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
   const openEditNode = (node) =>
@@ -391,6 +437,7 @@ const useValueStream = () => {
     openEditNode,
     closeEditNode,
     createEdge,
+    setRelativelySized,
     changeNodeValues,
     changeEdgeTarget,
     changeEdgeSource,

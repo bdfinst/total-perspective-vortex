@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { Handle } from 'react-flow-renderer'
 import {
-  Grid,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
   Typography,
 } from '@material-ui/core'
-import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
@@ -29,20 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const defaultData = {
+  processName: '',
+  people: 0,
+  processTime: 0,
+  waitTime: 0,
+  pctCompleteAccurate: 100,
+}
+
 const Node = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-
-  const defaultData = {
-    processName: '',
-    people: 0,
-    processTime: 0,
-    waitTime: 0,
-    pctCompleteAccurate: 100,
-  }
   const [data, setData] = useState(defaultData)
 
   useEffect(() => {
