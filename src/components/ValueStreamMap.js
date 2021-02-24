@@ -80,7 +80,7 @@ const ValueStreamMap = () => {
 
   const onElementClick = (event, element) => {
     if (isNode(element)) {
-      toggleNodeSelect({ node: element })
+      toggleNodeSelect(element)
     }
   }
 

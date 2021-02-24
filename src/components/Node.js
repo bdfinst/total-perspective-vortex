@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { Handle } from 'react-flow-renderer'
 import {
-  Grid,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
   Typography,
 } from '@material-ui/core'
-import { Handle } from 'react-flow-renderer'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../appContext/valueStreamContext'
