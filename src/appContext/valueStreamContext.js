@@ -36,17 +36,26 @@ const updateStateElements = (state) => {
   return newState
 }
 
-const addNode = (state, { x, y }) => {
+const createNode = (state, x, y) => {
   const nodeId = state.maxNodeId + 1
   const newNode = buildNode({ id: nodeId, x, y })
 
-  const newState = {
-    ...state,
-    maxNodeId: nodeId,
+  return [
+    {
+      ...state,
+      maxNodeId: nodeId,
+    },
+    newNode,
+  ]
+}
+
+const addNode = (state, { x, y }) => {
+  const [newState, newNode] = createNode(state, x, y)
+
+  return {
+    ...newState,
     elements: [...state.elements, newNode],
   }
-
-  return newState
 }
 
 const initStateFromData = (state, data) => {
@@ -77,6 +86,7 @@ const addEdge = (state, { source, target }) => {
 }
 
 const nodeSelect = (state, { node }) => {
+  console.log(`Before nodeSelect: ${node.selected}`)
   if (state.currentEditNode) return state
   const newState = {
     ...state,
@@ -196,9 +206,21 @@ const deleteElements = (state, elementsToRemove) => {
 const insertNodeBefore = (state, { node }) => {
   if (!node) return state
 
-  const nodeAddedState = addNode(state, node.position)
+  const [newNodeState, insertedNode] = createNode(
+    state,
+    node.position.x,
+    node.position.y,
+  )
+  const elements = state.elements
+  const index = elements.findIndex((e) => e.id === node.id)
 
-  const insertedNode = getLastNode(nodeAddedState.elements)
+  elements.splice(index, 0, insertedNode)
+
+  const nodeAddedState = {
+    ...newNodeState,
+    elements: index > 0 ? elements : state.elements,
+  }
+
   const edgesUpdatedState = updateAllEdgesTarget(
     nodeAddedState,
     node,
@@ -376,7 +398,7 @@ const useValueStream = () => {
 
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
-  const toggleNodeSelect = ({ node }) =>
+  const toggleNodeSelect = (node) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
   const openEditNode = (node) =>

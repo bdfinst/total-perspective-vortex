@@ -10,7 +10,7 @@ export const getNodes = (elements) => {
 }
 
 export const getNodeById = (elements, id) => {
-  return getNodes(elements).find((node) => node.id === id)
+  return getNodes(elements).find((node) => `${node.id}` === `${id}`)
 }
 
 export const getEdges = (elements) => {
