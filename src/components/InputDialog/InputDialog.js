@@ -150,7 +150,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         className={classes.input}
                         type={field.type}
                         label={field.title}
-                        fullWidth={field.fullWidth}
+                        fullwidth={field.fullWidth}
                         value={formData[field.propName] || ''}
                         error={errorList[field.propName]}
                         onChange={(e) => handleChange(e, field.propName)}

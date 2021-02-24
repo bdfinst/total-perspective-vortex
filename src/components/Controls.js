@@ -8,6 +8,7 @@ import {
   ResetButton,
   SaveButton,
   SettingsButton,
+  ToggleStretch,
   ZoomFocusButton,
   ZoomInButton,
   ZoomOutButton,
@@ -36,6 +37,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
               onDialogOpen={onDialogOpen}
               selectedNode={selectedNode}
             />
+            <ToggleStretch />
             <AddNodeAfter selectedNode={selectedNode} />
           </ButtonGroup>
         </Grid>

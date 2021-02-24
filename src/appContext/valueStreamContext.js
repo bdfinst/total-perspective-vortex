@@ -31,7 +31,11 @@ const updateLocalStorage = (state) => {
 }
 
 const updateStateElements = (state) => {
-  const graphedLayouts = getGraphLayout(state.elements, true, 10)
+  const graphedLayouts = getGraphLayout(
+    state.elements,
+    state.isRelativeSized,
+    10,
+  )
   const newState = { ...state, elements: graphedLayouts }
   updateLocalStorage(newState)
   return newState
@@ -278,6 +282,7 @@ const initValueStream = () => {
   const state1 = {
     maxNodeId: 0,
     elements: [],
+    isRelativeSized: true,
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
@@ -348,6 +353,9 @@ const valueStreamReducer = (state, action) => {
     case 'INIT': {
       return initStateFromData(state, action.data)
     }
+    case 'RELATIVE_SIZE': {
+      return { ...valueStream, isRelativeSized: !state.isRelativeSized }
+    }
     default: {
       throw new Error(`Unsupported action type: ${action.type}`)
     }
@@ -408,6 +416,8 @@ const useValueStream = () => {
   }
   const reset = () => dispatch({ type: 'RESET' })
 
+  const isRelativeSized = () => dispatch({ type: 'RELATIVE_SIZE' })
+
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
   const toggleNodeSelect = (node) =>
@@ -425,6 +435,7 @@ const useValueStream = () => {
     openEditNode,
     closeEditNode,
     createEdge,
+    isRelativeSized,
     changeNodeValues,
     changeEdgeTarget,
     changeEdgeSource,
