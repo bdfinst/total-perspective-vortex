@@ -1,7 +1,7 @@
 import { isEdge, isNode } from 'react-flow-renderer'
 
 export const getElementById = (id, elements) =>
-  elements.filter((el) => el.id === `${id}`)[0]
+  elements.find((el) => `${el.id}` === `${id}`)
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
@@ -23,12 +23,28 @@ export const getLastNode = (elements) => {
   return el[el.length - 1]
 }
 
+/**
+ *
+ * @param {*} elements
+ * @param {*} {sourceId, targetId}
+ */
+export const getEdge = (elements, { sourcedId, targetId }) => {
+  return getEdges(elements)
+    .filter((e) => (sourcedId ? e.source === sourcedId : true))
+    .filter((e) => (targetId ? e.target === targetId : true))
+}
 export const getEdgesBySource = (elements, node) => {
   return getEdges(elements).filter((e) => e.source === node.id)
 }
 
 export const getEdgesByTarget = (elements, node) => {
   return getEdges(elements).filter((e) => e.target === node.id)
+}
+
+export const getNodeIndexes = (elements) => {
+  return elements
+    .map((e, index) => (isNode(e) ? { id: e.id, index } : undefined))
+    .filter((e) => e !== undefined)
 }
 
 export const getLastEdge = (elements) => {
@@ -131,4 +147,10 @@ export const removeElements = (elementsToRemove, elements) => {
       nodeIdsToRemove.includes(edgeElement.source)
     )
   })
+}
+
+export const spliceArray = (array, index, element) => {
+  const newArray = array.map((a) => a)
+  newArray.splice(index, 0, element)
+  return newArray
 }

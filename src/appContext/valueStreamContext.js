@@ -6,18 +6,21 @@
  */
 
 import React, { useReducer } from 'react'
-import { isEdge } from 'react-flow-renderer'
+import { isEdge, isNode } from 'react-flow-renderer'
 import ls from 'local-storage'
 
 import {
   buildEdge,
   buildNode,
   edgeExists,
+  getEdge,
   getEdgesBySource,
   getGraphLayout,
   getLastEdge,
   getLastNode,
+  getNodeIndexes,
   nodeDefaults,
+  spliceArray,
 } from '../helpers'
 
 const defaultPosition = { x: 100, y: 175 }
@@ -70,6 +73,11 @@ const initStateFromData = (state, data) => {
   return updateStateElements(newState)
 }
 
+/**
+ * Add an edge if there are no duplicates
+ * @param {*} state
+ * @param {*} param1
+ */
 const addEdge = (state, { source, target }) => {
   const newEdge = buildEdge(source, target)
 
@@ -86,7 +94,6 @@ const addEdge = (state, { source, target }) => {
 }
 
 const nodeSelect = (state, { node }) => {
-  console.log(`Before nodeSelect: ${node.selected}`)
   if (state.currentEditNode) return state
   const newState = {
     ...state,
@@ -206,19 +213,16 @@ const deleteElements = (state, elementsToRemove) => {
 const insertNodeBefore = (state, { node }) => {
   if (!node) return state
 
-  const [newNodeState, insertedNode] = createNode(
-    state,
-    node.position.x,
-    node.position.y,
-  )
-  const elements = state.elements
-  const index = elements.findIndex((e) => e.id === node.id)
+  const [newNodeState, insertedNode] = createNode(state, 0, 0)
 
-  elements.splice(index, 0, insertedNode)
+  const index = state.elements.findIndex((e) => e.id === node.id)
 
   const nodeAddedState = {
     ...newNodeState,
-    elements: index > 0 ? elements : state.elements,
+    elements:
+      index > 0
+        ? spliceArray(state.elements, index, insertedNode)
+        : state.elements,
   }
 
   const edgesUpdatedState = updateAllEdgesTarget(
@@ -237,13 +241,23 @@ const insertNodeBefore = (state, { node }) => {
 
 const insertNodeAfter = (state, { node }) => {
   const sourceNode = node ? node : getLastNode(state.elements)
-  const nodeAddedState = addNode(state, defaultPosition)
 
-  const newNode = getLastNode(nodeAddedState.elements)
+  const [newNodeState, insertedNode] = createNode(state, 0, 0)
+
+  const index = node
+    ? state.elements.findIndex((e) => e.id === node.id)
+    : undefined
+
+  const nodeAddedState = {
+    ...newNodeState,
+    elements: node
+      ? spliceArray(state.elements, index + 1, insertedNode)
+      : [state.elements, insertedNode],
+  }
 
   const edgeAddedState = addEdge(nodeAddedState, {
     source: sourceNode,
-    target: newNode,
+    target: insertedNode,
   })
 
   const newRightEdge = getLastEdge(edgeAddedState.elements)
@@ -254,7 +268,7 @@ const insertNodeAfter = (state, { node }) => {
   const edgesUpdatedState = oldRightEdge
     ? updateOneEdge(edgeAddedState, {
         edge: oldRightEdge,
-        newNode: newNode,
+        newNode: insertedNode,
         isTarget: false,
       })
     : edgeAddedState
@@ -264,7 +278,7 @@ const insertNodeAfter = (state, { node }) => {
 
 const initValueStream = () => {
   const state1 = {
-    maxNodeId: 2,
+    maxNodeId: 0,
     elements: [],
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })

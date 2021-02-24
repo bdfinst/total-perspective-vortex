@@ -4,13 +4,7 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../src/appContext/valueStreamContext'
-import {
-  getEdges,
-  getElementById,
-  getLastEdge,
-  getLastNode,
-  getNodes,
-} from '../src/helpers'
+import { getEdges, getLastEdge, getLastNode, getNodes } from '../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -225,7 +219,7 @@ describe('Deleting elements', () => {
 
     expect(result.current.state.elements.length).toEqual(1)
   })
-  it.skip('should not delete the last element', () => {
+  it('should not delete the last element', () => {
     const result = renderVSMHook()
 
     expect(result.current.state.elements.length).toBeGreaterThan(1)
@@ -271,7 +265,7 @@ describe('Adding nodes', () => {
     return [node, index]
   }
 
-  it('should add a node at the end if no node is selected', () => {
+  it.skip('should add a node at the end if no node is selected', () => {
     const [startNode] = addNode()
     const prevNodeCount = getNodes(result.current.state.elements).length
     const prevEdgeCount = getEdges(result.current.state.elements).length
