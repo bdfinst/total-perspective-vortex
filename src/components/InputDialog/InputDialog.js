@@ -8,7 +8,6 @@ import {
   Grid,
   Paper,
   TextField,
-  Tooltip,
 } from '@material-ui/core'
 import { HelpOutline, InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -66,14 +65,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     }
   }, [selectedNode])
 
-  useEffect(() => {
-    console.log(`Form Data: ${JSON.stringify(formData)}`)
-  }, [formData])
-
-  useEffect(() => {
-    console.log(`Form Errors: ${JSON.stringify(errorList)}`)
-  }, [errorList])
-
   const handleClose = () => {
     onClose()
   }
@@ -106,17 +97,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     })
     setFormData({ ...formData, [propName]: e.target.value })
   }
-
-  const InputPaper = ({ children }) => (
-    <Paper
-      className={classes.paper}
-      elevation={0}
-      square={true}
-      children={children}
-    >
-      {children}
-    </Paper>
-  )
 
   const handleHelpOpen = (propName) => {
     setHelpContent(getFieldConfig(propName).helpDoc)
@@ -170,7 +150,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         className={classes.input}
                         type={field.type}
                         label={field.title}
-                        fullWidth={field.fullWidth}
+                        fullwidth={field.fullWidth}
                         value={formData[field.propName] || ''}
                         error={errorList[field.propName]}
                         onChange={(e) => handleChange(e, field.propName)}

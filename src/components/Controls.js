@@ -1,5 +1,4 @@
 import { ButtonGroup, Grid } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import {
@@ -9,32 +8,15 @@ import {
   ResetButton,
   SaveButton,
   SettingsButton,
+  ToggleStretch,
   ZoomFocusButton,
   ZoomInButton,
   ZoomOutButton,
 } from './Buttons'
 
-const useStyles = makeStyles((theme) => ({
-  overrides: {
-    MuiPaper: {
-      textAlign: 'center',
-      padding: '0 0 0 0',
-      elevation: 0,
-    },
-    MuiContainer: {
-      align: 'center',
-      paddingTop: '10',
-    },
-  },
-  root: {
-    // width: '2.1em',
-  },
-}))
+const devMode = process.env.REACT_DEVMODE === 'on' ? true : false
 
 const Controls = ({ onDialogOpen, selectedNode }) => {
-  const theme = useTheme()
-  const classes = useStyles(theme)
-
   return (
     <>
       <Grid
@@ -57,6 +39,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
               onDialogOpen={onDialogOpen}
               selectedNode={selectedNode}
             />
+            {devMode && <ToggleStretch />}
             <AddNodeAfter selectedNode={selectedNode} />
           </ButtonGroup>
         </Grid>

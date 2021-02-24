@@ -27,20 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const defaultData = {
+  processName: '',
+  people: 0,
+  processTime: 0,
+  waitTime: 0,
+  pctCompleteAccurate: 100,
+}
+
 const Node = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
   const { state } = useValueStream()
   const [node, setNode] = useState(props)
-
-  const defaultData = {
-    processName: '',
-    people: 0,
-    processTime: 0,
-    waitTime: 0,
-    pctCompleteAccurate: 100,
-  }
   const [data, setData] = useState(defaultData)
 
   useEffect(() => {

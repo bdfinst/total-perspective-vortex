@@ -5,14 +5,10 @@ import {
   useValueStream,
 } from '../src/appContext/valueStreamContext'
 import {
-  getEdges,
-  getEdgesBySource,
   getElementById,
   getLastEdge,
   getLastNode,
   getNodeById,
-  getNodeIndexes,
-  getNodes,
 } from '../src/helpers'
 
 const renderVSMHook = () => {
