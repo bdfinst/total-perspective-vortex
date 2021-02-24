@@ -66,14 +66,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     }
   }, [selectedNode])
 
-  useEffect(() => {
-    console.log(`Form Data: ${JSON.stringify(formData)}`)
-  }, [formData])
-
-  useEffect(() => {
-    console.log(`Form Errors: ${JSON.stringify(errorList)}`)
-  }, [errorList])
-
   const handleClose = () => {
     onClose()
   }

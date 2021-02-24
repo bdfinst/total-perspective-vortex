@@ -252,8 +252,10 @@ const insertNodeAfter = (state, { node }) => {
     ...newNodeState,
     elements: node
       ? spliceArray(state.elements, index + 1, insertedNode)
-      : [state.elements, insertedNode],
+      : state.elements.concat(insertedNode),
   }
+
+  console.log(nodeAddedState)
 
   const edgeAddedState = addEdge(nodeAddedState, {
     source: sourceNode,
