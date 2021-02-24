@@ -14,6 +14,8 @@ import {
   ZoomOutButton,
 } from './Buttons'
 
+const devMode = process.env.REACT_DEVMODE === 'on' ? true : false
+
 const Controls = ({ onDialogOpen, selectedNode }) => {
   return (
     <>
@@ -37,7 +39,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
               onDialogOpen={onDialogOpen}
               selectedNode={selectedNode}
             />
-            <ToggleStretch />
+            {devMode && <ToggleStretch />}
             <AddNodeAfter selectedNode={selectedNode} />
           </ButtonGroup>
         </Grid>

@@ -31,10 +31,12 @@ const updateLocalStorage = (state) => {
 }
 
 const updateStateElements = (state) => {
+  const relativeSize = 4
   const graphedLayouts = getGraphLayout(
     state.elements,
-    state.isRelativeSized,
-    10,
+    true,
+    // state.isRelativeSized,
+    relativeSize,
   )
   const newState = { ...state, elements: graphedLayouts }
   updateLocalStorage(newState)
@@ -416,7 +418,7 @@ const useValueStream = () => {
   }
   const reset = () => dispatch({ type: 'RESET' })
 
-  const isRelativeSized = () => dispatch({ type: 'RELATIVE_SIZE' })
+  const setRelativelySized = () => dispatch({ type: 'RELATIVE_SIZE' })
 
   const initState = (data) => dispatch({ type: 'INIT', data: data })
 
@@ -435,7 +437,7 @@ const useValueStream = () => {
     openEditNode,
     closeEditNode,
     createEdge,
-    isRelativeSized,
+    setRelativelySized,
     changeNodeValues,
     changeEdgeTarget,
     changeEdgeSource,

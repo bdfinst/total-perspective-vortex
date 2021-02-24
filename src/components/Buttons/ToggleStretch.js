@@ -6,17 +6,16 @@ import Switch from '@material-ui/core/Switch'
 import { useValueStream } from '../../appContext/valueStreamContext'
 
 export const ToggleStretch = () => {
-  const { state, isRelativeSized } = useValueStream()
+  const { state, setRelativelySized } = useValueStream()
   const [checked, setChecked] = useState(state.isRelativeSized)
 
   useEffect(() => {
-    setChecked(state.isRelativeSized)
     console.log(state.isRelativeSized)
+    console.log(state.elements[1])
   }, [state.isRelativeSized])
 
   const handleChecked = (e) => {
-    console.log(e.target.value)
-    isRelativeSized()
+    setRelativelySized()
   }
 
   return (
@@ -24,7 +23,11 @@ export const ToggleStretch = () => {
       <FormControlLabel
         value="bottom"
         control={
-          <Switch color="primary" value={checked} onChange={handleChecked} />
+          <Switch
+            color="primary"
+            value={state.isRelativeSized}
+            onChange={handleChecked}
+          />
         }
         label="Bottom"
         labelPlacement="bottom"
