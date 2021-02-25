@@ -22,17 +22,17 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
       <Grid
         container
         direction="row"
-        justify="space-between"
-        alignItems="flex-start"
+        justify="space-around"
+        alignItems="center"
       >
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ZoomFocusButton />
             <ZoomInButton />
             <ZoomOutButton />
           </ButtonGroup>
         </Grid>
-        <Grid>
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <AddNodeBefore selectedNode={selectedNode} />
             <SettingsButton
@@ -43,7 +43,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
             <AddNodeAfter selectedNode={selectedNode} />
           </ButtonGroup>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ResetButton />
             <SaveButton />

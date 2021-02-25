@@ -6,7 +6,6 @@ import Head from 'next/head'
 import '../styles/globals.css'
 import '../styles/vsm.css'
 import '../styles/edges.css'
-import { ValueStreamProvider } from '../appContext/valueStreamContext'
 import theme from '../theme'
 
 const MyApp = ({ Component, pageProps }) => {
@@ -21,7 +20,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Bifröst</title>
+        <title>Total Perspective Vortex</title>
         <link rel="shortcut icon" href="/favicon.ico" />
 
         <meta
@@ -31,9 +30,7 @@ const MyApp = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <ValueStreamProvider>
-          <Component {...pageProps} />
-        </ValueStreamProvider>
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   )

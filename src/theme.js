@@ -33,7 +33,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiContainer: {
       root: {
-        padding: '10px 10px 10px 10px',
+        padding: '0 0 0 0',
       },
     },
     // MuiButton: {
