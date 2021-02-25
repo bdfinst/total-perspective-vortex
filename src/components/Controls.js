@@ -19,15 +19,20 @@ const devMode = process.env.REACT_DEVMODE === 'on' ? true : false
 const Controls = ({ onDialogOpen, selectedNode }) => {
   return (
     <>
-      <Grid container direction="row" justify="center" alignItems="flex-start">
-        <Grid item xs={2}>
+      <Grid
+        container
+        direction="row"
+        justify="space-around"
+        alignItems="center"
+      >
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ZoomFocusButton />
             <ZoomInButton />
             <ZoomOutButton />
           </ButtonGroup>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <AddNodeBefore selectedNode={selectedNode} />
             <SettingsButton
@@ -38,7 +43,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
             <AddNodeAfter selectedNode={selectedNode} />
           </ButtonGroup>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ResetButton />
             <SaveButton />

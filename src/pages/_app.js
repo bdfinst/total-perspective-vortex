@@ -20,7 +20,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Bifröst</title>
+        <title>Total Perspective Vortex</title>
         <link rel="shortcut icon" href="/favicon.ico" />
 
         <meta

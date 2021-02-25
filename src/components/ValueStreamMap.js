@@ -35,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const vsmBackground = 'rgb(238, 238, 240)'
+const reactFlowStyle = {
+  // flexDirection: 'column',
+  // display: 'flex',
+  height: '500px',
+  background: vsmBackground,
+}
 const ValueStreamMap = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
@@ -121,7 +128,8 @@ const ValueStreamMap = () => {
   }
 
   return (
-    <Container className={classes.container}>
+    <>
+      {/* <Container className={classes.container}> */}
       <ReactFlowProvider>
         <Grid
           container
@@ -130,58 +138,65 @@ const ValueStreamMap = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12}>
-            <Paper className={classes.controls} elevation={0}>
-              <Controls
-                onDialogOpen={handleDialogOpen}
-                selectedNode={selectedNode}
-              />
-            </Paper>
+            {/* <Paper className={classes.controls} elevation={0}> */}
+            <Controls
+              onDialogOpen={handleDialogOpen}
+              selectedNode={selectedNode}
+            />
+            {/* </Paper> */}
           </Grid>
           <Grid item xs={12}>
-            <Paper className={classes.paper} elevation={0}>
-              <ReactFlow
-                elements={elements}
-                nodeTypes={{ customNode: Node }}
-                edgeTypes={{ custom: CustomEdge }}
-                connectionLineComponent={ConnectionLine}
-                defaultZoom={0.6}
-                minZoom={0.05}
-                maxZoom={1.5}
-                snapToGrid={true}
-                onConnect={onConnect}
-                onEdgeUpdate={onEdgeUpdate}
-                onElementsRemove={onElementsRemove}
-                onNodeDragStop={onNodeDragStop}
-                onElementClick={onElementClick}
-                onLoad={onLoad}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                onConnectStart={onConnectStart}
-                onConnectStop={onConnectStop}
-                onConnectEnd={onConnectEnd}
-                arrowHeadColor="green"
-              >
-                <MiniMap
-                  nodeColor={(node) => {
-                    switch (node.type) {
-                      case 'customNode':
-                        return theme.palette.primary.main
-                      default:
-                        return '#eee'
-                    }
-                  }}
-                />
-              </ReactFlow>
-              <InputBlock
-                open={isDialogOpen}
-                onClose={handleDialogClose}
-                selectedNode={selectedNode}
+            {/* <Paper className={classes.paper} elevation={0}> */}
+            <ReactFlow
+              style={reactFlowStyle}
+              elements={elements}
+              nodeTypes={{ customNode: Node }}
+              edgeTypes={{ custom: CustomEdge }}
+              connectionLineComponent={ConnectionLine}
+              defaultZoom={0.6}
+              minZoom={0.05}
+              maxZoom={1.5}
+              snapToGrid={true}
+              onConnect={onConnect}
+              onEdgeUpdate={onEdgeUpdate}
+              onElementsRemove={onElementsRemove}
+              onNodeDragStop={onNodeDragStop}
+              onElementClick={onElementClick}
+              onLoad={onLoad}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onConnectStart={onConnectStart}
+              onConnectStop={onConnectStop}
+              onConnectEnd={onConnectEnd}
+              arrowHeadColor="green"
+            >
+              <MiniMap
+                style={{ width: 100, height: 75 }}
+                nodeStrokeColor="blue"
+                //  nodeClassName={}
+                nodeBorderRadius={20}
+                maskColor={vsmBackground}
+                nodeColor={(node) => {
+                  switch (node.type) {
+                    case 'customNode':
+                      return theme.palette.primary.main
+                    default:
+                      return '#eee'
+                  }
+                }}
               />
-            </Paper>
+            </ReactFlow>
+            <InputBlock
+              open={isDialogOpen}
+              onClose={handleDialogClose}
+              selectedNode={selectedNode}
+            />
+            {/* </Paper> */}
           </Grid>
         </Grid>
       </ReactFlowProvider>
-    </Container>
+      {/* </Container> */}
+    </>
   )
 }
 

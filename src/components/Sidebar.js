@@ -19,10 +19,13 @@ const Sidebar = () => {
   const classes = useStyles(theme)
 
   return (
-    <Paper elevation={0} className={classes.paper}>
+    <>
+      {/* <Paper elevation={0} className={classes.paper}> */}
       <Totals />
       <GitHubButton />
-    </Paper>
+
+      {/* </Paper> */}
+    </>
   )
 }
 
