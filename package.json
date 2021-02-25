@@ -24,8 +24,7 @@
     "start": "next start",
     "test:cover": "jest --collectCoverage",
     "test": "jest ",
-    "test:ci": "jest  --watch",
-    "test:ci-debug": "jest --detectOpenHandles --watch"
+    "test:ci": "jest -b --watch"
   },
   "husky": {
     "hooks": {

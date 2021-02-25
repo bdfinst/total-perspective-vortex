@@ -1,30 +1,41 @@
 import { isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
-import { calcFlowEfficiency, getNodeSums, roundTo2 } from '../src/helpers'
-import { elements as elementFixture } from './fixtures/elements'
+import { buildStaticElements } from './fixtures/elements'
+import {
+  calcFlowEfficiency,
+  convertToNumeric,
+  getNodeSums,
+  roundTo2,
+} from '../src/helpers'
 
-let elements
-elements = elementFixture(10)
+const nodes = buildStaticElements()
+// nodes = elementFixture(10)
 
 describe('Building totals', () => {
   let results
   let processTime
   let waitTime
   beforeEach(() => {
-    results = getNodeSums(elements)
+    results = getNodeSums(nodes)
 
-    processTime = elements
-      .filter((el) => isNode(el))
-      .reduce((acc, el) => {
-        return acc + el.data.processTime
-      }, 0)
+    processTime = nodes.reduce((acc, el) => {
+      return acc + Number(el.data.processTime)
+    }, 0)
 
-    waitTime = elements
-      .filter((el) => isNode(el))
-      .reduce((acc, el) => {
-        return acc + el.data.waitTime
-      }, 0)
+    waitTime = nodes.reduce((acc, el) => {
+      return acc + Number(el.data.waitTime)
+    }, 0)
+  })
+
+  it('should convert the data properties to numbers', () => {
+    const data = convertToNumeric(nodes[0].data)
+
+    expect(typeof data.processName).toEqual('string')
+    expect(typeof data.people).toEqual('number')
+    expect(typeof data.processTime).toEqual('number')
+    expect(typeof data.waitTime).toEqual('number')
+    expect(typeof data.pctCompleteAccurate).toEqual('number')
   })
 
   it('should have the correct properties', () => {
@@ -42,6 +53,7 @@ describe('Building totals', () => {
 
     expect(validateKeys(rule, results)).toEqual(true)
   })
+
   it('should calculate flow efficiency', () => {
     const workTime = 10
     const totalTime = 20
@@ -49,18 +61,18 @@ describe('Building totals', () => {
     expect(calcFlowEfficiency(workTime, totalTime)).toEqual(expectedFE)
   })
   it('should calacuate the total manual process time', () => {
-    const peopleTime = elements
-      .filter((el) => isNode(el))
-      .map((node) => node.data)
-      .reduce((acc, val) => acc + val.people * val.processTime, 0)
+    const peopleTime = 199
 
     expect(results.peopleTime).toEqual(peopleTime)
   })
   it('should calculate the total process time', () => {
     expect(results.processTime).toEqual(processTime)
   })
+
   it('should sum the the average number of people per process', () => {
-    expect(results.averageActors).toEqual(1)
+    const expected = 5.4
+
+    expect(results.averageActors).toEqual(expected)
   })
   it('should sum the total time waiting to start work', () => {
     expect(results.waitTime).toEqual(waitTime)
@@ -77,12 +89,6 @@ describe('Building totals', () => {
     expect(results.flowEfficiency).toEqual(flowEfficiency)
   })
   it('should average the rework percentage of the value stream', () => {
-    const pca = 10
-    const num = 3
-    elements = elementFixture(num, pca)
-
-    results = getNodeSums(elements)
-
-    expect(results.avgPCA).toEqual((pca + pca / 2) / 2)
+    expect(results.avgPCA).toEqual(65)
   })
 })

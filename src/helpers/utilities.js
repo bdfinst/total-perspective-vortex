@@ -82,29 +82,45 @@ const calcPropertyAvg = (nodes, property) => {
   )
 }
 
-const calcPropertySum = (nodes, property) => {
-  const values = nodes
-    .filter((node) => isNode(node))
-    .map((node) => node.data[property])
+export const convertToNumeric = (data) => {
+  const outData = {}
 
-  return values.reduce((acc, pca) => {
-    return acc + pca
-  }, 0)
+  for (const key in data) {
+    outData[key] =
+      (typeof data[key] === 'string' && isNaN(Number(data[key]))) ||
+      data[key].length === 0
+        ? data[key]
+        : Number(data[key])
+  }
+  return outData
+}
+
+const calcPropertySum = (nodes, property) => {
+  return nodes
+    .map((node) => Number(node.data[property]))
+    .reduce((acc, val) => {
+      return acc + val
+    }, 0)
+}
+
+const totalPeopleTime = (nodes) => {
+  return nodes
+    .map((node) => convertToNumeric(node.data))
+    .reduce((acc, val) => acc + val.people * val.processTime, 0)
 }
 
 export const getNodeSums = (elements) => {
-  const nodes = getNodes(elements)
-  const peopleTime = nodes
-    .map((node) => node.data)
-    .reduce((acc, val) => acc + val.people * val.processTime, 0)
+  const nodes = getNodes(elements).map((el) => {
+    return { ...el, data: convertToNumeric(el.data) }
+  })
 
   const totals = {
-    peopleTime: peopleTime,
+    peopleTime: totalPeopleTime(nodes),
     averageActors:
       nodes.reduce((acc, node) => acc + node.data.people, 0) / nodes.length,
-    processTime: calcPropertySum(elements, 'processTime'),
-    waitTime: calcPropertySum(elements, 'waitTime'),
-    avgPCA: roundTo2(calcPropertyAvg(elements, 'pctCompleteAccurate')),
+    processTime: calcPropertySum(nodes, 'processTime'),
+    waitTime: calcPropertySum(nodes, 'waitTime'),
+    avgPCA: roundTo2(calcPropertyAvg(nodes, 'pctCompleteAccurate')),
   }
   totals.totalTime = totals.waitTime + totals.processTime
   totals.flowEfficiency = calcFlowEfficiency(

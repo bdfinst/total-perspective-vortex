@@ -34,3 +34,20 @@ export const elements = (count = 2, pca = 0) => {
 
   return nodes.concat(edges)
 }
+
+export const pcaValues = [50, 30, 80, 100, 0]
+
+export const buildStaticElements = () => {
+  return pcaValues.map((pca, idx) => {
+    return {
+      id: `${idx + 1}`,
+      data: {
+        processName: '',
+        people: `${pca > 9 ? pca / 10 : 1}`,
+        processTime: `${pca > 9 ? pca / 10 : 1}`,
+        waitTime: `${pca > 9 ? pca / 10 : 1}`,
+        pctCompleteAccurate: `${pca}`,
+      },
+    }
+  })
+}
