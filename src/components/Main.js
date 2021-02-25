@@ -27,7 +27,7 @@ const Copyright = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       <Link color="inherit" href="https://bryanfinster.com/">
-        Visit me
+        BryanFinster.com
       </Link>
     </Typography>
   )
