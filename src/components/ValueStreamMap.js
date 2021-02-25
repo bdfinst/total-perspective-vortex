@@ -129,60 +129,59 @@ const ValueStreamMap = () => {
           justify="center"
           alignItems="flex-start"
         >
-          <Grid item xs={12} md={9}>
-            <div ref={reactFlowWrapper}>
-              <Paper className={classes.controls} elevation={0}>
-                <Controls
-                  onDialogOpen={handleDialogOpen}
-                  selectedNode={selectedNode}
-                />
-              </Paper>
-
-              <Paper className={classes.paper} elevation={0}>
-                <ReactFlow
-                  elements={elements}
-                  nodeTypes={{ customNode: Node }}
-                  edgeTypes={{ custom: CustomEdge }}
-                  connectionLineComponent={ConnectionLine}
-                  defaultZoom={0.6}
-                  minZoom={0.05}
-                  maxZoom={1.5}
-                  snapToGrid={true}
-                  onConnect={onConnect}
-                  onEdgeUpdate={onEdgeUpdate}
-                  onElementsRemove={onElementsRemove}
-                  onNodeDragStop={onNodeDragStop}
-                  onElementClick={onElementClick}
-                  onLoad={onLoad}
-                  onDrop={onDrop}
-                  onDragOver={onDragOver}
-                  onConnectStart={onConnectStart}
-                  onConnectStop={onConnectStop}
-                  onConnectEnd={onConnectEnd}
-                  arrowHeadColor="green"
-                >
-                  <MiniMap
-                    nodeColor={(node) => {
-                      switch (node.type) {
-                        case 'customNode':
-                          return theme.palette.primary.main
-                        default:
-                          return '#eee'
-                      }
-                    }}
-                  />
-                </ReactFlow>
-                <InputBlock
-                  open={isDialogOpen}
-                  onClose={handleDialogClose}
-                  selectedNode={selectedNode}
-                />
-              </Paper>
-            </div>
+          <Grid item xs={12}>
+            <Paper className={classes.controls} elevation={0}>
+              <Controls
+                onDialogOpen={handleDialogOpen}
+                selectedNode={selectedNode}
+              />
+            </Paper>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
+            <Paper className={classes.paper} elevation={0}>
+              <ReactFlow
+                elements={elements}
+                nodeTypes={{ customNode: Node }}
+                edgeTypes={{ custom: CustomEdge }}
+                connectionLineComponent={ConnectionLine}
+                defaultZoom={0.6}
+                minZoom={0.05}
+                maxZoom={1.5}
+                snapToGrid={true}
+                onConnect={onConnect}
+                onEdgeUpdate={onEdgeUpdate}
+                onElementsRemove={onElementsRemove}
+                onNodeDragStop={onNodeDragStop}
+                onElementClick={onElementClick}
+                onLoad={onLoad}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                onConnectStart={onConnectStart}
+                onConnectStop={onConnectStop}
+                onConnectEnd={onConnectEnd}
+                arrowHeadColor="green"
+              >
+                <MiniMap
+                  nodeColor={(node) => {
+                    switch (node.type) {
+                      case 'customNode':
+                        return theme.palette.primary.main
+                      default:
+                        return '#eee'
+                    }
+                  }}
+                />
+              </ReactFlow>
+              <InputBlock
+                open={isDialogOpen}
+                onClose={handleDialogClose}
+                selectedNode={selectedNode}
+              />
+            </Paper>
+          </Grid>
+          {/* <Grid item>
             <Sidebar />
-          </Grid>
+          </Grid> */}
         </Grid>
       </ReactFlowProvider>
     </Container>

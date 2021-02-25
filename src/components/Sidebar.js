@@ -8,9 +8,10 @@ import Totals from './Totals'
 const useStyles = makeStyles((theme) => ({
   paper: {
     elevation: 0,
-    height: '90vh',
+    // height: '90vh',
     padding: '0 0 0 0 ',
     textAlign: 'center',
+    minWidth: 200,
   },
 }))
 
@@ -21,7 +22,6 @@ const Sidebar = () => {
   return (
     <Paper elevation={0} className={classes.paper}>
       <Totals />
-
       <GitHubButton />
     </Paper>
   )

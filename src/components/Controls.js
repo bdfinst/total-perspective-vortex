@@ -32,7 +32,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => {
             <ZoomOutButton />
           </ButtonGroup>
         </Grid>
-        <Grid>
+        <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <AddNodeBefore selectedNode={selectedNode} />
             <SettingsButton
