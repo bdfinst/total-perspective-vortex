@@ -23,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     elevation: 0,
-    height: '80vh',
+    height: '83vh',
     padding: '0 0 0 0 ',
     textAlign: 'center',
   },
   controls: {
     elevation: 0,
-    height: '10vh',
+    height: '7vh',
     padding: '0 0 0 0 ',
     textAlign: 'center',
   },
@@ -179,9 +179,6 @@ const ValueStreamMap = () => {
               />
             </Paper>
           </Grid>
-          {/* <Grid item>
-            <Sidebar />
-          </Grid> */}
         </Grid>
       </ReactFlowProvider>
     </Container>

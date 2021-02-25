@@ -1,17 +1,25 @@
 import { Container, Grid } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import { ValueStreamProvider } from '../appContext/valueStreamContext'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import ValueStreamMap from '../components/ValueStreamMap'
-import styles from '../styles/Home.module.css'
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    background: 'green',
+  },
+}))
 
 export default function Home() {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+
   return (
-    <Container>
+    <Container className={classes.container}>
       <Header />
-      {/* <main className={styles.main}> */}
       <ValueStreamProvider>
         <Grid container>
           <Grid item xs={12} md={10}>
@@ -22,7 +30,6 @@ export default function Home() {
           </Grid>
         </Grid>
       </ValueStreamProvider>
-      {/* </main> */}
     </Container>
   )
 }

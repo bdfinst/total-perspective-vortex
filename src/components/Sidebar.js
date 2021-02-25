@@ -8,10 +8,9 @@ import Totals from './Totals'
 const useStyles = makeStyles((theme) => ({
   paper: {
     elevation: 0,
-    // height: '90vh',
     padding: '0 0 0 0 ',
     textAlign: 'center',
-    minWidth: 200,
+    minWidth: 175,
   },
 }))
 

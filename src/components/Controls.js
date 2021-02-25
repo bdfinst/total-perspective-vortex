@@ -19,12 +19,7 @@ const devMode = process.env.REACT_DEVMODE === 'on' ? true : false
 const Controls = ({ onDialogOpen, selectedNode }) => {
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justify="space-between"
-        alignItems="flex-start"
-      >
+      <Grid container direction="row" justify="center" alignItems="flex-start">
         <Grid item xs={2}>
           <ButtonGroup orientation="horizontal" color="secondary">
             <ZoomFocusButton />
