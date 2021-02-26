@@ -3,8 +3,8 @@ import { act, cleanup, renderHook } from '@testing-library/react-hooks'
 import {
   ValueStreamProvider,
   useValueStream,
-} from '../src/appContext/valueStreamContext'
-import { getEdges, getLastEdge, getLastNode, getNodes } from '../src/helpers'
+} from '../components/ValueStreamMap/valueStreamContext'
+import { getEdges, getLastEdge, getLastNode, getNodes } from '../../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (

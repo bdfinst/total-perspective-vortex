@@ -1,7 +1,7 @@
 import { isNode } from 'react-flow-renderer'
 
-import { elements } from './fixtures/elements'
-import { getGraphLayout } from '../src/helpers/getGraphLayout'
+import { elements } from '../__mocks__/elements'
+import { getGraphLayout } from '../../src/helpers/getGraphLayout'
 
 test.skip('should lay out the graph horizontally', () => {
   const items = elements().map((el, idx) => {

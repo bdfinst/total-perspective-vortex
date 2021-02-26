@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import React from 'react'
@@ -11,17 +11,19 @@ import theme from './theme'
 const App = () => {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Main />
-        <Switch>
-          {Routes.map((route) => (
-            <Route exact path={route.path} key={route.path}>
-              <route.component />
-            </Route>
-          ))}
-        </Switch>
-      </ThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Main />
+          <Switch>
+            {Routes.map((route) => (
+              <Route exact path={route.path} key={route.path}>
+                <route.component />
+              </Route>
+            ))}
+          </Switch>
+        </ThemeProvider>
+      </BrowserRouter>
     </>
   )
 }

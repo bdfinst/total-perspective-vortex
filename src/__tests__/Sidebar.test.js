@@ -2,8 +2,8 @@ import { ReactFlowProvider } from 'react-flow-renderer'
 import { cleanup, render } from '@testing-library/react'
 import React from 'react'
 
-import { ValueStreamProvider } from '../src/appContext/valueStreamContext'
-import Sidebar from '../src/components/Sidebar'
+import { ValueStreamProvider } from '../components/ValueStreamMap/valueStreamContext'
+import Sidebar from '../components/ValueStreamMap/Sidebar'
 
 afterEach(cleanup)
 
