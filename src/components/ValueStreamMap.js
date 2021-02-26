@@ -4,8 +4,8 @@ import ReactFlow, {
   ReactFlowProvider,
   isNode,
 } from 'react-flow-renderer'
-import { Container, Grid, Paper } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useTheme } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
 import { getNodeById } from '../helpers'
 import { useValueStream } from '../appContext/valueStreamContext'
@@ -14,37 +14,15 @@ import Controls from './Controls'
 import CustomEdge from './CustomEdge'
 import InputBlock from './InputDialog/InputDialog'
 import Node from './Node'
-import Sidebar from './Sidebar'
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    align: 'center',
-    padding: '0 0 0 0 ',
-  },
-  paper: {
-    elevation: 0,
-    height: '83vh',
-    padding: '0 0 0 0 ',
-    textAlign: 'center',
-  },
-  controls: {
-    elevation: 0,
-    height: '7vh',
-    padding: '0 0 0 0 ',
-    textAlign: 'center',
-  },
-}))
 
 const vsmBackground = 'rgb(238, 238, 240)'
 const reactFlowStyle = {
-  // flexDirection: 'column',
-  // display: 'flex',
+
   height: '500px',
   background: vsmBackground,
 }
 const ValueStreamMap = () => {
   const theme = useTheme()
-  const classes = useStyles(theme)
 
   const {
     state,
@@ -129,7 +107,6 @@ const ValueStreamMap = () => {
 
   return (
     <>
-      {/* <Container className={classes.container}> */}
       <ReactFlowProvider>
         <Grid
           container
@@ -138,15 +115,12 @@ const ValueStreamMap = () => {
           alignItems="flex-start"
         >
           <Grid item xs={12}>
-            {/* <Paper className={classes.controls} elevation={0}> */}
             <Controls
               onDialogOpen={handleDialogOpen}
               selectedNode={selectedNode}
             />
-            {/* </Paper> */}
           </Grid>
           <Grid item xs={12}>
-            {/* <Paper className={classes.paper} elevation={0}> */}
             <ReactFlow
               style={reactFlowStyle}
               elements={elements}
@@ -191,11 +165,9 @@ const ValueStreamMap = () => {
               onClose={handleDialogClose}
               selectedNode={selectedNode}
             />
-            {/* </Paper> */}
           </Grid>
         </Grid>
       </ReactFlowProvider>
-      {/* </Container> */}
     </>
   )
 }

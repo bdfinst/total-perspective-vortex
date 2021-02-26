@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
-import Badge from '@material-ui/core/Badge'
 import Box from '@material-ui/core/Box'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Container from '@material-ui/core/Container'
