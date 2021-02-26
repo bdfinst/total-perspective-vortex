@@ -1,35 +1,23 @@
-import {
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  MenuList,
-} from '@material-ui/core'
-import { NavLink, withRouter } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
+import { withRouter } from 'react-router-dom'
 import Box from '@material-ui/core/Box'
-import CRDIcon from '@material-ui/icons/DeviceHubTwoTone'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Container from '@material-ui/core/Container'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
-import GraphIcon from '@material-ui/icons/AssessmentOutlined'
 import Grid from '@material-ui/core/Grid'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
 import IconButton from '@material-ui/core/IconButton'
 import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
-import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import VSMIcon from '@material-ui/icons/AccountTreeTwoTone'
 import clsx from 'clsx'
 
-import { mainListItems, secondaryListItems } from './Menu/listItems'
+import {config} from './globalConfig'
 import HeaderBar from './HeaderBar'
+import ListLinkItem from './Menu/ListLinkItem'
 import Routes from './Routes'
-import ValueStream from './ValueStream'
 
 const Copyright = () => {
   return (
@@ -40,8 +28,6 @@ const Copyright = () => {
     </Typography>
   )
 }
-
-const drawerWidth = 200
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: config.drawerWidth,
+    width: `calc(100% - ${config.drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -84,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
-    width: drawerWidth,
+    width: config.drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -135,9 +121,7 @@ const Main = (props) => {
     setOpen(false)
   }
 
-  const activeRoute = (routeName) => {
-    return props.location.pathname === routeName ? true : false
-  }
+
 
   return (
     <div className={classes.root}>
@@ -156,32 +140,30 @@ const Main = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <MenuList>
-          {Routes.map((prop, key) => {
-            return (
-              <NavLink
-                to={prop.path}
-                style={{ textDecoration: 'none' }}
-                key={key}
-              >
-                <MenuItem selected={activeRoute(prop.path)}>
-                  <ListItemIcon>
-                    {prop.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={prop.sidebarName} />
-                </MenuItem>
-              </NavLink>
-            )
-          })}
-        </MenuList>
+        <List>
+          {Routes.map((route, key) => (
+            <ListLinkItem
+              icon={route.icon}
+              to={route.path}
+              primary={route.sidebarName}
+            />
+          ))}
+        </List>
         <Divider />
-        <List>{secondaryListItems}</List>
+
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={1}>
-            <ValueStream />
+            <Switch>
+              {Routes.map((route) => (
+                <Route exact path={route.path} key={route.path}>
+                  <route.component />
+                </Route>
+              ))}
+            </Switch>
+            {/* <ValueStream /> */}
           </Grid>
           <Box pt={4}>
             <Copyright />

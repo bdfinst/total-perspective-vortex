@@ -1,46 +1,13 @@
-import {
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  MenuList,
-} from '@material-ui/core'
-import { NavLink, withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
-import Box from '@material-ui/core/Box'
-import CRDIcon from '@material-ui/icons/DeviceHubTwoTone'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import Container from '@material-ui/core/Container'
-import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
-import GraphIcon from '@material-ui/icons/AssessmentOutlined'
-import Grid from '@material-ui/core/Grid'
-import HomeIcon from '@material-ui/icons/HomeOutlined'
 import IconButton from '@material-ui/core/IconButton'
-import Link from '@material-ui/core/Link'
-import List from '@material-ui/core/List'
 import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import VSMIcon from '@material-ui/icons/AccountTreeTwoTone'
 import clsx from 'clsx'
 
-import { mainListItems, secondaryListItems } from './Menu/listItems'
-import Routes from './Routes'
-import ValueStream from './ValueStream'
-
-const Copyright = () => {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      <Link color="inherit" href="https://bryanfinster.com/">
-        BryanFinster.com
-      </Link>
-    </Typography>
-  )
-}
-
-const drawerWidth = 200
+import {config} from './globalConfig'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -55,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: config.drawerWidth,
+    width: `calc(100% - ${config.drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
