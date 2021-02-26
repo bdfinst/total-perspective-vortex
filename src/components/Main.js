@@ -166,7 +166,7 @@ const Main = (props) => {
               >
                 <MenuItem selected={activeRoute(prop.path)}>
                   <ListItemIcon>
-                    <CRDIcon />
+                    {prop.icon}
                   </ListItemIcon>
                   <ListItemText primary={prop.sidebarName} />
                 </MenuItem>

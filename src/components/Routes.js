@@ -12,25 +12,25 @@ const Routes = [
   {
     path: '/',
     sidebarName: 'Home',
-    icon: HomeIcon,
+    icon: <HomeIcon/>,
     component: Home,
   },
   {
     path: '/ValueStream',
     sidebarName: 'Value Stream Map',
-    icon: VSMIcon,
+    icon: <VSMIcon/>,
     component: ValueStream,
   },
   {
     path: '/CurrentReality',
     sidebarName: 'Current Reality',
-    icon: CRDIcon,
+    icon: <CRDIcon/>,
     component: CurrentReality,
   },
   {
     path: '/dashboard',
     sidebarName: 'Dashboard',
-    icon: GraphIcon,
+    icon: <GraphIcon/>,
 
     component: Dashboard,
   },
