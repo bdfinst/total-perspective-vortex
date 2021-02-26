@@ -1,3 +1,3 @@
-export  const config= {
-  drawerWidth: 200
+export const config = {
+  drawerWidth: 200,
 }

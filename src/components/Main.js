@@ -14,7 +14,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import {config} from './globalConfig'
+import { config } from './globalConfig'
 import HeaderBar from './HeaderBar'
 import ListLinkItem from './Menu/ListLinkItem'
 import Routes from './Routes'
@@ -121,8 +121,6 @@ const Main = (props) => {
     setOpen(false)
   }
 
-
-
   return (
     <div className={classes.root}>
       <HeaderBar onClick={handleDrawerOpen} open={open} />
@@ -150,7 +148,6 @@ const Main = (props) => {
           ))}
         </List>
         <Divider />
-
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

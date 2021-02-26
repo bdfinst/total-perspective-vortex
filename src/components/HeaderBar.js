@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import {config} from './globalConfig'
+import { config } from './globalConfig'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
