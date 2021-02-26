@@ -141,6 +141,7 @@ const Main = (props) => {
         <List>
           {Routes.map((route, key) => (
             <ListLinkItem
+            key={key}
               icon={route.icon}
               to={route.path}
               primary={route.sidebarName}
