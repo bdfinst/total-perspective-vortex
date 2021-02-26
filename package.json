@@ -23,6 +23,11 @@
     "lint:fix": "eslint src test --fix",
     "depcheck": "depcheck --ignores='import-sort-style-absolute'"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -34,11 +39,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
-    }
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
