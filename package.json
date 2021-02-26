@@ -35,6 +35,11 @@
       "last 1 safari version"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
+    }
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
