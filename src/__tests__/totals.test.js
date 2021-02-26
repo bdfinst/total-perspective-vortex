@@ -1,8 +1,8 @@
 import { isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
-import { calcFlowEfficiency, getNodeSums, roundTo2 } from '../src/helpers'
-import { elements as elementFixture } from './fixtures/elements'
+import { calcFlowEfficiency, getNodeSums, roundTo2 } from '../../src/helpers'
+import { elements as elementFixture } from '../__mocks__/elements'
 
 let elements
 elements = elementFixture(10)

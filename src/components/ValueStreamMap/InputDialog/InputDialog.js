@@ -14,9 +14,9 @@ import { HelpOutline, InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { IconButtonStyled } from '../Buttons'
-import { defaultNodeData } from '../../helpers'
+import { defaultNodeData } from '../../../helpers'
 import { fieldConfigs, getFieldConfig } from './formConfigs'
-import { useValueStream } from '../../appContext/valueStreamContext'
+import { useValueStream } from '../valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   input: {

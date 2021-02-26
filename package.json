@@ -14,19 +14,40 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "coverage": "CI=true react-scripts test --ci --coverage ",
+    "test": "react-scripts test ",
     "eject": "react-scripts eject",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
     "lint": "npm run format:fix && npm run lint:fix",
-    "lint:check": "eslint src test",
-    "lint:fix": "eslint src test --fix",
+    "lint:check": "eslint src ",
+    "lint:fix": "eslint src --fix",
     "depcheck": "depcheck --ignores='import-sort-style-absolute'"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
     }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/__tests__/**/*.{js,jsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 35,
+        "lines": 40,
+        "statements": 40
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json",
+      "html"
+    ]
   },
   "browserslist": {
     "production": [
@@ -51,11 +72,14 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-flow-renderer": "^9.0.4",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "recharts": "^2.0.8",
     "uuid": "^3.4.0",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.0.3",
@@ -68,6 +92,7 @@
     "eslint-plugin-flowtype": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-known-imports": "^0.0.14",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",

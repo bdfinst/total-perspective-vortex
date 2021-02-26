@@ -4,7 +4,7 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 
-import { useValueStream } from '../../appContext/valueStreamContext'
+import { useValueStream } from '../valueStreamContext'
 
 export const ToggleStretch = () => {
   const { state, setRelativelySized } = useValueStream()

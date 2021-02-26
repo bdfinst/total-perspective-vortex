@@ -1,4 +1,4 @@
-import { buildEdge, buildNode } from '../../src/helpers'
+import { buildEdge, buildNode } from '../helpers'
 
 const buildData = (processTime, waitTime, pctCompleteAccurate) => {
   return {

@@ -4,8 +4,8 @@ import { DropzoneDialog } from 'material-ui-dropzone'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
-import { toJson } from '../../helpers'
-import { useValueStream } from '../../appContext/valueStreamContext'
+import { toJson } from '../../../helpers'
+import { useValueStream } from '../valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },

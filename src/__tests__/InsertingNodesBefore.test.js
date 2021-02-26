@@ -1,15 +1,16 @@
 import { act, cleanup, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 
 import {
   ValueStreamProvider,
   useValueStream,
-} from '../src/appContext/valueStreamContext'
+} from '../components/ValueStreamMap/valueStreamContext'
 import {
   getElementById,
   getLastEdge,
   getLastNode,
   getNodeById,
-} from '../src/helpers'
+} from '../helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -22,9 +23,9 @@ const renderVSMHook = () => {
 }
 
 describe('Inserting a node before a selected node', () => {
-  afterAll(cleanup)
+  afterEach(cleanup)
   let result
-  beforeAll(() => {
+  beforeEach(() => {
     result = renderVSMHook()
   })
   const addNode = () => {
@@ -47,11 +48,9 @@ describe('Inserting a node before a selected node', () => {
     return getLastEdge(result.current.state.elements)
   }
 
-  let node1, node2, selected
-
   it('should add two connected nodes', () => {
-    node1 = addNode()
-    node2 = addNode()
+    const node1 = addNode()
+    const node2 = addNode()
     const newEdge = addEdge(node1.node, node2.node)
 
     expect(newEdge.source).toEqual(node1.node.id)
@@ -60,17 +59,25 @@ describe('Inserting a node before a selected node', () => {
     expect(result.current.state.elements[node2.index]).toEqual(node2.node)
   })
   it('should select the second node', () => {
+    const node1 = addNode()
+    const node2 = addNode()
+    const newEdge = addEdge(node1.node, node2.node)
     expect(node2.node.selected).toEqual(false)
     act(() => {
       result.current.toggleNodeSelect(node2.node)
     })
 
-    selected = getElementById(node2.node.id, result.current.state.elements)
+    const selected = getElementById(
+      node2.node.id,
+      result.current.state.elements,
+    )
 
     expect(selected.selected).toEqual(true)
   })
   it('should insert a node before the second node and update the edges', () => {
-    const oldEdge = getLastEdge(result.current.state.elements)
+    const node1 = addNode()
+    const node2 = addNode()
+    const oldEdge = addEdge(node1.node, node2.node)
 
     act(() => {
       result.current.addNodeBefore(node2.node)

@@ -1,10 +1,11 @@
 import { act, cleanup, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 
 import {
   ValueStreamProvider,
   useValueStream,
-} from '../src/appContext/valueStreamContext'
-import { getEdges, getLastEdge, getLastNode, getNodes } from '../src/helpers'
+} from '../components/ValueStreamMap/valueStreamContext'
+import { getEdges, getLastEdge, getLastNode, getNodes } from '../../src/helpers'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -107,27 +108,7 @@ describe('Value Stream Context', () => {
       expect(found.data).toEqual(newData)
     })
 
-    it.skip('should update a node position', () => {
-      act(() => {
-        result.current.createNode({ x: 1, y: 1 })
-      })
 
-      const nodes = getNodes(result.current.state.elements)
-      const testNode = nodes[nodes.length - 1]
-
-      act(() => {
-        result.current.changeNodeValues({
-          node: testNode,
-          position: { x: 2, y: 2 },
-        })
-      })
-
-      const found = result.current.state.elements.filter(
-        (node) => node.id === testNode.id,
-      )
-
-      expect(found[0].position).toEqual({ x: 2, y: 2 })
-    })
   })
 })
 
@@ -264,7 +245,7 @@ describe('Adding nodes', () => {
     return [node, index]
   }
 
-  it.skip('should add a node at the end if no node is selected', () => {
+  it('should add a node at the end if no node is selected', () => {
     const [startNode] = addNode()
     const prevNodeCount = getNodes(result.current.state.elements).length
     const prevEdgeCount = getEdges(result.current.state.elements).length

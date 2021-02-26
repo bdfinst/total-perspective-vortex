@@ -1,6 +1,6 @@
 import { isEdge, isNode } from 'react-flow-renderer'
 
-import { buildEdge, buildNode, getEdges, getNodes } from '../src/helpers'
+import { buildEdge, buildNode, getEdges, getNodes } from '../../src/helpers'
 
 describe('Building nodes and edges', () => {
   it('should build a node with a default id', () => {
