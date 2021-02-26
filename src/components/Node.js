@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { Handle } from 'react-flow-renderer'
 import {
@@ -46,6 +47,7 @@ const Node = (props) => {
   useEffect(() => {
     const found = state.elements.find((el) => el.id === node.id)
     setData(found ? found.data : defaultData)
+    setNode(props)
   }, [state.elements])
 
   const EdgeHandle = ({ type }) => {

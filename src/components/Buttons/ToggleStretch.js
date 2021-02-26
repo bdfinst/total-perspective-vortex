@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
@@ -7,7 +8,7 @@ import { useValueStream } from '../../appContext/valueStreamContext'
 
 export const ToggleStretch = () => {
   const { state, setRelativelySized } = useValueStream()
-  const [checked, setChecked] = useState(state.isRelativeSized)
+  // const [checked, setChecked] = useState(state.isRelativeSized)
 
   useEffect(() => {
     console.log(state.isRelativeSized)

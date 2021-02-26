@@ -17,7 +17,6 @@ import Node from './Node'
 
 const vsmBackground = 'rgb(238, 238, 240)'
 const reactFlowStyle = {
-
   height: '500px',
   background: vsmBackground,
 }
