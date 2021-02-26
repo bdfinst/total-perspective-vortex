@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { useValueStream } from '../appContext/valueStreamContext'
+import { useValueStream } from './valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -40,7 +40,7 @@ const Node = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
-  const { state } = useValueStream()
+  const { state, toggleNodeSelect } = useValueStream()
   const [node, setNode] = useState(props)
   const [data, setData] = useState(defaultData)
 
@@ -50,13 +50,17 @@ const Node = (props) => {
     setNode(props)
   }, [state.elements])
 
+  const handleDoubleClick = (e) => {
+    if (!node.selected) {
+      toggleNodeSelect(node)
+    }
+  }
+
   const EdgeHandle = ({ type }) => {
     const settings = (handleType) => {
       switch (handleType) {
         case 'target':
           return { type: 'target', side: 'left', color: 'red' }
-        case 'target2':
-          return { type: 'target', side: 'top', color: 'red' }
         default:
           return { type: 'source', side: 'right', color: 'green' }
       }
@@ -99,7 +103,7 @@ const Node = (props) => {
   return (
     <>
       <EdgeHandle type="target" />
-      <div className="node-container">
+      <div onDoubleClick={handleDoubleClick}>
         <TableContainer
           component={Paper}
           elevation={0}

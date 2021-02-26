@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { getNodeSums } from '../helpers'
-import { useValueStream } from '../appContext/valueStreamContext'
+import { getNodeSums } from '../../helpers'
+import { useValueStream } from './valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {

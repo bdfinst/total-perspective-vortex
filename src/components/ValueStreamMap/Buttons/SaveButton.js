@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 import exportFromJSON from 'export-from-json'
 
-import { useValueStream } from '../../appContext/valueStreamContext'
+import { useValueStream } from '../valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },

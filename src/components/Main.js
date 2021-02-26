@@ -3,7 +3,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Box from '@material-ui/core/Box'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import Grid from '@material-ui/core/Grid'
@@ -11,16 +10,13 @@ import IconButton from '@material-ui/core/IconButton'
 import Link from '@material-ui/core/Link'
 import List from '@material-ui/core/List'
 import MenuIcon from '@material-ui/icons/Menu'
-import Paper from '@material-ui/core/Paper'
 import React from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import { ValueStreamProvider } from '../appContext/valueStreamContext'
 import { mainListItems, secondaryListItems } from './Menu/listItems'
-import Sidebar from './Sidebar'
-import ValueStreamMap from './ValueStreamMap'
+import ValueStream from './ValueStream'
 
 const Copyright = () => {
   return (
@@ -125,12 +121,9 @@ export default function Main() {
   const handleDrawerClose = () => {
     setOpen(false)
   }
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
-  const valueStreamPaper = clsx(classes.paper, classes.vsmHeight)
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
@@ -185,20 +178,7 @@ export default function Main() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={1}>
-            <ValueStreamProvider>
-              {/* Chart */}
-              <Grid item xs={12} md={9}>
-                <Paper className={valueStreamPaper}>
-                  <ValueStreamMap />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={3}>
-                <Paper className={fixedHeightPaper}>
-                  <Sidebar />
-                </Paper>
-              </Grid>
-            </ValueStreamProvider>
+            <ValueStream />
           </Grid>
           <Box pt={4}>
             <Copyright />

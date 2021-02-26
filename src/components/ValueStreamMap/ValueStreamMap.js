@@ -7,8 +7,8 @@ import ReactFlow, {
 import { useTheme } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import { getNodeById } from '../helpers'
-import { useValueStream } from '../appContext/valueStreamContext'
+import { getNodeById } from '../../helpers'
+import { useValueStream } from './valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'

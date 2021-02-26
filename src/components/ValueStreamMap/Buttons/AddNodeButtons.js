@@ -3,7 +3,7 @@ import { Button, Tooltip } from '@material-ui/core'
 import { InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { useValueStream } from '../../appContext/valueStreamContext'
+import { useValueStream } from '../valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
   inactive: {

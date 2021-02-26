@@ -19,7 +19,7 @@ import {
   getLastNode,
   nodeDefaults,
   spliceArray,
-} from '../helpers'
+} from '../../helpers'
 
 const defaultPosition = { x: 100, y: 175 }
 
