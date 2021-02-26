@@ -34,8 +34,4 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# vercel
-.vercel
-
-# Local Netlify folder
-.netlify
+/.history
