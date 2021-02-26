@@ -1,5 +1,5 @@
-import React from 'react'
 import { act, cleanup, renderHook } from '@testing-library/react-hooks'
+import React from 'react'
 
 import {
   ValueStreamProvider,
@@ -22,7 +22,7 @@ const renderVSMHook = () => {
   return result
 }
 
-describe.skip('Inserting a node before a selected node', () => {
+describe('Inserting a node before a selected node', () => {
   afterAll(cleanup)
   let result
   beforeAll(() => {
@@ -60,12 +60,13 @@ describe.skip('Inserting a node before a selected node', () => {
     expect(result.current.state.elements[node1.index]).toEqual(node1.node)
     expect(result.current.state.elements[node2.index]).toEqual(node2.node)
   })
-  it.skip('should select the second node', () => {
+  it('should select the second node', () => {
     expect(node2.node.selected).toEqual(false)
     act(() => {
       result.current.toggleNodeSelect(node2.node)
     })
 
+    console.log(results.current)
     selected = getElementById(node2.node.id, result.current.state.elements)
 
     expect(selected.selected).toEqual(true)
