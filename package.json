@@ -1,6 +1,6 @@
 {
   "name": "total-perspective-vortex",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A tool for value stream mapping a process flow",
   "keywords": [
     "lean",
@@ -29,26 +29,6 @@
       "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
     }
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!src/__tests__/**/*.{js,jsx}"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 50,
-        "functions": 35,
-        "lines": 40,
-        "statements": 40
-      }
-    },
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "json",
-      "html"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -60,6 +40,26 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/__tests__/**/*.{js,jsx}"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json",
+      "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 35,
+        "lines": 40,
+        "statements": 40
+      }
+    }
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
