@@ -63,7 +63,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     } else {
       handleClose()
     }
-  }, [selectedNode])
+  }, [open, selectedNode])
 
   const handleClose = () => {
     onClose()

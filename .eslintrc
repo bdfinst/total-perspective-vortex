@@ -1,8 +1,8 @@
  {
     "extends": [
       "react-app",
-      "prettier",
-      "prettier/react"
+      "react-app/jest",
+      "prettier"
     ],
     "plugins": [
       "react",
