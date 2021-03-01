@@ -1,12 +1,18 @@
  {
   "extends": [
     "react-app",
-    "prettier",
+    "prettier"
   ],
   "plugins": [
     "react",
     "prettier"
   ],
+  "overrides": [
+    {
+      "files": ["**/*.js"]
+    }
+  ],
+  "ignorePatterns": [ "**/*.test.js","**/*.spec.js"],
   "rules": {
     "react/jsx-filename-extension": [
       1,
