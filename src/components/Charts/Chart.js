@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import Title from '../Examples/Title'
@@ -24,23 +25,24 @@ const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
   defectRate,
 })
 
+const getDefectRate = (ciRate) => (ciRate === 0 ? 0 : (1 / ciRate) * 100)
+
 const buildData = (weeks) => {
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
   return init.map((el) => {
-    const ciRate = Math.floor(Math.random() * ciTarget * 3)
+    const ciRate = Math.floor(Math.random() * ciTarget * 1.5)
     const deployRate = Math.floor(Math.random() * ciRate)
-    const defectRate =
-      ciRate <= 0 ? 0 : Math.floor(Math.random() * (1 / ciRate) * 60)
+    const defectRate = getDefectRate(ciRate)
 
     return buildWeekData(el.weekNbr, ciRate, deployRate, defectRate)
   })
 }
 
 export default function Chart() {
-  // const theme = useTheme()
+  const theme = useTheme()
 
   const data = buildData(13)
 
@@ -65,17 +67,20 @@ export default function Chart() {
         <Legend />
 
         <ReferenceLine
+          labelPosition="end"
           y={ciTarget}
-          label={`CI Target for team of ${teamSize}`}
-          stroke="red"
+          label={`Weekly CI Target for team of ${teamSize}`}
+          stroke="gold"
           strokeDasharray="3 3"
         />
 
-        <Bar dataKey="ciRate" barSize={20} fill="#8884d8" />
-
-        <Scatter dataKey="deployRate" fill="red" />
-        {/* <Line type="monotone" dataKey="deployRate" stroke="#413ea0" /> */}
-        <Line type="monotone" dataKey="defectRate" stroke="#ff7300" />
+        <Bar dataKey="ciRate" barSize={20} fill={theme.palette.primary.main} />
+        <Scatter dataKey="deployRate" fill={theme.palette.secondary.main} />
+        <Line
+          type="monotone"
+          dataKey="defectRate"
+          stroke={theme.palette.error.main}
+        />
       </ComposedChart>
     </>
   )
