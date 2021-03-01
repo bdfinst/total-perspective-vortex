@@ -18,14 +18,12 @@ import Title from '../Examples/Title'
 const teamSize = 6
 const ciTarget = teamSize * 5
 
-const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => {
-  return {
-    name: `Week ${weekNbr}`,
-    ciRate,
-    deployRate,
-    defectRate,
-  }
-}
+const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
+  name: `Week ${weekNbr}`,
+  ciRate,
+  deployRate,
+  defectRate,
+})
 
 const buildData = (weeks, teamSize) => {
   const init = []

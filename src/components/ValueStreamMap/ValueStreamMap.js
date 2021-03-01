@@ -129,7 +129,7 @@ const ValueStreamMap = () => {
               defaultZoom={0.6}
               minZoom={0.05}
               maxZoom={1.5}
-              snapToGrid={true}
+              snapToGrid
               onConnect={onConnect}
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}

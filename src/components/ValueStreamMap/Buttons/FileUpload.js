@@ -38,9 +38,9 @@ export const FileUpload = (props) => {
   }
 
   const handleSave = (files) => {
-    //Saving files to state for further use and closing Modal.
+    // Saving files to state for further use and closing Modal.
     setState({
-      files: files,
+      files,
       open: false,
     })
     handleFileChosen(files[0])
@@ -69,11 +69,11 @@ export const FileUpload = (props) => {
         onSave={handleSave}
         filesLimit={1}
         acceptedFiles={['application/json']}
-        showPreviews={true}
+        showPreviews
         maxFileSize={5000000}
         onClose={handleClose}
         showPreviewsInFileUpload={false}
-        showFileNames={true}
+        showFileNames
         previewText="File:"
       />
     </div>

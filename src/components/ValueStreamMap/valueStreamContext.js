@@ -66,7 +66,7 @@ const addNode = (state, { x, y }) => {
 }
 
 const initStateFromData = (state, data) => {
-  //TODO: Validate file data
+  // TODO: Validate file data
   const newState = {
     ...state,
     maxNodeId: data.maxNodeId,
@@ -100,8 +100,8 @@ const nodeSelect = (state, { node }) => {
   const newState = {
     ...state,
     elements: state.elements
-      .map((el) => {
-        return node.id !== el.id
+      .map((el) =>
+        node.id !== el.id
           ? {
               ...el,
               selected: false,
@@ -110,13 +110,13 @@ const nodeSelect = (state, { node }) => {
                 borderColor: nodeDefaults.deselectedColor,
               },
             }
-          : el
-      })
-      .map((el) => {
-        return node.id === el.id
+          : el,
+      )
+      .map((el) =>
+        node.id === el.id
           ? {
               ...el,
-              selected: el.selected ? false : true,
+              selected: !el.selected,
               style: {
                 ...el.style,
                 borderColor: !el.selected
@@ -124,8 +124,8 @@ const nodeSelect = (state, { node }) => {
                   : nodeDefaults.deselectedColor,
               },
             }
-          : el
-      }),
+          : el,
+      ),
   }
 
   return updateStateElements(newState)
@@ -134,8 +134,8 @@ const nodeSelect = (state, { node }) => {
 const updateNode = (state, { node, position, data }) => {
   const newState = {
     ...state,
-    elements: state.elements.map((el) => {
-      return el.id === node.id
+    elements: state.elements.map((el) =>
+      el.id === node.id
         ? {
             ...el,
             data: data
@@ -160,20 +160,19 @@ const updateNode = (state, { node, position, data }) => {
                 }
               : el.position,
           }
-        : el
-    }),
+        : el,
+    ),
   }
   return updateStateElements(newState)
 }
 
-const updateEdge = (edge, newNode, isTargetNode) => {
-  return isTargetNode
+const updateEdge = (edge, newNode, isTargetNode) =>
+  isTargetNode
     ? { ...edge, target: newNode.id }
     : { ...edge, source: newNode.id }
-}
 
 const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
-  const elements = state.elements
+  const { elements } = state
 
   const newElements = elements.map((e) =>
     isEdge(e) && e.target === oldTargetNode.id
@@ -185,7 +184,7 @@ const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
 }
 
 const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
-  const elements = state.elements
+  const { elements } = state
 
   const newElements = elements.map((e) =>
     isEdge(e) && e.id === edge.id ? updateEdge(e, newNode, isTargetNode) : e,
@@ -242,7 +241,7 @@ const insertNodeBefore = (state, { node }) => {
 }
 
 const insertNodeAfter = (state, { node }) => {
-  const sourceNode = node ? node : getLastNode(state.elements)
+  const sourceNode = node || getLastNode(state.elements)
 
   const [newNodeState, insertedNode] = createNode(state, 0, 0)
 
@@ -387,14 +386,14 @@ const useValueStream = () => {
   const changeEdgeTarget = (edge, newTargetNode) => {
     dispatch({
       type: 'UPDATE_EDGE',
-      data: { edge: edge, newNode: newTargetNode, isTargetNode: true },
+      data: { edge, newNode: newTargetNode, isTargetNode: true },
     })
   }
 
   const changeEdgeSource = (edge, newSourceNode) => {
     dispatch({
       type: 'UPDATE_EDGE',
-      data: { edge: edge, newNode: newSourceNode, isTargetNode: false },
+      data: { edge, newNode: newSourceNode, isTargetNode: false },
     })
   }
 
@@ -413,7 +412,7 @@ const useValueStream = () => {
 
   const setRelativelySized = () => dispatch({ type: 'RELATIVE_SIZE' })
 
-  const initState = (data) => dispatch({ type: 'INIT', data: data })
+  const initState = (data) => dispatch({ type: 'INIT', data })
 
   const toggleNodeSelect = (node) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })

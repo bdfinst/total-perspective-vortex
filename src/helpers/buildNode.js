@@ -15,7 +15,7 @@ export const defaultNodeData = {
   pctCompleteAccurate: 100,
 }
 export const buildNode = ({ id, x, y }) => {
-  const validCoord = (n) => !isNaN(n) && n > -1
+  const validCoord = (n) => !Number.isNaN(n) && n > -1
 
   if (!validCoord(x) || !validCoord(y)) {
     throw new Error('XY Coordinates not available for buildNode')

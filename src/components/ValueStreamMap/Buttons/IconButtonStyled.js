@@ -23,7 +23,7 @@ export const IconButtonStyled = ({
     <div className={classes.paper}>
       <Tooltip title={title}>
         <IconButton
-          tabIndex={tabIndex ? tabIndex : 0}
+          tabIndex={tabIndex || 0}
           color={color || 'primary'}
           className={className}
           component="span"

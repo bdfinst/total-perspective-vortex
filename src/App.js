@@ -7,17 +7,15 @@ import './App.css'
 import Main from './components/Main'
 import theme from './theme'
 
-const App = () => {
-  return (
-    <>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Main />
-        </ThemeProvider>
-      </BrowserRouter>
-    </>
-  )
-}
+const App = () => (
+  <>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Main />
+      </ThemeProvider>
+    </BrowserRouter>
+  </>
+)
 
 export default App

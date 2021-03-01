@@ -70,9 +70,8 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     onClose()
   }
 
-  const errorListExists = (errors) => {
-    return Object.entries(errors).find((e) => e[1] === true)
-  }
+  const errorListExists = (errors) =>
+    Object.entries(errors).find((e) => e[1] === true)
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault()
@@ -91,7 +90,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   }
 
   const handleChange = (e, propName) => {
-    const value = e.target.value
+    const { value } = e.target
     setErrorList({
       ...errorList,
       [propName]: getFieldConfig(propName).isError(value),
@@ -144,7 +143,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                       key={`p_${field.propName}`}
                       className={classes.paper}
                       elevation={0}
-                      square={true}
+                      square
                     >
                       <TextField
                         key={field.propName}
@@ -161,11 +160,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                   </Grid>
                   {field.toolTip.length > 0 && (
                     <Grid item xs={2}>
-                      <Paper
-                        className={classes.paper}
-                        elevation={0}
-                        square={true}
-                      >
+                      <Paper className={classes.paper} elevation={0} square>
                         <IconButtonStyled
                           tabIndex={-1}
                           title={field.toolTip}
@@ -187,7 +182,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
             alignItems="center"
           >
             <Grid item xs={6}>
-              <Paper className={classes.paper} elevation={0} square={true}>
+              <Paper className={classes.paper} elevation={0} square>
                 <IconButtonStyled
                   title="Add step before"
                   onClick={handleInsertStep}
@@ -199,7 +194,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
               </Paper>
             </Grid>
             <Grid item xs={6}>
-              <Paper className={classes.paper} elevation={0} square={true}>
+              <Paper className={classes.paper} elevation={0} square>
                 {' '}
                 <IconButtonStyled
                   title="Add step after"
