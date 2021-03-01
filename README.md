@@ -2,7 +2,9 @@
 
 A simple value stream mapping application to help automate a tedious manual process
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6c0202a0-529f-40ef-83f4-ad5344caa1d9/deploy-status)](https://app.netlify.com/sites/bfinster-value-stream-map/deploys)
+[![Netlify
+Status](https://api.netlify.com/api/v1/badges/6c0202a0-529f-40ef-83f4-ad5344caa1d9/deploy-status)](https://app.netlify.com/sites/bfinster-value-stream-map/deploys)
+[![CI](https://github.com/bdfinst/total-perspective-vortex/actions/workflows/test.yml/badge.svg)](https://github.com/bdfinst/total-perspective-vortex/actions/workflows/test.yml)
 
 ![VSM Screenshot](./docs/vsm.png)
 
