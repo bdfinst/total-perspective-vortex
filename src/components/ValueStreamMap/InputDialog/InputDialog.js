@@ -150,6 +150,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         key={field.propName}
                         className={classes.input}
                         type={field.type}
+                        autoFocus={field.autoFocus}
                         label={field.title}
                         fullwidth={field.fullWidth}
                         value={formData[field.propName] || ''}
@@ -166,6 +167,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         square={true}
                       >
                         <IconButtonStyled
+                          inputProps={{ tabIndex: -1 }}
                           title={field.toolTip}
                           onClick={() => handleHelpOpen(field.propName)}
                         >
