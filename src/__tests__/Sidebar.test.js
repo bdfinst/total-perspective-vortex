@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react'
 import React from 'react'
 
 import { ValueStreamProvider } from '../components/ValueStreamMap/valueStreamContext'
-import Sidebar from '../components/ValueStreamMap/Sidebar'
+import Totals from '../components/ValueStreamMap/Totals'
 
 afterEach(cleanup)
 
@@ -11,13 +11,13 @@ const renderSidebar = () => {
   return render(
     <ValueStreamProvider>
       <ReactFlowProvider>
-        <Sidebar />
+        <Totals />
       </ReactFlowProvider>
     </ValueStreamProvider>,
   )
 }
 
-describe('Sidebar', () => {
+describe('Totals', () => {
   it('should equal to 0', () => {
     const { getByTestId } = renderSidebar()
 

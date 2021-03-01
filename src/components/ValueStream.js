@@ -5,7 +5,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { ValueStreamProvider } from './ValueStreamMap/valueStreamContext'
-import Sidebar from './ValueStreamMap/Sidebar'
+import Totals from './ValueStreamMap/Totals'
 import ValueStreamMap from './ValueStreamMap/ValueStreamMap'
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ export default function ValueStream() {
       </Grid>
       <Grid item xs={12} md={3}>
         <Paper className={fixedHeightPaper}>
-          <Sidebar />
+          <Totals />
         </Paper>
       </Grid>
     </ValueStreamProvider>
