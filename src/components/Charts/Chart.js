@@ -1,8 +1,13 @@
 import {
-  Label,
+  Area,
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
   Line,
-  LineChart,
-  ResponsiveContainer,
+  ReferenceLine,
+  Scatter,
+  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
@@ -11,57 +16,69 @@ import React from 'react'
 
 import Title from '../Examples/Title'
 
-// Generate Sales Data
-const createData = (time, amount) => {
-  return { time, amount }
+const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => {
+  return {
+    name: `Week ${weekNbr}`,
+    ciRate,
+    deployRate,
+    defectRate,
+  }
 }
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-]
+const buildData = (weeks, teamSize) => {
+  const init = []
+  for (let index = 0; index < weeks; index++) {
+    init.push({ weekNbr: index + 1 })
+  }
+  return init.map((el) => {
+    const ciRate = Math.floor(Math.random() * teamSize * 3)
+    const deployRate = Math.floor(Math.random() * ciRate)
+    const defectRate =
+      ciRate <= 0 ? 0 : Math.floor(Math.random() * (1 / ciRate) * 60)
+
+    return buildWeekData(el.weekNbr, ciRate, deployRate, defectRate)
+  })
+}
 
 export default function Chart() {
   const theme = useTheme()
+  const teamSize = 6
+  const data = buildData(13, teamSize)
 
   return (
-    <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </React.Fragment>
+    <>
+      <Title>Pipeline Activity</Title>
+      <ComposedChart
+        width={800}
+        height={500}
+        data={data}
+        margin={{
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
+        }}
+      >
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+
+        <ReferenceLine
+          y={10}
+          label={`CI Target for team of ${teamSize}`}
+          stroke="red"
+          strokeDasharray="3 3"
+        />
+
+        <Bar dataKey="ciRate" barSize={20} fill="#413ea0" />
+
+        <Scatter dataKey="deployRate" fill="red" />
+        {/* <Line type="monotone" dataKey="deployRate" stroke="#413ea0" /> */}
+        <Line type="monotone" dataKey="defectRate" stroke="#ff7300" />
+      </ComposedChart>
+      );
+    </>
   )
 }
