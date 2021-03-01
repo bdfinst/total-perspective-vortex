@@ -11,6 +11,7 @@ import {
   YAxis,
 } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
 import Title from '../Examples/Title'
@@ -25,7 +26,8 @@ const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
   defectRate,
 })
 
-const getDefectRate = (ciRate) => (ciRate === 0 ? 0 : (1 / ciRate) * 100)
+const getDefectRate = (deployRate) =>
+  deployRate === 0 ? 0 : Math.round((1 / deployRate) * 50)
 
 const buildData = (weeks) => {
   const init = []
@@ -35,7 +37,7 @@ const buildData = (weeks) => {
   return init.map((el) => {
     const ciRate = Math.floor(Math.random() * ciTarget * 1.5)
     const deployRate = Math.floor(Math.random() * ciRate)
-    const defectRate = getDefectRate(ciRate)
+    const defectRate = getDefectRate(deployRate)
 
     return buildWeekData(el.weekNbr, ciRate, deployRate, defectRate)
   })
@@ -47,7 +49,7 @@ export default function Chart() {
   const data = buildData(13)
 
   return (
-    <>
+    <Paper>
       <Title>Pipeline Activity</Title>
       <ComposedChart
         width={800}
@@ -70,18 +72,28 @@ export default function Chart() {
           labelPosition="end"
           y={ciTarget}
           label={`Weekly CI Target for team of ${teamSize}`}
-          stroke="gold"
-          strokeDasharray="3 3"
+          stroke={theme.palette.primary.dark}
+          strokeDasharray="3 6"
         />
 
-        <Bar dataKey="ciRate" barSize={20} fill={theme.palette.primary.main} />
-        <Scatter dataKey="deployRate" fill={theme.palette.secondary.main} />
+        <Bar
+          name="CI Frequency"
+          dataKey="ciRate"
+          barSize={20}
+          fill={theme.palette.primary.dark}
+        />
+        <Scatter
+          name="Deploy Frequency"
+          dataKey="deployRate"
+          fill={theme.palette.secondary.light}
+        />
         <Line
+          name="Defect Rate"
           type="monotone"
           dataKey="defectRate"
           stroke={theme.palette.error.main}
         />
       </ComposedChart>
-    </>
+    </Paper>
   )
 }
