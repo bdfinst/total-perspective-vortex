@@ -167,7 +167,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
                         square={true}
                       >
                         <IconButtonStyled
-                          inputProps={{ tabIndex: -1 }}
                           title={field.toolTip}
                           onClick={() => handleHelpOpen(field.propName)}
                         >
