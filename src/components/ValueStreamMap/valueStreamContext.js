@@ -69,7 +69,6 @@ const initStateFromData = (state, data) => {
   //TODO: Validate file data
   const newState = {
     ...state,
-    currentEditNode: undefined,
     maxNodeId: data.maxNodeId,
     elements: data.elements,
   }
@@ -98,7 +97,6 @@ const addEdge = (state, { source, target }) => {
 }
 
 const nodeSelect = (state, { node }) => {
-  if (state.currentEditNode) return state
   const newState = {
     ...state,
     elements: state.elements
@@ -331,12 +329,7 @@ const valueStreamReducer = (state, action) => {
     case 'SELECT_NODE': {
       return nodeSelect(state, action.data)
     }
-    case 'OPEN_EDIT_NODE': {
-      return { ...valueStream, currentEditNode: action.data }
-    }
-    case 'CLOSE_EDIT_NODE': {
-      return { ...valueStream, currentEditNode: undefined }
-    }
+
     case 'UPDATE_EDGE': {
       return updateOneEdge(state, action.data)
     }
@@ -425,17 +418,11 @@ const useValueStream = () => {
   const toggleNodeSelect = (node) =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
-  const openEditNode = (node) =>
-    dispatch({ type: 'OPEN_EDIT_NODE', data: node.id })
-
-  const closeEditNode = () => dispatch({ type: 'CLOSE_EDIT_NODE' })
-
   return {
     state,
     increment,
     createNode,
-    openEditNode,
-    closeEditNode,
+
     createEdge,
     setRelativelySized,
     changeNodeValues,
