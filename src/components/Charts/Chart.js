@@ -1,5 +1,4 @@
 import {
-  Area,
   Bar,
   CartesianGrid,
   ComposedChart,
@@ -44,7 +43,7 @@ const buildData = (weeks, teamSize) => {
 }
 
 export default function Chart() {
-  const theme = useTheme()
+  // const theme = useTheme()
 
   const data = buildData(13, teamSize)
 

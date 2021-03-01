@@ -51,7 +51,6 @@ describe('Inserting a node after a selected node', () => {
     return getLastEdge(result.current.state.elements)
   }
 
-
   it('should add two connected nodes', () => {
     const node1 = addNode()
     const node2 = addNode()

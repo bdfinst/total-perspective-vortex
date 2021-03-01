@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts CI=false build",
     "coverage": "CI=true react-scripts test --ci --coverage ",
     "test": "react-scripts test ",
     "eject": "react-scripts eject",

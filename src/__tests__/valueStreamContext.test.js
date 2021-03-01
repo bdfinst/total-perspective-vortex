@@ -107,8 +107,6 @@ describe('Value Stream Context', () => {
 
       expect(found.data).toEqual(newData)
     })
-
-
   })
 })
 
