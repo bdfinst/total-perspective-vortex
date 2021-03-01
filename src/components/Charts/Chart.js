@@ -14,7 +14,7 @@ import { useTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
-import Title from '../Examples/Title'
+import Title from '../Title'
 
 const teamSize = 6
 const ciTarget = teamSize * 5
@@ -46,7 +46,7 @@ const buildData = (weeks) => {
 export default function Chart() {
   const theme = useTheme()
 
-  const data = buildData(13)
+  const data = buildData(8)
 
   return (
     <Paper>
