@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
 export const IconButtonStyled = ({
   title,
   children,
+  tabIndex,
   onClick,
   color,
   className,
@@ -22,6 +23,7 @@ export const IconButtonStyled = ({
     <div className={classes.paper}>
       <Tooltip title={title}>
         <IconButton
+          tabIndex={tabIndex ? tabIndex : 0}
           color={color || 'primary'}
           className={className}
           component="span"

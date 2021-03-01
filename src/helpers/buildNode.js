@@ -1,7 +1,7 @@
 import theme from '../theme'
 
 export const nodeDefaults = {
-  width: 175,
+  width: 220,
   height: 300,
   selectedColor: theme.palette.secondary.main,
   deselectedColor: theme.palette.primary.dark,
