@@ -5,7 +5,7 @@ import IconButtonStyled from './IconButtonStyled'
 
 const GitHubButton = () => (
   <IconButtonStyled
-    color="primary"
+    color="inherit"
     title="Fork me on GitHub"
     onClick={() => window.open('https://github.com/bdfinst/value-stream-map')}
   >

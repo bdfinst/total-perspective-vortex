@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
+import { GitHubButton } from './ValueStreamMap/Buttons'
 import config from './globalConfig'
 
 const useStyles = makeStyles((theme) => ({
@@ -70,11 +71,7 @@ export default function HeaderBar({ onClick, open }) {
         >
           Total Perspective Vortex
         </Typography>
-        {/* <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
+        <GitHubButton />
       </Toolbar>
     </AppBar>
   )
