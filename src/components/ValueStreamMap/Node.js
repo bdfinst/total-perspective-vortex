@@ -114,7 +114,7 @@ const Node = (props) => {
               <TableRow>
                 <TableCell align="center" colSpan={2}>
                   <Typography className={classes.title} gutterBottom>
-                    {data.processName || 'Update Me'}
+                    {data.processName || 'Unnamed Process'}
                   </Typography>
                 </TableCell>
               </TableRow>
