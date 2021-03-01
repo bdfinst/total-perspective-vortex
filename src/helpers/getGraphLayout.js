@@ -8,28 +8,46 @@ import { nodeDefaults } from './buildNode'
  * @param {Array} elements
  * @param {boolean} useProportional
  */
-export const getGraphLayout = (
+export default function getGraphLayout(
   elements,
   useProportional = true,
   offsetWidth = 50,
-) => {
+) {
   const dagreGraph = new dagre.graphlib.Graph()
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
   dagreGraph.setGraph({ rankdir: 'LR' })
 
-  const offsetPosition = (waitTime, offset) => {
-    return useProportional && waitTime > 0 ? waitTime * offset : 0
+  const offsetPosition = (waitTime, offset) =>
+    useProportional && waitTime > 0 ? waitTime * offset : 0
+
+  const getNewXY = (el) => {
+    let position
+    let totalOffset = 0
+
+    if (isNode(el)) {
+      const nodeWithPosition = dagreGraph.node(el.id)
+
+      totalOffset += offsetPosition(el.data.waitTime, offsetWidth)
+
+      // Pass a slightly different position to notify react flow about the change
+      position = {
+        x: nodeWithPosition.x + totalOffset + Math.random() / 10000,
+        y: nodeWithPosition.y,
+      }
+    }
+
+    return position
   }
 
   elements.forEach((el) => {
     if (isNode(el)) {
-      const width = nodeDefaults.width
-      const height = nodeDefaults.height
+      const { width } = nodeDefaults
+      const { height } = nodeDefaults
 
       dagreGraph.setNode(el.id, {
-        width: width,
-        height: height,
+        width,
+        height,
       })
     } else {
       dagreGraph.setEdge(el.source, el.target)
@@ -38,19 +56,5 @@ export const getGraphLayout = (
 
   dagre.layout(dagreGraph)
 
-  let totalOffset = 0
-  return elements.map((el) => {
-    if (isNode(el)) {
-      const nodeWithPosition = dagreGraph.node(el.id)
-
-      totalOffset = totalOffset + offsetPosition(el.data.waitTime, offsetWidth)
-
-      // Pass a slightly different position to notify react flow about the change
-      el.position = {
-        x: nodeWithPosition.x + totalOffset + Math.random() / 10000,
-        y: nodeWithPosition.y,
-      }
-    }
-    return el
-  })
+  return elements.map((el) => ({ ...el, position: getNewXY(el) }))
 }

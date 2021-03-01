@@ -5,17 +5,14 @@ export const getElementById = (id, elements) =>
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
-export const getNodes = (elements) => {
-  return elements.filter((element) => isNode(element))
-}
+export const getNodes = (elements) =>
+  elements.filter((element) => isNode(element))
 
-export const getNodeById = (elements, id) => {
-  return getNodes(elements).find((node) => `${node.id}` === `${id}`)
-}
+export const getNodeById = (elements, id) =>
+  getNodes(elements).find((node) => `${node.id}` === `${id}`)
 
-export const getEdges = (elements) => {
-  return elements.filter((element) => isEdge(element))
-}
+export const getEdges = (elements) =>
+  elements.filter((element) => isEdge(element))
 
 export const getLastNode = (elements) => {
   const el = getNodes(elements)
@@ -28,43 +25,35 @@ export const getLastNode = (elements) => {
  * @param {*} elements
  * @param {*} {sourceId, targetId}
  */
-export const getEdge = (elements, { sourcedId, targetId }) => {
-  return getEdges(elements)
+export const getEdge = (elements, { sourcedId, targetId }) =>
+  getEdges(elements)
     .filter((e) => (sourcedId ? e.source === sourcedId : true))
     .filter((e) => (targetId ? e.target === targetId : true))
-}
-export const getEdgesBySource = (elements, node) => {
-  return getEdges(elements).filter((e) => e.source === node.id)
-}
+export const getEdgesBySource = (elements, node) =>
+  getEdges(elements).filter((e) => e.source === node.id)
 
-export const getEdgesByTarget = (elements, node) => {
-  return getEdges(elements).filter((e) => e.target === node.id)
-}
+export const getEdgesByTarget = (elements, node) =>
+  getEdges(elements).filter((e) => e.target === node.id)
 
-export const getNodeIndexes = (elements) => {
-  return elements
+export const getNodeIndexes = (elements) =>
+  elements
     .map((e, index) => (isNode(e) ? { id: e.id, index } : undefined))
     .filter((e) => e !== undefined)
-}
 
 export const getLastEdge = (elements) => {
   const el = getEdges(elements)
   return el[el.length - 1]
 }
 
-export const findEdgesTo = (node, elements) => {
-  return elements
+export const findEdgesTo = (node, elements) =>
+  elements
     .filter((element) => isEdge(element))
     .filter((edge) => edge.target === node.id)
-}
 
-export const edgeExists = (elements, newEdge) => {
-  return getEdges(elements).find(
+export const edgeExists = (elements, newEdge) =>
+  !!getEdges(elements).find(
     (el) => el.source === newEdge.source && el.target === newEdge.target,
   )
-    ? true
-    : false
-}
 
 export const roundTo2 = (number) => Math.round(number * 100) / 100
 
@@ -75,44 +64,53 @@ const calcPropertyAvg = (nodes, property) => {
     .filter((node) => posFilter(node.data[property]))
     .map((node) => node.data[property])
 
-  return (
-    values.reduce((acc, pca) => {
-      return acc + pca
-    }, 0) / values.length
-  )
+  return values.reduce((acc, pca) => acc + pca, 0) / values.length
 }
 
 export const convertToNumeric = (data) => {
-  const outData = {}
+  const outData = Object.keys(data).reduce(
+    (map, key) => ({
+      ...map,
+      [key]:
+        (typeof data[key] === 'string' && Number.isNaN(Number(data[key]))) ||
+        data[key].length === 0
+          ? data[key]
+          : Number(data[key]),
+    }),
+    {},
+  )
 
-  for (const key in data) {
-    outData[key] =
-      (typeof data[key] === 'string' && isNaN(Number(data[key]))) ||
-      data[key].length === 0
-        ? data[key]
-        : Number(data[key])
-  }
   return outData
 }
 
-const calcPropertySum = (nodes, property) => {
-  return nodes
+const calcPropertySum = (nodes, property) =>
+  nodes
     .map((node) => Number(node.data[property]))
-    .reduce((acc, val) => {
-      return acc + val
-    }, 0)
-}
+    .reduce((acc, val) => acc + val, 0)
 
-const totalPeopleTime = (nodes) => {
-  return nodes
+const totalPeopleTime = (nodes) =>
+  nodes
     .map((node) => convertToNumeric(node.data))
     .reduce((acc, val) => acc + val.people * val.processTime, 0)
+
+export const calcFlowEfficiency = (processTime, totalTime) => {
+  if (
+    totalTime === 0 ||
+    Number.isNaN(totalTime) ||
+    processTime === 0 ||
+    Number.isNaN(processTime)
+  ) {
+    return 0
+  }
+
+  return roundTo2((processTime / totalTime) * 100)
 }
 
 export const getNodeSums = (elements) => {
-  const nodes = getNodes(elements).map((el) => {
-    return { ...el, data: convertToNumeric(el.data) }
-  })
+  const nodes = getNodes(elements).map((el) => ({
+    ...el,
+    data: convertToNumeric(el.data),
+  }))
 
   const totals = {
     peopleTime: totalPeopleTime(nodes),
@@ -129,19 +127,6 @@ export const getNodeSums = (elements) => {
   )
 
   return totals
-}
-
-export const calcFlowEfficiency = (processTime, totalTime) => {
-  if (
-    totalTime === 0 ||
-    isNaN(totalTime) ||
-    processTime === 0 ||
-    isNaN(processTime)
-  ) {
-    return 0
-  }
-
-  return roundTo2((processTime / totalTime) * 100)
 }
 
 export const toJson = (str) => {
