@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },
 }))
 
-export const ResetButton = (props) => {
+const ResetButton = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const { reset } = useValueStream()
@@ -30,3 +30,4 @@ export const ResetButton = (props) => {
     </div>
   )
 }
+export default ResetButton

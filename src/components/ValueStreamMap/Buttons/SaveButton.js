@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },
 }))
 
-export const SaveButton = (props) => {
+const SaveButton = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const { state } = useValueStream()
@@ -37,3 +37,4 @@ export const SaveButton = (props) => {
     </div>
   )
 }
+export default SaveButton

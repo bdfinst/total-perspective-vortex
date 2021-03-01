@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },
 }))
 
-export const FileUpload = (props) => {
+const FileUpload = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const { initState } = useValueStream()
@@ -20,9 +20,13 @@ export const FileUpload = (props) => {
 
   let fileReader
 
-  const handleRead = (e) => {
+  const handleRead = () => {
     const data = toJson(fileReader.result)
-    data ? initState(data) : console.log('File not JSON')
+    if (data) {
+      initState(data)
+    } else {
+      throw new Error('File not JSON')
+    }
   }
 
   const handleFileChosen = (file) => {
@@ -38,9 +42,9 @@ export const FileUpload = (props) => {
   }
 
   const handleSave = (files) => {
-    //Saving files to state for further use and closing Modal.
+    // Saving files to state for further use and closing Modal.
     setState({
-      files: files,
+      files,
       open: false,
     })
     handleFileChosen(files[0])
@@ -69,13 +73,15 @@ export const FileUpload = (props) => {
         onSave={handleSave}
         filesLimit={1}
         acceptedFiles={['application/json']}
-        showPreviews={true}
+        showPreviews
         maxFileSize={5000000}
         onClose={handleClose}
         showPreviewsInFileUpload={false}
-        showFileNames={true}
+        showFileNames
         previewText="File:"
       />
     </div>
   )
 }
+
+export default FileUpload

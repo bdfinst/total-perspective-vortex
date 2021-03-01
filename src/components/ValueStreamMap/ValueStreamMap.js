@@ -51,13 +51,6 @@ const ValueStreamMap = () => {
     createEdge({ source, target })
   }
 
-  const onConnectStart = (event, { nodeId, handleType }) =>
-    console.log('on connect start', { nodeId, handleType, event })
-
-  const onConnectStop = (event) => console.log('on connect stop', event)
-
-  const onConnectEnd = (event) => console.log('on connect end', event)
-
   const onNodeDragStop = (event, node) => {
     changeNodeValues({ node, position: node.position })
   }
@@ -78,6 +71,7 @@ const ValueStreamMap = () => {
 
   const onDragOver = (event) => {
     event.preventDefault()
+    // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'move'
   }
 
@@ -129,7 +123,7 @@ const ValueStreamMap = () => {
               defaultZoom={0.6}
               minZoom={0.05}
               maxZoom={1.5}
-              snapToGrid={true}
+              snapToGrid
               onConnect={onConnect}
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}
@@ -138,9 +132,6 @@ const ValueStreamMap = () => {
               onLoad={onLoad}
               onDrop={onDrop}
               onDragOver={onDragOver}
-              onConnectStart={onConnectStart}
-              onConnectStop={onConnectStop}
-              onConnectEnd={onConnectEnd}
               arrowHeadColor="green"
             >
               <MiniMap

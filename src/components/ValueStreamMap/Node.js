@@ -50,7 +50,7 @@ const Node = (props) => {
     setNode(props)
   }, [state.elements])
 
-  const handleDoubleClick = (e) => {
+  const handleDoubleClick = () => {
     if (!node.selected) {
       toggleNodeSelect(node)
     }
@@ -70,7 +70,6 @@ const Node = (props) => {
       <Handle
         type={settings(type).type}
         position={settings(type).side}
-        onConnect={(params) => console.log('handle onConnect', settings(type))}
         style={{
           background: settings(type).color,
           width: '15px',
