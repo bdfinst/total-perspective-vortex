@@ -21,8 +21,8 @@
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
     "lint": "npm run format:fix && npm run lint:fix",
-    "lint:check": "eslint src ",
-    "lint:fix": "eslint src --fix",
+    "lint:check": "eslint ./ ",
+    "lint:fix": "eslint ./ --fix",
     "depcheck": "depcheck --ignores='import-sort-style-absolute'",
     "pre-commit": "npm run depcheck && npm run lint && git add . && npm run lint:check && npm run format:check && npm test"
   },
