@@ -1,1 +1,1 @@
-build = "npm ci"
+setup     = ".muse/setup.sh"
