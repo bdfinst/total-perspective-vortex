@@ -11,6 +11,7 @@ export default function ListItemLink(props) {
   const renderLink = React.useMemo(
     () =>
       React.forwardRef((itemProps, ref) => (
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <RouterLink to={to} ref={ref} {...itemProps} />
       )),
     [to],
@@ -27,7 +28,7 @@ export default function ListItemLink(props) {
 }
 
 ListItemLink.propTypes = {
-  icon: PropTypes.element,
+  icon: PropTypes.element.isRequired,
   primary: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
 }

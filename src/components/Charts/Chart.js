@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
 import Title from '../Examples/Title'
@@ -25,9 +24,9 @@ const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
   defectRate,
 })
 
-const buildData = (weeks, teamSize) => {
+const buildData = (weeks) => {
   const init = []
-  for (let index = 0; index < weeks; index++) {
+  for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
   return init.map((el) => {
@@ -43,7 +42,7 @@ const buildData = (weeks, teamSize) => {
 export default function Chart() {
   // const theme = useTheme()
 
-  const data = buildData(13, teamSize)
+  const data = buildData(13)
 
   return (
     <>

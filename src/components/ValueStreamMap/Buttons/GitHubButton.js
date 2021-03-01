@@ -1,9 +1,9 @@
 import { GitHub } from '@material-ui/icons'
 import React from 'react'
 
-import { IconButtonStyled } from './IconButtonStyled'
+import IconButtonStyled from './IconButtonStyled'
 
-export const GitHubButton = () => (
+const GitHubButton = () => (
   <IconButtonStyled
     color="primary"
     title="Fork me on GitHub"
@@ -12,3 +12,5 @@ export const GitHubButton = () => (
     <GitHub fontSize="large" />
   </IconButtonStyled>
 )
+
+export default GitHubButton

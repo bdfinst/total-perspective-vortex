@@ -58,6 +58,10 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const [helpOpen, setHelpOpen] = useState(false)
   const [helpContent, setHelpContent] = useState('')
 
+  const handleClose = () => {
+    onClose()
+  }
+
   useEffect(() => {
     if (selectedNode && open) {
       setFormData(selectedNode.data)
@@ -65,10 +69,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
       handleClose()
     }
   }, [open, selectedNode])
-
-  const handleClose = () => {
-    onClose()
-  }
 
   const errorListExists = (errors) =>
     Object.entries(errors).find((e) => e[1] === true)

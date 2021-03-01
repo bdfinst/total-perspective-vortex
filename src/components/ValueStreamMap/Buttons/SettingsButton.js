@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
+const SettingsButton = ({ onDialogOpen, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -45,3 +45,4 @@ export const SettingsButton = ({ onDialogOpen, selectedNode }) => {
     </div>
   )
 }
+export default SettingsButton

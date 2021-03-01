@@ -43,7 +43,7 @@ const updateStateElements = (state) => {
   return newState
 }
 
-const createNode = (state, x, y) => {
+const makeNewNode = (state, x, y) => {
   const nodeId = state.maxNodeId + 1
   const newNode = buildNode({ id: nodeId, x, y })
 
@@ -57,7 +57,7 @@ const createNode = (state, x, y) => {
 }
 
 const addNode = (state, { x, y }) => {
-  const [newState, newNode] = createNode(state, x, y)
+  const [newState, newNode] = makeNewNode(state, x, y)
 
   return {
     ...newState,
@@ -214,7 +214,7 @@ const deleteElements = (state, elementsToRemove) => {
 const insertNodeBefore = (state, { node }) => {
   if (!node) return state
 
-  const [newNodeState, insertedNode] = createNode(state, 0, 0)
+  const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
   const index = state.elements.findIndex((e) => e.id === node.id)
 
@@ -243,7 +243,7 @@ const insertNodeBefore = (state, { node }) => {
 const insertNodeAfter = (state, { node }) => {
   const sourceNode = node || getLastNode(state.elements)
 
-  const [newNodeState, insertedNode] = createNode(state, 0, 0)
+  const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
   const index = node
     ? state.elements.findIndex((e) => e.id === node.id)
@@ -293,6 +293,7 @@ const buildData = () => {
   const init = initValueStream()
 
   if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+    // eslint-disable-next-line no-console
     console.log('Clear local storage')
     ls.clear()
   }
@@ -362,6 +363,7 @@ const ValueStreamProvider = (props) => {
   const value = React.useMemo(() => [state, dispatch], [state])
 
   // return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <ValueStreamContext.Provider value={value} {...props} />
 }
 
@@ -421,7 +423,6 @@ const useValueStream = () => {
     state,
     increment,
     createNode,
-
     createEdge,
     setRelativelySized,
     changeNodeValues,

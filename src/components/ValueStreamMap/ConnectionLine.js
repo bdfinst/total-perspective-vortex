@@ -1,15 +1,6 @@
 import React from 'react'
 
-const ConnectionLine = ({
-  sourceX,
-  sourceY,
-  sourcePosition,
-  targetX,
-  targetY,
-  targetPosition,
-  connectionLineType,
-  connectionLineStyle,
-}) => (
+const ConnectionLine = ({ sourceX, sourceY, targetX, targetY }) => (
   <g>
     <path
       fill="none"

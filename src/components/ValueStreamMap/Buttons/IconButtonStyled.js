@@ -1,14 +1,14 @@
 import { IconButton, Tooltip } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     textAlign: 'center',
   },
 }))
 
-export const IconButtonStyled = ({
+const IconButtonStyled = ({
   title,
   children,
   tabIndex,
@@ -16,8 +16,7 @@ export const IconButtonStyled = ({
   color,
   className,
 }) => {
-  const theme = useTheme()
-  const classes = useStyles(theme)
+  const classes = useStyles()
 
   return (
     <div className={classes.paper}>
@@ -35,3 +34,5 @@ export const IconButtonStyled = ({
     </div>
   )
 }
+
+export default IconButtonStyled

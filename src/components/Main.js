@@ -1,6 +1,5 @@
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-
 import Box from '@material-ui/core/Box'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import Container from '@material-ui/core/Container'
@@ -14,10 +13,10 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import { config } from './globalConfig'
 import HeaderBar from './HeaderBar'
 import ListLinkItem from './Menu/ListLinkItem'
 import Routes from './Routes'
+import config from './globalConfig'
 
 const Copyright = () => (
   <Typography variant="body2" color="textSecondary" align="center">
@@ -109,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Main = (props) => {
+const Main = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
@@ -137,9 +136,9 @@ const Main = (props) => {
         </div>
         <Divider />
         <List>
-          {Routes.map((route, key) => (
+          {Routes.map((route) => (
             <ListLinkItem
-              key={key}
+              key={route.sidebarName}
               icon={route.icon}
               to={route.path}
               primary={route.sidebarName}

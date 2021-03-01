@@ -8,9 +8,9 @@ const buildData = (processTime, waitTime, pctCompleteAccurate) => ({
   pctCompleteAccurate,
 })
 
-export const elements = (count = 2, pca = 0) => {
+const elements = (count = 2, pca = 0) => {
   const nodes = []
-  for (let index = 0; index <= count; index++) {
+  for (let index = 0; index <= count; index += 1) {
     const node = buildNode({ id: index + 1, x: 0, y: 0 })
     node.data = buildData(index + 1, index + 2, 0)
 
@@ -30,3 +30,5 @@ export const elements = (count = 2, pca = 0) => {
 
   return nodes.concat(edges)
 }
+
+export default elements

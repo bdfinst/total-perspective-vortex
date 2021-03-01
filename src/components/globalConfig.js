@@ -1,3 +1,5 @@
-export const config = {
+const config = {
   drawerWidth: 200,
 }
+
+export default config
