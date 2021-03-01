@@ -16,6 +16,9 @@ import React from 'react'
 
 import Title from '../Examples/Title'
 
+const teamSize = 6
+const ciTarget = teamSize * 5
+
 const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => {
   return {
     name: `Week ${weekNbr}`,
@@ -31,7 +34,7 @@ const buildData = (weeks, teamSize) => {
     init.push({ weekNbr: index + 1 })
   }
   return init.map((el) => {
-    const ciRate = Math.floor(Math.random() * teamSize * 3)
+    const ciRate = Math.floor(Math.random() * ciTarget * 3)
     const deployRate = Math.floor(Math.random() * ciRate)
     const defectRate =
       ciRate <= 0 ? 0 : Math.floor(Math.random() * (1 / ciRate) * 60)
@@ -42,7 +45,7 @@ const buildData = (weeks, teamSize) => {
 
 export default function Chart() {
   const theme = useTheme()
-  const teamSize = 6
+
   const data = buildData(13, teamSize)
 
   return (
@@ -66,19 +69,18 @@ export default function Chart() {
         <Legend />
 
         <ReferenceLine
-          y={10}
+          y={ciTarget}
           label={`CI Target for team of ${teamSize}`}
           stroke="red"
           strokeDasharray="3 3"
         />
 
-        <Bar dataKey="ciRate" barSize={20} fill="#413ea0" />
+        <Bar dataKey="ciRate" barSize={20} fill="#8884d8" />
 
         <Scatter dataKey="deployRate" fill="red" />
         {/* <Line type="monotone" dataKey="deployRate" stroke="#413ea0" /> */}
         <Line type="monotone" dataKey="defectRate" stroke="#ff7300" />
       </ComposedChart>
-      );
     </>
   )
 }
