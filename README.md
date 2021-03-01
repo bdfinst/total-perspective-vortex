@@ -33,4 +33,3 @@ Thanks for considering contributing to this value stream mapping tool. We have a
 
 1. We gladly accept tested contributions for fix or features that met the product goals.
 2. Please use functional style for all contributions to keep the code consistant.
-
