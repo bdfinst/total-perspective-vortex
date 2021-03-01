@@ -57,7 +57,7 @@ describe('Building totals', () => {
     expect(results.peopleTime).toEqual(peopleTime)
   })
   it('should calculate the total process time', () => {
-    expect(results.processTime).toEqual(false)
+    expect(results.processTime).toEqual(processTime)
   })
   it('should sum the the average number of people per process', () => {
     expect(results.averageActors).toEqual(1)
