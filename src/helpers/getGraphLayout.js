@@ -1,7 +1,7 @@
 import { isNode } from 'react-flow-renderer'
 import dagre from 'dagre'
 
-import { nodeDefaults } from './buildNode'
+import config from '../globalConfig'
 
 /**
  *
@@ -11,12 +11,19 @@ import { nodeDefaults } from './buildNode'
 export default function getGraphLayout(
   elements,
   useProportional = true,
-  offsetWidth = 50,
+  offsetWidth = config.betweenNodes,
 ) {
   const dagreGraph = new dagre.graphlib.Graph()
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
-  dagreGraph.setGraph({ rankdir: 'LR' })
+  // network-simplex, tight-tree or longest-path
+  dagreGraph.setGraph({
+    rankdir: 'LR',
+    // nodesep: 1,
+    // edgesep: 10,
+    // ranksep: config.betweenNodes,
+    ranker: 'network-simplex',
+  })
 
   const offsetPosition = (waitTime, offset) =>
     useProportional && waitTime > 0 ? waitTime * offset : 0
@@ -42,12 +49,9 @@ export default function getGraphLayout(
 
   elements.forEach((el) => {
     if (isNode(el)) {
-      const { width } = nodeDefaults
-      const { height } = nodeDefaults
-
       dagreGraph.setNode(el.id, {
-        width,
-        height,
+        width: config.nodeWidth,
+        height: config.nodeHeight,
       })
     } else {
       dagreGraph.setEdge(el.source, el.target)

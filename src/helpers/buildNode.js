@@ -1,11 +1,5 @@
+import config from '../globalConfig'
 import theme from '../theme'
-
-export const nodeDefaults = {
-  width: 220,
-  height: 300,
-  selectedColor: theme.palette.secondary.main,
-  deselectedColor: theme.palette.primary.dark,
-}
 
 export const defaultNodeData = {
   processName: '',
@@ -14,6 +8,7 @@ export const defaultNodeData = {
   waitTime: 0,
   pctCompleteAccurate: 100,
 }
+
 export const buildNode = ({ id, x, y }) => {
   const validCoord = (n) => !Number.isNaN(n) && n > -1
 
@@ -30,9 +25,9 @@ export const buildNode = ({ id, x, y }) => {
     selected: false,
     data: defaultNodeData,
     style: {
-      width: nodeDefaults.width,
+      width: config.nodeWidth,
       background: theme.palette.background.paper,
-      borderColor: nodeDefaults.deselectedColor,
+      borderColor: config.deselectedColor,
       borderRadius: '12px',
       borderStyle: 'solid',
       borderWidth: '4px',
