@@ -8,3 +8,9 @@ it('renders learn react link', () => {
 
   expect(screen.getByText(/menu/i)).toBeInTheDocument()
 })
+
+it.skip('sets the default state', () => {
+  const {getByTestId} = render(<ContextMenu />)
+
+  expect(getByTestId("state")).toEqual(false)
+})
