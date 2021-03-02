@@ -47,6 +47,7 @@ export default function getGraphLayout(
     return position
   }
 
+  // TODO: made width actual node width to enable relative widths
   elements.forEach((el) => {
     if (isNode(el)) {
       dagreGraph.setNode(el.id, {
