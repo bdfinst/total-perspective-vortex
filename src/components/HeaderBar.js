@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
 import { GitHubButton } from './ValueStreamMap/Buttons'
-import config from './globalConfig'
+import config from '../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

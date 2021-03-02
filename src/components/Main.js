@@ -16,7 +16,7 @@ import clsx from 'clsx'
 import HeaderBar from './HeaderBar'
 import ListLinkItem from './Menu/ListLinkItem'
 import Routes from './Routes'
-import config from './globalConfig'
+import config from '../globalConfig'
 
 const Copyright = () => (
   <Typography variant="body2" color="textSecondary" align="center">
