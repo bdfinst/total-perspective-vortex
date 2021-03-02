@@ -2,8 +2,8 @@ import { ReactFlowProvider } from 'react-flow-renderer'
 import { cleanup, render } from '@testing-library/react'
 import React from 'react'
 
-import { ValueStreamProvider } from '../components/ValueStreamMap/valueStreamContext'
-import Totals from '../components/ValueStreamMap/Totals'
+import { ValueStreamProvider } from './valueStreamContext'
+import Totals from './Totals'
 
 afterEach(cleanup)
 
