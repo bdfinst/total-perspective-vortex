@@ -17,9 +17,9 @@ import {
   getGraphLayout,
   getLastEdge,
   getLastNode,
-  nodeDefaults,
   spliceArray,
 } from '../../helpers'
+import config from '../../globalConfig'
 
 const defaultPosition = { x: 100, y: 175 }
 
@@ -107,7 +107,7 @@ const nodeSelect = (state, { node }) => {
               selected: false,
               style: {
                 ...el.style,
-                borderColor: nodeDefaults.deselectedColor,
+                borderColor: config.deselectedColor,
               },
             }
           : el,
@@ -120,8 +120,8 @@ const nodeSelect = (state, { node }) => {
               style: {
                 ...el.style,
                 borderColor: !el.selected
-                  ? nodeDefaults.selectedColor
-                  : nodeDefaults.deselectedColor,
+                  ? config.selectedColor
+                  : config.deselectedColor,
               },
             }
           : el,
