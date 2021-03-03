@@ -59,7 +59,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const [helpContent, setHelpContent] = useState('')
 
   const handleClose = () => {
-    // changeNodeValues({ node: selectedNode, selected: false, data: formData })
     onClose()
   }
 
@@ -82,10 +81,15 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     }
   }
 
-  const handleInsertStep = () => {
+  const handleInsertStep = (event) => {
+    if (event) event.preventDefault()
+
     addNodeBefore(selectedNode)
   }
-  const handleAddStep = () => {
+
+  const handleAddStep = (event) => {
+    if (event) event.preventDefault()
+
     addNodeAfter(selectedNode)
   }
 
