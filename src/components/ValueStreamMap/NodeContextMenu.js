@@ -16,9 +16,9 @@ const NodeContextMenu = ({ menuId }) => {
   }
 
   const handleEdit = ({ props }) => {
-    if (!props.node.selected) {
-      toggleNodeSelect(props.node)
-    }
+    // if (!props.node.selected) {
+    toggleNodeSelect(props.node)
+    // }
   }
 
   return (
