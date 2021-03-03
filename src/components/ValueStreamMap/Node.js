@@ -64,8 +64,6 @@ const Node = (props) => {
   const handleDoubleClick = (event) => {
     if (event) event.preventDefault()
 
-    // if (!node.selected) toggleNodeSelect(node)
-    console.log('Node')
     toggleNodeSelect(node)
   }
 

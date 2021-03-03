@@ -104,7 +104,6 @@ const ValueStreamMap = () => {
 
   const handlePaneClick = () => {
     if (selectedNode) toggleNodeSelect(selectedNode)
-    console.log('handlePaneClick')
   }
 
   return (

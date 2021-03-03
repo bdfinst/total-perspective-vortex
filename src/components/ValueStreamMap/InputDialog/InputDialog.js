@@ -65,10 +65,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
 
   const handleClose = (event) => {
     if (event) event.preventDefault()
-
     if (selectedNode && open) toggleNodeSelect(selectedNode)
-    console.log('InputDialog')
-
     onClose()
   }
 
