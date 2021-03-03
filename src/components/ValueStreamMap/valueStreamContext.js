@@ -211,7 +211,12 @@ const deleteElements = (state, elementsToRemove) => {
   return updateStateElements(newState)
 }
 
-const insertNodeBefore = (state, { node }) => {
+const markNodeSelected = (_node, isSelected) => ({
+  ..._node,
+  selected: isSelected ? true : _node.selected,
+})
+
+const insertNodeBefore = (state, { node, selectNewNode }) => {
   if (!node) return state
 
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
@@ -222,7 +227,11 @@ const insertNodeBefore = (state, { node }) => {
     ...newNodeState,
     elements:
       index > 0
-        ? spliceArray(state.elements, index, insertedNode)
+        ? spliceArray(
+            state.elements,
+            index,
+            markNodeSelected(insertedNode, selectNewNode),
+          )
         : state.elements,
   }
 
@@ -240,7 +249,7 @@ const insertNodeBefore = (state, { node }) => {
   return updateStateElements(newEdgeState)
 }
 
-const insertNodeAfter = (state, { node }) => {
+const insertNodeAfter = (state, { node, selectNewNode }) => {
   const sourceNode = node || getLastNode(state.elements)
 
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
@@ -252,7 +261,11 @@ const insertNodeAfter = (state, { node }) => {
   const nodeAddedState = {
     ...newNodeState,
     elements: node
-      ? spliceArray(state.elements, index + 1, insertedNode)
+      ? spliceArray(
+          state.elements,
+          index + 1,
+          markNodeSelected(insertedNode, selectNewNode),
+        )
       : state.elements.concat(insertedNode),
   }
 
@@ -376,8 +389,7 @@ const useValueStream = () => {
 
   const increment = () => dispatch({ type: 'INCREMENT' })
 
-  const createNode = ({ x, y }) =>
-    dispatch({ type: 'CREATE_NODE', data: { x, y } })
+  const createNode = (x, y) => dispatch({ type: 'CREATE_NODE', data: { x, y } })
 
   const createEdge = ({ source, target }) =>
     dispatch({ type: 'CREATE_EDGE', data: { source, target } })
@@ -399,12 +411,12 @@ const useValueStream = () => {
     })
   }
 
-  const addNodeBefore = (node) => {
-    dispatch({ type: 'INSERT_NODE_BEFORE', data: { node } })
+  const addNodeBefore = (node, selectNewNode = false) => {
+    dispatch({ type: 'INSERT_NODE_BEFORE', data: { node, selectNewNode } })
   }
 
-  const addNodeAfter = (node) => {
-    dispatch({ type: 'INSERT_NODE_AFTER', data: { node } })
+  const addNodeAfter = (node, selectNewNode = false) => {
+    dispatch({ type: 'INSERT_NODE_AFTER', data: { node, selectNewNode } })
   }
 
   const removeElements = (elements = []) => {

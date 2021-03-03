@@ -51,14 +51,21 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
+  const {
+    addNodeBefore,
+    addNodeAfter,
+    changeNodeValues,
+    toggleNodeSelect,
+  } = useValueStream()
 
   const [formData, setFormData] = useState(defaultNodeData)
   const [errorList, setErrorList] = useState({})
   const [helpOpen, setHelpOpen] = useState(false)
   const [helpContent, setHelpContent] = useState('')
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    if (event) event.preventDefault()
+    if (selectedNode && open) toggleNodeSelect(selectedNode)
     onClose()
   }
 
@@ -82,11 +89,18 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     }
   }
 
-  const handleInsertStep = () => {
-    addNodeBefore(selectedNode)
+  const handleInsertStep = (event) => {
+    if (event) event.preventDefault()
+
+    handleSubmit(event)
+    addNodeBefore(selectedNode, true)
   }
-  const handleAddStep = () => {
-    addNodeAfter(selectedNode)
+
+  const handleAddStep = (event) => {
+    if (event) event.preventDefault()
+
+    handleSubmit(event)
+    addNodeAfter(selectedNode, true)
   }
 
   const handleChange = (e, propName) => {

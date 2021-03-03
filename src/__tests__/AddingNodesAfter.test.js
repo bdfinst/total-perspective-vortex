@@ -33,7 +33,7 @@ describe('Inserting a node after a selected node', () => {
   })
   const addNode = () => {
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.createNode(1,  1 )
     })
 
     const node = getLastNode(result.current.state.elements)

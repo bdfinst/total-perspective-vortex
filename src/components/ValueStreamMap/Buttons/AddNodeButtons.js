@@ -1,23 +1,50 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Tooltip } from '@material-ui/core'
 import { InputOutlined } from '@material-ui/icons'
+import { Tooltip } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../valueStreamContext'
+import IconButtonStyled from './IconButtonStyled'
+import config from '../../../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    color: theme.palette.primary.dark,
+  },
   inactive: {
     color: theme.palette.text.disabled,
-    transform: 'rotateY(180deg)',
   },
   arrowLeft: {
-    color: theme.palette.primary.dark,
-    transform: 'rotateY(180deg)',
+    transform: ' rotate(180deg)',
   },
-  arrowRight: {
-    color: theme.palette.primary.dark,
+  arrowRight: {},
+  arrowDown: {
+    transform: ' rotate(90deg)',
   },
 }))
+
+export const AddNode = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+  const { createNode, state } = useValueStream()
+
+  const handleAdd = () => {
+    const node1 = state.elements[0]
+    const posX = node1.position.x
+    const posY = node1.position.y + config.nodeHeight - 50
+
+    createNode(posX, posY)
+  }
+  return (
+    <div>
+      <Tooltip title="Add new node">
+        <IconButtonStyled onClick={handleAdd} className={classes.root}>
+          <InputOutlined className={classes.arrowDown} />
+        </IconButtonStyled>
+      </Tooltip>
+    </div>
+  )
+}
 
 export const AddNodeBefore = ({ selectedNode }) => {
   const theme = useTheme()
@@ -44,13 +71,12 @@ export const AddNodeBefore = ({ selectedNode }) => {
   return (
     <div>
       <Tooltip title={title}>
-        <Button
-          className={selectedNode ? classes.arrowLeft : classes.inactive}
-          variant="outlined"
+        <IconButtonStyled
+          className={selectedNode ? classes.root : classes.inactive}
           onClick={handleInsertStep}
         >
-          <InputOutlined />
-        </Button>
+          <InputOutlined className={classes.arrowLeft} />
+        </IconButtonStyled>
       </Tooltip>
     </div>
   )
@@ -81,13 +107,12 @@ export const AddNodeAfter = ({ selectedNode }) => {
   return (
     <div>
       <Tooltip title={title}>
-        <Button
+        <IconButtonStyled
           className={classes.arrowRight}
-          variant="outlined"
           onClick={handleAddStep}
         >
           <InputOutlined />
-        </Button>
+        </IconButtonStyled>
       </Tooltip>
     </div>
   )

@@ -7,7 +7,9 @@ const GitHubButton = () => (
   <IconButtonStyled
     color="inherit"
     title="Fork me on GitHub"
-    onClick={() => window.open('https://github.com/bdfinst/value-stream-map')}
+    onClick={() =>
+      window.open('https://github.com/bdfinst/total-perspective-vortex')
+    }
   >
     <GitHub fontSize="large" />
   </IconButtonStyled>

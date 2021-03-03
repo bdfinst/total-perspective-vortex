@@ -28,9 +28,9 @@ const ValueStreamMap = () => {
     createEdge,
     createNode,
     changeNodeValues,
+    toggleNodeSelect,
     changeEdgeTarget,
     removeElements,
-    toggleNodeSelect,
   } = useValueStream()
   const reactFlowWrapper = useRef(null)
 
@@ -42,7 +42,25 @@ const ValueStreamMap = () => {
   useEffect(() => {
     setElements(state.elements)
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
+
+    state.elements.forEach((el) => {
+      if (isNode(el)) console.log(el.id, el.selected, el.data)
+    })
   }, [state.elements])
+
+  useEffect(() => {
+    if (selectedNode) {
+      setIsDialogOpen(true)
+    }
+  }, [selectedNode])
+
+  const handleDialogOpen = () => {
+    setIsDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false)
+  }
 
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
@@ -53,12 +71,6 @@ const ValueStreamMap = () => {
 
   const onNodeDragStop = (event, node) => {
     changeNodeValues({ node, position: node.position })
-  }
-
-  const onElementClick = (event, element) => {
-    if (isNode(element)) {
-      toggleNodeSelect(element)
-    }
   }
 
   const onElementsRemove = (elementsToRemove) => {
@@ -87,15 +99,11 @@ const ValueStreamMap = () => {
       y: event.clientY - reactFlowBounds.top,
     })
 
-    createNode(position)
+    createNode(position.x, position.y)
   }
 
-  const handleDialogOpen = () => {
-    if (selectedNode) setIsDialogOpen(true)
-  }
-
-  const handleDialogClose = () => {
-    setIsDialogOpen(false)
+  const handlePaneClick = () => {
+    if (selectedNode) toggleNodeSelect(selectedNode)
   }
 
   return (
@@ -113,7 +121,7 @@ const ValueStreamMap = () => {
               selectedNode={selectedNode}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} id="vsm-container">
             <ReactFlow
               style={reactFlowStyle}
               elements={elements}
@@ -125,10 +133,10 @@ const ValueStreamMap = () => {
               maxZoom={1.5}
               snapToGrid
               onConnect={onConnect}
+              onPaneClick={handlePaneClick}
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}
               onNodeDragStop={onNodeDragStop}
-              onElementClick={onElementClick}
               onLoad={onLoad}
               onDrop={onDrop}
               onDragOver={onDragOver}

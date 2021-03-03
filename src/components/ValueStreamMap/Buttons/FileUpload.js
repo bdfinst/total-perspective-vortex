@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Tooltip } from '@material-ui/core'
 import { DropzoneDialog } from 'material-ui-dropzone'
+import { Tooltip } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
 import { toJson } from '../../../helpers'
 import { useValueStream } from '../valueStreamContext'
+import IconButtonStyled from './IconButtonStyled'
 
 const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },
@@ -59,13 +60,9 @@ const FileUpload = () => {
   return (
     <div>
       <Tooltip title="Open file upload">
-        <Button
-          variant="outlined"
-          className={classes.button}
-          onClick={handleOpen}
-        >
+        <IconButtonStyled className={classes.button} onClick={handleOpen}>
           <CloudUploadIcon />
-        </Button>
+        </IconButtonStyled>
       </Tooltip>
 
       <DropzoneDialog

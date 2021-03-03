@@ -40,7 +40,7 @@ describe('Value Stream Context', () => {
   it('should add a new node the store', () => {
     const beforeLen = result.current.state.elements.length
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.createNode(1,1)
     })
 
     const afterLen = result.current.state.elements.length
@@ -64,7 +64,7 @@ describe('Value Stream Context', () => {
       }
 
       act(() => {
-        result.current.createNode({ x: 1, y: 1 })
+        result.current.createNode(1,1)
       })
 
       const nodes = getNodes(result.current.state.elements)
@@ -85,7 +85,7 @@ describe('Value Stream Context', () => {
     })
     it('should update one data property for a node', () => {
       act(() => {
-        result.current.createNode({ x: 1, y: 1 })
+        result.current.createNode(1,1)
       })
 
       const nodes = getNodes(result.current.state.elements)
@@ -120,10 +120,10 @@ describe('Linking nodes with edges', () => {
   beforeEach(() => {
     result = renderVSMHook()
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.createNode(1,1)
     })
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.createNode(1,1)
     })
 
     nodes = getNodes(result.current.state.elements)
@@ -232,7 +232,7 @@ describe('Adding nodes', () => {
 
   const addNode = () => {
     act(() => {
-      result.current.createNode({ x: 1, y: 1 })
+      result.current.createNode(1,1)
     })
 
     const node = getLastNode(result.current.state.elements)
