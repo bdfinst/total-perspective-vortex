@@ -95,7 +95,7 @@ const ValueStreamMap = () => {
       y: event.clientY - reactFlowBounds.top,
     })
 
-    createNode(position)
+    createNode(position.x, position.y)
   }
 
   const handlePaneClick = () => {

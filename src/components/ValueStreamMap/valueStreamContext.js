@@ -376,8 +376,7 @@ const useValueStream = () => {
 
   const increment = () => dispatch({ type: 'INCREMENT' })
 
-  const createNode = ({ x, y }) =>
-    dispatch({ type: 'CREATE_NODE', data: { x, y } })
+  const createNode = (x, y) => dispatch({ type: 'CREATE_NODE', data: { x, y } })
 
   const createEdge = ({ source, target }) =>
     dispatch({ type: 'CREATE_EDGE', data: { source, target } })

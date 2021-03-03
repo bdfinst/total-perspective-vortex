@@ -27,7 +27,7 @@ const Controls = ({ selectedNode }) => (
       </Grid>
       <Grid item xs={4}>
         <ButtonGroup orientation="horizontal" color="secondary">
-          {/* <AddNode /> */}
+          <AddNode />
           {devMode && <ToggleStretch />}
           <AddNodeAfter selectedNode={selectedNode} />
         </ButtonGroup>
