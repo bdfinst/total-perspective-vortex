@@ -10,9 +10,12 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core'
+import { createPortal } from 'react-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { useContextMenu } from 'react-contexify'
 
 import { useValueStream } from './valueStreamContext'
+import NodeContextMenu from './NodeContextMenu'
 
 const useStyles = makeStyles((theme) => ({
   extendedIcon: {
@@ -36,6 +39,9 @@ const defaultData = {
   pctCompleteAccurate: 100,
 }
 
+const Portal = ({ children }) =>
+  createPortal(children, document.getElementById('vsm-container'))
+
 const Node = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
@@ -50,10 +56,17 @@ const Node = (props) => {
     setNode(props)
   }, [state.elements])
 
+  const menuId = `NODE_CONTEXT_${node.id}`
+  const { show } = useContextMenu({
+    id: menuId,
+  })
+
   const handleDoubleClick = () => {
-    if (!node.selected) {
-      toggleNodeSelect(node)
-    }
+    toggleNodeSelect(node)
+  }
+
+  const handleContextMenu = (e) => {
+    show(e, { props: { node } })
   }
 
   const EdgeHandle = ({ type }) => {
@@ -102,7 +115,7 @@ const Node = (props) => {
   return (
     <>
       <EdgeHandle type="target" />
-      <div onDoubleClick={handleDoubleClick}>
+      <div onDoubleClick={handleDoubleClick} onContextMenu={handleContextMenu}>
         <TableContainer
           component={Paper}
           elevation={0}
@@ -130,6 +143,9 @@ const Node = (props) => {
           </Table>
         </TableContainer>
       </div>
+      <Portal>
+        <NodeContextMenu menuId={menuId} />
+      </Portal>
       <EdgeHandle type="source" />
     </>
   )

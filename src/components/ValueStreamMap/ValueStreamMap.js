@@ -30,7 +30,6 @@ const ValueStreamMap = () => {
     changeNodeValues,
     changeEdgeTarget,
     removeElements,
-    toggleNodeSelect,
   } = useValueStream()
   const reactFlowWrapper = useRef(null)
 
@@ -44,6 +43,15 @@ const ValueStreamMap = () => {
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
   }, [state.elements])
 
+  useEffect(() => {
+    if (selectedNode) {
+      setIsDialogOpen(true)
+    }
+  }, [selectedNode])
+
+  const handleDialogOpen = () => {
+    setIsDialogOpen(true)
+  }
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
@@ -53,12 +61,6 @@ const ValueStreamMap = () => {
 
   const onNodeDragStop = (event, node) => {
     changeNodeValues({ node, position: node.position })
-  }
-
-  const onElementClick = (event, element) => {
-    if (isNode(element)) {
-      toggleNodeSelect(element)
-    }
   }
 
   const onElementsRemove = (elementsToRemove) => {
@@ -90,10 +92,6 @@ const ValueStreamMap = () => {
     createNode(position)
   }
 
-  const handleDialogOpen = () => {
-    if (selectedNode) setIsDialogOpen(true)
-  }
-
   const handleDialogClose = () => {
     setIsDialogOpen(false)
   }
@@ -113,7 +111,7 @@ const ValueStreamMap = () => {
               selectedNode={selectedNode}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} id="vsm-container">
             <ReactFlow
               style={reactFlowStyle}
               elements={elements}
@@ -128,7 +126,6 @@ const ValueStreamMap = () => {
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}
               onNodeDragStop={onNodeDragStop}
-              onElementClick={onElementClick}
               onLoad={onLoad}
               onDrop={onDrop}
               onDragOver={onDragOver}
