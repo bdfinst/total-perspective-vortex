@@ -28,7 +28,7 @@ const ValueStreamMap = () => {
     createEdge,
     createNode,
     changeNodeValues,
-
+    toggleNodeSelect,
     changeEdgeTarget,
     removeElements,
   } = useValueStream()
@@ -98,6 +98,10 @@ const ValueStreamMap = () => {
     createNode(position)
   }
 
+  const handlePaneClick = () => {
+    if (selectedNode) toggleNodeSelect(selectedNode)
+  }
+
   return (
     <>
       <ReactFlowProvider>
@@ -125,6 +129,7 @@ const ValueStreamMap = () => {
               maxZoom={1.5}
               snapToGrid
               onConnect={onConnect}
+              onPaneClick={handlePaneClick}
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}
               onNodeDragStop={onNodeDragStop}
