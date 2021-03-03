@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const InputBlock = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const { changeNodeValues, addNodeBefore, addNodeAfter } = useValueStream()
+  const { addNodeBefore, addNodeAfter } = useValueStream()
 
   const [formData, setFormData] = useState(defaultNodeData)
   const [errorList, setErrorList] = useState({})
@@ -59,6 +59,7 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const [helpContent, setHelpContent] = useState('')
 
   const handleClose = () => {
+    // changeNodeValues({ node: selectedNode, selected: false, data: formData })
     onClose()
   }
 
@@ -77,7 +78,6 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
     if (event) event.preventDefault()
 
     if (!errorListExists(errorList)) {
-      changeNodeValues({ node: selectedNode, data: formData })
       handleClose()
     }
   }

@@ -62,7 +62,7 @@ const Node = (props) => {
   })
 
   const handleDoubleClick = () => {
-    toggleNodeSelect(node)
+    if (!node.selected) toggleNodeSelect(node)
   }
 
   const handleContextMenu = (e) => {

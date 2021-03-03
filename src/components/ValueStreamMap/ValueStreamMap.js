@@ -28,6 +28,7 @@ const ValueStreamMap = () => {
     createEdge,
     createNode,
     changeNodeValues,
+
     changeEdgeTarget,
     removeElements,
   } = useValueStream()
@@ -52,6 +53,11 @@ const ValueStreamMap = () => {
   const handleDialogOpen = () => {
     setIsDialogOpen(true)
   }
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false)
+  }
+
   const onConnect = (params) => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
@@ -90,10 +96,6 @@ const ValueStreamMap = () => {
     })
 
     createNode(position)
-  }
-
-  const handleDialogClose = () => {
-    setIsDialogOpen(false)
   }
 
   return (

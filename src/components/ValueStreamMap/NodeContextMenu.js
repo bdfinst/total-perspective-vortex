@@ -5,19 +5,25 @@ import React from 'react'
 import { useValueStream } from './valueStreamContext'
 
 const NodeContextMenu = ({ menuId }) => {
-  const { removeElements } = useValueStream()
+  const { removeElements, toggleNodeSelect } = useValueStream()
 
-  const handleItemClick = ({ event, props, triggerEvent, data }) => {
-    console.log(event, props, triggerEvent, data)
-  }
+  // const handleItemClick = ({ event, props, triggerEvent, data }) => {
+  //   console.log(event, props, triggerEvent, data)
+  // }
 
   const handleDelete = ({ props }) => {
     removeElements([props.node])
   }
 
+  const handleEdit = ({ props }) => {
+    if (!props.node.selected) {
+      toggleNodeSelect(props.node)
+    }
+  }
+
   return (
     <Menu id={menuId}>
-      <Item onClick={handleItemClick}>Edit</Item>
+      <Item onClick={handleEdit}>Edit</Item>
       <Item onClick={handleDelete}>Delete</Item>
     </Menu>
   )
