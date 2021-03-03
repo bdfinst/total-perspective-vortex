@@ -61,12 +61,18 @@ const Node = (props) => {
     id: menuId,
   })
 
-  const handleDoubleClick = () => {
-    if (!node.selected) toggleNodeSelect(node)
+  const handleDoubleClick = (event) => {
+    if (event) event.preventDefault()
+
+    // if (!node.selected) toggleNodeSelect(node)
+    console.log('Node')
+    toggleNodeSelect(node)
   }
 
-  const handleContextMenu = (e) => {
-    show(e, { props: { node } })
+  const handleContextMenu = (event) => {
+    if (event) event.preventDefault()
+
+    show(event, { props: { node } })
   }
 
   const EdgeHandle = ({ type }) => {

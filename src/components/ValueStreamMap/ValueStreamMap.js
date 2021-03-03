@@ -42,6 +42,10 @@ const ValueStreamMap = () => {
   useEffect(() => {
     setElements(state.elements)
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
+
+    state.elements.forEach((el) => {
+      if (isNode(el)) console.log(el.id, el.selected, el.data)
+    })
   }, [state.elements])
 
   useEffect(() => {
@@ -100,6 +104,7 @@ const ValueStreamMap = () => {
 
   const handlePaneClick = () => {
     if (selectedNode) toggleNodeSelect(selectedNode)
+    console.log('handlePaneClick')
   }
 
   return (
