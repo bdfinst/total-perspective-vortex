@@ -92,13 +92,15 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   const handleInsertStep = (event) => {
     if (event) event.preventDefault()
 
-    addNodeBefore(selectedNode)
+    handleSubmit(event)
+    addNodeBefore(selectedNode, true)
   }
 
   const handleAddStep = (event) => {
     if (event) event.preventDefault()
 
-    addNodeAfter(selectedNode)
+    handleSubmit(event)
+    addNodeAfter(selectedNode, true)
   }
 
   const handleChange = (e, propName) => {
