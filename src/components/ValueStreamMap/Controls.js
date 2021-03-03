@@ -25,14 +25,14 @@ const Controls = ({ selectedNode }) => (
           <ZoomOutButton />
         </ButtonGroup>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={4} align="center">
         <ButtonGroup orientation="horizontal" color="secondary">
           <AddNode />
           {devMode && <ToggleStretch />}
           <AddNodeAfter selectedNode={selectedNode} />
         </ButtonGroup>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={4} align="right">
         <ButtonGroup orientation="horizontal" color="secondary">
           <ResetButton />
           <SaveButton />
