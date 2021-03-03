@@ -2,12 +2,11 @@ import { ButtonGroup, Grid } from '@material-ui/core'
 import React from 'react'
 
 import {
+  AddNode,
   AddNodeAfter,
-  AddNodeBefore,
   FileUpload,
   ResetButton,
   SaveButton,
-  SettingsButton,
   ToggleStretch,
   ZoomFocusButton,
   ZoomInButton,
@@ -16,7 +15,7 @@ import {
 
 const devMode = process.env.REACT_DEVMODE === 'on'
 
-const Controls = ({ onDialogOpen, selectedNode }) => (
+const Controls = ({ selectedNode }) => (
   <>
     <Grid container direction="row" justify="space-around" alignItems="center">
       <Grid item xs={4}>
@@ -28,11 +27,7 @@ const Controls = ({ onDialogOpen, selectedNode }) => (
       </Grid>
       <Grid item xs={4}>
         <ButtonGroup orientation="horizontal" color="secondary">
-          <AddNodeBefore selectedNode={selectedNode} />
-          <SettingsButton
-            onDialogOpen={onDialogOpen}
-            selectedNode={selectedNode}
-          />
+          {/* <AddNode /> */}
           {devMode && <ToggleStretch />}
           <AddNodeAfter selectedNode={selectedNode} />
         </ButtonGroup>

@@ -17,7 +17,31 @@ const useStyles = makeStyles((theme) => ({
   arrowRight: {
     color: theme.palette.primary.dark,
   },
+  arrowDown: {
+    color: theme.palette.primary.dark,
+    transform: 'rotateY(90deg)',
+  },
 }))
+
+export const AddNode = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+  const { createNode } = useValueStream()
+
+  return (
+    <div>
+      <Tooltip title="Add new node">
+        <Button
+          className={classes.arrowDown}
+          variant="outlined"
+          onClick={createNode({ x: 100, y: 100 })}
+        >
+          <InputOutlined />
+        </Button>
+      </Tooltip>
+    </div>
+  )
+}
 
 export const AddNodeBefore = ({ selectedNode }) => {
   const theme = useTheme()
