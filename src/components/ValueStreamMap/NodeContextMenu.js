@@ -3,9 +3,11 @@ import { Item, Menu } from 'react-contexify'
 import React from 'react'
 
 import { useValueStream } from './valueStreamContext'
+import useZoom from '../../hooks/useZoom'
 
 const NodeContextMenu = ({ menuId }) => {
   const { removeElements, toggleNodeSelect } = useValueStream()
+  const zoom = useZoom()
 
   // const handleItemClick = ({ event, props, triggerEvent, data }) => {
   //   console.log(event, props, triggerEvent, data)
@@ -13,6 +15,10 @@ const NodeContextMenu = ({ menuId }) => {
 
   const handleDelete = ({ props }) => {
     removeElements([props.node])
+  }
+
+  const handleZoom = ({ props }) => {
+    zoom(props.node)
   }
 
   const handleEdit = ({ props }) => {
@@ -25,6 +31,7 @@ const NodeContextMenu = ({ menuId }) => {
     <Menu id={menuId}>
       <Item onClick={handleEdit}>Edit</Item>
       <Item onClick={handleDelete}>Delete</Item>
+      <Item onClick={handleZoom}>Focus to node</Item>
     </Menu>
   )
 }
