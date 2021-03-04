@@ -1,7 +1,7 @@
 import { IconButton } from '@material-ui/core'
 import { Visibility, ZoomIn, ZoomOut } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { useStore, useZoomPanHelper } from 'react-flow-renderer'
+import { useZoomPanHelper } from 'react-flow-renderer'
 import React from 'react'
 
 import useZoom from '../../../hooks/useZoom'
@@ -51,16 +51,11 @@ export const ZoomOutButton = () => {
 export const ZoomFocusButton = () => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  // const { fitView, setCenter } = useZoomPanHelper()
-  const store = useStore()
 
   const zoom = useZoom()
 
   const handleFocusNode = () => {
-    const { nodes } = store.getState()
-    const node = nodes.find((el) => el.selected === true)
-
-    zoom(node)
+    zoom()
   }
 
   return (
