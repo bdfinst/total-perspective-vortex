@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactFlow, {
   MiniMap,
   ReactFlowProvider,
@@ -12,8 +12,10 @@ import { useValueStream } from './valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'
+import HelpDialog from '../Header/HelpDialog'
 import InputBlock from './InputDialog/InputDialog'
 import Node from './Node'
+import VsmHelpContent from '../Header/VsmHelpContent'
 
 const vsmBackground = 'rgb(238, 238, 240)'
 const reactFlowStyle = {
@@ -26,26 +28,27 @@ const ValueStreamMap = () => {
   const {
     state,
     createEdge,
-    createNode,
     changeNodeValues,
     toggleNodeSelect,
     changeEdgeTarget,
     removeElements,
   } = useValueStream()
-  const reactFlowWrapper = useRef(null)
 
-  const [reactFlowInstance, setReactFlowInstance] = useState(null)
   const [elements, setElements] = useState(state.elements)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedNode, setSelectedNode] = useState()
+  const [vsmHelpOpen, setVsmHelpOpen] = useState(false)
+
+  const handleVsmHelpOpen = () => {
+    setVsmHelpOpen(true)
+  }
+  const handleVsmHelpClose = () => {
+    setVsmHelpOpen(false)
+  }
 
   useEffect(() => {
     setElements(state.elements)
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
-
-    state.elements.forEach((el) => {
-      if (isNode(el)) console.log(el.id, el.selected, el.data)
-    })
   }, [state.elements])
 
   useEffect(() => {
@@ -77,10 +80,6 @@ const ValueStreamMap = () => {
     removeElements(elementsToRemove)
   }
 
-  const onLoad = (_reactFlowInstance) => {
-    setReactFlowInstance(_reactFlowInstance)
-  }
-
   const onDragOver = (event) => {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
@@ -89,18 +88,6 @@ const ValueStreamMap = () => {
 
   const onEdgeUpdate = (edge, newTargetNode) =>
     changeEdgeTarget(edge, newTargetNode)
-
-  const onDrop = (event) => {
-    event.preventDefault()
-
-    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
-    const position = reactFlowInstance.project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
-    })
-
-    createNode(position.x, position.y)
-  }
 
   const handlePaneClick = () => {
     if (selectedNode) toggleNodeSelect(selectedNode)
@@ -119,6 +106,7 @@ const ValueStreamMap = () => {
             <Controls
               onDialogOpen={handleDialogOpen}
               selectedNode={selectedNode}
+              onVsmHelpOpen={handleVsmHelpOpen}
             />
           </Grid>
           <Grid item xs={12} id="vsm-container">
@@ -137,8 +125,6 @@ const ValueStreamMap = () => {
               onEdgeUpdate={onEdgeUpdate}
               onElementsRemove={onElementsRemove}
               onNodeDragStop={onNodeDragStop}
-              onLoad={onLoad}
-              onDrop={onDrop}
               onDragOver={onDragOver}
               arrowHeadColor="green"
             >
@@ -166,6 +152,13 @@ const ValueStreamMap = () => {
           </Grid>
         </Grid>
       </ReactFlowProvider>
+      <HelpDialog
+        title="About Value Stream Mapping"
+        open={vsmHelpOpen}
+        onClose={handleVsmHelpClose}
+      >
+        <VsmHelpContent />
+      </HelpDialog>
     </>
   )
 }
