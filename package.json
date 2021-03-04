@@ -17,6 +17,7 @@
     "coverage": "CI=true react-scripts test --ci --coverage ",
     "test:watch": "react-scripts test ",
     "test": "npm run coverage ",
+    "test:ui":"cypress open",
     "eject": "react-scripts eject",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
