@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Tooltip } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { SettingsOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
@@ -33,15 +33,13 @@ const SettingsButton = ({ onDialogOpen, selectedNode }) => {
 
   return (
     <div>
-      <Tooltip title={title}>
-        <Button
-          className={selectedNode ? classes.active : classes.inactive}
-          variant="outlined"
-          onClick={handleOpen}
-        >
-          <SettingsOutlined />
-        </Button>
-      </Tooltip>
+      <Button
+        title={title}
+        className={selectedNode ? classes.active : classes.inactive}
+        onClick={handleOpen}
+      >
+        <SettingsOutlined />
+      </Button>
     </div>
   )
 }

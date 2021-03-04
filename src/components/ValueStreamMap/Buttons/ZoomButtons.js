@@ -1,10 +1,8 @@
-import { Tooltip } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { Visibility, ZoomIn, ZoomOut } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useStore, useZoomPanHelper } from 'react-flow-renderer'
 import React from 'react'
-
-import IconButtonStyled from './IconButtonStyled'
 
 const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.primary.dark },
@@ -17,11 +15,15 @@ export const ZoomInButton = () => {
 
   return (
     <>
-      <Tooltip title="Zoom in">
-        <IconButtonStyled className={classes.button} onClick={zoomIn}>
-          <ZoomIn />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title="Zoom in"
+        color="inherit"
+        component="span"
+        className={classes.button}
+        onClick={zoomIn}
+      >
+        <ZoomIn />
+      </IconButton>
     </>
   )
 }
@@ -32,15 +34,15 @@ export const ZoomOutButton = () => {
 
   return (
     <>
-      <Tooltip title="Zoom out">
-        <IconButtonStyled
-          variant="outlined"
-          className={classes.button}
-          onClick={zoomOut}
-        >
-          <ZoomOut />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title="Zoom out"
+        color="inherit"
+        component="span"
+        className={classes.button}
+        onClick={zoomOut}
+      >
+        <ZoomOut />
+      </IconButton>
     </>
   )
 }
@@ -67,15 +69,15 @@ export const ZoomFocusButton = () => {
 
   return (
     <>
-      <Tooltip title="Fit to screen">
-        <IconButtonStyled
-          variant="outlined"
-          className={classes.button}
-          onClick={handleFocusNode}
-        >
-          <Visibility />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title="Fit to screen"
+        color="inherit"
+        component="span"
+        className={classes.button}
+        onClick={handleFocusNode}
+      >
+        <Visibility />
+      </IconButton>
     </>
   )
 }

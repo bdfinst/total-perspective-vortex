@@ -8,7 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import { GitHubButton, IconButtonStyled } from './ValueStreamMap/Buttons'
+import { GitHubButton } from './ValueStreamMap/Buttons'
 import AppHelpContent from './AppHelpContent'
 import HelpDialog from './HelpDialog'
 import config from '../globalConfig'
@@ -82,9 +82,14 @@ export default function HeaderBar({ onClick, open }) {
         >
           Total Perspective Vortex
         </Typography>
-        <IconButtonStyled title="Help" onClick={handleHelpOpen} color="inherit">
+        <IconButton
+          component="span"
+          onClick={handleHelpOpen}
+          title="Help"
+          color="inherit"
+        >
           <HelpOutlined />
-        </IconButtonStyled>
+        </IconButton>
         <GitHubButton />
       </Toolbar>
       <HelpDialog

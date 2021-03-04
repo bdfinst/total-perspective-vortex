@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { IconButton } from '@material-ui/core'
 import { InputOutlined } from '@material-ui/icons'
-import { Tooltip } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { useValueStream } from '../valueStreamContext'
-import IconButtonStyled from './IconButtonStyled'
 import config from '../../../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,11 +36,15 @@ export const AddNode = () => {
   }
   return (
     <div>
-      <Tooltip title="Add new node">
-        <IconButtonStyled onClick={handleAdd} className={classes.root}>
-          <InputOutlined className={classes.arrowDown} />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title="Add new node"
+        color="inherit"
+        component="span"
+        onClick={handleAdd}
+        className={classes.root}
+      >
+        <InputOutlined className={classes.arrowDown} />
+      </IconButton>
     </div>
   )
 }
@@ -70,14 +73,15 @@ export const AddNodeBefore = ({ selectedNode }) => {
 
   return (
     <div>
-      <Tooltip title={title}>
-        <IconButtonStyled
-          className={selectedNode ? classes.root : classes.inactive}
-          onClick={handleInsertStep}
-        >
-          <InputOutlined className={classes.arrowLeft} />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title={title}
+        color="inherit"
+        component="span"
+        className={selectedNode ? classes.root : classes.inactive}
+        onClick={handleInsertStep}
+      >
+        <InputOutlined className={classes.arrowLeft} />
+      </IconButton>
     </div>
   )
 }
@@ -106,14 +110,15 @@ export const AddNodeAfter = ({ selectedNode }) => {
 
   return (
     <div>
-      <Tooltip title={title}>
-        <IconButtonStyled
-          className={classes.arrowRight}
-          onClick={handleAddStep}
-        >
-          <InputOutlined />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title={title}
+        color="inherit"
+        component="span"
+        className={classes.arrowRight}
+        onClick={handleAddStep}
+      >
+        <InputOutlined />
+      </IconButton>
     </div>
   )
 }
