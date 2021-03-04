@@ -1,13 +1,15 @@
+import React, { useState } from 'react'
+import { HelpOutlined } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import React from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import { GitHubButton } from './ValueStreamMap/Buttons'
+import { GitHubButton, IconButtonStyled } from './ValueStreamMap/Buttons'
+import HelpDialog from './Header/HelpDialog'
 import config from '../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
@@ -43,8 +45,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function HeaderBar({ onClick, open }) {
   const classes = useStyles()
+  const [helpOpen, setHelpOpen] = useState(false)
   const handleDrawerOpen = () => {
     onClick()
+  }
+
+  const handleHelpOpen = () => {
+    setHelpOpen(true)
+  }
+  const handleHelpClose = () => {
+    setHelpOpen(false)
   }
 
   return (
@@ -71,8 +81,12 @@ export default function HeaderBar({ onClick, open }) {
         >
           Total Perspective Vortex
         </Typography>
+        <IconButtonStyled title="Help" onClick={handleHelpOpen} color="inherit">
+          <HelpOutlined />
+        </IconButtonStyled>
         <GitHubButton />
       </Toolbar>
+      <HelpDialog open={helpOpen} onClose={handleHelpClose} />
     </AppBar>
   )
 }

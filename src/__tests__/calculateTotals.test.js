@@ -11,6 +11,7 @@ describe('Building totals', () => {
   let results
   let processTime
   let waitTime
+  let reworkTime
   beforeEach(() => {
     results = getNodeSums(elements)
 
@@ -24,6 +25,15 @@ describe('Building totals', () => {
       .filter((el) => isNode(el))
       .reduce((acc, el) => {
         return acc + el.data.waitTime
+      }, 0)
+
+    reworkTime = elements
+      .filter((el) => isNode(el))
+      .reduce((acc, el) => {
+        return (
+          acc +
+          el.data.processTime * ((100 - el.data.pctCompleteAccurate) / 100)
+        )
       }, 0)
   })
 
@@ -66,12 +76,12 @@ describe('Building totals', () => {
     expect(results.waitTime).toEqual(waitTime)
   })
   it('should sum the total duration of the value stream', () => {
-    const totalTime = processTime + waitTime
+    const totalTime = processTime + waitTime + reworkTime
 
     expect(results.totalTime).toEqual(totalTime)
   })
   it('should calculate the flow efficiency', () => {
-    const totalTime = processTime + waitTime
+    const totalTime = processTime + waitTime + reworkTime
     const flowEfficiency = roundTo2((processTime / totalTime) * 100)
 
     expect(results.flowEfficiency).toEqual(flowEfficiency)
@@ -84,5 +94,9 @@ describe('Building totals', () => {
     results = getNodeSums(elements)
 
     expect(results.avgPCA).toEqual((pca + pca / 2) / 2)
+  })
+
+  it('should show the total rework time', () => {
+    expect(results.reworkTime).toEqual(reworkTime)
   })
 })
