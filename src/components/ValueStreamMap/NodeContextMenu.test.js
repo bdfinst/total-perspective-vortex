@@ -6,7 +6,7 @@ import NodeContextMenu from './NodeContextMenu'
 
 // import userEvent from '@testing-library/user-event'
 
-it.skip('renders learn react link', () => {
+it.skip('Renders the context menu', () => {
   render(
     <ValueStreamProvider>
       <NodeContextMenu menuId={1} />
