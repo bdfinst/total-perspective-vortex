@@ -12,10 +12,10 @@ import { useValueStream } from './valueStreamContext'
 import ConnectionLine from './ConnectionLine'
 import Controls from './Controls'
 import CustomEdge from './CustomEdge'
-import HelpDialog from '../Header/HelpDialog'
+import HelpDialog from '../HelpDialog'
 import InputBlock from './InputDialog/InputDialog'
 import Node from './Node'
-import VsmHelpContent from '../Header/VsmHelpContent'
+import VsmHelpContent from './VsmHelpContent'
 
 const vsmBackground = 'rgb(238, 238, 240)'
 const reactFlowStyle = {
