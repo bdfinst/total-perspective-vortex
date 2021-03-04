@@ -93,6 +93,15 @@ const totalPeopleTime = (nodes) =>
     .map((node) => convertToNumeric(node.data))
     .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
+const totalReworkTime = (nodes) =>
+  nodes
+    .map((node) => convertToNumeric(node.data))
+    .reduce(
+      (acc, val) =>
+        acc + val.processTime * ((100 - val.pctCompleteAccurate) / 100),
+      0,
+    )
+
 export const calcFlowEfficiency = (processTime, totalTime) => {
   if (
     totalTime === 0 ||
@@ -119,8 +128,9 @@ export const getNodeSums = (elements) => {
     processTime: calcPropertySum(nodes, 'processTime'),
     waitTime: calcPropertySum(nodes, 'waitTime'),
     avgPCA: roundTo2(calcPropertyAvg(nodes, 'pctCompleteAccurate')),
+    reworkTime: totalReworkTime(nodes),
   }
-  totals.totalTime = totals.waitTime + totals.processTime
+  totals.totalTime = totals.waitTime + totals.processTime + totals.reworkTime
   totals.flowEfficiency = calcFlowEfficiency(
     totals.processTime,
     totals.totalTime,

@@ -45,8 +45,13 @@ const Totals = () => {
       value: totals.averageActors,
     },
     { name: 'peopleTime', title: 'Manual Time', value: totals.peopleTime },
-    { name: 'totalTime', title: 'Total Time', value: totals.totalTime },
     { name: 'avgPCA', title: 'Average C/A', value: `${totals.avgPCA}%` },
+    {
+      name: 'reworkTime',
+      title: 'Rework Time',
+      value: `${totals.reworkTime}`,
+    },
+    { name: 'totalTime', title: 'Total Time', value: totals.totalTime },
     {
       name: 'flowEfficiency',
       title: 'Flow Efficiency',

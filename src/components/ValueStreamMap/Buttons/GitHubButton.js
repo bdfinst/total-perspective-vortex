@@ -11,7 +11,7 @@ const GitHubButton = () => (
       window.open('https://github.com/bdfinst/total-perspective-vortex')
     }
   >
-    <GitHub fontSize="large" />
+    <GitHub />
   </IconButtonStyled>
 )
 
