@@ -1,10 +1,10 @@
 import { GitHub } from '@material-ui/icons'
+import { IconButton } from '@material-ui/core'
 import React from 'react'
 
-import IconButtonStyled from './IconButtonStyled'
-
 const GitHubButton = () => (
-  <IconButtonStyled
+  <IconButton
+    component="span"
     color="inherit"
     title="Fork me on GitHub"
     onClick={() =>
@@ -12,7 +12,7 @@ const GitHubButton = () => (
     }
   >
     <GitHub />
-  </IconButtonStyled>
+  </IconButton>
 )
 
 export default GitHubButton

@@ -1,9 +1,7 @@
 import { HelpOutlined } from '@material-ui/icons'
-import { Tooltip } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
-
-import IconButtonStyled from './IconButtonStyled'
 
 const useStyles = makeStyles((theme) => ({
   button: { color: theme.palette.secondary.dark },
@@ -15,15 +13,15 @@ const HelpButton = ({ onClick, title }) => {
 
   return (
     <div>
-      <Tooltip title={title}>
-        <IconButtonStyled
-          className={classes.button}
-          onClick={onClick}
-          color="inherit"
-        >
-          <HelpOutlined />
-        </IconButtonStyled>
-      </Tooltip>
+      <IconButton
+        title={title}
+        color="inherit"
+        component="span"
+        className={classes.button}
+        onClick={onClick}
+      >
+        <HelpOutlined />
+      </IconButton>
     </div>
   )
 }

@@ -7,13 +7,13 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   Paper,
   TextField,
 } from '@material-ui/core'
 import { HelpOutline, InputOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { IconButtonStyled } from '../Buttons'
 import { defaultNodeData } from '../../../helpers'
 import { fieldConfigs, getFieldConfig } from './formConfigs'
 import { useValueStream } from '../valueStreamContext'
@@ -175,13 +175,15 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
                   {field.toolTip.length > 0 && (
                     <Grid item xs={2}>
                       <Paper className={classes.paper} elevation={0} square>
-                        <IconButtonStyled
+                        <IconButton
+                          color="inherit"
+                          component="span"
                           tabIndex={-1}
                           title={field.toolTip}
                           onClick={() => handleHelpOpen(field.propName)}
                         >
                           <HelpOutline className={classes.help} />
-                        </IconButtonStyled>
+                        </IconButton>
                       </Paper>
                     </Grid>
                   )}
@@ -197,27 +199,30 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
           >
             <Grid item xs={6}>
               <Paper className={classes.paper} elevation={0} square>
-                <IconButtonStyled
+                <IconButton
+                  color="inherit"
+                  component="span"
                   title="Add step before"
                   onClick={handleInsertStep}
                 >
                   <InputOutlined
                     className={`${classes.icon} ${classes.insertLeft}`}
                   />
-                </IconButtonStyled>
+                </IconButton>
               </Paper>
             </Grid>
             <Grid item xs={6}>
               <Paper className={classes.paper} elevation={0} square>
-                {' '}
-                <IconButtonStyled
+                <IconButton
+                  color="inherit"
+                  component="span"
                   title="Add step after"
                   onClick={handleAddStep}
                 >
                   <InputOutlined
                     className={`${classes.icon} ${classes.insertRight}`}
                   />
-                </IconButtonStyled>
+                </IconButton>
               </Paper>
             </Grid>
           </Grid>
