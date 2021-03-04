@@ -9,7 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
 import { GitHubButton, IconButtonStyled } from './ValueStreamMap/Buttons'
-import HelpDialog from './Header/HelpDialog'
+import AppHelpContent from './AppHelpContent'
+import HelpDialog from './HelpDialog'
 import config from '../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +87,13 @@ export default function HeaderBar({ onClick, open }) {
         </IconButtonStyled>
         <GitHubButton />
       </Toolbar>
-      <HelpDialog open={helpOpen} onClose={handleHelpClose} />
+      <HelpDialog
+        title="Don't Panic!"
+        open={helpOpen}
+        onClose={handleHelpClose}
+      >
+        <AppHelpContent />
+      </HelpDialog>
     </AppBar>
   )
 }

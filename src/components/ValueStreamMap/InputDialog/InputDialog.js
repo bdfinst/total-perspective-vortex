@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const InputBlock = ({ onClose, open, selectedNode }) => {
+const InputDialog = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
   const {
@@ -235,4 +235,4 @@ const InputBlock = ({ onClose, open, selectedNode }) => {
   )
 }
 
-export default InputBlock
+export default InputDialog

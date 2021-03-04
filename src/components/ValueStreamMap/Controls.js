@@ -5,6 +5,7 @@ import {
   AddNode,
   AddNodeAfter,
   FileUpload,
+  HelpButton,
   ResetButton,
   SaveButton,
   ToggleStretch,
@@ -15,7 +16,7 @@ import {
 
 const devMode = process.env.REACT_DEVMODE === 'on'
 
-const Controls = ({ selectedNode }) => (
+const Controls = ({ selectedNode, onVsmHelpOpen }) => (
   <>
     <Grid container direction="row" justify="space-around" alignItems="center">
       <Grid item xs={4}>
@@ -37,6 +38,7 @@ const Controls = ({ selectedNode }) => (
           <ResetButton />
           <SaveButton />
           <FileUpload />
+          <HelpButton title="VSM help" onClick={onVsmHelpOpen} />
         </ButtonGroup>
       </Grid>
     </Grid>
