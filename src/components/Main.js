@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
     height: 350,
   },
   vsmHeight: {
-    height: 550,
+    height: config.vsmHeight,
   },
 }))
 

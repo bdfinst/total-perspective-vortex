@@ -7,6 +7,7 @@ const config = {
   betweenNodes: 75,
   selectedColor: theme.palette.secondary.main,
   deselectedColor: theme.palette.primary.dark,
+  vsmHeight: 550,
 }
 
 export default config
