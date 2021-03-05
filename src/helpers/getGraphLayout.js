@@ -10,7 +10,7 @@ import config from '../globalConfig'
  */
 export default function getGraphLayout(
   elements,
-  useProportional = true,
+  useProportional = false,
   offsetWidth = config.betweenNodes,
 ) {
   const dagreGraph = new dagre.graphlib.Graph()
