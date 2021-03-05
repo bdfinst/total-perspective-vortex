@@ -34,7 +34,7 @@ const updateStateElements = (state) => {
   const relativeSize = 4
   const graphedLayouts = getGraphLayout(
     state.elements,
-    true,
+    false,
     // state.isRelativeSized,
     relativeSize,
   )
