@@ -11,6 +11,7 @@ import ls from 'local-storage'
 
 import {
   buildEdge,
+  buildElementsFromFile,
   buildNode,
   edgeExists,
   getEdgesBySource,
@@ -66,11 +67,11 @@ const addNode = (state, { x, y }) => {
 }
 
 const initStateFromData = (state, data) => {
-  // TODO: Validate file data
+  const elements = buildElementsFromFile(data)
   const newState = {
     ...state,
     maxNodeId: data.maxNodeId,
-    elements: data.elements,
+    elements,
   }
 
   return updateStateElements(newState)
