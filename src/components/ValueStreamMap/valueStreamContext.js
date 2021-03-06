@@ -375,7 +375,6 @@ const ValueStreamProvider = (props) => {
 
   const value = React.useMemo(() => [state, dispatch], [state])
 
-  // return <ValueStreamContext.Provider value={[state, dispatch]} {...props} />
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <ValueStreamContext.Provider value={value} {...props} />
 }

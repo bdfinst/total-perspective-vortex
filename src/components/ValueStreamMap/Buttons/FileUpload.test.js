@@ -15,8 +15,6 @@ it('should open the upload dialog', async () => {
 
   await fireEvent.click(button)
 
-  debug()
-
   expect(
     screen.getByText('Drag and drop a file here or click'),
   ).toBeInTheDocument()
