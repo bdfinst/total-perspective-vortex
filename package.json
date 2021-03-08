@@ -18,6 +18,8 @@
     "test:watch": "react-scripts test ",
     "test": "npm run coverage ",
     "test:ui": "cypress open",
+    "cy:run": "cypress run --headless",
+    "test:cy": "start-server-and-test start http://localhost:3000 cy:run",
     "eject": "react-scripts eject",
     "format:check": "prettier --list-different './src/**/*.js*' './src/**/*.css'",
     "format:fix": "prettier --write './src/**/*.js*' './src/**/*.css'",
@@ -107,7 +109,8 @@
     "object-key-validator": "^1.1.2",
     "prettier": "^2.2.1",
     "prop-types": "^15.7.2",
-    "react-test-renderer": "^17.0.1"
+    "react-test-renderer": "^17.0.1",
+    "start-server-and-test": "^1.12.0"
   },
   "importSort": {
     ".js, .jsx, .es6, .es": {
