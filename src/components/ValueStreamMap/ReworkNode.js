@@ -1,20 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { Handle } from 'react-flow-renderer'
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Typography,
-} from '@material-ui/core'
+import { Paper } from '@material-ui/core'
 import { createPortal } from 'react-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useContextMenu } from 'react-contexify'
 
 import { useValueStream } from './valueStreamContext'
+import EdgeHandle from '../Nodes/EdgeHandle'
 import NodeContextMenu from './NodeContextMenu'
 
 const useStyles = makeStyles((theme) => ({
@@ -46,8 +38,9 @@ const ReworkNode = (props) => {
     setNode(props)
   }, [state.elements])
 
+  const menuId = `NODE_CONTEXT_${node.id}`
   const { show } = useContextMenu({
-    id: `NODE_CONTEXT_${node.id}`,
+    id: menuId,
   })
 
   const handleDoubleClick = (event) => {
@@ -62,84 +55,19 @@ const ReworkNode = (props) => {
     show(event, { props: { node } })
   }
 
-  const EdgeHandle = ({ type }) => {
-    const settings = (handleType) => {
-      switch (handleType) {
-        case 'target':
-          return { type: 'target', side: 'left', color: 'red' }
-        default:
-          return { type: 'source', side: 'right', color: 'green' }
-      }
-    }
-
-    return (
-      <Handle
-        type={settings(type).type}
-        position={settings(type).side}
-        style={{
-          background: settings(type).color,
-          width: '15px',
-          height: '15px',
-          [settings(type).side]: '-9px',
-        }}
-      />
-    )
-  }
-
-  const inputFieldDefs = [
-    {
-      id: 'processTime',
-      label: 'Work',
-    },
-    {
-      id: 'waitTime',
-      label: 'Wait',
-    },
-    {
-      id: 'people',
-      label: 'People',
-    },
-    {
-      id: 'pctCompleteAccurate',
-      label: '%C/A',
-    },
-  ]
-
   return (
     <>
-      <EdgeHandle type="source" />
+      <EdgeHandle type="reworkTarget" />
       <div onDoubleClick={handleDoubleClick} onContextMenu={handleContextMenu}>
-        <TableContainer
-          component={Paper}
-          elevation={0}
-          className={classes.tableContainer}
-        >
-          <Table className={classes.table} aria-label="simple table">
-            <TableBody>
-              <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  <Typography className={classes.title} gutterBottom>
-                    {data.processName || 'Unnamed Process'}
-                  </Typography>
-                </TableCell>
-              </TableRow>
-              {inputFieldDefs.map((field) => (
-                <TableRow key={field.id} data-testid={field.id}>
-                  <TableCell align="left">{field.label}</TableCell>
-                  <TableCell align="right">
-                    {data[field.id]}
-                    {field.id === 'pctCompleteAccurate' ? '%' : ''}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Paper>
+          <div className={classes.title}>Rework</div>
+          <div>{data.description}</div>
+        </Paper>
       </div>
       <ContextMenuPortal>
         <NodeContextMenu menuId={menuId} />
       </ContextMenuPortal>
-      <EdgeHandle type="target" />
+      <EdgeHandle type="reworkSource" />
     </>
   )
 }

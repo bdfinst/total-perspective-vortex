@@ -15,6 +15,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useContextMenu } from 'react-contexify'
 
 import { useValueStream } from './valueStreamContext'
+import EdgeHandle from '../Nodes/EdgeHandle'
 import NodeContextMenu from './NodeContextMenu'
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +51,9 @@ const Node = (props) => {
     setNode(props)
   }, [state.elements])
 
+  const menuId = `NODE_CONTEXT_${node.id}`
   const { show } = useContextMenu({
-    id: `NODE_CONTEXT_${node.id}`,
+    id: menuId,
   })
 
   const handleDoubleClick = (event) => {
@@ -64,30 +66,6 @@ const Node = (props) => {
     if (event) event.preventDefault()
 
     show(event, { props: { node } })
-  }
-
-  const EdgeHandle = ({ type }) => {
-    const settings = (handleType) => {
-      switch (handleType) {
-        case 'target':
-          return { type: 'target', side: 'left', color: 'red' }
-        default:
-          return { type: 'source', side: 'right', color: 'green' }
-      }
-    }
-
-    return (
-      <Handle
-        type={settings(type).type}
-        position={settings(type).side}
-        style={{
-          background: settings(type).color,
-          width: '15px',
-          height: '15px',
-          [settings(type).side]: '-9px',
-        }}
-      />
-    )
   }
 
   const inputFieldDefs = [
