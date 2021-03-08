@@ -20,6 +20,12 @@ export const getReworkNodes = (elements) =>
     (element) => isNode(element) && element.type === config.reworkNodeType,
   )
 
+export const isProcessNode = (element) =>
+  isNode(element) && element.type === config.processNodeType
+
+export const isReworkNode = (element) =>
+  isNode(element) && element.type === config.reworkNodeType
+
 export const getNodeById = (elements, id) =>
   getAllNodes(elements).find((node) => `${node.id}` === `${id}`)
 

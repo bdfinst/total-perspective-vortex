@@ -1,6 +1,7 @@
 import { isNode } from 'react-flow-renderer'
 import dagre from 'dagre'
 
+import { isReworkNode } from '.'
 import config from '../globalConfig'
 
 /**
@@ -13,13 +14,15 @@ export default function getGraphLayout(
   useProportional = false,
   offsetWidth = config.betweenNodes,
 ) {
+  let totalOffset = 0
+
   const dagreGraph = new dagre.graphlib.Graph()
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
   // network-simplex, tight-tree or longest-path
   dagreGraph.setGraph({
     rankdir: 'LR',
-
+    align: 'UL',
     ranker: 'network-simplex',
   })
 
@@ -28,7 +31,6 @@ export default function getGraphLayout(
 
   const getNewXY = (el) => {
     let position
-    let totalOffset = 0
 
     if (isNode(el)) {
       const nodeWithPosition = dagreGraph.node(el.id)
@@ -36,9 +38,16 @@ export default function getGraphLayout(
       totalOffset += offsetPosition(el.data.waitTime, offsetWidth)
 
       // Pass a slightly different position to notify react flow about the change
+      const calcY = isReworkNode(el)
+        ? nodeWithPosition.y - 150
+        : nodeWithPosition.y
+
+      const xPos = nodeWithPosition.x + totalOffset + Math.random() / 10000
+      const calcX = isReworkNode(el) ? xPos - 100 : xPos
+
       position = {
-        x: nodeWithPosition.x + totalOffset + Math.random() / 10000,
-        y: nodeWithPosition.y,
+        x: calcX,
+        y: calcY,
       }
     }
 
