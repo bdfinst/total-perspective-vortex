@@ -16,10 +16,11 @@ import HelpDialog from '../HelpDialog'
 import InputDialog from './InputDialog/InputDialog'
 import Node from './Node'
 import VsmHelpContent from './VsmHelpContent'
+import config from '../../globalConfig'
 
 const vsmBackground = 'rgb(238, 238, 240)'
 const reactFlowStyle = {
-  height: '500px',
+  height: config.vsmHeight - 50,
   background: vsmBackground,
 }
 const ValueStreamMap = () => {

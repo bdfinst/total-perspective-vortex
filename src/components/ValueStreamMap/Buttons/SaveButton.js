@@ -4,6 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import React from 'react'
 import exportFromJSON from 'export-from-json'
 
+import { buildFileFromElements } from '../../../helpers'
 import { useValueStream } from '../valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +18,7 @@ const SaveButton = () => {
 
   const handleExport = () => {
     exportFromJSON({
-      data: state,
+      data: buildFileFromElements(state.elements),
       fileName: 'vsm',
       exportType: 'json',
     })

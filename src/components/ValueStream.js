@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { ValueStreamProvider } from './ValueStreamMap/valueStreamContext'
 import Totals from './ValueStreamMap/Totals'
 import ValueStreamMap from './ValueStreamMap/ValueStreamMap'
+import config from '../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     height: 350,
   },
   vsmHeight: {
-    height: 550,
+    height: config.vsmHeight,
   },
 }))
 
