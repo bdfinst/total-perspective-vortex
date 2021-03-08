@@ -12,13 +12,16 @@ export const getProcessNodes = (elements) =>
     (element) => isNode(element) && element.type === config.processNodeType,
   )
 
+export const getAllNodes = (elements) =>
+  elements.filter((element) => isNode(element))
+
 export const getReworkNodes = (elements) =>
   elements.filter(
     (element) => isNode(element) && element.type === config.reworkNodeType,
   )
 
 export const getNodeById = (elements, id) =>
-  getProcessNodes(elements).find((node) => `${node.id}` === `${id}`)
+  getAllNodes(elements).find((node) => `${node.id}` === `${id}`)
 
 export const getEdges = (elements) =>
   elements.filter((element) => isEdge(element))
