@@ -27,16 +27,12 @@ const useStyles = makeStyles((theme) => ({
 
 const defaultData = {
   processName: '',
-  people: 0,
-  processTime: 0,
-  waitTime: 0,
-  pctCompleteAccurate: 100,
 }
 
 const ContextMenuPortal = ({ children }) =>
   createPortal(children, document.getElementById('vsm-container'))
 
-const Node = (props) => {
+const ReworkNode = (props) => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -111,7 +107,7 @@ const Node = (props) => {
 
   return (
     <>
-      <EdgeHandle type="target" />
+      <EdgeHandle type="source" />
       <div onDoubleClick={handleDoubleClick} onContextMenu={handleContextMenu}>
         <TableContainer
           component={Paper}
@@ -143,9 +139,9 @@ const Node = (props) => {
       <ContextMenuPortal>
         <NodeContextMenu menuId={menuId} />
       </ContextMenuPortal>
-      <EdgeHandle type="source" />
+      <EdgeHandle type="target" />
     </>
   )
 }
 
-export default Node
+export default ReworkNode
