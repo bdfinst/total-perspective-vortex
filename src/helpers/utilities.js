@@ -1,12 +1,16 @@
 import { isEdge, isNode } from 'react-flow-renderer'
 
+import config from '../globalConfig'
+
 export const getElementById = (id, elements) =>
   elements.find((el) => `${el.id}` === `${id}`)
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
 export const getNodes = (elements) =>
-  elements.filter((element) => isNode(element))
+  elements.filter(
+    (element) => isNode(element) && element.type === config.processNodeType,
+  )
 
 export const getNodeById = (elements, id) =>
   getNodes(elements).find((node) => `${node.id}` === `${id}`)

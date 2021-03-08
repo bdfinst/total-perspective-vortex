@@ -8,6 +8,8 @@ const config = {
   selectedColor: theme.palette.secondary.main,
   deselectedColor: theme.palette.primary.dark,
   vsmHeight: 550,
+  processNodeType: 'processNode',
+  reworkNodeType: 'reworkNode',
 }
 
 export default config

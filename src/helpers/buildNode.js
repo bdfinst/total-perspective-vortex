@@ -19,11 +19,39 @@ export const buildNode = ({ id, x, y }) => {
 
   return {
     id: id > 0 ? `${id}` : '-1',
-    type: 'customNode',
+    type: config.processNodeType,
     sourcePosition: 'right',
     targetPosition: 'left',
     selected: false,
     data: defaultNodeData,
+    style: {
+      width: config.nodeWidth,
+      background: theme.palette.background.paper,
+      borderColor: config.deselectedColor,
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+    position,
+  }
+}
+
+export const buildReworkNode = ({ id, x, y }) => {
+  const validCoord = (n) => !Number.isNaN(n) && n > -1
+
+  if (!validCoord(x) || !validCoord(y)) {
+    throw new Error('XY Coordinates not available for buildNode')
+  }
+  const position = { x, y }
+
+  return {
+    id: id > 0 ? `${id}` : '-1',
+    type: config.reworkNodeType,
+    sourcePosition: 'left',
+    targetPosition: 'bottom',
+    selected: false,
+    data: { description: '' },
     style: {
       width: config.nodeWidth,
       background: theme.palette.background.paper,

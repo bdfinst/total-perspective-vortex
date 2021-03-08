@@ -13,6 +13,7 @@ import {
   buildEdge,
   buildElementsFromFile,
   buildNode,
+  buildReworkNode,
   edgeExists,
   getEdgesBySource,
   getGraphLayout,
@@ -44,9 +45,11 @@ const updateStateElements = (state) => {
   return newState
 }
 
-const makeNewNode = (state, x, y) => {
+const makeNewNode = (state, x, y, isRework = false) => {
   const nodeId = state.maxNodeId + 1
-  const newNode = buildNode({ id: nodeId, x, y })
+  const newNode = isRework
+    ? buildReworkNode({ id: nodeId, x, y })
+    : buildNode({ id: nodeId, x, y })
 
   return [
     {
@@ -57,8 +60,8 @@ const makeNewNode = (state, x, y) => {
   ]
 }
 
-const addNode = (state, { x, y }) => {
-  const [newState, newNode] = makeNewNode(state, x, y)
+const addNode = (state, { x, y, isRework }) => {
+  const [newState, newNode] = makeNewNode(state, x, y, isRework)
 
   return {
     ...newState,
@@ -391,6 +394,9 @@ const useValueStream = () => {
 
   const createNode = (x, y) => dispatch({ type: 'CREATE_NODE', data: { x, y } })
 
+  const createReworkNode = (x, y) =>
+    dispatch({ type: 'CREATE_NODE', data: { x, y, isRework: true } })
+
   const createEdge = ({ source, target }) =>
     dispatch({ type: 'CREATE_EDGE', data: { source, target } })
 
@@ -436,6 +442,7 @@ const useValueStream = () => {
     increment,
     createNode,
     createEdge,
+    createReworkNode,
     setRelativelySized,
     changeNodeValues,
     changeEdgeTarget,
