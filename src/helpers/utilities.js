@@ -7,19 +7,30 @@ export const getElementById = (id, elements) =>
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
-export const getNodes = (elements) =>
+export const getProcessNodes = (elements) =>
   elements.filter(
     (element) => isNode(element) && element.type === config.processNodeType,
   )
 
+export const getReworkNodes = (elements) =>
+  elements.filter(
+    (element) => isNode(element) && element.type === config.reworkNodeType,
+  )
+
 export const getNodeById = (elements, id) =>
-  getNodes(elements).find((node) => `${node.id}` === `${id}`)
+  getProcessNodes(elements).find((node) => `${node.id}` === `${id}`)
 
 export const getEdges = (elements) =>
   elements.filter((element) => isEdge(element))
 
-export const getLastNode = (elements) => {
-  const el = getNodes(elements)
+export const getLastProcessNode = (elements) => {
+  const el = getProcessNodes(elements)
+
+  return el[el.length - 1]
+}
+
+export const getLastReworkNode = (elements) => {
+  const el = getReworkNodes(elements)
 
   return el[el.length - 1]
 }
@@ -119,8 +130,8 @@ export const calcFlowEfficiency = (processTime, totalTime) => {
   return roundTo2((processTime / totalTime) * 100)
 }
 
-export const getNodeSums = (elements) => {
-  const nodes = getNodes(elements).map((el) => ({
+export const getNodesums = (elements) => {
+  const nodes = getProcessNodes(elements).map((el) => ({
     ...el,
     data: convertToNumeric(el.data),
   }))

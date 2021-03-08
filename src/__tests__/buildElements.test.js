@@ -1,6 +1,11 @@
 import { isEdge, isNode } from 'react-flow-renderer'
 
-import { buildEdge, buildNode, getEdges, getNodes } from '../../src/helpers'
+import {
+  buildEdge,
+  buildNode,
+  getEdges,
+  getProcessNodes,
+} from '../../src/helpers'
 
 describe('Building nodes and edges', () => {
   it('should build a node with a default id', () => {
@@ -36,7 +41,7 @@ describe('Building nodes and edges', () => {
 
     const elements = nodes.concat(buildEdge(nodes[0], nodes[1]))
 
-    const filtered = getNodes(elements)
+    const filtered = getProcessNodes(elements)
 
     expect(filtered.length).toEqual(2)
     expect(isNode(filtered[0])).toEqual(true)

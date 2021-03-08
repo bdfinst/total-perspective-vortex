@@ -4,6 +4,7 @@ import React from 'react'
 import {
   AddNode,
   AddNodeAfter,
+  AddReworkNode,
   FileUpload,
   HelpButton,
   ResetButton,
@@ -28,6 +29,7 @@ const Controls = ({ selectedNode, onVsmHelpOpen }) => (
       </Grid>
       <Grid item xs={4} align="center">
         <ButtonGroup orientation="horizontal" color="secondary">
+          <AddReworkNode />
           <AddNode />
           {devMode && <ToggleStretch />}
           <AddNodeAfter selectedNode={selectedNode} />

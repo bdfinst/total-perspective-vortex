@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { getNodeSums } from '../../helpers'
+import { getNodesums } from '../../helpers'
 import { useValueStream } from './valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Totals = () => {
   const { state } = useValueStream()
-  const [totals, setTotals] = useState(getNodeSums(state.elements))
+  const [totals, setTotals] = useState(getNodesums(state.elements))
   const theme = useTheme()
   const classes = useStyles(theme)
 
   useEffect(() => {
-    const total = getNodeSums(state.elements)
+    const total = getNodesums(state.elements)
     setTotals(total)
   }, [state.elements])
 

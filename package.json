@@ -12,12 +12,12 @@
     "url": "https://github.com/bdfinst/total-perspective-vortex"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_LOCAL_STORAGE='clear' react-scripts start",
     "build": "CI=false react-scripts build",
     "coverage": "CI=true react-scripts test --ci --coverage ",
-    "test:watch": "react-scripts test ",
-    "test": "npm run coverage ",
-    "test:ui": "cypress open",
+    "test:watch": "REACT_APP_LOCAL_STORAGE='clear' react-scripts test ",
+    "test": "REACT_APP_LOCAL_STORAGE='clear' npm run coverage ",
+    "test:ui": "REACT_APP_LOCAL_STORAGE='clear' cypress open",
     "cy:run": "cypress run --headless",
     "test:cy": "start-server-and-test start http://localhost:3000 cy:run",
     "eject": "react-scripts eject",

@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     color: theme.palette.primary.dark,
   },
+  rework: {
+    color: theme.palette.error.main,
+  },
   inactive: {
     color: theme.palette.text.disabled,
   },
@@ -44,6 +47,34 @@ export const AddNode = () => {
         className={classes.root}
       >
         <InputOutlined className={classes.arrowDown} />
+      </IconButton>
+    </div>
+  )
+}
+
+export const AddReworkNode = () => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+  const { createReworkNode, state } = useValueStream()
+
+  const handleAdd = () => {
+    const node1 = state.elements[0]
+    const posX = node1.position.x
+    const posY = node1.position.y + config.nodeHeight - 50
+
+    createReworkNode(posX, posY)
+  }
+
+  return (
+    <div>
+      <IconButton
+        title="Add rework node"
+        color="inherit"
+        component="span"
+        onClick={handleAdd}
+        className={classes.root}
+      >
+        <InputOutlined className={`${classes.rework} ${classes.arrowDown}`} />
       </IconButton>
     </div>
   )

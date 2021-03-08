@@ -18,7 +18,7 @@ import {
   getEdgesBySource,
   getGraphLayout,
   getLastEdge,
-  getLastNode,
+  getLastProcessNode,
   spliceArray,
 } from '../../helpers'
 import config from '../../globalConfig'
@@ -254,7 +254,7 @@ const insertNodeBefore = (state, { node, selectNewNode }) => {
 }
 
 const insertNodeAfter = (state, { node, selectNewNode }) => {
-  const sourceNode = node || getLastNode(state.elements)
+  const sourceNode = node || getLastProcessNode(state.elements)
 
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
@@ -302,8 +302,13 @@ const initValueStream = () => {
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
+  const stateRework = addNode(state3, {
+    x: defaultPosition.x,
+    y: defaultPosition.y,
+    isRework: true,
+  })
 
-  return state3
+  return stateRework
 }
 
 const buildData = () => {
@@ -315,9 +320,11 @@ const buildData = () => {
     ls.clear()
   }
 
+  const elements = ls('elements') || init.elements
+
   return {
     maxNodeId: ls('maxNodeId') || init.maxNodeId,
-    elements: ls('elements') || init.elements,
+    elements: getGraphLayout(elements),
   }
 }
 
@@ -346,7 +353,6 @@ const valueStreamReducer = (state, action) => {
     case 'SELECT_NODE': {
       return nodeSelect(state, action.data)
     }
-
     case 'UPDATE_EDGE': {
       return updateOneEdge(state, action.data)
     }

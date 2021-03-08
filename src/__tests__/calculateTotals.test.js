@@ -1,7 +1,7 @@
 import { isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
-import { calcFlowEfficiency, getNodeSums, roundTo2 } from '../helpers'
+import { calcFlowEfficiency, getNodesums, roundTo2 } from '../helpers'
 import { default as elementFixture } from '../__mocks__/elements'
 
 let elements
@@ -13,7 +13,7 @@ describe('Building totals', () => {
   let waitTime
   let reworkTime
   beforeEach(() => {
-    results = getNodeSums(elements)
+    results = getNodesums(elements)
 
     processTime = elements
       .filter((el) => isNode(el))
@@ -91,7 +91,7 @@ describe('Building totals', () => {
     const num = 3
     elements = elementFixture(num, pca)
 
-    results = getNodeSums(elements)
+    results = getNodesums(elements)
 
     expect(results.avgPCA).toEqual((pca + pca / 2) / 2)
   })

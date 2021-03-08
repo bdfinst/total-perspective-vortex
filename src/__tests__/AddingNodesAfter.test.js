@@ -9,10 +9,10 @@ import {
   getEdgesBySource,
   getElementById,
   getLastEdge,
-  getLastNode,
+  getLastProcessNode,
   getNodeById,
   getNodeIndexes,
-  getNodes,
+  getProcessNodes,
 } from '../../src/helpers'
 
 const renderVSMHook = () => {
@@ -33,10 +33,10 @@ describe('Inserting a node after a selected node', () => {
   })
   const addNode = () => {
     act(() => {
-      result.current.createNode(1,  1 )
+      result.current.createNode(1, 1)
     })
 
-    const node = getLastNode(result.current.state.elements)
+    const node = getLastProcessNode(result.current.state.elements)
     const index = result.current.state.elements.findIndex(
       (e) => e.id === node.id,
     )
@@ -136,7 +136,7 @@ describe('Inserting a node after a selected node', () => {
     act(() => {
       result.current.addNodeAfter()
     })
-    const nodes = getNodes(result.current.state.elements)
+    const nodes = getProcessNodes(result.current.state.elements)
 
     const insertedNode = getNodeById(
       result.current.state.elements,
