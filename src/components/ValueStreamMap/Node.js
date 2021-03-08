@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { Handle } from 'react-flow-renderer'
 import {
   Paper,
   Table,
