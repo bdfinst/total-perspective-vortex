@@ -22,6 +22,7 @@ import {
   spliceArray,
 } from '../../helpers'
 import config from '../../globalConfig'
+import flags from '../../featureFlags/flags'
 
 const defaultPosition = { x: 100, y: 175 }
 
@@ -302,19 +303,21 @@ const initValueStream = () => {
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
-  // const stateRework = addNode(state3, {
-  //   x: defaultPosition.x,
-  //   y: defaultPosition.y,
-  //   isRework: true,
-  // })
+  const stateRework = flags.showRetryNodes
+    ? addNode(state3, {
+        x: defaultPosition.x,
+        y: defaultPosition.y,
+        isRework: true,
+      })
+    : state3
 
-  return state3
+  return stateRework
 }
 
 const buildData = () => {
   const init = initValueStream()
 
-  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+  if (flags.clearCache) {
     // eslint-disable-next-line no-console
     console.log('Clear local storage')
     ls.clear()

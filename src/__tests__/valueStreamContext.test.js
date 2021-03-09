@@ -14,6 +14,7 @@ import {
   getReworkNodes,
 } from '../../src/helpers'
 import config from '../globalConfig'
+import flags from '../featureFlags/flags'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -39,7 +40,7 @@ describe('Value Stream Context', () => {
 
     expect(edges.length).toEqual(1)
     expect(processNodes.length).toEqual(2)
-    expect(reworkNodes.length).toEqual(1)
+    if (flags.showRetryNodes) expect(reworkNodes.length).toEqual(1)
   })
 
   it('should increment the element ID store', () => {
