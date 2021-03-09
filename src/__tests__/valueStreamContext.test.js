@@ -5,7 +5,16 @@ import {
   ValueStreamProvider,
   useValueStream,
 } from '../components/ValueStreamMap/valueStreamContext'
-import { getEdges, getLastEdge, getLastNode, getNodes } from '../../src/helpers'
+import {
+  getEdges,
+  getLastEdge,
+  getLastProcessNode,
+  getLastReworkNode,
+  getProcessNodes,
+  getReworkNodes,
+} from '../../src/helpers'
+import config from '../globalConfig'
+import flags from '../featureFlags/flags'
 
 const renderVSMHook = () => {
   const wrapper = ({ children }) => (
@@ -25,7 +34,13 @@ describe('Value Stream Context', () => {
   })
 
   it('should initialize the state', () => {
-    expect(result.current.state.elements.length).toEqual(3)
+    const edges = getEdges(result.current.state.elements)
+    const processNodes = getProcessNodes(result.current.state.elements)
+    const reworkNodes = getReworkNodes(result.current.state.elements)
+
+    expect(edges.length).toEqual(1)
+    expect(processNodes.length).toEqual(2)
+    if (flags.showRetryNodes) expect(reworkNodes.length).toEqual(1)
   })
 
   it('should increment the element ID store', () => {
@@ -40,14 +55,15 @@ describe('Value Stream Context', () => {
   it('should add a new node the store', () => {
     const beforeLen = result.current.state.elements.length
     act(() => {
-      result.current.createNode(1,1)
+      result.current.createNode(1, 1)
     })
 
     const afterLen = result.current.state.elements.length
-    const newNode = getLastNode(result.current.state.elements)
+    const newNode = getLastProcessNode(result.current.state.elements)
 
     expect(beforeLen + 1).toEqual(afterLen)
     expect(newNode).toHaveProperty('type')
+    expect(newNode.type).toEqual(config.processNodeType)
     expect(newNode).toHaveProperty('data')
     expect(newNode).toHaveProperty('style')
     expect(newNode).toHaveProperty('position')
@@ -64,10 +80,10 @@ describe('Value Stream Context', () => {
       }
 
       act(() => {
-        result.current.createNode(1,1)
+        result.current.createNode(1, 1)
       })
 
-      const nodes = getNodes(result.current.state.elements)
+      const nodes = getProcessNodes(result.current.state.elements)
       const testNode = nodes[nodes.length - 1]
 
       act(() => {
@@ -85,10 +101,10 @@ describe('Value Stream Context', () => {
     })
     it('should update one data property for a node', () => {
       act(() => {
-        result.current.createNode(1,1)
+        result.current.createNode(1, 1)
       })
 
-      const nodes = getNodes(result.current.state.elements)
+      const nodes = getProcessNodes(result.current.state.elements)
       const testNode = nodes[nodes.length - 1]
 
       const newData = testNode.data
@@ -110,6 +126,30 @@ describe('Value Stream Context', () => {
   })
 })
 
+describe('Rework Nodes', () => {
+  afterEach(cleanup)
+  let result
+  beforeEach(() => {
+    result = renderVSMHook()
+  })
+
+  it('should add a new rework node the store', () => {
+    const beforeLen = result.current.state.elements.length
+    act(() => {
+      result.current.createReworkNode(1, 1)
+    })
+
+    const afterLen = result.current.state.elements.length
+    const newNode = getLastReworkNode(result.current.state.elements)
+
+    expect(beforeLen + 1).toEqual(afterLen)
+    expect(newNode.type).toEqual(config.reworkNodeType)
+    expect(newNode).toHaveProperty('data')
+    expect(newNode.data).toHaveProperty('description')
+    expect(newNode).toHaveProperty('position')
+  })
+})
+
 describe('Linking nodes with edges', () => {
   let result
   let nodes
@@ -120,13 +160,13 @@ describe('Linking nodes with edges', () => {
   beforeEach(() => {
     result = renderVSMHook()
     act(() => {
-      result.current.createNode(1,1)
+      result.current.createNode(1, 1)
     })
     act(() => {
-      result.current.createNode(1,1)
+      result.current.createNode(1, 1)
     })
 
-    nodes = getNodes(result.current.state.elements)
+    nodes = getProcessNodes(result.current.state.elements)
     source = nodes[nodes.length - 1]
     target1 = nodes[nodes.length - 2]
     target2 = nodes[nodes.length - 3]
@@ -232,10 +272,10 @@ describe('Adding nodes', () => {
 
   const addNode = () => {
     act(() => {
-      result.current.createNode(1,1)
+      result.current.createNode(1, 1)
     })
 
-    const node = getLastNode(result.current.state.elements)
+    const node = getLastProcessNode(result.current.state.elements)
     const index = result.current.state.elements.findIndex(
       (e) => e.id === node.id,
     )
@@ -245,17 +285,17 @@ describe('Adding nodes', () => {
 
   it('should add a node at the end if no node is selected', () => {
     const [startNode] = addNode()
-    const prevNodeCount = getNodes(result.current.state.elements).length
+    const prevNodeCount = getProcessNodes(result.current.state.elements).length
     const prevEdgeCount = getEdges(result.current.state.elements).length
 
     act(() => {
       result.current.addNodeAfter()
     })
 
-    const newNodeCount = getNodes(result.current.state.elements).length
+    const newNodeCount = getProcessNodes(result.current.state.elements).length
     const newEdgeCount = getEdges(result.current.state.elements).length
 
-    const newNode = getLastNode(result.current.state.elements)
+    const newNode = getLastProcessNode(result.current.state.elements)
     const newEdge = getLastEdge(result.current.state.elements)
 
     expect(prevNodeCount + 1).toEqual(newNodeCount)

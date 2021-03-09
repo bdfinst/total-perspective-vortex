@@ -8,7 +8,7 @@ import {
 import {
   getElementById,
   getLastEdge,
-  getLastNode,
+  getLastProcessNode,
   getNodeById,
 } from '../helpers'
 
@@ -30,10 +30,10 @@ describe('Inserting a node before a selected node', () => {
   })
   const addNode = () => {
     act(() => {
-      result.current.createNode( 1,  1 )
+      result.current.createNode(1, 1)
     })
 
-    const node = getLastNode(result.current.state.elements)
+    const node = getLastProcessNode(result.current.state.elements)
     const index = result.current.state.elements.findIndex(
       (e) => e.id === node.id,
     )

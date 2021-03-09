@@ -14,7 +14,7 @@
       "files": ["**/*.js"]
     }
   ],
-  "ignorePatterns": [ "**/*.test.js","**/*.spec.js"],
+  "ignorePatterns": [ "**/*.test.js","**/*.spec.js","/cypress/**/*.js", "/build/**/*.js"],
   "rules": {
     "semi": 0,
     "prettier/prettier": [

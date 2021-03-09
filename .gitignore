@@ -32,3 +32,4 @@ yarn-error.log*
 
 /.history
 /cypress/videos
+/cypress/screenshots

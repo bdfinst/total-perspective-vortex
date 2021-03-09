@@ -8,7 +8,7 @@ const settings = (type) => {
     case 'source':
       return { type: 'source', side: 'right', color: 'green' }
     case 'reworkTarget':
-      return { type: 'target', side: 'right', color: 'red' }
+      return { type: 'target', side: 'bottom', color: 'red' }
     case 'reworkSource':
       return { type: 'source', side: 'left', color: 'green' }
     default:

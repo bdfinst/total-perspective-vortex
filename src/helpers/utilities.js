@@ -1,21 +1,45 @@
 import { isEdge, isNode } from 'react-flow-renderer'
 
+import config from '../globalConfig'
+
 export const getElementById = (id, elements) =>
   elements.find((el) => `${el.id}` === `${id}`)
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
-export const getNodes = (elements) =>
+export const getProcessNodes = (elements) =>
+  elements.filter(
+    (element) => isNode(element) && element.type === config.processNodeType,
+  )
+
+export const getAllNodes = (elements) =>
   elements.filter((element) => isNode(element))
 
+export const getReworkNodes = (elements) =>
+  elements.filter(
+    (element) => isNode(element) && element.type === config.reworkNodeType,
+  )
+
+export const isProcessNode = (element) =>
+  isNode(element) && element.type === config.processNodeType
+
+export const isReworkNode = (element) =>
+  isNode(element) && element.type === config.reworkNodeType
+
 export const getNodeById = (elements, id) =>
-  getNodes(elements).find((node) => `${node.id}` === `${id}`)
+  getAllNodes(elements).find((node) => `${node.id}` === `${id}`)
 
 export const getEdges = (elements) =>
   elements.filter((element) => isEdge(element))
 
-export const getLastNode = (elements) => {
-  const el = getNodes(elements)
+export const getLastProcessNode = (elements) => {
+  const el = getProcessNodes(elements)
+
+  return el[el.length - 1]
+}
+
+export const getLastReworkNode = (elements) => {
+  const el = getReworkNodes(elements)
 
   return el[el.length - 1]
 }
@@ -115,8 +139,8 @@ export const calcFlowEfficiency = (processTime, totalTime) => {
   return roundTo2((processTime / totalTime) * 100)
 }
 
-export const getNodeSums = (elements) => {
-  const nodes = getNodes(elements).map((el) => ({
+export const getNodesums = (elements) => {
+  const nodes = getProcessNodes(elements).map((el) => ({
     ...el,
     data: convertToNumeric(el.data),
   }))

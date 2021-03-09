@@ -15,6 +15,7 @@ import CustomEdge from './CustomEdge'
 import HelpDialog from '../HelpDialog'
 import InputDialog from './InputDialog/InputDialog'
 import Node from './Node'
+import ReworkNode from './ReworkNode'
 import VsmHelpContent from './VsmHelpContent'
 import config from '../../globalConfig'
 
@@ -49,6 +50,7 @@ const ValueStreamMap = () => {
 
   useEffect(() => {
     setElements(state.elements)
+
     setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
   }, [state.elements])
 
@@ -67,6 +69,7 @@ const ValueStreamMap = () => {
   }
 
   const onConnect = (params) => {
+    console.log(params.source, params.target)
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
 
@@ -114,7 +117,10 @@ const ValueStreamMap = () => {
             <ReactFlow
               style={reactFlowStyle}
               elements={elements}
-              nodeTypes={{ customNode: Node }}
+              nodeTypes={{
+                [config.processNodeType]: Node,
+                [config.reworkNodeType]: ReworkNode,
+              }}
               edgeTypes={{ custom: CustomEdge }}
               connectionLineComponent={ConnectionLine}
               defaultZoom={0.6}

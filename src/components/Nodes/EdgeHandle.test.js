@@ -35,7 +35,10 @@ describe('<EdgeHandle/>', () => {
     )
 
     expect(getByTestId('edgeHandle')).toHaveStyle('background: red')
-    expect(getByTestId('edgeHandle')).toHaveAttribute('data-handlepos', 'right')
+    expect(getByTestId('edgeHandle')).toHaveAttribute(
+      'data-handlepos',
+      'bottom',
+    )
   })
   it('should render a source', () => {
     const { getByTestId } = render(
