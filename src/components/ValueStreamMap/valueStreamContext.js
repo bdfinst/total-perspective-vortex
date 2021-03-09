@@ -13,14 +13,16 @@ import {
   buildEdge,
   buildElementsFromFile,
   buildNode,
+  buildReworkNode,
   edgeExists,
   getEdgesBySource,
   getGraphLayout,
   getLastEdge,
-  getLastNode,
+  getLastProcessNode,
   spliceArray,
 } from '../../helpers'
 import config from '../../globalConfig'
+import flags from '../../featureFlags/flags'
 
 const defaultPosition = { x: 100, y: 175 }
 
@@ -44,9 +46,11 @@ const updateStateElements = (state) => {
   return newState
 }
 
-const makeNewNode = (state, x, y) => {
+const makeNewNode = (state, x, y, isRework = false) => {
   const nodeId = state.maxNodeId + 1
-  const newNode = buildNode({ id: nodeId, x, y })
+  const newNode = isRework
+    ? buildReworkNode({ id: nodeId, x, y })
+    : buildNode({ id: nodeId, x, y })
 
   return [
     {
@@ -57,8 +61,8 @@ const makeNewNode = (state, x, y) => {
   ]
 }
 
-const addNode = (state, { x, y }) => {
-  const [newState, newNode] = makeNewNode(state, x, y)
+const addNode = (state, { x, y, isRework }) => {
+  const [newState, newNode] = makeNewNode(state, x, y, isRework)
 
   return {
     ...newState,
@@ -251,7 +255,7 @@ const insertNodeBefore = (state, { node, selectNewNode }) => {
 }
 
 const insertNodeAfter = (state, { node, selectNewNode }) => {
-  const sourceNode = node || getLastNode(state.elements)
+  const sourceNode = node || getLastProcessNode(state.elements)
 
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
@@ -299,22 +303,31 @@ const initValueStream = () => {
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
+  const stateRework = flags.showRetryNodes
+    ? addNode(state3, {
+        x: defaultPosition.x,
+        y: defaultPosition.y,
+        isRework: true,
+      })
+    : state3
 
-  return state3
+  return stateRework
 }
 
 const buildData = () => {
   const init = initValueStream()
 
-  if (process.env.REACT_APP_LOCAL_STORAGE === 'clear') {
+  if (flags.clearCache) {
     // eslint-disable-next-line no-console
     console.log('Clear local storage')
     ls.clear()
   }
 
+  const elements = ls('elements') || init.elements
+
   return {
     maxNodeId: ls('maxNodeId') || init.maxNodeId,
-    elements: ls('elements') || init.elements,
+    elements: getGraphLayout(elements),
   }
 }
 
@@ -343,7 +356,6 @@ const valueStreamReducer = (state, action) => {
     case 'SELECT_NODE': {
       return nodeSelect(state, action.data)
     }
-
     case 'UPDATE_EDGE': {
       return updateOneEdge(state, action.data)
     }
@@ -391,6 +403,9 @@ const useValueStream = () => {
 
   const createNode = (x, y) => dispatch({ type: 'CREATE_NODE', data: { x, y } })
 
+  const createReworkNode = (x, y) =>
+    dispatch({ type: 'CREATE_NODE', data: { x, y, isRework: true } })
+
   const createEdge = ({ source, target }) =>
     dispatch({ type: 'CREATE_EDGE', data: { source, target } })
 
@@ -436,6 +451,7 @@ const useValueStream = () => {
     increment,
     createNode,
     createEdge,
+    createReworkNode,
     setRelativelySized,
     changeNodeValues,
     changeEdgeTarget,
