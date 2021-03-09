@@ -1,7 +1,7 @@
-import React from 'react'
 import CRDIcon from '@material-ui/icons/DeviceHubTwoTone'
 import GraphIcon from '@material-ui/icons/AssessmentOutlined'
 import HomeIcon from '@material-ui/icons/HomeOutlined'
+import React from 'react'
 import VSMIcon from '@material-ui/icons/AccountTreeTwoTone'
 
 import CurrentReality from './CurrentReality'
@@ -24,7 +24,7 @@ const Routes = [
   },
   {
     path: '/CurrentReality',
-    sidebarName: 'Current Reality',
+    sidebarName: 'Current Reality Tree',
     icon: <CRDIcon />,
     component: CurrentReality,
   },
