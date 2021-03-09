@@ -302,13 +302,13 @@ const initValueStream = () => {
   }
   const state2 = addNode(state1, { x: defaultPosition.x, y: defaultPosition.y })
   const state3 = insertNodeAfter(state2, { node: state2.elements[0] })
-  const stateRework = addNode(state3, {
-    x: defaultPosition.x,
-    y: defaultPosition.y,
-    isRework: true,
-  })
+  // const stateRework = addNode(state3, {
+  //   x: defaultPosition.x,
+  //   y: defaultPosition.y,
+  //   isRework: true,
+  // })
 
-  return stateRework
+  return state3
 }
 
 const buildData = () => {

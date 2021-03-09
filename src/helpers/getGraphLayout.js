@@ -1,7 +1,6 @@
 import { isNode } from 'react-flow-renderer'
 import dagre from 'dagre'
 
-import { isReworkNode } from '.'
 import config from '../globalConfig'
 
 /**
@@ -38,12 +37,9 @@ export default function getGraphLayout(
       totalOffset += offsetPosition(el.data.waitTime, offsetWidth)
 
       // Pass a slightly different position to notify react flow about the change
-      const calcY = isReworkNode(el)
-        ? nodeWithPosition.y - 150
-        : nodeWithPosition.y
+      const calcY = nodeWithPosition.y
 
-      const xPos = nodeWithPosition.x + totalOffset + Math.random() / 10000
-      const calcX = isReworkNode(el) ? xPos - 100 : xPos
+      const calcX = nodeWithPosition.x + totalOffset + Math.random() / 10000
 
       position = {
         x: calcX,
