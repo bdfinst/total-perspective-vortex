@@ -73,6 +73,7 @@ export default function HeaderBar({ onClick, open }) {
         >
           <MenuIcon />
         </IconButton>
+        <img src="light_logo_square.png" width="90px" alt="logo" />
         <Typography
           component="h1"
           variant="h6"
