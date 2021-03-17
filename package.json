@@ -11,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/bdfinst/total-perspective-vortex"
   },
+  "license": "MIT",
   "scripts": {
     "start": "REACT_APP_CLEAR_LOCAL_STORAGE='true' react-scripts start",
     "build": "CI=false react-scripts build",
