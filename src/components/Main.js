@@ -13,7 +13,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import HeaderBar from './HeaderBar'
+import HeaderBar from './Header/HeaderBar'
 import ListLinkItem from './Menu/ListLinkItem'
 import Routes from './Routes'
 import config from '../globalConfig'

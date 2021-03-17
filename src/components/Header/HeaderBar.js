@@ -8,10 +8,10 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 
-import { GitHubButton } from './ValueStreamMap/Buttons'
-import AppHelpContent from './AppHelpContent'
-import HelpDialog from './HelpDialog'
-import config from '../globalConfig'
+import { GitHubButton } from '../ValueStreamMap/Buttons'
+import AppHelpContent from '../AppHelpContent'
+import HelpDialog from '../HelpDialog'
+import config from '../../globalConfig'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
