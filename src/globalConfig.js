@@ -5,7 +5,6 @@ const config = {
   nodeWidth: 220,
   nodeHeight: 300,
   betweenNodes: 75,
-  betweenRows: 50,
   selectedColor: theme.palette.secondary.main,
   deselectedColor: theme.palette.primary.dark,
   vsmHeight: 550,

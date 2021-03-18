@@ -1,14 +1,27 @@
 import { isEdge, isNode } from 'react-flow-renderer'
-import dagre from 'dagre'
 
 import config from '../globalConfig'
 
-let lastPosition = { x: 0, y: 0 }
+const processedNodes = []
+let siblingId
 
 const getEdges = (elements) => elements.filter((el) => isEdge(el))
 const getNodes = (elements) => elements.filter((el) => isNode(el))
 const notifyCoordinateChange = (ordinate) =>
   Math.round(ordinate) + Math.random() / 10000
+
+const getParallelPosition = (el, prevPosition, parent) => {
+  const newY =
+    siblingId > 1 ? prevPosition.y + config.nodeHeight : parent.position.y
+  const position = {
+    x: notifyCoordinateChange(
+      parent.position.x + config.betweenNodes + config.nodeWidth,
+    ),
+    y: notifyCoordinateChange(newY),
+  }
+
+  return { ...el, position }
+}
 
 const getNextLinkedPosition = (el, prevPosition) => {
   const position = {
@@ -24,16 +37,25 @@ const getNextLinkedPosition = (el, prevPosition) => {
 const getDetachedPosition = (el, prevPosition) => {
   const position = {
     x: prevPosition.x,
-    y: notifyCoordinateChange(
-      prevPosition.y + config.betweenRows + config.nodeHeight,
-    ),
+    y: notifyCoordinateChange(prevPosition.y + config.nodeHeight),
   }
 
   return { ...el, position }
 }
 
-const isLinkedNode = (node, edges) =>
-  edges.find((e) => e.source === node.id || e.target === node.id)
+const getParentInfo = (node, edges, nodes) => {
+  const link = edges.filter((e) => e.target === node.id)
+
+  const childrenCount =
+    link.length > 0
+      ? edges.filter((e) => e.source === link[0].source).length
+      : 0
+
+  const parent =
+    childrenCount > 0 ? nodes.find((n) => n.id === link[0].source) : {}
+
+  return [parent, childrenCount]
+}
 
 /**
  *
@@ -42,27 +64,46 @@ const isLinkedNode = (node, edges) =>
  */
 export default function getGraphLayout(
   elements,
-  useProportional = false,
-  offsetWidth = config.betweenNodes,
+  // useProportional = false,
+  // offsetWidth = config.betweenNodes,
 ) {
   const edges = getEdges(elements)
   const nodes = getNodes(elements)
 
   const newNodes = nodes.map((el, idx) => {
-    if (idx === 0) {
-      lastPosition = el.position
+    let newNode
 
+    const [parent, childrenCount] = getParentInfo(el, edges, processedNodes)
+
+    const lastPosition =
+      processedNodes.length > 0
+        ? processedNodes[processedNodes.length - 1].position
+        : el.position
+
+    if (idx === 0) {
+      processedNodes.push(el)
       return el
     }
 
-    const newNode = isLinkedNode(el, edges)
-      ? getNextLinkedPosition(el, lastPosition)
-      : getDetachedPosition(el, lastPosition)
+    switch (childrenCount) {
+      case 0:
+        newNode = getDetachedPosition(el, lastPosition)
+        siblingId = 1
+        break
+      case 1:
+        newNode = getNextLinkedPosition(el, lastPosition)
+        siblingId = 1
+        break
+      default:
+        newNode = getParallelPosition(el, lastPosition, parent)
+        siblingId += 1
+        break
+    }
 
-    lastPosition = newNode.position
-
+    processedNodes.push(newNode)
     return newNode
   })
+
   return newNodes.concat(edges)
 
   // const dagreGraph = new dagre.graphlib.Graph()
