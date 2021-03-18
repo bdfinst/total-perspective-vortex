@@ -1,12 +1,11 @@
 import _ from 'lodash'
 
-import { buildEdge } from './buildEdge'
+import { buildEdge, buildNode } from './elementUtils'
 import {
   buildElementsFromFile,
   buildFileFromElements,
   isValidFile,
 } from './formatVsmData'
-import { buildNode } from './buildNode'
 import dataFile from '../__mocks__/vsmInit'
 import isSameJsonSchema from './isSameJsonSchema'
 

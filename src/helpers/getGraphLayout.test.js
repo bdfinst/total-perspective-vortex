@@ -1,5 +1,3 @@
-import { isNode } from 'react-flow-renderer'
-
 import config from '../globalConfig'
 import dataFile from '../__mocks__/layout'
 import getGraphLayout from './getGraphLayout'

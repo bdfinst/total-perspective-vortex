@@ -1,5 +1,22 @@
+import { isEdge as isEdgeRFR, isNode as isNodeRFR } from 'react-flow-renderer'
+import { v4 as uuidv4 } from 'uuid'
+
 import config from '../globalConfig'
 import theme from '../theme'
+
+export const isNode = (element) => isNodeRFR(element)
+export const isEdge = (element) => isEdgeRFR(element)
+
+export const createEdgeId = () => `${uuidv4()}`
+
+export const buildEdge = (source, target) => ({
+  id: createEdgeId(),
+  source: `${source.id}`,
+  target: `${target.id}`,
+  arrowHeadType: 'arrowclosed',
+  type: 'custom',
+  selected: false,
+})
 
 export const defaultNodeData = {
   processName: '',
@@ -63,4 +80,21 @@ export const buildReworkNode = ({ id, x, y }) => {
     },
     position,
   }
+}
+
+export const getParentInfo = (node, elements) => {
+  const edges = elements.filter((el) => isEdge(el))
+  const nodes = elements.filter((el) => isNode(el))
+
+  const link = edges.filter((e) => e.target === node.id)
+
+  const childrenCount =
+    link.length > 0
+      ? edges.filter((e) => e.source === link[0].source).length
+      : 0
+
+  const parent =
+    childrenCount > 0 ? nodes.find((n) => n.id === link[0].source) : {}
+
+  return [parent, childrenCount]
 }

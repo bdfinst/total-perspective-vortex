@@ -6,7 +6,6 @@
  */
 
 import React, { useReducer } from 'react'
-import { isEdge } from 'react-flow-renderer'
 import ls from 'local-storage'
 
 import {
@@ -19,6 +18,7 @@ import {
   getGraphLayout,
   getLastEdge,
   getLastProcessNode,
+  isEdge,
   spliceArray,
 } from '../../helpers'
 import config from '../../globalConfig'

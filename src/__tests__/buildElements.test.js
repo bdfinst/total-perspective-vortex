@@ -1,10 +1,10 @@
-import { isEdge, isNode } from 'react-flow-renderer'
-
 import {
   buildEdge,
   buildNode,
   getEdges,
   getProcessNodes,
+  isEdge,
+  isNode,
 } from '../../src/helpers'
 
 describe('Building nodes and edges', () => {

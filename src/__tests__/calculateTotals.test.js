@@ -1,7 +1,6 @@
-import { isNode } from 'react-flow-renderer'
 import validateKeys from 'object-key-validator'
 
-import { calcFlowEfficiency, getNodesums, roundTo2 } from '../helpers'
+import { calcFlowEfficiency, getNodesums, isNode, roundTo2 } from '../helpers'
 import { default as elementFixture } from '../__mocks__/elements'
 
 let elements

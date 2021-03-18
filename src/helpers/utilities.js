@@ -1,5 +1,4 @@
-import { isEdge, isNode } from 'react-flow-renderer'
-
+import { isEdge, isNode } from './elementUtils'
 import config from '../globalConfig'
 
 export const getElementById = (id, elements) =>
