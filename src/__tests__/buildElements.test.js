@@ -61,6 +61,6 @@ describe('Building nodes and edges', () => {
   it('should require coordinates', () => {
     expect(() => {
       buildNode({ id: 0 })
-    }).toThrow('XY Coordinates not available for buildNode')
+    }).toThrow('XY coordinates not available for buildNode')
   })
 })

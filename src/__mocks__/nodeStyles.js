@@ -1,0 +1,78 @@
+export default [
+  {
+    id: '1',
+    data: {
+      processName: '',
+      people: 1,
+      processTime: 10,
+      waitTime: 2,
+      pctCompleteAccurate: 100,
+    },
+    style: {
+      width: 220,
+      background: '#fff',
+      borderColor: 'rgb(37, 50, 77)',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+  },
+  {
+    id: '2',
+    data: {
+      processName: '',
+      people: 1,
+      processTime: 11,
+      waitTime: 2,
+      pctCompleteAccurate: 100,
+    },
+    style: {
+      width: 220,
+      background: '#fff',
+      borderColor: 'rgb(37, 50, 77)',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+  },
+  {
+    id: '3',
+    data: {
+      processName: '',
+      people: 1,
+      processTime: 12,
+      waitTime: 2,
+      pctCompleteAccurate: 100,
+    },
+    style: {
+      width: 220,
+      background: '#fff',
+      borderColor: 'rgb(37, 50, 77)',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+  },
+  {
+    id: '4',
+    data: {
+      processName: '',
+      people: 1,
+      processTime: 9,
+      waitTime: 2,
+      pctCompleteAccurate: 100,
+    },
+    style: {
+      width: 220,
+      background: '#fff',
+      borderColor: 'rgb(37, 50, 77)',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+  },
+]
