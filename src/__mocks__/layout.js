@@ -21,7 +21,7 @@ export default [
       borderWidth: '4px',
       padding: 5,
     },
-    position: { x: 110.0000339081082, y: 150 },
+    position: { x: 100, y: 100 },
   },
   {
     id: '2',

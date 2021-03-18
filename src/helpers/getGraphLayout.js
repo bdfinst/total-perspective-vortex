@@ -3,27 +3,32 @@ import dagre from 'dagre'
 
 import config from '../globalConfig'
 
-let lastX = 0
+let lastPosition = { x: 0, y: 0 }
 
 const getEdges = (elements) => elements.filter((el) => isEdge(el))
 const getNodes = (elements) => elements.filter((el) => isNode(el))
+const notifyCoordinateChange = (ordinate) =>
+  Math.round(ordinate) + Math.random() / 10000
 
-const getNextPosition = (el, idx, nodes) => {
-  const newX = lastX + config.betweenNodes + config.nodeWidth
-  lastX = newX
-
-  return {
-    x: newX,
-    y: nodes[idx - 1].y,
+const getNextLinkedPosition = (el, idx, nodes) => {
+  const position = {
+    x: notifyCoordinateChange(
+      lastPosition.x + config.betweenNodes + config.nodeWidth,
+    ),
+    y: nodes[idx - 1].position.y,
   }
+
+  return { ...el, position }
 }
 
-const getDetachedPosition = (el, idx, nodes) => {
-  const newY = nodes[idx - 1].y + config.betweenRows + config.nodeHeight
-  return {
-    x: nodes[idx - 1].x,
-    y: newY,
+const getDetachedPosition = (el, prevPosition) => {
+  const position = {
+    x: prevPosition.x,
+    y: notifyCoordinateChange(
+      prevPosition.y + config.betweenRows + config.nodeHeight,
+    ),
   }
+  return { ...el, position }
 }
 
 const isLinkedNode = (node, edges) =>
@@ -44,12 +49,17 @@ export default function getGraphLayout(
 
   const newNodes = nodes.map((el, idx) => {
     if (idx === 0) {
-      lastX = el.position.x
+      lastPosition = el.position
       return el
     }
-    return isLinkedNode(el, edges)
-      ? { ...el, position: getNextPosition(el, idx, nodes) }
-      : { ...el, position: getDetachedPosition(el, idx, nodes) }
+
+    const newNode = isLinkedNode(el, edges)
+      ? getNextLinkedPosition(el, idx, nodes)
+      : getDetachedPosition(el, lastPosition)
+
+    lastPosition = newNode.position
+
+    return newNode
   })
   return newNodes.concat(edges)
 
