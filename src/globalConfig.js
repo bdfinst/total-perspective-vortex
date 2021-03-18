@@ -12,6 +12,7 @@ const config = {
   reworkNodeType: 'reworkNode',
   primaryConstraintColor: 'red',
   secondaryConstraintColor: 'yellow',
+  nodeDefaultColor: theme.palette.background.paper,
 }
 
 export default config

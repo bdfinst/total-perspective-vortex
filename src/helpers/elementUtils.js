@@ -320,7 +320,10 @@ export const highlightConstraints = (elements) => {
         style: { ...el.style, background: config.secondaryConstraintColor },
       }
 
-    return el
+    return {
+      ...el,
+      style: { ...el.style, background: config.nodeDefaultColor },
+    }
   })
 
   return updated
