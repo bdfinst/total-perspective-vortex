@@ -10,12 +10,12 @@ const getNodes = (elements) => elements.filter((el) => isNode(el))
 const notifyCoordinateChange = (ordinate) =>
   Math.round(ordinate) + Math.random() / 10000
 
-const getNextLinkedPosition = (el, idx, nodes) => {
+const getNextLinkedPosition = (el, prevPosition) => {
   const position = {
     x: notifyCoordinateChange(
-      lastPosition.x + config.betweenNodes + config.nodeWidth,
+      prevPosition.x + config.betweenNodes + config.nodeWidth,
     ),
-    y: nodes[idx - 1].position.y,
+    y: prevPosition.y,
   }
 
   return { ...el, position }
@@ -28,6 +28,7 @@ const getDetachedPosition = (el, prevPosition) => {
       prevPosition.y + config.betweenRows + config.nodeHeight,
     ),
   }
+
   return { ...el, position }
 }
 
@@ -50,11 +51,12 @@ export default function getGraphLayout(
   const newNodes = nodes.map((el, idx) => {
     if (idx === 0) {
       lastPosition = el.position
+
       return el
     }
 
     const newNode = isLinkedNode(el, edges)
-      ? getNextLinkedPosition(el, idx, nodes)
+      ? getNextLinkedPosition(el, lastPosition)
       : getDetachedPosition(el, lastPosition)
 
     lastPosition = newNode.position
