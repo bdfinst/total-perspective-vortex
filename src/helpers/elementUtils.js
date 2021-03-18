@@ -82,10 +82,7 @@ export const buildReworkNode = ({ id, x, y }) => {
   }
 }
 
-export const getParentInfo = (node, elements) => {
-  const edges = elements.filter((el) => isEdge(el))
-  const nodes = elements.filter((el) => isNode(el))
-
+export const getParentInfo = (node, edges, nodes) => {
   const link = edges.filter((e) => e.target === node.id)
 
   const childrenCount =

@@ -65,7 +65,6 @@ const ValueStreamMap = () => {
   }
 
   const onConnect = (params) => {
-    console.log(params.source, params.target)
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
 
