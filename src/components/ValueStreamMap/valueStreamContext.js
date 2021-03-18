@@ -18,6 +18,7 @@ import {
   getGraphLayout,
   getLastEdge,
   getLastProcessNode,
+  highlightConstraints,
   isEdge,
   spliceArray,
 } from '../../helpers'
@@ -41,7 +42,8 @@ const updateStateElements = (state) => {
     // state.isRelativeSized,
     relativeSize,
   )
-  const newState = { ...state, elements: graphedLayouts }
+
+  const newState = { ...state, elements: highlightConstraints(graphedLayouts) }
   updateLocalStorage(newState)
   return newState
 }

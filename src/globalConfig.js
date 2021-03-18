@@ -10,6 +10,8 @@ const config = {
   vsmHeight: 550,
   processNodeType: 'processNode',
   reworkNodeType: 'reworkNode',
+  primaryConstraintColor: 'red',
+  secondaryConstraintColor: 'yellow',
 }
 
 export default config
