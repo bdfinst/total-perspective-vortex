@@ -49,16 +49,6 @@ describe('Inserting a node before a selected node', () => {
     return getLastEdge(result.current.state.elements)
   }
 
-  it('should add two connected nodes', () => {
-    const node1 = addNode()
-    const node2 = addNode()
-    const newEdge = addEdge(node1.node, node2.node)
-
-    expect(newEdge.source).toEqual(node1.node.id)
-    expect(newEdge.target).toEqual(node2.node.id)
-    expect(result.current.state.elements[node1.index]).toEqual(node1.node)
-    expect(result.current.state.elements[node2.index]).toEqual(node2.node)
-  })
   it('should select the second node', () => {
     const node1 = addNode()
     const node2 = addNode()

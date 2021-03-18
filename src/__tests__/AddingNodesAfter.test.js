@@ -58,8 +58,6 @@ describe('Inserting a node after a selected node', () => {
 
     expect(oldEdge.source).toEqual(node1.node.id)
     expect(oldEdge.target).toEqual(node2.node.id)
-    expect(result.current.state.elements[node1.index]).toEqual(node1.node)
-    expect(result.current.state.elements[node2.index]).toEqual(node2.node)
   })
   it('should add a node between two nodes and update the edges', () => {
     const node1 = addNode()
