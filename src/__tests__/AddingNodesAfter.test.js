@@ -61,32 +61,22 @@ describe('Inserting a node after a selected node', () => {
     expect(result.current.state.elements[node1.index]).toEqual(node1.node)
     expect(result.current.state.elements[node2.index]).toEqual(node2.node)
   })
-  it('should insert a node after the first node and update the edges', () => {
+  it('should add a node between two nodes and update the edges', () => {
     const node1 = addNode()
     const node2 = addNode()
-    const oldEdge = addEdge(node1.node, node2.node)
-
-    const node1Index = getNodeIndexes(result.current.state.elements).find(
-      (i) => i.id === node1.node.id,
-    ).index
 
     act(() => {
       result.current.addNodeAfter(node1.node)
     })
 
-    const node2Index = getNodeIndexes(result.current.state.elements).find(
-      (i) => i.id === node2.node.id,
-    ).index
+    const elements = result.current.state.elements
 
-    const newIndexes = getNodeIndexes(result.current.state.elements)
+    const insertedNode = getNodeById(elements, result.current.state.maxNodeId)
 
-    const newElements = result.current.state.elements
-
-    const insertedNode = getNodeById(
-      newElements,
-      result.current.state.maxNodeId,
-    )
-    const insertedNodeIndex = newIndexes.find((i) => i.id === insertedNode.id)
+    const nodeIndexes = getNodeIndexes(elements)
+    const node1Index = nodeIndexes.find((i) => i.id === node1.node.id).index
+    const node2Index = nodeIndexes.find((i) => i.id === node2.node.id).index
+    const insertedNodeIndex = nodeIndexes.find((i) => i.id === insertedNode.id)
       .index
 
     expect(insertedNodeIndex).toBeGreaterThan(node1Index)
