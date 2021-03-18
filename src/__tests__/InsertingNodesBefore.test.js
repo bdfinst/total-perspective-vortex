@@ -96,8 +96,6 @@ describe('Inserting a node before a selected node', () => {
     const updatedEdge = getElementById(oldEdge.id, elements)
     const newEdge = getLastEdge(elements)
 
-    console.log(elements)
-
     expect(node2Index).toBeGreaterThan(insertedNodeIndex)
     expect(node1Index).toBeLessThan(insertedNodeIndex)
 
