@@ -1,7 +1,35 @@
-import { isNode } from 'react-flow-renderer'
-import dagre from 'dagre'
-
+import { getParentInfo, isEdge, isNode } from './elementUtils'
 import config from '../globalConfig'
+
+const processedNodes = []
+let siblingId
+
+const getEdges = (elements) => elements.filter((el) => isEdge(el))
+const getNodes = (elements) => elements.filter((el) => isNode(el))
+const notifyCoordinateChange = (ordinate) =>
+  Math.round(ordinate) + Math.random() / 10000
+
+const getParallelPosition = (el, prevPosition, parent) => {
+  const newY =
+    siblingId > 1 ? prevPosition.y + config.nodeHeight : parent.position.y
+  const position = {
+    x: notifyCoordinateChange(
+      parent.position.x + config.betweenNodes + config.nodeWidth,
+    ),
+    y: notifyCoordinateChange(newY),
+  }
+
+  return { ...el, position }
+}
+
+const getDetachedPosition = (el, prevPosition) => {
+  const position = {
+    x: prevPosition.x,
+    y: notifyCoordinateChange(prevPosition.y + config.nodeHeight),
+  }
+
+  return { ...el, position }
+}
 
 /**
  *
@@ -10,59 +38,46 @@ import config from '../globalConfig'
  */
 export default function getGraphLayout(
   elements,
-  useProportional = false,
-  offsetWidth = config.betweenNodes,
+  // useProportional = false,
+  // offsetWidth = config.betweenNodes,
 ) {
-  let totalOffset = 0
+  const edges = getEdges(elements)
+  const nodes = getNodes(elements)
 
-  const dagreGraph = new dagre.graphlib.Graph()
-  dagreGraph.setDefaultEdgeLabel(() => ({}))
+  const newNodes = nodes.map((el, idx) => {
+    let newNode
 
-  // network-simplex, tight-tree or longest-path
-  dagreGraph.setGraph({
-    rankdir: 'LR',
-    align: 'UL',
-    ranker: 'network-simplex',
-  })
+    const [parent, childrenCount] = getParentInfo(el, edges, processedNodes)
 
-  const offsetPosition = (waitTime, offset) =>
-    useProportional && waitTime > 0 ? waitTime * offset : 0
+    const lastPosition =
+      processedNodes.length > 0
+        ? processedNodes[processedNodes.length - 1].position
+        : el.position
 
-  const getNewXY = (el) => {
-    let position
-
-    if (isNode(el)) {
-      const nodeWithPosition = dagreGraph.node(el.id)
-
-      totalOffset += offsetPosition(el.data.waitTime, offsetWidth)
-
-      // Pass a slightly different position to notify react flow about the change
-      const calcY = nodeWithPosition.y
-
-      const calcX = nodeWithPosition.x + totalOffset + Math.random() / 10000
-
-      position = {
-        x: calcX,
-        y: calcY,
-      }
+    if (idx === 0) {
+      processedNodes.push(el)
+      return el
     }
 
-    return position
-  }
-
-  // TODO: make width actual node width to enable relative widths
-  elements.forEach((el) => {
-    if (isNode(el)) {
-      dagreGraph.setNode(el.id, {
-        width: config.nodeWidth,
-        height: config.nodeHeight,
-      })
-    } else {
-      dagreGraph.setEdge(el.source, el.target)
+    switch (childrenCount) {
+      case 0:
+        siblingId = 0
+        newNode = getDetachedPosition(el, lastPosition)
+        break
+      case 1:
+        siblingId = 0
+        // newNode = getNextLinkedPosition(el, lastPosition)
+        newNode = getParallelPosition(el, lastPosition, parent)
+        break
+      default:
+        siblingId += 1
+        newNode = getParallelPosition(el, lastPosition, parent)
+        break
     }
+
+    processedNodes.push(newNode)
+    return newNode
   })
 
-  dagre.layout(dagreGraph)
-
-  return elements.map((el) => ({ ...el, position: getNewXY(el) }))
+  return newNodes.concat(edges)
 }

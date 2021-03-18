@@ -10,6 +10,7 @@ import {
   getLastEdge,
   getLastProcessNode,
   getNodeById,
+  getNodeIndexes,
 } from '../helpers'
 
 const renderVSMHook = () => {
@@ -48,16 +49,6 @@ describe('Inserting a node before a selected node', () => {
     return getLastEdge(result.current.state.elements)
   }
 
-  it('should add two connected nodes', () => {
-    const node1 = addNode()
-    const node2 = addNode()
-    const newEdge = addEdge(node1.node, node2.node)
-
-    expect(newEdge.source).toEqual(node1.node.id)
-    expect(newEdge.target).toEqual(node2.node.id)
-    expect(result.current.state.elements[node1.index]).toEqual(node1.node)
-    expect(result.current.state.elements[node2.index]).toEqual(node2.node)
-  })
   it('should select the second node', () => {
     const node1 = addNode()
     const node2 = addNode()
@@ -84,16 +75,19 @@ describe('Inserting a node before a selected node', () => {
     })
 
     const elements = result.current.state.elements
+    const nodeIndexes = getNodeIndexes(elements)
+    const insertedNode = getNodeById(elements, result.current.state.maxNodeId)
+
+    const node1Index = nodeIndexes.find((i) => i.id === node1.node.id).index
+    const node2Index = nodeIndexes.find((i) => i.id === node2.node.id).index
+    const insertedNodeIndex = nodeIndexes.find((i) => i.id === insertedNode.id)
+      .index
+
     const updatedEdge = getElementById(oldEdge.id, elements)
     const newEdge = getLastEdge(elements)
 
-    const newId = result.current.state.maxNodeId
-    const insertedNode = getNodeById(elements, newId)
-
-    const newNode2Index = elements.findIndex((e) => e.id === node2.node.id)
-
-    expect(elements[newNode2Index].id).toEqual(node2.node.id)
-    expect(elements[node2.index].id).toEqual(insertedNode.id)
+    expect(node2Index).toBeGreaterThan(insertedNodeIndex)
+    expect(node1Index).toBeLessThan(insertedNodeIndex)
 
     expect(updatedEdge.source).toEqual(oldEdge.source)
     expect(updatedEdge.target).toEqual(insertedNode.id)

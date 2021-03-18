@@ -6,7 +6,6 @@
  */
 
 import React, { useReducer } from 'react'
-import { isEdge } from 'react-flow-renderer'
 import ls from 'local-storage'
 
 import {
@@ -19,6 +18,7 @@ import {
   getGraphLayout,
   getLastEdge,
   getLastProcessNode,
+  isEdge,
   spliceArray,
 } from '../../helpers'
 import config from '../../globalConfig'
@@ -64,10 +64,12 @@ const makeNewNode = (state, x, y, isRework = false) => {
 const addNode = (state, { x, y, isRework }) => {
   const [newState, newNode] = makeNewNode(state, x, y, isRework)
 
-  return {
+  const addedNodeState = {
     ...newState,
     elements: [...state.elements, newNode],
   }
+  // updateLocalStorage(addedNodeState)
+  return updateStateElements(addedNodeState)
 }
 
 const initStateFromData = (state, data) => {
@@ -98,7 +100,7 @@ const addEdge = (state, { source, target }) => {
     elements: [...state.elements, buildEdge(source, target)],
   }
 
-  return newState
+  return updateStateElements(newState)
 }
 
 const nodeSelect = (state, { node }) => {
@@ -325,10 +327,11 @@ const buildData = () => {
 
   const elements = ls('elements') || init.elements
 
-  return {
+  const initState = {
     maxNodeId: ls('maxNodeId') || init.maxNodeId,
     elements: getGraphLayout(elements),
   }
+  return updateStateElements(initState)
 }
 
 const resetData = () => {

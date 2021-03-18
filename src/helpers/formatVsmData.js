@@ -1,7 +1,4 @@
-import { isEdge, isNode } from 'react-flow-renderer'
-
-import { buildEdge } from './buildEdge'
-import { buildNode } from './buildNode'
+import { buildEdge, buildNode, isEdge, isNode } from './elementUtils'
 import isSameJsonSchema from './isSameJsonSchema'
 
 const isNodeData = (el) => {

@@ -1,40 +1,13 @@
 import _ from 'lodash'
 
-import { buildEdge } from './buildEdge'
+import { buildEdge, buildNode } from './elementUtils'
 import {
   buildElementsFromFile,
   buildFileFromElements,
   isValidFile,
 } from './formatVsmData'
-import { buildNode } from './buildNode'
+import dataFile from '../__mocks__/vsmInit'
 import isSameJsonSchema from './isSameJsonSchema'
-
-const dataFile = [
-  {
-    id: '1',
-    data: {
-      processName: '',
-      people: 0,
-      processTime: 0,
-      waitTime: 0,
-      pctCompleteAccurate: 100,
-    },
-  },
-  {
-    id: '2',
-    data: {
-      processName: '',
-      people: 0,
-      processTime: 0,
-      waitTime: 0,
-      pctCompleteAccurate: 100,
-    },
-  },
-  {
-    source: '1',
-    target: '2',
-  },
-]
 
 describe('Converting loaded data to elements', () => {
   const nodes = [
