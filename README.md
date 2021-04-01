@@ -27,7 +27,7 @@ Status](https://api.netlify.com/api/v1/badges/6c0202a0-529f-40ef-83f4-ad5344caa1
 
 - `npm run dev`: Serve on port 3000
 - `npm test`: Run all of the tests
-- `npm run test:ci`: Test in watch mode
+- `npm run test:watch`: Test in TDD mode
 
 ## Contributions
 
