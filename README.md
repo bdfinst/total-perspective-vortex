@@ -19,9 +19,8 @@ Status](https://api.netlify.com/api/v1/badges/6c0202a0-529f-40ef-83f4-ad5344caa1
 - [X] Auto-calculated totals
 - [ ] [PDF export](https://github.com/blikblum/pdfkit-webpack-example)
 - [X] Auto Layout
-- [X] Relative distance between nodes based on wait time
-- [ ] Relative node size based on work time
-- [ ] Toggle relative width
+- [X] Highlight constraints
+- [ ] Current Reality Diagram
 
 ## Development
 
