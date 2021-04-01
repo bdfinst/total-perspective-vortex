@@ -3,15 +3,18 @@ import config from '../globalConfig'
 import nodeStylesMock from '../__mocks__/nodeStyles'
 
 describe('Colorizing constraints', () => {
-  it('should colorize the largest constraint', () => {
+  it('should colorize the largest constraint and top two secondary constraints', () => {
     const highlighted = highlightConstraints(nodeStylesMock)
-    const node3 = highlighted.filter((el) => el.id === '3')[0]
-    const node1 = highlighted.filter((el) => el.id === '1')[0]
-    const node2 = highlighted.filter((el) => el.id === '2')[0]
 
-    expect(node3.style.background).toEqual(config.primaryConstraintColor)
-    expect(node1.style.background).toEqual(config.secondaryConstraintColor)
-    expect(node2.style.background).toEqual(config.secondaryConstraintColor)
+    const getNodeColor = (id) => {
+      return highlighted.filter((el) => el.id === `${id}`)[0].style.background
+    }
+
+    expect(getNodeColor(2)).toEqual(config.primaryConstraintColor)
+    expect(getNodeColor(3)).toEqual(config.secondaryConstraintColor)
+    expect(getNodeColor(5)).toEqual(config.secondaryConstraintColor)
+    expect(getNodeColor(1)).toEqual(config.nodeDefaultColor)
+    expect(getNodeColor(4)).toEqual(config.nodeDefaultColor)
   })
   it('should pass elements with no nodes', () => {
     const elements = [

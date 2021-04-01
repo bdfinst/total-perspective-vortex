@@ -2,10 +2,10 @@ export default [
   {
     id: '1',
     data: {
-      processName: '',
-      people: 1,
-      processTime: 10,
-      waitTime: 2,
+      processName: 'Refine work',
+      people: '5',
+      processTime: '2',
+      waitTime: 0,
       pctCompleteAccurate: 100,
     },
     style: {
@@ -21,11 +21,11 @@ export default [
   {
     id: '2',
     data: {
-      processName: '',
-      people: 1,
-      processTime: 11,
-      waitTime: 2,
-      pctCompleteAccurate: 100,
+      processName: 'Coding',
+      people: '1',
+      processTime: '10',
+      waitTime: '8',
+      pctCompleteAccurate: '80',
     },
     style: {
       width: 220,
@@ -40,10 +40,10 @@ export default [
   {
     id: '3',
     data: {
-      processName: '',
-      people: 1,
-      processTime: 12,
-      waitTime: 2,
+      processName: 'Code review',
+      people: '1',
+      processTime: '2',
+      waitTime: '8',
       pctCompleteAccurate: 100,
     },
     style: {
@@ -59,11 +59,30 @@ export default [
   {
     id: '4',
     data: {
-      processName: '',
-      people: 1,
-      processTime: 9,
-      waitTime: 2,
-      pctCompleteAccurate: 100,
+      processName: 'Build',
+      people: '0',
+      processTime: '.5',
+      waitTime: 0,
+      pctCompleteAccurate: '90',
+    },
+    style: {
+      width: 220,
+      background: '#fff',
+      borderColor: 'rgb(37, 50, 77)',
+      borderRadius: '12px',
+      borderStyle: 'solid',
+      borderWidth: '4px',
+      padding: 5,
+    },
+  },
+  {
+    id: '5',
+    data: {
+      processName: 'End to end test',
+      people: '0',
+      processTime: '2',
+      waitTime: '0',
+      pctCompleteAccurate: '50',
     },
     style: {
       width: 220,

@@ -284,27 +284,35 @@ export const getParentInfo = (node, edges, nodes) => {
 }
 
 const nodeTotalTime = (node) =>
-  node.data.processTime + node.data.waitTime + nodeReworkTime(node)
+  Number(node.data.processTime) +
+  Number(node.data.waitTime) +
+  Number(nodeReworkTime(node))
 
-export const highlightConstraints = (elements) => {
-  const values = elements
+const getNodeTimes = (elements) => {
+  const nodes = elements
     .filter(
       (el) => isNode(el) && (el.data.processTime > 0 || el.data.waitTime > 0),
     )
     .map((el) => ({ id: el.id, time: nodeTotalTime(el) }))
 
+  return nodes
+}
+
+const reverseTimeSeq = (a, b) => {
+  // Use toUpperCase() to ignore character casing
+  const time1 = a.time
+  const time2 = b.time
+
+  if (time1 > time2) return -1
+  if (time1 < time2) return 1
+
+  return 0
+}
+
+export const highlightConstraints = (elements) => {
+  const values = getNodeTimes(elements)
+
   if (values.length < 1) return elements
-
-  const reverseTimeSeq = (a, b) => {
-    // Use toUpperCase() to ignore character casing
-    const time1 = a.time
-    const time2 = b.time
-
-    if (time1 > time2) return -1
-    if (time1 < time2) return 1
-
-    return 0
-  }
 
   values.sort(reverseTimeSeq)
 

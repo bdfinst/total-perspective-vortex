@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { getNodesums } from '../../helpers'
+import { getNodesums, roundTo2 } from '../../helpers'
 import { useValueStream } from './valueStreamContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -37,25 +37,41 @@ const Totals = () => {
   }, [state.elements])
 
   const rows = [
-    { name: 'processTime', title: 'Work Time', value: totals.processTime },
-    { name: 'waitTime', title: 'Wait Time', value: totals.waitTime },
+    {
+      name: 'processTime',
+      title: 'Work Time',
+      value: roundTo2(totals.processTime),
+    },
+    { name: 'waitTime', title: 'Wait Time', value: roundTo2(totals.waitTime) },
     {
       name: 'averageActors',
       title: 'People / Step',
-      value: totals.averageActors,
+      value: roundTo2(totals.averageActors),
     },
-    { name: 'peopleTime', title: 'Manual Time', value: totals.peopleTime },
-    { name: 'avgPCA', title: 'Average C/A', value: `${totals.avgPCA}%` },
+    {
+      name: 'peopleTime',
+      title: 'Manual Time',
+      value: roundTo2(totals.peopleTime),
+    },
+    {
+      name: 'avgPCA',
+      title: 'Average C/A',
+      value: `${roundTo2(totals.avgPCA)}%`,
+    },
     {
       name: 'reworkTime',
       title: 'Rework Time',
-      value: `${totals.reworkTime}`,
+      value: roundTo2(totals.reworkTime),
     },
-    { name: 'totalTime', title: 'Total Time', value: totals.totalTime },
+    {
+      name: 'totalTime',
+      title: 'Total Time',
+      value: roundTo2(totals.totalTime),
+    },
     {
       name: 'flowEfficiency',
       title: 'Flow Efficiency',
-      value: `${totals.flowEfficiency}%`,
+      value: `${roundTo2(totals.flowEfficiency)}%`,
     },
   ]
   return (
