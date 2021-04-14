@@ -11,7 +11,6 @@ import {
   YAxis,
 } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
 import Title from '../Title'
@@ -43,17 +42,17 @@ const buildData = (weeks) => {
   })
 }
 
-export default function Chart() {
+export default function PipelineActivity({ width, height }) {
   const theme = useTheme()
 
   const data = buildData(8)
 
   return (
-    <Paper>
+    <>
       <Title>Pipeline Activity</Title>
       <ComposedChart
-        width={800}
-        height={500}
+        width={width}
+        height={height}
         data={data}
         margin={{
           top: 20,
@@ -94,6 +93,6 @@ export default function Chart() {
           stroke={theme.palette.error.main}
         />
       </ComposedChart>
-    </Paper>
+    </>
   )
 }

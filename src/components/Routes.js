@@ -5,7 +5,7 @@ import React from 'react'
 import VSMIcon from '@material-ui/icons/AccountTreeTwoTone'
 
 import CurrentReality from './CurrentReality'
-import Dashboard from './Dashboard'
+import Dashboard from './Dashboard/Dashboard'
 import Home from './Home'
 import ValueStream from './ValueStream'
 
