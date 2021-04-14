@@ -8,7 +8,7 @@ export const fieldConfigs = [
     required: true,
     autoFocus: true,
     fullWidth: true,
-    inputProps: { maxLength: 20 },
+    inputProps: { maxLength: 50 },
     helpText: {
       error: 'Cannot be blank',
       normal: 'Enter a name for the process step',

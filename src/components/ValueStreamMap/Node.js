@@ -98,7 +98,14 @@ const Node = (props) => {
           <Table className={classes.table} aria-label="simple table">
             <TableBody>
               <TableRow>
-                <TableCell align="center" colSpan={2}>
+                <TableCell
+                  align="center"
+                  colSpan={2}
+                  style={{
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
+                >
                   <Typography className={classes.title} gutterBottom>
                     {data.processName || 'Unnamed Process'}
                   </Typography>
