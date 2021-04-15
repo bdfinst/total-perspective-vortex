@@ -5,8 +5,9 @@ import React from 'react'
 import VSMIcon from '@material-ui/icons/AccountTreeTwoTone'
 
 import CurrentReality from './CurrentReality'
-import Dashboard from './Dashboard/Dashboard'
 import Home from './Home'
+import LeadershipDashboard from './Dashboard/LeadershipDashboard'
+import TeamDashboard from './Dashboard/TeamDashboard'
 import ValueStream from './ValueStream'
 
 const Routes = [
@@ -29,10 +30,16 @@ const Routes = [
     component: CurrentReality,
   },
   {
-    path: '/dashboard',
-    sidebarName: 'Dashboard',
+    path: '/team',
+    sidebarName: 'Team Dash',
     icon: <GraphIcon />,
-    component: Dashboard,
+    component: TeamDashboard,
+  },
+  {
+    path: '/leadership',
+    sidebarName: 'Leadership Dash',
+    icon: <GraphIcon />,
+    component: LeadershipDashboard,
   },
 ]
 

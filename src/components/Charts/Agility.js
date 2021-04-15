@@ -6,15 +6,25 @@ import Title from '../Title'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FFFF42']
 
-const data = [
-  { name: 'Improving speed', value: 10 },
-  { name: 'Improving quality', value: 9 },
-  { name: 'Improving overall', value: 8 },
-  { name: 'Degrading speed', value: 12 },
-  { name: 'Degrading quality', value: 10 },
-]
+const buildData = () => {
+  const teams = 24
+  const impSpeed = Math.floor(Math.random() * teams)
+  const impQuality = Math.floor(Math.random() * teams)
+  const declSpeed = teams - impSpeed
+  const declQuality = teams - impQuality
+  const totalImprovement = teams / 3
+
+  return [
+    { name: 'Improving speed', value: impSpeed },
+    { name: 'Improving quality', value: impQuality },
+    { name: 'Improving overall', value: totalImprovement },
+    { name: 'Degrading speed', value: declSpeed },
+    { name: 'Degrading quality', value: declQuality },
+  ]
+}
 
 export default function Agility({ width, height }) {
+  const data = buildData()
   return (
     <>
       <Title>Agility</Title>

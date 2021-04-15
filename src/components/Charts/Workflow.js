@@ -1,12 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Bar, BarChart, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -33,12 +25,12 @@ const buildData = (weeks) => {
   })
 }
 
-export default function ProductFlowChart({ width, height }) {
+export default function Workflow({ width, height }) {
   const theme = useTheme()
 
   return (
     <>
-      <Title>Product Workflow</Title>
+      <Title>Work Catagories</Title>
       <BarChart
         width={width}
         height={height}
@@ -50,14 +42,14 @@ export default function ProductFlowChart({ width, height }) {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
         <Legend />
         <Bar
           dataKey="stories"
-          name="Stories"
+          name="New Work"
           stackId="a"
           fill={theme.palette.primary.light}
         />
