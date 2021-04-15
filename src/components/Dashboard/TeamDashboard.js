@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
+import DevCycleTime from '../Charts/DevCycleTime'
 import PipelineActivity from '../Charts/PipelineActivity'
 import Workflow from '../Charts/Workflow'
 
@@ -18,10 +19,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const chartWidth = 500
-const chartHeight = 300
+const chartWidth = 350
+const chartHeight = 200
+const margin = {
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+}
 
-const graphs = [PipelineActivity, Workflow]
+const graphs = [PipelineActivity, Workflow, DevCycleTime]
 
 export default function TeamDashboard() {
   const classes = useStyles()
@@ -31,7 +38,7 @@ export default function TeamDashboard() {
       {graphs.map((Graph, key) => (
         <Grid item key={key}>
           <Paper className={classes.paper}>
-            <Graph width={chartWidth} height={chartHeight} />
+            <Graph width={chartWidth} height={chartHeight} margin={margin} />
           </Paper>
         </Grid>
       ))}

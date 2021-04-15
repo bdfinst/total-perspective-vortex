@@ -13,11 +13,12 @@ import React from 'react'
 
 import Title from '../Title'
 
-const buildWeekData = (weekNbr, opEx, capEx) => ({
+const buildWeekData = (weekNbr, opEx, capEx, defectEx) => ({
   name: `Week ${weekNbr}`,
   opEx,
   capEx,
-  total: opEx + capEx,
+  defectEx,
+  total: opEx + capEx + defectEx,
 })
 
 const costPerStory = () => {
@@ -50,11 +51,13 @@ const buildData = (weeks) => {
       capEx += costPerStory()
     }
 
-    return buildWeekData(el.weekNbr, opEx, capEx)
+    const defectEx = Math.floor(opEx * Math.random())
+
+    return buildWeekData(el.weekNbr, opEx - defectEx, capEx, defectEx)
   })
 }
 
-export default function Expense({ width, height }) {
+export default function Expense({ width, height, margin }) {
   const theme = useTheme()
   const data = buildData(8)
 
@@ -62,17 +65,7 @@ export default function Expense({ width, height }) {
     <>
       <Title>Delivery Cost ($)</Title>
 
-      <BarChart
-        width={width}
-        height={height}
-        data={data}
-        margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
-        }}
-      >
+      <BarChart width={width} height={height} data={data} margin={margin}>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" />
         <YAxis />
@@ -80,7 +73,15 @@ export default function Expense({ width, height }) {
         <Legend />
 
         <Bar
-          name="Operational Expense"
+          name="Defect Expense"
+          type="monotone"
+          dataKey="defectEx"
+          stackId="1"
+          fill={theme.palette.error.light}
+        />
+
+        <Bar
+          name="KTLO Expense"
           type="monotone"
           dataKey="opEx"
           stackId="1"

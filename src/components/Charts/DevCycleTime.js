@@ -32,7 +32,7 @@ const buildData = (weeks) => {
   })
 }
 
-export default function CycleTime({ width, height }) {
+export default function CycleTime({ width, height, margin }) {
   const theme = useTheme()
 
   const data = buildData(8)
@@ -41,17 +41,7 @@ export default function CycleTime({ width, height }) {
     <>
       <Title>Speed and Velocity</Title>
 
-      <ComposedChart
-        width={width}
-        height={height}
-        data={data}
-        margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
-        }}
-      >
+      <ComposedChart width={width} height={height} data={data} margin={margin}>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" />
         <YAxis />

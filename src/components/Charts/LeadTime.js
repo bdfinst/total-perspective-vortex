@@ -22,7 +22,7 @@ const buildData = (weeks) => {
   })
 }
 
-export default function Agility({ width, height }) {
+export default function Agility({ width, height, margin }) {
   const theme = useTheme()
   const data = buildData(8)
 
@@ -30,7 +30,7 @@ export default function Agility({ width, height }) {
     <>
       <Title>Epic Lead Time (Days)</Title>
 
-      <BarChart width={width} height={height} data={data}>
+      <BarChart width={width} height={height} data={data} margin={margin}>
         <Bar dataKey="leadTime" fill={theme.palette.primary.dark} />
 
         <Tooltip />

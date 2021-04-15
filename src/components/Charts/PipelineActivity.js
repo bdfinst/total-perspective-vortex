@@ -41,7 +41,7 @@ const buildData = (weeks) => {
   })
 }
 
-export default function PipelineActivity({ width, height }) {
+export default function PipelineActivity({ width, height, margin }) {
   const theme = useTheme()
 
   const data = buildData(8)
@@ -49,17 +49,7 @@ export default function PipelineActivity({ width, height }) {
   return (
     <>
       <Title>Pipeline Activity</Title>
-      <ComposedChart
-        width={width}
-        height={height}
-        data={data}
-        margin={{
-          top: 20,
-          right: 20,
-          bottom: 20,
-          left: 20,
-        }}
-      >
+      <ComposedChart width={width} height={height} data={data} margin={margin}>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" />
         <YAxis />

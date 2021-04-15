@@ -25,7 +25,7 @@ const buildData = (weeks) => {
   })
 }
 
-export default function Workflow({ width, height }) {
+export default function Workflow({ width, height, margin }) {
   const theme = useTheme()
 
   return (
@@ -35,12 +35,7 @@ export default function Workflow({ width, height }) {
         width={width}
         height={height}
         data={buildData(8)}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
+        margin={margin}
       >
         {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="name" />
