@@ -9,6 +9,7 @@ import {
   YAxis,
 } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
+import NumberFormat from 'react-number-format'
 import React from 'react'
 
 const buildWeekData = (weekNbr, opEx, capEx, defectEx) => ({
@@ -16,7 +17,6 @@ const buildWeekData = (weekNbr, opEx, capEx, defectEx) => ({
   opEx,
   capEx,
   defectEx,
-  total: opEx + capEx + defectEx,
 })
 
 const costPerStory = () => {
@@ -55,6 +55,46 @@ const buildData = (weeks) => {
   })
 }
 
+const renderTooltipContent = (o) => {
+  const { payload, label } = o
+  const total = payload.reduce((result, entry) => result + entry.value, 0)
+
+  const ttWrapper = {
+    margin: '0px',
+    padding: '5px',
+    backgroundColor: 'rgb(255, 255, 255)',
+    border: '1px solid rgb(204, 204, 204)',
+    whiteSpace: 'nowrap',
+  }
+
+  return (
+    <div style={ttWrapper}>
+      <p className="total">
+        {`${label}: `}
+        <NumberFormat
+          value={total}
+          displayType="text"
+          thousandSeparator
+          prefix="$"
+        />
+      </p>
+      <ul className="list">
+        {payload.map((entry, index) => (
+          <li key={`item-${index}`} style={{ color: entry.color }}>
+            {`${entry.name}: `}
+            <NumberFormat
+              value={entry.value}
+              displayType="text"
+              thousandSeparator
+              prefix="$"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 export default function Expense({ width, height, margin }) {
   const theme = useTheme()
   const data = buildData(8)
@@ -63,8 +103,8 @@ export default function Expense({ width, height, margin }) {
     <BarChart width={width} height={height} data={data} margin={margin}>
       <CartesianGrid stroke="#f5f5f5" />
       <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
+      <YAxis tickFormatter={(value) => `$ ${value / 1000}K`} />
+      <Tooltip content={renderTooltipContent} />
       <Legend />
 
       <Bar
@@ -89,14 +129,6 @@ export default function Expense({ width, height, margin }) {
         type="monotone"
         stackId="1"
         fill={theme.palette.secondary.light}
-      />
-
-      <Bar
-        name="Total Expense"
-        dataKey="total"
-        type="monotone"
-        fill={theme.palette.primary.dark}
-        maxBarSize={5}
       />
     </BarChart>
   )

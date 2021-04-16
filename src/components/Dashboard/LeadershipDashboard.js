@@ -3,7 +3,7 @@
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 
-import Agility from '../Charts/Agility'
+import Agility from '../Charts/AgilityTrend'
 import ChartWrapper from '../Charts/ChartWrapper'
 import Expense from '../Charts/Expense'
 import LeadTime from '../Charts/LeadTime'
@@ -35,7 +35,7 @@ export default function LeadershipDashboard() {
     },
     {
       chart: Expense({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Delivery Cost ($)',
+      title: 'Delivery Cost',
     },
     {
       chart: Agility({ width: chartWidth, height: chartHeight, margin }),
