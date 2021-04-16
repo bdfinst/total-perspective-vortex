@@ -5,7 +5,7 @@ import React from 'react'
 
 import Agility from '../Charts/AgilityTrend'
 import ChartWrapper from '../Charts/ChartWrapper'
-import Expense from '../Charts/Expense'
+import Effort from '../Charts/Effort'
 import LeadTime from '../Charts/LeadTime'
 import SpeedVelocity from '../Charts/SpeedVelocity'
 import Workflow from '../Charts/Workflow'
@@ -34,8 +34,8 @@ export default function LeadershipDashboard() {
       title: 'Speed and Velocity',
     },
     {
-      chart: Expense({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Delivery Cost',
+      chart: Effort({ width: chartWidth, height: chartHeight, margin }),
+      title: 'Delivery Effort',
     },
     {
       chart: Agility({ width: chartWidth, height: chartHeight, margin }),
