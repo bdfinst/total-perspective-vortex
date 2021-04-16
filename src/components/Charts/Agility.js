@@ -3,8 +3,6 @@ import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-import Title from '../Title'
-
 const buildData = () => {
   const teams = 24
   const impSpeed = Math.floor(Math.random() * teams)
@@ -37,25 +35,21 @@ export default function Agility({ width, height, margin }) {
   ]
 
   return (
-    <>
-      <Title>Agility</Title>
-
-      <PieChart width={width} height={height}>
-        <Pie
-          dataKey="value"
-          data={data}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius}
-          fill="#82ca9d"
-          margin={margin}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-    </>
+    <PieChart width={width} height={height}>
+      <Pie
+        dataKey="value"
+        data={data}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        fill="#82ca9d"
+        margin={margin}
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+      <Tooltip />
+      <Legend />
+    </PieChart>
   )
 }

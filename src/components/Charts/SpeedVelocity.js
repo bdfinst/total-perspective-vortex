@@ -1,10 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 import {
   Area,
   CartesianGrid,
   ComposedChart,
   Legend,
   Line,
-  ReferenceLine,
   Tooltip,
   XAxis,
   YAxis,
@@ -12,18 +12,17 @@ import {
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-const teamSize = 6
-const ciTarget = teamSize * 5
+const getDefectRate = (throughput) =>
+  throughput === 0
+    ? 0
+    : Math.round(1 / throughput) * Math.floor(Math.random() * 5)
 
-const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
+const buildWeekData = (weekNbr, cycleTime, throughput, defectRate) => ({
   name: `Week ${weekNbr}`,
-  ciRate,
-  deployRate,
+  cycleTime,
+  throughput,
   defectRate,
 })
-
-const getDefectRate = (deployRate) =>
-  deployRate === 0 ? 0 : Math.round((1 / deployRate) * 50)
 
 const buildData = (weeks) => {
   const init = []
@@ -31,15 +30,15 @@ const buildData = (weeks) => {
     init.push({ weekNbr: index + 1 })
   }
   return init.map((el) => {
-    const ciRate = Math.floor(Math.random() * ciTarget * 1.5)
-    const deployRate = Math.floor(Math.random() * ciRate)
-    const defectRate = getDefectRate(deployRate)
+    const cycleTime = Math.floor(Math.random() * 14 + 0.5)
+    const throughput = Math.floor((Math.random() * 14) / cycleTime) + 1
+    const defectRate = getDefectRate(throughput)
 
-    return buildWeekData(el.weekNbr, ciRate, deployRate, defectRate)
+    return buildWeekData(el.weekNbr, cycleTime, throughput, defectRate)
   })
 }
 
-export default function PipelineActivity({ width, height, margin }) {
+export default function SpeedVelocity({ width, height, margin }) {
   const theme = useTheme()
 
   const data = buildData(8)
@@ -52,25 +51,17 @@ export default function PipelineActivity({ width, height, margin }) {
       <Tooltip />
       <Legend />
 
-      <ReferenceLine
-        labelPosition="end"
-        y={ciTarget}
-        label={`CI Target for team of ${teamSize}`}
-        stroke={theme.palette.primary.dark}
-        strokeDasharray="3 6"
-      />
-
       <Area
-        name="CI Frequency"
-        dataKey="ciRate"
+        name="Cycle Time"
+        dataKey="cycleTime"
         type="monotone"
         fill={theme.palette.primary.light}
         stroke={theme.palette.primary.dark}
       />
       <Area
-        name="Deploy Frequency"
+        name="Throughput"
         type="monotone"
-        dataKey="deployRate"
+        dataKey="throughput"
         fill={theme.palette.secondary.light}
         stroke={theme.palette.secondary.dark}
       />

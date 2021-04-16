@@ -4,8 +4,8 @@ import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
-import DevCycleTime from '../Charts/DevCycleTime'
 import PipelineActivity from '../Charts/PipelineActivity'
+import SpeedVelocity from '../Charts/SpeedVelocity'
 import Workflow from '../Charts/Workflow'
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ const margin = {
   left: 0,
 }
 
-const graphs = [PipelineActivity, Workflow, DevCycleTime]
+const graphs = [PipelineActivity, Workflow, SpeedVelocity]
 
 export default function TeamDashboard() {
   const classes = useStyles()

@@ -11,8 +11,6 @@ import {
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-import Title from '../Title'
-
 const buildWeekData = (weekNbr, opEx, capEx, defectEx) => ({
   name: `Week ${weekNbr}`,
   opEx,
@@ -62,48 +60,44 @@ export default function Expense({ width, height, margin }) {
   const data = buildData(8)
 
   return (
-    <>
-      <Title>Delivery Cost ($)</Title>
+    <BarChart width={width} height={height} data={data} margin={margin}>
+      <CartesianGrid stroke="#f5f5f5" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
 
-      <BarChart width={width} height={height} data={data} margin={margin}>
-        <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
+      <Bar
+        name="Defect Expense"
+        type="monotone"
+        dataKey="defectEx"
+        stackId="1"
+        fill={theme.palette.error.light}
+      />
 
-        <Bar
-          name="Defect Expense"
-          type="monotone"
-          dataKey="defectEx"
-          stackId="1"
-          fill={theme.palette.error.light}
-        />
+      <Bar
+        name="KTLO Expense"
+        type="monotone"
+        dataKey="opEx"
+        stackId="1"
+        fill={theme.palette.warning.light}
+      />
 
-        <Bar
-          name="KTLO Expense"
-          type="monotone"
-          dataKey="opEx"
-          stackId="1"
-          fill={theme.palette.warning.light}
-        />
+      <Bar
+        name="Feature Expense"
+        dataKey="capEx"
+        type="monotone"
+        stackId="1"
+        fill={theme.palette.secondary.light}
+      />
 
-        <Bar
-          name="Feature Expense"
-          dataKey="capEx"
-          type="monotone"
-          stackId="1"
-          fill={theme.palette.secondary.light}
-        />
-
-        <Bar
-          name="Total Expense"
-          dataKey="total"
-          type="monotone"
-          fill={theme.palette.primary.dark}
-          maxBarSize={5}
-        />
-      </BarChart>
-    </>
+      <Bar
+        name="Total Expense"
+        dataKey="total"
+        type="monotone"
+        fill={theme.palette.primary.dark}
+        maxBarSize={5}
+      />
+    </BarChart>
   )
 }

@@ -3,8 +3,6 @@ import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-import Title from '../Title'
-
 const buildWeekData = (weekNbr, leadTime) => ({
   name: `Week ${weekNbr}`,
   leadTime,
@@ -27,16 +25,12 @@ export default function Agility({ width, height, margin }) {
   const data = buildData(8)
 
   return (
-    <>
-      <Title>Epic Lead Time (Days)</Title>
+    <BarChart width={width} height={height} data={data} margin={margin}>
+      <Bar dataKey="leadTime" fill={theme.palette.primary.dark} />
 
-      <BarChart width={width} height={height} data={data} margin={margin}>
-        <Bar dataKey="leadTime" fill={theme.palette.primary.dark} />
-
-        <Tooltip />
-        <XAxis dataKey="name" />
-        <YAxis />
-      </BarChart>
-    </>
+      <Tooltip />
+      <XAxis dataKey="name" />
+      <YAxis />
+    </BarChart>
   )
 }
