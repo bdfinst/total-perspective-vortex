@@ -18,7 +18,6 @@ const margin = {
   bottom: 0,
   left: 0,
 }
-// const graphs = [Workflow, LeadTime, SpeedVelocity, Expense, Agility]
 
 export default function LeadershipDashboard() {
   const graphs = [

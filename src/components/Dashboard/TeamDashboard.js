@@ -1,25 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
 import React from 'react'
 
+import ChartWrapper from '../Charts/ChartWrapper'
 import PipelineActivity from '../Charts/PipelineActivity'
 import SpeedVelocity from '../Charts/SpeedVelocity'
 import Workflow from '../Charts/Workflow'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}))
-
-const chartWidth = 350
+const chartWidth = 300
 const chartHeight = 200
 const margin = {
   top: 0,
@@ -28,18 +16,31 @@ const margin = {
   left: 0,
 }
 
-const graphs = [PipelineActivity, Workflow, SpeedVelocity]
-
 export default function TeamDashboard() {
-  const classes = useStyles()
+  const graphs = [
+    {
+      chart: Workflow({ width: chartWidth, height: chartHeight, margin }),
+      title: 'Work Catagories',
+    },
+    {
+      chart: PipelineActivity({
+        width: chartWidth,
+        height: chartHeight,
+        margin,
+      }),
+      title: 'Epic Lead Time (Days)',
+    },
+    {
+      chart: SpeedVelocity({ width: chartWidth, height: chartHeight, margin }),
+      title: 'Speed and Velocity',
+    },
+  ]
 
   return (
     <Grid container spacing={3}>
-      {graphs.map((Graph, key) => (
+      {graphs.map((graph, key) => (
         <Grid item key={key}>
-          <Paper className={classes.paper}>
-            <Graph width={chartWidth} height={chartHeight} margin={margin} />
-          </Paper>
+          <ChartWrapper title={graph.title}>{graph.chart}</ChartWrapper>
         </Grid>
       ))}
     </Grid>

@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
@@ -23,20 +24,18 @@ export default function ChartWrapper({ children, title }) {
 
   return (
     <Card className={classes.card}>
-      <CardHeader
-        title={title}
-        action={
-          <>
-            <IconButton aria-label="settings">
-              <SettingsOverscanIcon />
-            </IconButton>
-            <IconButton aria-label="settings">
-              <HelpOutlineIcon />
-            </IconButton>
-          </>
-        }
-      />
+      <CardHeader title={title} />
       <CardContent>{children}</CardContent>
+      <CardActions disableSpacing>
+        <>
+          <IconButton aria-label="settings">
+            <SettingsOverscanIcon />
+          </IconButton>
+          <IconButton aria-label="settings">
+            <HelpOutlineIcon />
+          </IconButton>
+        </>
+      </CardActions>
     </Card>
   )
 }
