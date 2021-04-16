@@ -52,6 +52,14 @@ const buildData = (weeks) => {
   })
 }
 
+const toPercent = (decimal) => `${Math.round(decimal * 100)}%`
+
+const getPercent = (value, total) => {
+  const ratio = total > 0 ? value / total : 0
+
+  return toPercent(ratio)
+}
+
 const renderTooltipContent = (o) => {
   const { payload, label } = o
   const total = payload.reduce((result, entry) => result + entry.value, 0)
@@ -70,7 +78,10 @@ const renderTooltipContent = (o) => {
       <ul className="list">
         {payload.map((entry, index) => (
           <li key={`item-${index}`} style={{ color: entry.color }}>
-            {`${entry.name}: ${entry.value} FTE days`}
+            {`${entry.name}: ${entry.value} FTE (${getPercent(
+              entry.value,
+              total,
+            )})`}
           </li>
         ))}
       </ul>
@@ -91,7 +102,7 @@ export default function Expense({ width, height, margin }) {
       <Legend />
 
       <Bar
-        name="Defect FTE"
+        name="Defect"
         type="monotone"
         dataKey="defectEx"
         stackId="1"
@@ -99,7 +110,7 @@ export default function Expense({ width, height, margin }) {
       />
 
       <Bar
-        name="KTLO FTE"
+        name="KTLO"
         type="monotone"
         dataKey="opEx"
         stackId="1"
@@ -107,7 +118,7 @@ export default function Expense({ width, height, margin }) {
       />
 
       <Bar
-        name="Feature FTE"
+        name="Feature"
         dataKey="capEx"
         type="monotone"
         stackId="1"

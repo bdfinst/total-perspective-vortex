@@ -35,7 +35,7 @@ export default function LeadershipDashboard() {
     },
     {
       chart: Effort({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Delivery Effort',
+      title: 'Delivery Effort (FTE)',
     },
     {
       chart: Agility({ width: chartWidth, height: chartHeight, margin }),
