@@ -1,5 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import { Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Legend,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -96,6 +104,7 @@ export default function AgilityTrend({ width, height, margin }) {
       <XAxis dataKey="name" />
       <YAxis tickFormatter={toPercent} />
       <Tooltip content={renderTooltipContent} />
+      <Legend />
 
       <Area
         type="monotone"
