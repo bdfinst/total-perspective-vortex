@@ -11,11 +11,12 @@ import {
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
-const buildWeekData = (weekNbr, opEx, capEx, defectEx) => ({
+const buildWeekData = (weekNbr, opEx, capEx, defectEx, unplannedEx) => ({
   name: `Week ${weekNbr}`,
   opEx,
   capEx,
   defectEx,
+  unplannedEx,
 })
 
 const effortPerStory = () => {
@@ -47,8 +48,10 @@ const buildData = (weeks) => {
     }
 
     const defectEx = Math.floor(opEx * Math.random())
+    const ktlo = opEx - defectEx
+    const unplannedEx = Math.floor(ktlo * Math.random())
 
-    return buildWeekData(el.weekNbr, opEx - defectEx, capEx, defectEx)
+    return buildWeekData(el.weekNbr, ktlo, capEx, defectEx, unplannedEx)
   })
 }
 
@@ -107,6 +110,14 @@ export default function Expense({ width, height, margin }) {
         dataKey="defectEx"
         stackId="1"
         fill={theme.palette.error.light}
+      />
+
+      <Bar
+        name="Unplanned"
+        type="monotone"
+        dataKey="unplannedEx"
+        stackId="1"
+        fill="black"
       />
 
       <Bar

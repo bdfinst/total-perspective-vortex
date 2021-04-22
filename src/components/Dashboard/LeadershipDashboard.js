@@ -8,7 +8,8 @@ import ChartWrapper from '../Charts/ChartWrapper'
 import Effort from '../Charts/Effort'
 import LeadTime from '../Charts/LeadTime'
 import SpeedVelocity from '../Charts/SpeedVelocity'
-import Workflow from '../Charts/Workflow'
+
+// import Workflow from '../Charts/Workflow'
 
 const chartWidth = 300
 const chartHeight = 200
@@ -21,9 +22,13 @@ const margin = {
 
 export default function LeadershipDashboard() {
   const graphs = [
+    // {
+    //   chart: Workflow({ width: chartWidth, height: chartHeight, margin }),
+    //   title: 'Work Catagories',
+    // },
     {
-      chart: Workflow({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Work Catagories',
+      chart: Effort({ width: chartWidth, height: chartHeight, margin }),
+      title: 'Delivery Effort (FTE)',
     },
     {
       chart: LeadTime({ width: chartWidth, height: chartHeight, margin }),
@@ -33,10 +38,7 @@ export default function LeadershipDashboard() {
       chart: SpeedVelocity({ width: chartWidth, height: chartHeight, margin }),
       title: 'Speed and Velocity',
     },
-    {
-      chart: Effort({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Delivery Effort (FTE)',
-    },
+
     {
       chart: Agility({ width: chartWidth, height: chartHeight, margin }),
       title: 'Agility',
