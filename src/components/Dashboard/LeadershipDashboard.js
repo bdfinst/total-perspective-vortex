@@ -2,8 +2,9 @@
 
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
+import TeamTable from './TeamTable'
 
-import Agility from '../Charts/AgilityTrend'
+// import Agility from '../Charts/AgilityTrend'
 import ChartWrapper from '../Charts/ChartWrapper'
 import Effort from '../Charts/Effort'
 import LeadTime from '../Charts/LeadTime'
@@ -11,8 +12,8 @@ import SpeedVelocity from '../Charts/SpeedVelocity'
 
 // import Workflow from '../Charts/Workflow'
 
-const chartWidth = 300
-const chartHeight = 200
+const chartWidth = 275
+const chartHeight = 175
 const margin = {
   top: 0,
   right: 0,
@@ -39,19 +40,24 @@ export default function LeadershipDashboard() {
       title: 'Speed and Velocity',
     },
 
-    {
-      chart: Agility({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Agility',
-    },
+    // {
+    //   chart: Agility({ width: chartWidth, height: chartHeight, margin }),
+    //   title: 'Agility',
+    // },
   ]
 
   return (
     <Grid container spacing={3}>
-      {graphs.map((graph, key) => (
-        <Grid item key={key}>
-          <ChartWrapper title={graph.title}>{graph.chart}</ChartWrapper>
-        </Grid>
-      ))}
+      <Grid container item spacing={3} xs={12}>
+        {graphs.map((graph, key) => (
+          <Grid item key={key}>
+            <ChartWrapper title={graph.title}>{graph.chart}</ChartWrapper>
+          </Grid>
+        ))}
+      </Grid>
+      <Grid item xs={12}>
+        <TeamTable />
+      </Grid>
     </Grid>
   )
 }
