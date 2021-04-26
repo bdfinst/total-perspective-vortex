@@ -1,15 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 
-import Grid from '@material-ui/core/Grid'
 import React, { useState } from 'react'
-import TeamTable from './TeamTable'
-import getChartData from './createChartData'
+import Grid from '@material-ui/core/Grid'
 
 // import Agility from '../Charts/AgilityTrend'
 import ChartWrapper from '../Charts/ChartWrapper'
 import Effort from '../Charts/Effort'
 import LeadTime from '../Charts/LeadTime'
 import SpeedVelocity from '../Charts/SpeedVelocity'
+import TeamTable from './TeamTable'
+import getTableData from './createData'
+import teams from '../../__mocks__/teams'
 
 // import Workflow from '../Charts/Workflow'
 
@@ -24,7 +25,7 @@ const margin = {
 
 export default function LeadershipDashboard() {
   const weekCount = 8
-  const [chartData] = useState(getChartData(weekCount))
+  const [chartData] = useState(getTableData(weekCount, teams))
 
   const graphs = [
     // {
