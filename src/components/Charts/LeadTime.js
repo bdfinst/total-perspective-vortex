@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, Tooltip, XAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -30,7 +30,6 @@ export default function Agility({ width, height, margin }) {
 
       <Tooltip />
       <XAxis dataKey="name" />
-      <YAxis />
     </BarChart>
   )
 }

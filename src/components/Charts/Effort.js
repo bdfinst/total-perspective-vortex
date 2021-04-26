@@ -1,13 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -100,7 +92,7 @@ export default function Expense({ width, height, margin }) {
     <BarChart width={width} height={height} data={data} margin={margin}>
       <CartesianGrid stroke="#f5f5f5" />
       <XAxis dataKey="name" />
-      <YAxis tickFormatter={(value) => `${value}`} />
+      {/* <YAxis tickFormatter={(value) => `${value}`} /> */}
       <Tooltip content={renderTooltipContent} />
       <Legend />
 

@@ -7,7 +7,6 @@ import {
   ReferenceLine,
   Tooltip,
   XAxis,
-  YAxis,
 } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
@@ -48,7 +47,6 @@ export default function PipelineActivity({ width, height, margin }) {
     <ComposedChart width={width} height={height} data={data} margin={margin}>
       <CartesianGrid stroke="#f5f5f5" />
       <XAxis dataKey="name" />
-      <YAxis />
       <Tooltip />
       <Legend />
 
