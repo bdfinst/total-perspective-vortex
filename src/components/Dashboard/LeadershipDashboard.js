@@ -1,8 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 
 import Grid from '@material-ui/core/Grid'
-import React from 'react'
+import React, { useState } from 'react'
 import TeamTable from './TeamTable'
+import getChartData from './createChartData'
 
 // import Agility from '../Charts/AgilityTrend'
 import ChartWrapper from '../Charts/ChartWrapper'
@@ -22,6 +23,9 @@ const margin = {
 }
 
 export default function LeadershipDashboard() {
+  const weekCount = 8
+  const [chartData] = useState(getChartData(weekCount))
+
   const graphs = [
     // {
     //   chart: Workflow({ width: chartWidth, height: chartHeight, margin }),
@@ -56,7 +60,7 @@ export default function LeadershipDashboard() {
         ))}
       </Grid>
       <Grid item xs={12}>
-        <TeamTable />
+        <TeamTable data={chartData} />
       </Grid>
     </Grid>
   )
