@@ -8,6 +8,9 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
+import TrendingDownIcon from '@material-ui/icons/TrendingDown'
+import TrendingFlatIcon from '@material-ui/icons/TrendingFlat'
+import TrendingUpIcon from '@material-ui/icons/TrendingUp'
 
 const useStyles = makeStyles({
   root: {
@@ -21,13 +24,13 @@ const useStyles = makeStyles({
 const rowsPerPageOptions = [5, 10, 20, 50]
 
 const columns = [
-  { id: 'teamName', label: 'Team', minWidth: 170 },
-  { id: 'currentEpicLeadTime', label: 'Lead Time', minWidth: 100 },
+  { id: 'teamName', label: 'Team', minWidth: 170, span: 1 },
   {
-    id: 'epicLeadTimeTrend',
-    label: 'Trend',
-    minWidth: 170,
-    align: 'right',
+    id: 'currentEpicLeadTime',
+    trend: 'epicLeadTimeTrend',
+    label: 'Lead Time',
+    minWidth: 100,
+    span: 2,
   },
 ]
 
@@ -38,6 +41,36 @@ const formatData = (data) =>
     currentEpicLeadTime: item.epics.currentLeadTime,
     epicLeadTimeTrend: item.epics.leadTimeTrend,
   }))
+
+const Metric = ({ value, trend }) => {
+  let TrendIcon
+
+  console.log(trend)
+  if (trend) {
+    switch (trend) {
+      case 1:
+        TrendIcon = TrendingUpIcon
+        break
+      case -1:
+        TrendIcon = TrendingDownIcon
+        break
+      default:
+        TrendIcon = TrendingFlatIcon
+        break
+    }
+  }
+
+  return (
+    <>
+      <TableCell>{value}</TableCell>
+      {trend && (
+        <TableCell>
+          <TrendIcon />
+        </TableCell>
+      )}
+    </>
+  )
+}
 
 export default function TeamTable({ data }) {
   const classes = useStyles()
@@ -64,6 +97,7 @@ export default function TeamTable({ data }) {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  colSpan={column.span}
                 >
                   {column.label}
                 </TableCell>
@@ -74,20 +108,14 @@ export default function TeamTable({ data }) {
             {formatData(data)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((datum) => (
-                <TableRow
-                  hover
-                  role="checkbox"
-                  tabIndex={-1}
-                  key={datum.teamId}
-                >
+                <TableRow hover tabIndex={-1} key={datum.teamId}>
                   {columns.map((column) => {
+                    const trend = datum[column.trend]
+                      ? datum[column.trend]
+                      : undefined
                     const value = datum[column.id]
                     return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number'
-                          ? column.format(value)
-                          : value}
-                      </TableCell>
+                      <Metric value={value} trend={trend} key={column.id} />
                     )
                   })}
                 </TableRow>

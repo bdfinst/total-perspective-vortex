@@ -73,7 +73,7 @@ export default function PipelineActivity({ width, height, margin }) {
         stroke={theme.palette.secondary.dark}
       />
       <Line
-        name="Defect Rate"
+        name="Defects"
         type="monotone"
         dataKey="defectRate"
         stroke={theme.palette.error.main}

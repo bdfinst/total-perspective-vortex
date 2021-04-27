@@ -7,15 +7,15 @@ import Grid from '@material-ui/core/Grid'
 import ChartWrapper from '../Charts/ChartWrapper'
 import Effort from '../Charts/Effort'
 import LeadTime from '../Charts/LeadTime'
-import SpeedVelocity from '../Charts/SpeedVelocity'
+import SpeedThroughput from '../Charts/SpeedThroughput'
 import TeamTable from './TeamTable'
 import getTableData from './createData'
 import teams from '../../__mocks__/teams'
 
 // import Workflow from '../Charts/Workflow'
 
-const chartWidth = 275
-const chartHeight = 175
+const chartWidth = 250
+const chartHeight = 150
 const margin = {
   top: 0,
   right: 0,
@@ -38,11 +38,15 @@ export default function LeadershipDashboard() {
     },
     {
       chart: LeadTime({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Epic Lead Time (Days)',
+      title: 'Lead Time (Days)',
     },
     {
-      chart: SpeedVelocity({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Speed and Velocity',
+      chart: SpeedThroughput({
+        width: chartWidth,
+        height: chartHeight,
+        margin,
+      }),
+      title: 'Speed and Throughput',
     },
 
     // {

@@ -3,6 +3,8 @@ import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
+// import ChartWrapper from './ChartWrapper.js'
+
 const buildWeekData = (weekNbr, opEx, capEx, defectEx, unplannedEx) => ({
   name: `Week ${weekNbr}`,
   opEx,
