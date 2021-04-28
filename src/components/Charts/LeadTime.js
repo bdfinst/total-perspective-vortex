@@ -58,11 +58,13 @@ export default function LeadTime({ width, height, margin }) {
         dataKey="storyLeadTime"
         name="Stories"
         fill={theme.palette.primary.dark}
+        stroke={theme.palette.primary.dark}
       />
       <Line
         dataKey="epicLeadTime"
         name="Epics"
         fill={theme.palette.secondary.light}
+        stroke={theme.palette.secondary.light}
       />
 
       <Tooltip content={renderTooltipContent} />

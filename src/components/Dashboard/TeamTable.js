@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 import Table from '@material-ui/core/Table'
@@ -24,14 +25,34 @@ const useStyles = makeStyles({
 const rowsPerPageOptions = [5, 10, 20, 50]
 
 const columns = [
-  { id: 'teamName', label: 'Team', minWidth: 50, span: 1, align: 'left' },
+  { id: 'teamName', label: 'Team', minWidth: 50, align: 'left' },
   {
     id: 'currentEpicLeadTime',
     trend: 'epicLeadTimeTrend',
-    label: 'Lead Time',
+    label: 'Epic Lead Time',
     minWidth: 50,
-    span: 1,
-    align: 'center',
+    align: 'right',
+  },
+  {
+    id: 'currentStoryLeadTime',
+    trend: 'storyLeadTimeTrend',
+    label: 'Story Lead Time',
+    minWidth: 50,
+    align: 'right',
+  },
+  {
+    id: 'currentDevCycleTime',
+    trend: 'devCycleTimeTrend',
+    label: 'Cycle Time',
+    minWidth: 50,
+    align: 'right',
+  },
+  {
+    id: 'currentDeliveryFrequency',
+    trend: 'deliveryFrequencyTrend',
+    label: ' Deploy/Week',
+    minWidth: 50,
+    align: 'right',
   },
 ]
 
@@ -39,8 +60,14 @@ const formatData = (data) =>
   data.map((item) => ({
     teamName: item.team.name,
     teamId: item.team.id,
-    currentEpicLeadTime: item.epics.currentLeadTime,
-    epicLeadTimeTrend: item.epics.leadTimeTrend,
+    currentEpicLeadTime: item.epics.current,
+    epicLeadTimeTrend: item.epics.trend,
+    currentStoryLeadTime: item.stories.current,
+    storyLeadTimeTrend: item.stories.trend,
+    currentDevCycleTime: item.devCycleTimes.current,
+    devCycleTimeTrend: item.devCycleTimes.trend,
+    currentDeliveryFrequency: item.deliveryFrequency.current,
+    deliveryFrequencyTrend: item.deliveryFrequency.trend,
   }))
 
 const Metric = ({ value, trend, align }) => {
@@ -63,8 +90,14 @@ const Metric = ({ value, trend, align }) => {
   return (
     <>
       <TableCell width="20%" align={align}>
-        {value}
-        {trend && <TrendIcon />}
+        <Grid container spacing={2}>
+          <Grid item>{value}</Grid>
+          {trend && (
+            <Grid item>
+              <TrendIcon />
+            </Grid>
+          )}
+        </Grid>
       </TableCell>
     </>
   )

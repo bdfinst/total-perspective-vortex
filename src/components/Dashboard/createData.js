@@ -1,4 +1,5 @@
 import trend from 'trendline'
+
 import randomRange from '../../helpers/randomRange'
 
 export const getTrend = (
@@ -19,7 +20,7 @@ export const getTrend = (
   }
 
   const data = values.slice(opts.maximumSet * -1)
-  const _trend = trend(data, 'week', 'metric')
+  const _trend = trend(data, 'week', 'value')
 
   if (Math.abs(_trend.slope) < flatChangePctRange) {
     return 0
@@ -29,65 +30,33 @@ export const getTrend = (
 }
 
 const getMetricData = (min, max, weeks) => {
-  const metrics = []
+  const data = []
   for (let index = 0; index < weeks; index += 1) {
-    metrics.push({
+    data.push({
       week: index + 1,
-      metric: Math.floor(randomRange(min, max)),
+      value: Math.floor(randomRange(min, max)),
     })
   }
 
-  const metricHistory = metrics.map((i) => i.metric)
+  const history = data.map((i) => i.value)
 
-  const currentMetric = metricHistory.reverse()[0]
+  const current = history.reverse()[0]
 
   return {
-    metrics,
-    metricHistory,
-    currentMetric,
-    metricTrend: getTrend(metrics),
+    data,
+    history,
+    current,
+    trend: getTrend(data),
   }
 }
 
-const getEpicLeadTimes = (team, weeks) => {
-  const times = getMetricData(10, 30, weeks)
-  return {
-    leadTimes: times.metrics,
-    leadTimeHistory: times.metricHistory,
-    currentLeadTime: times.metricHistory,
-    leadTimeTrend: times.metricTrend,
-  }
-}
+const getEpicLeadTimes = (team, weeks) => getMetricData(10, 30, weeks)
 
-const getStoryLeadTimes = (team, weeks) => {
-  const times = getMetricData(4, 15, weeks)
-  return {
-    leadTimes: times.metrics,
-    leadTimeHistory: times.metricHistory,
-    currentLeadTime: times.metricHistory,
-    leadTimeTrend: times.metricTrend,
-  }
-}
+const getStoryLeadTimes = (team, weeks) => getMetricData(4, 15, weeks)
 
-const getDevCycleTime = (team, weeks) => {
-  const times = getMetricData(1, 10, weeks)
-  return {
-    cycleTimes: times.metrics,
-    cycleTimeHistory: times.metricHistory,
-    currentCycleTime: times.metricHistory,
-    cycleTimeTrend: times.metricTrend,
-  }
-}
+const getDevCycleTime = (team, weeks) => getMetricData(1, 10, weeks)
 
-const getDeliveryFrequency = (team, weeks) => {
-  const times = getMetricData(1, 10, weeks)
-  return {
-    deliveryFrequencies: times.metrics,
-    deliveryFrequencyHistory: times.metricHistory,
-    currentDeliveryFrequency: times.metricHistory,
-    deliveryFrequencyTrend: times.metricTrend,
-  }
-}
+const getDeliveryFrequency = (team, weeks) => getMetricData(1, 10, weeks)
 
 export default function getTableData(weeks, teams) {
   const teamData = teams.map((team) => {
