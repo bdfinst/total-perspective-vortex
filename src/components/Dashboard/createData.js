@@ -1,8 +1,25 @@
 import trend from 'trendline'
 import randomRange from '../../helpers/randomRange'
 
-export const getTrend = (values, flatChangePctRange = 1) => {
-  const _trend = trend(values, 'week', 'metric')
+export const getTrend = (
+  values,
+  { flatChangePctRange, minSet, maxSet } = {},
+) => {
+  if (!values || values.length < 2) {
+    return 0
+  }
+  const opts = {
+    flatChangePctRange: flatChangePctRange || 0,
+    minimumSet: minSet || 2,
+    maximumSet: maxSet || values.length,
+  }
+
+  if (values.length < opts.minimumSet) {
+    return 0
+  }
+
+  const data = values.slice(opts.maximumSet * -1)
+  const _trend = trend(data, 'week', 'metric')
 
   if (Math.abs(_trend.slope) < flatChangePctRange) {
     return 0
@@ -28,7 +45,7 @@ const getMetricData = (min, max, weeks) => {
     metrics,
     metricHistory,
     currentMetric,
-    metricTrend: getTrend(metrics, 5),
+    metricTrend: getTrend(metrics),
   }
 }
 
