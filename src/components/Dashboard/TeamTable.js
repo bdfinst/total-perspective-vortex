@@ -24,13 +24,14 @@ const useStyles = makeStyles({
 const rowsPerPageOptions = [5, 10, 20, 50]
 
 const columns = [
-  { id: 'teamName', label: 'Team', minWidth: 170, span: 1 },
+  { id: 'teamName', label: 'Team', minWidth: 50, span: 1, align: 'left' },
   {
     id: 'currentEpicLeadTime',
     trend: 'epicLeadTimeTrend',
     label: 'Lead Time',
-    minWidth: 100,
-    span: 2,
+    minWidth: 50,
+    span: 1,
+    align: 'center',
   },
 ]
 
@@ -42,10 +43,9 @@ const formatData = (data) =>
     epicLeadTimeTrend: item.epics.leadTimeTrend,
   }))
 
-const Metric = ({ value, trend }) => {
+const Metric = ({ value, trend, align }) => {
   let TrendIcon
 
-  console.log(trend)
   if (trend) {
     switch (trend) {
       case 1:
@@ -62,12 +62,10 @@ const Metric = ({ value, trend }) => {
 
   return (
     <>
-      <TableCell>{value}</TableCell>
-      {trend && (
-        <TableCell>
-          <TrendIcon />
-        </TableCell>
-      )}
+      <TableCell width="20%" align={align}>
+        {value}
+        {trend && <TrendIcon />}
+      </TableCell>
     </>
   )
 }
@@ -89,15 +87,16 @@ export default function TeamTable({ data }) {
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                  colSpan={column.span}
+                  style={{
+                    minWidth: column.minWidth,
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -115,7 +114,12 @@ export default function TeamTable({ data }) {
                       : undefined
                     const value = datum[column.id]
                     return (
-                      <Metric value={value} trend={trend} key={column.id} />
+                      <Metric
+                        value={value}
+                        trend={trend}
+                        key={column.id}
+                        align={column.align}
+                      />
                     )
                   })}
                 </TableRow>
