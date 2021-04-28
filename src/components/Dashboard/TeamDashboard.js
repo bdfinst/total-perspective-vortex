@@ -3,9 +3,9 @@ import Grid from '@material-ui/core/Grid'
 import React from 'react'
 
 import ChartWrapper from '../Charts/ChartWrapper'
+import Effort from '../Charts/Effort'
 import PipelineActivity from '../Charts/PipelineActivity'
-import SpeedVelocity from '../Charts/SpeedVelocity'
-import Workflow from '../Charts/Workflow'
+import SpeedThroughput from '../Charts/SpeedThroughput'
 
 const chartWidth = 300
 const chartHeight = 200
@@ -19,8 +19,8 @@ const margin = {
 export default function TeamDashboard() {
   const graphs = [
     {
-      chart: Workflow({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Work Catagories',
+      chart: Effort({ width: chartWidth, height: chartHeight, margin }),
+      title: 'Delivery Effort (FTE)',
     },
     {
       chart: PipelineActivity({
@@ -28,11 +28,15 @@ export default function TeamDashboard() {
         height: chartHeight,
         margin,
       }),
-      title: 'Epic Lead Time (Days)',
+      title: 'Pipeline Activity',
     },
     {
-      chart: SpeedVelocity({ width: chartWidth, height: chartHeight, margin }),
-      title: 'Speed and Velocity',
+      chart: SpeedThroughput({
+        width: chartWidth,
+        height: chartHeight,
+        margin,
+      }),
+      title: 'Speed and Throughput',
     },
   ]
 

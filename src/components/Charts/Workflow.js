@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Bar, BarChart, Legend, Tooltip, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, Legend, Tooltip, XAxis } from 'recharts'
 import { useTheme } from '@material-ui/core/styles'
 import React from 'react'
 
@@ -67,7 +67,6 @@ export default function Workflow({ width, height, margin }) {
     <BarChart width={width} height={height} data={buildData(8)} margin={margin}>
       {/* <CartesianGrid strokeDasharray="3 3" /> */}
       <XAxis dataKey="name" />
-      <YAxis />
       <Tooltip content={renderTooltipContent} />
       <Legend />
       <Bar
