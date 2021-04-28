@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
@@ -31,28 +31,28 @@ const columns = [
     trend: 'epicLeadTimeTrend',
     label: 'Epic Lead Time',
     minWidth: 50,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'currentStoryLeadTime',
     trend: 'storyLeadTimeTrend',
     label: 'Story Lead Time',
     minWidth: 50,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'currentDevCycleTime',
     trend: 'devCycleTimeTrend',
     label: 'Cycle Time',
     minWidth: 50,
-    align: 'right',
+    align: 'center',
   },
   {
     id: 'currentDeliveryFrequency',
     trend: 'deliveryFrequencyTrend',
     label: ' Deploy/Week',
     minWidth: 50,
-    align: 'right',
+    align: 'center',
   },
 ]
 
@@ -70,40 +70,9 @@ const formatData = (data) =>
     deliveryFrequencyTrend: item.deliveryFrequency.trend,
   }))
 
-const Metric = ({ value, trend, align }) => {
-  let TrendIcon
-
-  if (trend) {
-    switch (trend) {
-      case 1:
-        TrendIcon = TrendingUpIcon
-        break
-      case -1:
-        TrendIcon = TrendingDownIcon
-        break
-      default:
-        TrendIcon = TrendingFlatIcon
-        break
-    }
-  }
-
-  return (
-    <>
-      <TableCell width="20%" align={align}>
-        <Grid container spacing={2}>
-          <Grid item>{value}</Grid>
-          {trend && (
-            <Grid item>
-              <TrendIcon />
-            </Grid>
-          )}
-        </Grid>
-      </TableCell>
-    </>
-  )
-}
-
 export default function TeamTable({ data }) {
+  const theme = useTheme()
+
   const classes = useStyles()
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0])
@@ -115,6 +84,45 @@ export default function TeamTable({ data }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value)
     setPage(0)
+  }
+
+  const Metric = ({ value, trend, align }) => {
+    let TrendIcon
+    let trendColor
+
+    if (trend) {
+      switch (trend) {
+        case 1:
+          TrendIcon = TrendingUpIcon
+          trendColor = theme.palette.primary.dark
+          break
+        case -1:
+          TrendIcon = TrendingDownIcon
+          trendColor = theme.palette.error.dark
+          break
+        default:
+          TrendIcon = TrendingFlatIcon
+          trendColor = theme.palette.warning.light
+          break
+      }
+    }
+
+    console.log(value, align)
+
+    return (
+      <>
+        <TableCell width="20%" align={align}>
+          <Grid container spacing={2}>
+            <Grid item>{value}</Grid>
+            {trend && (
+              <Grid item>
+                <TrendIcon style={{ color: trendColor }} />
+              </Grid>
+            )}
+          </Grid>
+        </TableCell>
+      </>
+    )
   }
 
   return (
