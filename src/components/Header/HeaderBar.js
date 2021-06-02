@@ -13,7 +13,7 @@ import AppHelpContent from '../AppHelpContent'
 import HelpDialog from '../HelpDialog'
 import config from '../../globalConfig'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   toolbar: {
     paddingRight: 10, // keep right padding when drawer closed
   },

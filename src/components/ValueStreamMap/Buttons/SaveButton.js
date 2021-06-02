@@ -7,7 +7,7 @@ import exportFromJSON from 'export-from-json'
 import { buildFileFromElements } from '../../../helpers'
 import { useValueStream } from '../valueStreamContext'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: { color: theme.palette.secondary.dark },
 }))
 

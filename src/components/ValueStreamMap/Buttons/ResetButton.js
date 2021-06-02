@@ -5,7 +5,7 @@ import React from 'react'
 
 import { useValueStream } from '../valueStreamContext'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: { color: theme.palette.secondary.dark },
 }))
 

@@ -9,7 +9,7 @@ import Totals from './ValueStreamMap/Totals'
 import ValueStreamMap from './ValueStreamMap/ValueStreamMap'
 import config from '../globalConfig'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(1),
     display: 'flex',

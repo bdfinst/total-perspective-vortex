@@ -38,7 +38,7 @@ const getMetricData = (min, max, weeks) => {
     })
   }
 
-  const history = data.map((i) => i.value)
+  const history = data.map(i => i.value)
 
   const current = history.reverse()[0]
 
@@ -59,7 +59,7 @@ const getDevCycleTime = (team, weeks) => getMetricData(1, 10, weeks)
 const getDeliveryFrequency = (team, weeks) => getMetricData(1, 10, weeks)
 
 export default function getTableData(weeks, teams) {
-  const teamData = teams.map((team) => {
+  const teamData = teams.map(team => {
     const epics = getEpicLeadTimes(team, weeks)
     const stories = getStoryLeadTimes(team, weeks)
     const devCycleTimes = getDevCycleTime(team, weeks)

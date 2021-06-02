@@ -56,8 +56,8 @@ const columns = [
   },
 ]
 
-const formatData = (data) =>
-  data.map((item) => ({
+const formatData = data =>
+  data.map(item => ({
     teamName: item.team.name,
     teamId: item.team.id,
     currentEpicLeadTime: item.epics.current,
@@ -81,7 +81,7 @@ export default function TeamTable({ data }) {
     setPage(newPage)
   }
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = event => {
     setRowsPerPage(+event.target.value)
     setPage(0)
   }
@@ -107,8 +107,6 @@ export default function TeamTable({ data }) {
       }
     }
 
-    console.log(value, align)
-
     return (
       <>
         <TableCell width="20%" align={align}>
@@ -131,7 +129,7 @@ export default function TeamTable({ data }) {
         <Table stickyHeader aria-label="sticky table" size="small">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map(column => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -147,9 +145,9 @@ export default function TeamTable({ data }) {
           <TableBody>
             {formatData(data)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((datum) => (
+              .map(datum => (
                 <TableRow hover tabIndex={-1} key={datum.teamId}>
-                  {columns.map((column) => {
+                  {columns.map(column => {
                     const trend = datum[column.trend]
                       ? datum[column.trend]
                       : undefined

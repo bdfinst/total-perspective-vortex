@@ -1,7 +1,7 @@
 import { Handle } from 'react-flow-renderer'
 import React from 'react'
 
-const settings = (type) => {
+const settings = type => {
   switch (type) {
     case 'target':
       return { type: 'target', side: 'left', color: 'red' }

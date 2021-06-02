@@ -15,19 +15,19 @@ describe('Building totals', () => {
     results = getNodesums(elements)
 
     processTime = elements
-      .filter((el) => isNode(el))
+      .filter(el => isNode(el))
       .reduce((acc, el) => {
         return acc + el.data.processTime
       }, 0)
 
     waitTime = elements
-      .filter((el) => isNode(el))
+      .filter(el => isNode(el))
       .reduce((acc, el) => {
         return acc + el.data.waitTime
       }, 0)
 
     reworkTime = elements
-      .filter((el) => isNode(el))
+      .filter(el => isNode(el))
       .reduce((acc, el) => {
         return (
           acc +
@@ -59,8 +59,8 @@ describe('Building totals', () => {
   })
   it('should calacuate the total manual process time', () => {
     const peopleTime = elements
-      .filter((el) => isNode(el))
-      .map((node) => node.data)
+      .filter(el => isNode(el))
+      .map(node => node.data)
       .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
     expect(results.peopleTime).toEqual(peopleTime)

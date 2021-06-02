@@ -26,7 +26,7 @@ const elements = (count = 2, pca = 0) => {
     .map((node, idx) =>
       idx > 0 && idx < nodes.length - 1 ? buildEdge(nodes[idx - 1], node) : {},
     )
-    .filter((x) => x) // Remove undefined
+    .filter(x => x) // Remove undefined
 
   return nodes.concat(edges)
 }

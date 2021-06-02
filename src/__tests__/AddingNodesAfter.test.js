@@ -37,9 +37,7 @@ describe('Inserting a node after a selected node', () => {
     })
 
     const node = getLastProcessNode(result.current.state.elements)
-    const index = result.current.state.elements.findIndex(
-      (e) => e.id === node.id,
-    )
+    const index = result.current.state.elements.findIndex(e => e.id === node.id)
 
     return { node, index }
   }
@@ -72,10 +70,11 @@ describe('Inserting a node after a selected node', () => {
     const insertedNode = getNodeById(elements, result.current.state.maxNodeId)
 
     const nodeIndexes = getNodeIndexes(elements)
-    const node1Index = nodeIndexes.find((i) => i.id === node1.node.id).index
-    const node2Index = nodeIndexes.find((i) => i.id === node2.node.id).index
-    const insertedNodeIndex = nodeIndexes.find((i) => i.id === insertedNode.id)
-      .index
+    const node1Index = nodeIndexes.find(i => i.id === node1.node.id).index
+    const node2Index = nodeIndexes.find(i => i.id === node2.node.id).index
+    const insertedNodeIndex = nodeIndexes.find(
+      i => i.id === insertedNode.id,
+    ).index
 
     expect(insertedNodeIndex).toBeGreaterThan(node1Index)
     expect(insertedNodeIndex).toBeLessThan(node2Index)

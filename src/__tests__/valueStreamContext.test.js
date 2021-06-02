@@ -94,7 +94,7 @@ describe('Value Stream Context', () => {
       })
 
       const found = result.current.state.elements.filter(
-        (node) => node.id === testNode.id,
+        node => node.id === testNode.id,
       )
 
       expect(found[0].data).toEqual(newData)
@@ -118,7 +118,7 @@ describe('Value Stream Context', () => {
       })
 
       const found = result.current.state.elements.find(
-        (node) => node.id === testNode.id,
+        node => node.id === testNode.id,
       )
 
       expect(found.data).toEqual(newData)
@@ -228,8 +228,8 @@ describe('Deleting elements', () => {
     expect(elms.length).toBeGreaterThan(1)
 
     const elementsToRemove = elms
-      .filter((el) => el.id !== elms[0].id)
-      .map((el) => ({ id: el.id }))
+      .filter(el => el.id !== elms[0].id)
+      .map(el => ({ id: el.id }))
 
     act(() => {
       result.current.removeElements(elementsToRemove)
@@ -243,16 +243,16 @@ describe('Deleting elements', () => {
     expect(result.current.state.elements.length).toBeGreaterThan(1)
 
     let elementsToRemove = result.current.state.elements
-      .filter((el) => el.id !== '1')
-      .map((el) => ({ id: el.id }))
+      .filter(el => el.id !== '1')
+      .map(el => ({ id: el.id }))
 
     act(() => {
       result.current.removeElements(elementsToRemove)
     })
 
     elementsToRemove = result.current.state.elements
-      .filter((el) => el.id === '1')
-      .map((el) => ({ id: el.id }))
+      .filter(el => el.id === '1')
+      .map(el => ({ id: el.id }))
 
     act(() => {
       result.current.removeElements(elementsToRemove)
@@ -276,9 +276,7 @@ describe('Adding nodes', () => {
     })
 
     const node = getLastProcessNode(result.current.state.elements)
-    const index = result.current.state.elements.findIndex(
-      (e) => e.id === node.id,
-    )
+    const index = result.current.state.elements.findIndex(e => e.id === node.id)
 
     return [node, index]
   }

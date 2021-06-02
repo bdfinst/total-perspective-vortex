@@ -6,8 +6,8 @@ describe('Colorizing constraints', () => {
   it('should colorize the largest constraint and top two secondary constraints', () => {
     const highlighted = highlightConstraints(nodeStylesMock)
 
-    const getNodeColor = (id) => {
-      return highlighted.filter((el) => el.id === `${id}`)[0].style.background
+    const getNodeColor = id => {
+      return highlighted.filter(el => el.id === `${id}`)[0].style.background
     }
 
     expect(getNodeColor(2)).toEqual(config.primaryConstraintColor)

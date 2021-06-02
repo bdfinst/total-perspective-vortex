@@ -5,9 +5,9 @@ const useZoom = () => {
   const store = useStore()
   const { nodes } = store.getState()
 
-  const zoom = (node) => {
+  const zoom = node => {
     const zoomNode =
-      node && node.id ? nodes.find((el) => el.id === node.id) : undefined
+      node && node.id ? nodes.find(el => el.id === node.id) : undefined
 
     if (zoomNode) {
       const x = zoomNode.__rf.position.x + zoomNode.__rf.width / 2

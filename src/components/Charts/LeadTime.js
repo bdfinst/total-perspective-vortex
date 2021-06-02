@@ -11,12 +11,12 @@ const buildWeekData = (weekNbr, epicLeadTime, storyLeadTime) => ({
   epicLeadTime,
 })
 
-const buildData = (weeks) => {
+const buildData = weeks => {
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const epicLeadTime = Math.floor(randomRange(5, 20))
     const storyLeadTime = Math.floor(randomRange(1, 5))
 
@@ -24,7 +24,7 @@ const buildData = (weeks) => {
   })
 }
 
-const renderTooltipContent = (o) => {
+const renderTooltipContent = o => {
   const { payload } = o
 
   const ttWrapper = {

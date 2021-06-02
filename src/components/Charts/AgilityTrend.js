@@ -29,7 +29,7 @@ const buildData = (weeks, teamCount) => {
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const speed = Math.floor(Math.random() * teamCount)
     const quality = Math.floor(Math.random() * teamCount)
     const impSpeed = speed > 0 ? speed : 1
@@ -47,7 +47,7 @@ const buildData = (weeks, teamCount) => {
   })
 }
 
-const toPercent = (decimal) => `${Math.round(decimal * 100)}%`
+const toPercent = decimal => `${Math.round(decimal * 100)}%`
 
 const getPercent = (value, total) => {
   const ratio = total > 0 ? value / total : 0
@@ -55,7 +55,7 @@ const getPercent = (value, total) => {
   return toPercent(ratio)
 }
 
-const renderTooltipContent = (o) => {
+const renderTooltipContent = o => {
   const { payload, label } = o
   const total = payload.reduce((result, entry) => result + entry.value, 0) / 2
   const ttWrapper = {

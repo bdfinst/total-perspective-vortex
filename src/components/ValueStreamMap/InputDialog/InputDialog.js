@@ -18,7 +18,7 @@ import { defaultNodeData } from '../../../helpers'
 import { fieldConfigs, getFieldConfig } from './formConfigs'
 import { useValueStream } from '../valueStreamContext'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   input: {
     // padding: '5 5 5 5 ',
     margin: '5 0 5 0',
@@ -51,19 +51,15 @@ const useStyles = makeStyles((theme) => ({
 const InputDialog = ({ onClose, open, selectedNode }) => {
   const theme = useTheme()
   const classes = useStyles(theme)
-  const {
-    addNodeBefore,
-    addNodeAfter,
-    changeNodeValues,
-    toggleNodeSelect,
-  } = useValueStream()
+  const { addNodeBefore, addNodeAfter, changeNodeValues, toggleNodeSelect } =
+    useValueStream()
 
   const [formData, setFormData] = useState(defaultNodeData)
   const [errorList, setErrorList] = useState({})
   const [helpOpen, setHelpOpen] = useState(false)
   const [helpContent, setHelpContent] = useState('')
 
-  const handleClose = (event) => {
+  const handleClose = event => {
     if (event) event.preventDefault()
     if (selectedNode && open) toggleNodeSelect(selectedNode)
     onClose()
@@ -77,10 +73,10 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
     }
   }, [open, selectedNode])
 
-  const errorListExists = (errors) =>
-    Object.entries(errors).find((e) => e[1] === true)
+  const errorListExists = errors =>
+    Object.entries(errors).find(e => e[1] === true)
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     if (event) event.preventDefault()
 
     if (!errorListExists(errorList)) {
@@ -89,14 +85,14 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
     }
   }
 
-  const handleInsertStep = (event) => {
+  const handleInsertStep = event => {
     if (event) event.preventDefault()
 
     handleSubmit(event)
     addNodeBefore(selectedNode, true)
   }
 
-  const handleAddStep = (event) => {
+  const handleAddStep = event => {
     if (event) event.preventDefault()
 
     handleSubmit(event)
@@ -112,7 +108,7 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
     setFormData({ ...formData, [propName]: e.target.value })
   }
 
-  const handleHelpOpen = (propName) => {
+  const handleHelpOpen = propName => {
     setHelpContent(getFieldConfig(propName).helpDoc)
     setHelpOpen(true)
   }
@@ -142,7 +138,7 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
               justify="center"
               alignItems="center"
             >
-              {fieldConfigs.map((field) => (
+              {fieldConfigs.map(field => (
                 <Grid
                   container
                   item
@@ -168,7 +164,7 @@ const InputDialog = ({ onClose, open, selectedNode }) => {
                         label={field.title}
                         value={formData[field.propName] || ''}
                         error={errorList[field.propName]}
-                        onChange={(e) => handleChange(e, field.propName)}
+                        onChange={e => handleChange(e, field.propName)}
                       />
                     </Paper>
                   </Grid>

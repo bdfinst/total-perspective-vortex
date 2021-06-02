@@ -15,7 +15,7 @@ describe('Layout VSM path', () => {
 
     const lastPosition = elements[1].position
 
-    const updatedNode = elements.find((el) => el.id === '3')
+    const updatedNode = elements.find(el => el.id === '3')
     expect(Math.round(updatedNode.position.y)).toEqual(
       Math.round(lastPosition.y + verticalOffset),
     )
@@ -38,8 +38,8 @@ describe('Layout VSM path', () => {
 
     const elements = getGraphLayout(dataFile.concat(newNode))
 
-    const updatedNode = elements.find((el) => el.id === '3')
-    const lastPosition = elements.find((el) => el.id === '2').position
+    const updatedNode = elements.find(el => el.id === '3')
+    const lastPosition = elements.find(el => el.id === '2').position
 
     expect(Math.round(updatedNode.position.x)).toEqual(
       Math.round(lastPosition.x + horizontalOffset),
@@ -94,11 +94,11 @@ describe('Layout VSM path', () => {
 
     const elements = getGraphLayout(newElements)
 
-    const node1 = elements.find((el) => el.id === '1')
-    const node2 = elements.find((el) => el.id === '2')
-    const node3 = elements.find((el) => el.id === '3')
-    const node4 = elements.find((el) => el.id === '4')
-    const node5 = elements.find((el) => el.id === '5')
+    const node1 = elements.find(el => el.id === '1')
+    const node2 = elements.find(el => el.id === '2')
+    const node3 = elements.find(el => el.id === '3')
+    const node4 = elements.find(el => el.id === '4')
+    const node5 = elements.find(el => el.id === '5')
 
     expect(Math.round(node2.position.y)).toEqual(Math.round(node1.position.y))
     expect(Math.round(node2.position.x)).toEqual(Math.round(node3.position.x))

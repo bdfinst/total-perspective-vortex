@@ -9,7 +9,7 @@ import { useValueStream } from './valueStreamContext'
 import EdgeHandle from '../Nodes/EdgeHandle'
 import NodeContextMenu from './NodeContextMenu'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   title: {
     fontSize: '1.2em',
     color: theme.textSecondary,
@@ -24,7 +24,7 @@ const defaultData = {
 const ContextMenuPortal = ({ children }) =>
   createPortal(children, document.getElementById('vsm-container'))
 
-const ReworkNode = (props) => {
+const ReworkNode = props => {
   const theme = useTheme()
   const classes = useStyles(theme)
 
@@ -33,7 +33,7 @@ const ReworkNode = (props) => {
   const [data, setData] = useState(defaultData)
 
   useEffect(() => {
-    const found = state.elements.find((el) => el.id === node.id)
+    const found = state.elements.find(el => el.id === node.id)
     setData(found ? found.data : defaultData)
     setNode(props)
   }, [state.elements])
@@ -43,13 +43,13 @@ const ReworkNode = (props) => {
     id: menuId,
   })
 
-  const handleDoubleClick = (event) => {
+  const handleDoubleClick = event => {
     if (event) event.preventDefault()
 
     toggleNodeSelect(node)
   }
 
-  const handleContextMenu = (event) => {
+  const handleContextMenu = event => {
     if (event) event.preventDefault()
 
     show(event, { props: { node } })

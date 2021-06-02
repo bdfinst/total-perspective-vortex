@@ -6,7 +6,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useValueStream } from '../valueStreamContext'
 import config from '../../../globalConfig'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     color: theme.palette.primary.dark,
   },

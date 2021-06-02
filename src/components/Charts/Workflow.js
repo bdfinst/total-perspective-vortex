@@ -10,7 +10,7 @@ const buildWeekData = (weekNbr, stories, ktlo, defects) => ({
   defects,
 })
 
-const toPercent = (decimal) => `${Math.round(decimal * 100)}%`
+const toPercent = decimal => `${Math.round(decimal * 100)}%`
 
 const getPercent = (value, total) => {
   const ratio = total > 0 ? value / total : 0
@@ -18,7 +18,7 @@ const getPercent = (value, total) => {
   return toPercent(ratio)
 }
 
-const renderTooltipContent = (o) => {
+const renderTooltipContent = o => {
   const { payload, label } = o
   const total = payload.reduce((result, entry) => result + entry.value, 0)
   const ttWrapper = {
@@ -46,12 +46,12 @@ const renderTooltipContent = (o) => {
   )
 }
 
-const buildData = (weeks) => {
+const buildData = weeks => {
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const stories = Math.floor(Math.random() * 10) * 24
     const ktlo = Math.floor(Math.random() * 4) * 24
     const defects = Math.floor(Math.random() * 4) * 24

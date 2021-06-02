@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core'
 import { SettingsOutlined } from '@material-ui/icons'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   inactive: {
     color: theme.palette.text.disabled,
   },

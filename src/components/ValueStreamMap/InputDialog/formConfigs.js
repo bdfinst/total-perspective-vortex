@@ -13,7 +13,7 @@ export const fieldConfigs = [
       error: 'Cannot be blank',
       normal: 'Enter a name for the process step',
     },
-    isError: (value) => !(value.length > 0),
+    isError: value => !(value.length > 0),
   },
   {
     propName: 'processTime',
@@ -30,7 +30,7 @@ export const fieldConfigs = [
       error: 'Must be between 0 and 999',
       normal: 'Value between 0 and 999',
     },
-    isError: (value) => !(value >= 0 && value <= 999),
+    isError: value => !(value >= 0 && value <= 999),
   },
   {
     propName: 'waitTime',
@@ -47,7 +47,7 @@ export const fieldConfigs = [
       error: 'Must be between 0 and 999',
       normal: 'Value between 0 and 999',
     },
-    isError: (value) => !(value >= 0 && value <= 999),
+    isError: value => !(value >= 0 && value <= 999),
   },
   {
     propName: 'pctCompleteAccurate',
@@ -64,7 +64,7 @@ export const fieldConfigs = [
       error: 'Must be between 1% and 100%',
       normal: '1% to 100%',
     },
-    isError: (value) => !(value >= 1 && value <= 100),
+    isError: value => !(value >= 1 && value <= 100),
   },
   {
     propName: 'people',
@@ -80,7 +80,7 @@ export const fieldConfigs = [
       error: 'Must be between 0 and 100',
       normal: '0 to 100',
     },
-    isError: (value) => !(value >= 0 && value <= 100),
+    isError: value => !(value >= 0 && value <= 100),
   },
 ]
 
@@ -90,5 +90,5 @@ export const fieldConfigs = [
 // waitTime: 0,
 // pctCompleteAccurate: 100,
 
-export const getFieldConfig = (propName) =>
-  fieldConfigs.find((f) => f.propName === propName) || {}
+export const getFieldConfig = propName =>
+  fieldConfigs.find(f => f.propName === propName) || {}

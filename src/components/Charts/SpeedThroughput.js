@@ -13,7 +13,7 @@ import React from 'react'
 
 import randomRange from '../../helpers/randomRange'
 
-const getDefectRate = (throughput) =>
+const getDefectRate = throughput =>
   throughput === 0 ? 0 : Math.round((1 / throughput) * 100)
 
 const buildWeekData = (weekNbr, cycleTime, throughput, defectRate) => ({
@@ -23,12 +23,12 @@ const buildWeekData = (weekNbr, cycleTime, throughput, defectRate) => ({
   defectRate,
 })
 
-const buildData = (weeks) => {
+const buildData = weeks => {
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const cycleTime = Math.floor(randomRange(0.5, 10))
     const throughput = Math.floor(randomRange(4, 20))
 

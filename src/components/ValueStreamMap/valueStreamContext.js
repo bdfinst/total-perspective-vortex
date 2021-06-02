@@ -29,12 +29,12 @@ const defaultPosition = { x: 100, y: 175 }
 
 const ValueStreamContext = React.createContext()
 
-const updateLocalStorage = (state) => {
+const updateLocalStorage = state => {
   ls('maxNodeId', state.maxNodeId)
   ls('elements', state.elements)
 }
 
-const updateStateElements = (state) => {
+const updateStateElements = state => {
   const relativeSize = 4
   const graphedLayouts = getGraphLayout(
     state.elements,
@@ -109,7 +109,7 @@ const nodeSelect = (state, { node }) => {
   const newState = {
     ...state,
     elements: state.elements
-      .map((el) =>
+      .map(el =>
         node.id !== el.id
           ? {
               ...el,
@@ -121,7 +121,7 @@ const nodeSelect = (state, { node }) => {
             }
           : el,
       )
-      .map((el) =>
+      .map(el =>
         node.id === el.id
           ? {
               ...el,
@@ -143,7 +143,7 @@ const nodeSelect = (state, { node }) => {
 const updateNode = (state, { node, position, data }) => {
   const newState = {
     ...state,
-    elements: state.elements.map((el) =>
+    elements: state.elements.map(el =>
       el.id === node.id
         ? {
             ...el,
@@ -183,7 +183,7 @@ const updateEdge = (edge, newNode, isTargetNode) =>
 const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
   const { elements } = state
 
-  const newElements = elements.map((e) =>
+  const newElements = elements.map(e =>
     isEdge(e) && e.target === oldTargetNode.id
       ? updateEdge(e, newTargetNode, true)
       : e,
@@ -195,7 +195,7 @@ const updateAllEdgesTarget = (state, oldTargetNode, newTargetNode) => {
 const updateOneEdge = (state, { edge, newNode, isTargetNode }) => {
   const { elements } = state
 
-  const newElements = elements.map((e) =>
+  const newElements = elements.map(e =>
     isEdge(e) && e.id === edge.id ? updateEdge(e, newNode, isTargetNode) : e,
   )
 
@@ -207,13 +207,13 @@ const deleteElements = (state, elementsToRemove) => {
     ? elementsToRemove
     : [elementsToRemove]
 
-  const idsToRemove = elementList.map((el) => el.id)
+  const idsToRemove = elementList.map(el => el.id)
 
   const newState = {
     ...state,
     elements:
       state.elements.length > 1
-        ? state.elements.filter((el) => !idsToRemove.includes(el.id))
+        ? state.elements.filter(el => !idsToRemove.includes(el.id))
         : state.elements,
   }
 
@@ -230,7 +230,7 @@ const insertNodeBefore = (state, { node, selectNewNode }) => {
 
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
-  const index = state.elements.findIndex((e) => e.id === node.id)
+  const index = state.elements.findIndex(e => e.id === node.id)
 
   const nodeAddedState = {
     ...newNodeState,
@@ -264,7 +264,7 @@ const insertNodeAfter = (state, { node, selectNewNode }) => {
   const [newNodeState, insertedNode] = makeNewNode(state, 0, 0)
 
   const index = node
-    ? state.elements.findIndex((e) => e.id === node.id)
+    ? state.elements.findIndex(e => e.id === node.id)
     : undefined
 
   const nodeAddedState = {
@@ -285,7 +285,7 @@ const insertNodeAfter = (state, { node, selectNewNode }) => {
 
   const newRightEdge = getLastEdge(edgeAddedState.elements)
   const oldRightEdge = getEdgesBySource(state.elements, sourceNode).find(
-    (e) => e.id !== newRightEdge.id,
+    e => e.id !== newRightEdge.id,
   )
 
   const edgesUpdatedState = oldRightEdge
@@ -388,7 +388,7 @@ const valueStreamReducer = (state, action) => {
   }
 }
 
-const ValueStreamProvider = (props) => {
+const ValueStreamProvider = props => {
   const [state, dispatch] = useReducer(valueStreamReducer, valueStream)
 
   const value = React.useMemo(() => [state, dispatch], [state])
@@ -446,9 +446,9 @@ const useValueStream = () => {
 
   const setRelativelySized = () => dispatch({ type: 'RELATIVE_SIZE' })
 
-  const initState = (data) => dispatch({ type: 'INIT', data })
+  const initState = data => dispatch({ type: 'INIT', data })
 
-  const toggleNodeSelect = (node) =>
+  const toggleNodeSelect = node =>
     dispatch({ type: 'SELECT_NODE', data: { node } })
 
   return {

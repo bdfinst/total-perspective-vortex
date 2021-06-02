@@ -6,7 +6,7 @@ import React from 'react'
 
 import useZoom from '../../../hooks/useZoom'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: { color: theme.palette.primary.dark },
 }))
 

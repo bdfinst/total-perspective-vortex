@@ -21,15 +21,15 @@ const buildWeekData = (weekNbr, ciRate, deployRate, defectRate) => ({
   defectRate,
 })
 
-const getDefectRate = (deployRate) =>
+const getDefectRate = deployRate =>
   deployRate === 0 ? 0 : Math.round((1 / deployRate) * 50)
 
-const buildData = (weeks) => {
+const buildData = weeks => {
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const ciRate = Math.floor(Math.random() * ciTarget * 1.5)
     const deployRate = Math.floor(Math.random() * ciRate)
     const defectRate = getDefectRate(deployRate)

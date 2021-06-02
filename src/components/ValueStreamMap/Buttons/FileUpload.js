@@ -7,7 +7,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { toJson } from '../../../helpers'
 import { useValueStream } from '../valueStreamContext'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   button: { color: theme.palette.secondary.dark },
 }))
 
@@ -29,7 +29,7 @@ const FileUpload = () => {
     }
   }
 
-  const handleFileChosen = (file) => {
+  const handleFileChosen = file => {
     fileReader = new FileReader()
     fileReader.onloadend = handleRead
     fileReader.readAsText(file)
@@ -41,7 +41,7 @@ const FileUpload = () => {
     })
   }
 
-  const handleSave = (files) => {
+  const handleSave = files => {
     // Saving files to state for further use and closing Modal.
     setState({
       files,

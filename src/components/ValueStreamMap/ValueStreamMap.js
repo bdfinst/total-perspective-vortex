@@ -47,7 +47,7 @@ const ValueStreamMap = () => {
   useEffect(() => {
     setElements(state.elements)
 
-    setSelectedNode(state.elements.find((el) => isNode(el) && el.selected))
+    setSelectedNode(state.elements.find(el => isNode(el) && el.selected))
   }, [state.elements])
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const ValueStreamMap = () => {
     setIsDialogOpen(false)
   }
 
-  const onConnect = (params) => {
+  const onConnect = params => {
     const source = getNodeById(state.elements, params.source)
     const target = getNodeById(state.elements, params.target)
 
@@ -75,11 +75,11 @@ const ValueStreamMap = () => {
     changeNodeValues({ node, position: node.position })
   }
 
-  const onElementsRemove = (elementsToRemove) => {
+  const onElementsRemove = elementsToRemove => {
     removeElements(elementsToRemove)
   }
 
-  const onDragOver = (event) => {
+  const onDragOver = event => {
     event.preventDefault()
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'move'
@@ -136,7 +136,7 @@ const ValueStreamMap = () => {
                 //  nodeClassName={}
                 nodeBorderRadius={20}
                 maskColor={vsmBackground}
-                nodeColor={(node) => {
+                nodeColor={node => {
                   switch (node.type) {
                     case 'customNode':
                       return theme.palette.primary.main

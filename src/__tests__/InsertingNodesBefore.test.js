@@ -35,9 +35,7 @@ describe('Inserting a node before a selected node', () => {
     })
 
     const node = getLastProcessNode(result.current.state.elements)
-    const index = result.current.state.elements.findIndex(
-      (e) => e.id === node.id,
-    )
+    const index = result.current.state.elements.findIndex(e => e.id === node.id)
 
     return { node, index }
   }
@@ -78,10 +76,11 @@ describe('Inserting a node before a selected node', () => {
     const nodeIndexes = getNodeIndexes(elements)
     const insertedNode = getNodeById(elements, result.current.state.maxNodeId)
 
-    const node1Index = nodeIndexes.find((i) => i.id === node1.node.id).index
-    const node2Index = nodeIndexes.find((i) => i.id === node2.node.id).index
-    const insertedNodeIndex = nodeIndexes.find((i) => i.id === insertedNode.id)
-      .index
+    const node1Index = nodeIndexes.find(i => i.id === node1.node.id).index
+    const node2Index = nodeIndexes.find(i => i.id === node2.node.id).index
+    const insertedNodeIndex = nodeIndexes.find(
+      i => i.id === insertedNode.id,
+    ).index
 
     const updatedEdge = getElementById(oldEdge.id, elements)
     const newEdge = getLastEdge(elements)

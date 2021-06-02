@@ -13,7 +13,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { getNodesums, roundTo2 } from '../../helpers'
 import { useValueStream } from './valueStreamContext'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   tableContainer: {
     minWidth: 200,
   },
@@ -90,7 +90,7 @@ const Totals = () => {
                 </Typography>
               </TableCell>
             </TableRow>
-            {rows.map((row) => (
+            {rows.map(row => (
               <TableRow key={row.name} data-testid={row.name}>
                 <TableCell align="left">{row.title}</TableCell>
                 <TableCell align="right">{row.value}</TableCell>

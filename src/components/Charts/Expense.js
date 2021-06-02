@@ -20,14 +20,14 @@ const costPerStory = () => {
   return devCycleTime * actorCount * hoursPerDay * blendedRate
 }
 
-const buildData = (weeks) => {
+const buildData = weeks => {
   const velocity = 20
 
   const init = []
   for (let index = 0; index < weeks; index += 1) {
     init.push({ weekNbr: index + 1 })
   }
-  return init.map((el) => {
+  return init.map(el => {
     const opVelocity = velocity * Math.random()
     const capVelocity = velocity - opVelocity
 
@@ -47,7 +47,7 @@ const buildData = (weeks) => {
   })
 }
 
-const renderTooltipContent = (o) => {
+const renderTooltipContent = o => {
   const { payload, label } = o
   const total = payload.reduce((result, entry) => result + entry.value, 0)
 

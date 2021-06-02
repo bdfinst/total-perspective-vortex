@@ -4,46 +4,45 @@ import { v4 as uuidv4 } from 'uuid'
 import config from '../globalConfig'
 import theme from '../theme'
 
-export const isNode = (element) => isNodeRFR(element)
-export const isEdge = (element) => isEdgeRFR(element)
+export const isNode = element => isNodeRFR(element)
+export const isEdge = element => isEdgeRFR(element)
 
 export const getElementById = (id, elements) =>
-  elements.find((el) => `${el.id}` === `${id}`)
+  elements.find(el => `${el.id}` === `${id}`)
 
 export const addValues = (a, b) => Number(a) + Number(b)
 
-export const getProcessNodes = (elements) =>
+export const getProcessNodes = elements =>
   elements.filter(
-    (element) => isNode(element) && element.type === config.processNodeType,
+    element => isNode(element) && element.type === config.processNodeType,
   )
 
-export const getAllNodes = (elements) =>
-  elements.filter((element) => isNode(element))
+export const getAllNodes = elements =>
+  elements.filter(element => isNode(element))
 
-export const getReworkNodes = (elements) =>
+export const getReworkNodes = elements =>
   elements.filter(
-    (element) => isNode(element) && element.type === config.reworkNodeType,
+    element => isNode(element) && element.type === config.reworkNodeType,
   )
 
-export const isProcessNode = (element) =>
+export const isProcessNode = element =>
   isNode(element) && element.type === config.processNodeType
 
-export const isReworkNode = (element) =>
+export const isReworkNode = element =>
   isNode(element) && element.type === config.reworkNodeType
 
 export const getNodeById = (elements, id) =>
-  getAllNodes(elements).find((node) => `${node.id}` === `${id}`)
+  getAllNodes(elements).find(node => `${node.id}` === `${id}`)
 
-export const getEdges = (elements) =>
-  elements.filter((element) => isEdge(element))
+export const getEdges = elements => elements.filter(element => isEdge(element))
 
-export const getLastProcessNode = (elements) => {
+export const getLastProcessNode = elements => {
   const el = getProcessNodes(elements)
 
   return el[el.length - 1]
 }
 
-export const getLastReworkNode = (elements) => {
+export const getLastReworkNode = elements => {
   const el = getReworkNodes(elements)
 
   return el[el.length - 1]
@@ -56,47 +55,47 @@ export const getLastReworkNode = (elements) => {
  */
 export const getEdge = (elements, { sourcedId, targetId }) =>
   getEdges(elements)
-    .filter((e) => (sourcedId ? e.source === sourcedId : true))
-    .filter((e) => (targetId ? e.target === targetId : true))
+    .filter(e => (sourcedId ? e.source === sourcedId : true))
+    .filter(e => (targetId ? e.target === targetId : true))
 export const getEdgesBySource = (elements, node) =>
-  getEdges(elements).filter((e) => e.source === node.id)
+  getEdges(elements).filter(e => e.source === node.id)
 
 export const getEdgesByTarget = (elements, node) =>
-  getEdges(elements).filter((e) => e.target === node.id)
+  getEdges(elements).filter(e => e.target === node.id)
 
-export const getNodeIndexes = (elements) =>
+export const getNodeIndexes = elements =>
   elements
     .map((e, index) => (isNode(e) ? { id: e.id, index } : undefined))
-    .filter((e) => e !== undefined)
+    .filter(e => e !== undefined)
 
-export const getLastEdge = (elements) => {
+export const getLastEdge = elements => {
   const el = getEdges(elements)
   return el[el.length - 1]
 }
 
 export const findEdgesTo = (node, elements) =>
   elements
-    .filter((element) => isEdge(element))
-    .filter((edge) => edge.target === node.id)
+    .filter(element => isEdge(element))
+    .filter(edge => edge.target === node.id)
 
 export const edgeExists = (elements, newEdge) =>
   !!getEdges(elements).find(
-    (el) => el.source === newEdge.source && el.target === newEdge.target,
+    el => el.source === newEdge.source && el.target === newEdge.target,
   )
 
-export const roundTo2 = (number) => Math.round(number * 100) / 100
+export const roundTo2 = number => Math.round(number * 100) / 100
 
 const calcPropertyAvg = (nodes, property) => {
-  const posFilter = (val) => val > 0
+  const posFilter = val => val > 0
   const values = nodes
-    .filter((node) => isNode(node))
-    .filter((node) => posFilter(node.data[property]))
-    .map((node) => node.data[property])
+    .filter(node => isNode(node))
+    .filter(node => posFilter(node.data[property]))
+    .map(node => node.data[property])
 
   return values.reduce((acc, pca) => acc + pca, 0) / values.length
 }
 
-export const convertToNumeric = (data) => {
+export const convertToNumeric = data => {
   const outData = Object.keys(data).reduce(
     (map, key) => ({
       ...map,
@@ -114,21 +113,21 @@ export const convertToNumeric = (data) => {
 
 const calcPropertySum = (nodes, property) =>
   nodes
-    .map((node) => Number(node.data[property]))
+    .map(node => Number(node.data[property]))
     .reduce((acc, val) => acc + val, 0)
 
-const totalPeopleTime = (nodes) =>
+const totalPeopleTime = nodes =>
   nodes
-    .map((node) => convertToNumeric(node.data))
+    .map(node => convertToNumeric(node.data))
     .reduce((acc, val) => acc + val.people * val.processTime, 0)
 
-export const nodeReworkTime = (node) => {
+export const nodeReworkTime = node => {
   const values = convertToNumeric(node.data)
   return values.processTime * ((100 - values.pctCompleteAccurate) / 100)
 }
 
-const totalReworkTime = (nodes) =>
-  nodes.map((node) => nodeReworkTime(node)).reduce((acc, val) => acc + val, 0)
+const totalReworkTime = nodes =>
+  nodes.map(node => nodeReworkTime(node)).reduce((acc, val) => acc + val, 0)
 
 export const calcFlowEfficiency = (processTime, totalTime) => {
   if (
@@ -143,8 +142,8 @@ export const calcFlowEfficiency = (processTime, totalTime) => {
   return roundTo2((processTime / totalTime) * 100)
 }
 
-export const getNodesums = (elements) => {
-  const nodes = getProcessNodes(elements).map((el) => ({
+export const getNodesums = elements => {
+  const nodes = getProcessNodes(elements).map(el => ({
     ...el,
     data: convertToNumeric(el.data),
   }))
@@ -167,7 +166,7 @@ export const getNodesums = (elements) => {
   return totals
 }
 
-export const toJson = (str) => {
+export const toJson = str => {
   try {
     return JSON.parse(str)
   } catch (e) {
@@ -176,9 +175,9 @@ export const toJson = (str) => {
 }
 
 export const removeElements = (elementsToRemove, elements) => {
-  const nodeIdsToRemove = elementsToRemove.map((n) => n.id)
+  const nodeIdsToRemove = elementsToRemove.map(n => n.id)
 
-  return elements.filter((element) => {
+  return elements.filter(element => {
     const edgeElement = element
     return !(
       nodeIdsToRemove.includes(element.id) ||
@@ -189,7 +188,7 @@ export const removeElements = (elementsToRemove, elements) => {
 }
 
 export const spliceArray = (array, index, element) => {
-  const newArray = array.map((a) => a)
+  const newArray = array.map(a => a)
   newArray.splice(index, 0, element)
   return newArray
 }
@@ -214,7 +213,7 @@ export const defaultNodeData = {
 }
 
 export const buildNode = ({ id, x, y }) => {
-  const validCoordinate = (n) => !Number.isNaN(n) && n > -1
+  const validCoordinate = n => !Number.isNaN(n) && n > -1
 
   if (!validCoordinate(x) || !validCoordinate(y)) {
     throw new Error('XY coordinates not available for buildNode')
@@ -242,7 +241,7 @@ export const buildNode = ({ id, x, y }) => {
 }
 
 export const buildReworkNode = ({ id, x, y }) => {
-  const validCoordinate = (n) => !Number.isNaN(n) && n > -1
+  const validCoordinate = n => !Number.isNaN(n) && n > -1
 
   if (!validCoordinate(x) || !validCoordinate(y)) {
     throw new Error('XY coordinates not available for buildNode')
@@ -270,30 +269,28 @@ export const buildReworkNode = ({ id, x, y }) => {
 }
 
 export const getParentInfo = (node, edges, nodes) => {
-  const link = edges.filter((e) => e.target === node.id)
+  const link = edges.filter(e => e.target === node.id)
 
   const childrenCount =
-    link.length > 0
-      ? edges.filter((e) => e.source === link[0].source).length
-      : 0
+    link.length > 0 ? edges.filter(e => e.source === link[0].source).length : 0
 
   const parent =
-    childrenCount > 0 ? nodes.find((n) => n.id === link[0].source) : {}
+    childrenCount > 0 ? nodes.find(n => n.id === link[0].source) : {}
 
   return [parent, childrenCount]
 }
 
-const nodeTotalTime = (node) =>
+const nodeTotalTime = node =>
   Number(node.data.processTime) +
   Number(node.data.waitTime) +
   Number(nodeReworkTime(node))
 
-const getNodeTimes = (elements) => {
+const getNodeTimes = elements => {
   const nodes = elements
     .filter(
-      (el) => isNode(el) && (el.data.processTime > 0 || el.data.waitTime > 0),
+      el => isNode(el) && (el.data.processTime > 0 || el.data.waitTime > 0),
     )
-    .map((el) => ({ id: el.id, time: nodeTotalTime(el) }))
+    .map(el => ({ id: el.id, time: nodeTotalTime(el) }))
 
   return nodes
 }
@@ -309,14 +306,14 @@ const reverseTimeSeq = (a, b) => {
   return 0
 }
 
-export const highlightConstraints = (elements) => {
+export const highlightConstraints = elements => {
   const values = getNodeTimes(elements)
 
   if (values.length < 1) return elements
 
   values.sort(reverseTimeSeq)
 
-  const updated = elements.map((el) => {
+  const updated = elements.map(el => {
     if (el.id === values[0].id)
       return {
         ...el,

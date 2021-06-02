@@ -4,9 +4,9 @@ import config from '../globalConfig'
 const processedNodes = []
 let siblingId
 
-const getEdges = (elements) => elements.filter((el) => isEdge(el))
-const getNodes = (elements) => elements.filter((el) => isNode(el))
-const notifyCoordinateChange = (ordinate) =>
+const getEdges = elements => elements.filter(el => isEdge(el))
+const getNodes = elements => elements.filter(el => isNode(el))
+const notifyCoordinateChange = ordinate =>
   Math.round(ordinate) + Math.random() / 10000
 
 const getParallelPosition = (el, prevPosition, parent) => {

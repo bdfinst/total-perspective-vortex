@@ -26,7 +26,7 @@ const Copyright = () => (
   </Typography>
 )
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
   },
@@ -136,7 +136,7 @@ const Main = () => {
         </div>
         <Divider />
         <List>
-          {Routes.map((route) => (
+          {Routes.map(route => (
             <ListLinkItem
               key={route.sidebarName}
               icon={route.icon}
@@ -152,7 +152,7 @@ const Main = () => {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={1}>
             <Switch>
-              {Routes.map((route) => (
+              {Routes.map(route => (
                 <Route exact path={route.path} key={route.path}>
                   <route.component />
                 </Route>
