@@ -1,17 +1,4 @@
-import { Trash2 } from 'lucide-react';
-import type { StepConfig } from '../types';
-
-interface StepConfigMenuProps {
-  step: StepConfig;
-  stepIndex: number;
-  totalSteps: number;
-  onAddBefore: () => void;
-  onAddAfter: () => void;
-  onMoveLeft: () => void;
-  onMoveRight: () => void;
-  onUpdateField: (field: keyof StepConfig, value: number) => void;
-  onRemove: () => void;
-}
+import { Trash2 } from 'lucide-react'
 
 export function StepConfigMenu({
   step,
@@ -22,8 +9,8 @@ export function StepConfigMenu({
   onMoveLeft,
   onMoveRight,
   onUpdateField,
-  onRemove
-}: StepConfigMenuProps) {
+  onRemove,
+}) {
   return (
     <div className="absolute z-10 w-64 p-4 -translate-x-1/2 -translate-y-1/2 bg-white border rounded-lg shadow-lg top-1/2 left-1/2">
       <h3 className="mb-2 text-sm font-bold">Edit: {step.name}</h3>
@@ -107,5 +94,5 @@ export function StepConfigMenu({
         <Trash2 size={14} /> Remove
       </button>
     </div>
-  );
+  )
 }

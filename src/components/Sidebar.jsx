@@ -1,15 +1,5 @@
-import type { SimulationStats } from '../types';
-import { SimulationControls } from './SimulationControls';
-import { MetricsDashboard } from './MetricsDashboard';
-
-interface SidebarProps {
-  arrivalRate: number;
-  tickSpeed: number;
-  stats: SimulationStats;
-  onArrivalRateChange: (rate: number) => void;
-  onTickSpeedChange: (speed: number) => void;
-  onInjectDefect: () => void;
-}
+import { SimulationControls } from './SimulationControls'
+import { MetricsDashboard } from './MetricsDashboard'
 
 export function Sidebar({
   arrivalRate,
@@ -17,8 +7,8 @@ export function Sidebar({
   stats,
   onArrivalRateChange,
   onTickSpeedChange,
-  onInjectDefect
-}: SidebarProps) {
+  onInjectDefect,
+}) {
   return (
     <aside className="flex flex-col overflow-y-auto bg-white border-r w-80 border-slate-200">
       <SimulationControls
@@ -31,5 +21,5 @@ export function Sidebar({
 
       <MetricsDashboard stats={stats} />
     </aside>
-  );
+  )
 }

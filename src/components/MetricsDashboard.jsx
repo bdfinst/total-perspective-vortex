@@ -1,13 +1,8 @@
-import { BarChart3 } from 'lucide-react';
-import type { SimulationStats } from '../types';
-import { MetricCard } from './MetricCard';
-import { LeadTimeHistogram } from './LeadTimeHistogram';
+import { BarChart3 } from 'lucide-react'
+import { MetricCard } from './MetricCard'
+import { LeadTimeHistogram } from './LeadTimeHistogram'
 
-interface MetricsDashboardProps {
-  stats: SimulationStats;
-}
-
-export function MetricsDashboard({ stats }: MetricsDashboardProps) {
+export function MetricsDashboard({ stats }) {
   return (
     <div className="flex-1 p-5 bg-slate-50">
       <h2 className="flex items-center gap-2 mb-4 text-xs font-bold tracking-wider uppercase text-slate-400">
@@ -31,5 +26,5 @@ export function MetricsDashboard({ stats }: MetricsDashboardProps) {
 
       <LeadTimeHistogram leadTimes={stats.leadTimes} avgLeadTime={stats.avgLeadTime} />
     </div>
-  );
+  )
 }
