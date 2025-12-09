@@ -1,40 +1,73 @@
-# Value Stream Map
+# React + TypeScript + Vite
 
-A simple value stream mapping application to help automate a tedious manual process
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-[![Netlify
-Status](https://api.netlify.com/api/v1/badges/6c0202a0-529f-40ef-83f4-ad5344caa1d9/deploy-status)](https://app.netlify.com/sites/bfinster-value-stream-map/deploys)
-[![CI Build](https://github.com/bdfinst/total-perspective-vortex/actions/workflows/test.yml/badge.svg)](https://github.com/bdfinst/total-perspective-vortex/actions/workflows/test.yml)
+Currently, two official plugins are available:
 
-[Live Demo](https://bfinster-value-stream-map.netlify.app/ValueStream)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-![VSM Screenshot](./docs/vsm.png)
+## React Compiler
 
-## Planned Features
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- [X] Local persistance
-- [X] Drag and drop
-- [X] Upload and download VSM
-- [X] Parallel and converging value streams
-- [X] Auto-calculated totals
-- [ ] [PDF export](https://github.com/blikblum/pdfkit-webpack-example)
-- [X] Auto Layout
-- [X] Highlight constraints
-- [ ] Current Reality Diagram
+## Expanding the ESLint configuration
 
-## Development
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- `npm run dev`: Serve on port 3000
-- `npm test`: Run all of the tests
-- `npm run test:watch`: Test in TDD mode
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Contributions
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Thanks for considering contributing to this value stream mapping tool. We have a few requests.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-1. We gladly accept tested contributions for fix or features that met the product goals.
-2. Please use functional style for all contributions to keep the code consistant.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## React Flow Diagram
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-- [ReactFlow properties](./docs/ReactFlowProperties.md)
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
