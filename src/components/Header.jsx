@@ -1,15 +1,8 @@
-import { Activity, Clock, Pause, Play, RotateCcw } from 'lucide-react';
+import { Activity, Clock, Pause, Play, RotateCcw } from 'lucide-react'
 
-import { cn } from '../utils/simulation';
+import { cn } from '../utils/simulation'
 
-interface HeaderProps {
-  tick: number;
-  isPlaying: boolean;
-  onTogglePlay: () => void;
-  onReset: () => void;
-}
-
-export function Header({ tick, isPlaying, onTogglePlay, onReset }: HeaderProps) {
+export function Header({ tick, isPlaying, onTogglePlay, onReset }) {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200">
       <div className="flex items-center gap-3">
@@ -25,7 +18,9 @@ export function Header({ tick, isPlaying, onTogglePlay, onReset }: HeaderProps) 
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200">
           <Clock size={16} className="text-slate-500" />
-          <span data-testid="tick-counter" className="font-mono font-bold text-slate-700">{tick} Hrs</span>
+          <span data-testid="tick-counter" className="font-mono font-bold text-slate-700">
+            {tick} Hrs
+          </span>
         </div>
 
         <div className="w-px h-8 bg-slate-200"></div>
@@ -34,13 +29,21 @@ export function Header({ tick, isPlaying, onTogglePlay, onReset }: HeaderProps) 
           data-testid="play-pause-button"
           onClick={onTogglePlay}
           className={cn(
-            "flex items-center gap-2 px-5 py-2 rounded-lg font-semibold transition-all shadow-sm",
+            'flex items-center gap-2 px-5 py-2 rounded-lg font-semibold transition-all shadow-sm',
             isPlaying
-              ? "bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-200"
-              : "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md"
+              ? 'bg-amber-100 text-amber-800 hover:bg-amber-200 border border-amber-200'
+              : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md'
           )}
         >
-          {isPlaying ? <><Pause size={18}/> Pause</> : <><Play size={18}/> Start Flow</>}
+          {isPlaying ? (
+            <>
+              <Pause size={18} /> Pause
+            </>
+          ) : (
+            <>
+              <Play size={18} /> Start Flow
+            </>
+          )}
         </button>
 
         <button
@@ -53,5 +56,5 @@ export function Header({ tick, isPlaying, onTogglePlay, onReset }: HeaderProps) 
         </button>
       </div>
     </header>
-  );
+  )
 }
